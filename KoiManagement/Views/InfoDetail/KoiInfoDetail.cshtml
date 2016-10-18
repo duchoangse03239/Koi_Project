@@ -1,0 +1,44 @@
+﻿@model IEnumerable<KoiManagement.Models.InfoDetail>
+@{
+    ViewBag.Title = "KoiInfoDetail";
+    Layout = "~/Views/Layout/KoiLayout.cshtml";
+}
+
+<h2>KoiInfoDetail</h2>
+<section id="titleArea">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6">
+                <h2>Dòng thời gian @Model.ElementAt(0).Koi.KoiName</h2>
+            </div>
+            <div class="col-lg-6 col-md-push-4">
+                <a class="btn icon-btn btn-info" href="/InfoDetail/Add/@Model.ElementAt(0).KoiID">
+                    <span class="glyphicon btn-glyphicon glyphicon-plus img-circle text-success"></span>
+                    Thêm trạng thái hiện tại
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+@foreach (var item in Model) {
+<div class="container content-section-a">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3 wow">
+                <img class="img-responsive img-koi-variety" src="/Content/Image/Detail/@item.Image" alt="">
+            </div>
+            <div class="col-md-7 wow ">
+                <p class="lead">Thời Gian: @(item.Date != null ? item.Date.Value.ToString("dd/MM/yyyy") : "Chưa biết")</p>
+                <p class="lead">Cân Nặng: @item.Weight (Kg)</p>
+                <p class="lead">Kích Thước: @item.Size (Cm) </p>
+                <p class="lead">Tình Trạng Sức Khỏe: @item.HeathyStatus </p>
+                <p class="lead">Mô tả: @item.Description</p>
+            </div>
+            <div class="col-md-2">
+                <p><a class="btn btn-embossed btn-primary" href="/InfoDetail/edit/@item.DetailID" role="button">Chỉnh sửa</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+}
+

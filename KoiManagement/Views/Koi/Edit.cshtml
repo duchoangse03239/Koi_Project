@@ -1,0 +1,105 @@
+﻿@model KoiManagement.Models.Koi
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Layout/KoiLayout.cshtml";
+}
+
+<div class="container" id="add-koi">
+    <form action="/Koi/Edit" enctype="multipart/form-data" method="post">
+        <h2 id="form-title">THÊM CÁ KOI MỚI</h2>
+        @Html.AntiForgeryToken()
+        <div class="">
+            <div class="row">
+                <div class="col-sm-6">
+                    <input type="text" class="form-control" placeholder="Tên Cá Koi" id="KoiName" name="KoiName" value="@Model.KoiName">
+                    <label id="lblMessage_koi_name_fail" class="label-error"></label>
+                </div>
+                <div class="col-sm-6">
+                    
+                    <select class="form-control" id="VarietyID" name="VarietyID">
+                        <option value="0">Chủng Loại</option>
+                        @foreach (var item in ViewBag.VarietyID)
+                        {
+                            if (@item.VarietyID == @Model.VarietyID)
+                            {
+                            <option value="@item.VarietyID" selected>@item.VarietyName</option>
+                            }
+                            else
+                            {
+                            <option value="@item.VarietyID">@item.VarietyName</option>
+                            }
+                        }
+                    </select>
+                    <label id="lblMessage_koi_variety_fail" class="label-error"></label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <select class="form-control" id="Gender" name="Gender">
+                        @if (@Model.Gender.Equals("M"))
+                        {
+                            <option value="N">Giới Tính</option>
+                            <option value="M" selected>Đực</option>
+                            <option value="F">Cái</option>
+                        }
+                        else if (@Model.Gender.Equals("F"))
+                        {
+                            <option value="N">Giới Tính</option>
+                            <option value="M" selected>Đực</option>
+                            <option value="F">Cái</option>
+                        }else
+                        {
+                            <option value="N"selected>Giới Tính</option>
+                            <option value="M" >Đực</option>
+                            <option value="F">Cái</option>
+                        }
+
+                    </select>
+                </div>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control" placeholder="Ngày Sinh" id="DoB" value="@Model.DoB" name="DoB" >
+                    <label id=" lblmessage_dob_fail" class="label-error"></label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <input type="text" class="form-control" placeholder="Tính Cách" id="Temperament" value="@Model.Temperament" name="Temperament">
+                    <label id="lblMessage_temperament_fail" class="label-error"></label>
+                </div>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control" placeholder="Nguồn Gốc" id="Origin" value="@Model.Origin" name="Origin">
+                    <label id="lblMessage_origin_fail" class="label-error"></label>
+                </div>
+            </div>
+
+            <br />
+            <div class="row">
+                <div class="col-sm-12">
+                    <input type="file" accept="image/png, image/jpeg, image/gif" name="file" id="file" class="img" onchange="loadFile(event)" />
+                    <br />
+                    <div><img id="imagePreview" src="~/Content/Image/Koi/@Model.Image" alt="" /></div>
+                    <script>
+                            var loadFile = function (event) {
+                                var output = document.getElementById('imagePreview');
+                                imagePreview.src = URL.createObjectURL(event.target.files[0]);
+                            };
+                    </script>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <input type="hidden" name="Image" value="@Model.Image">
+                <input type="hidden" name="KoiId" value="@Model.KoiID">
+                <button type="submit" value="Add" class="btn btn-default">Lưu</button>
+                <button type="button" class="btn btn-default" onclick="location.href='/Koi/edit/@Model.KoiID';" >Hủy</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

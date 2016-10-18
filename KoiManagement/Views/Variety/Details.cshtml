@@ -1,0 +1,66 @@
+﻿@model KoiManagement.Models.Variety
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Layout/KoiLayout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Variety</h4>
+	<hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.VarietyName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.VarietyName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Image)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Image)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.VarietyDetailID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.VarietyDetailID)
+        </dd>
+
+        <dt>
+          
+        </dt>
+
+        <dd>
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Variety2.VarietyName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Variety2.VarietyName)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.VarietyID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
