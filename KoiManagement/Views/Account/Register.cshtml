@@ -1,0 +1,178 @@
+﻿@{
+    ViewBag.Title = "Register";
+    Layout = "~/Views/Layout/KoiLayout.cshtml";
+}
+
+<div class="container" id="add-koi">
+        <h2 id="form-title">Tạo tài khoản</h2>
+        <div class="">
+            <div class="row">
+                <div class="col-sm-6 col-sm-offset-3">
+                    <input type="text" class="form-control" placeholder="Tên đăng nhập" id="username" name="username">
+                    <label id="lblMessage_username_fail" class="label-error"></label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6 col-sm-offset-3">
+                    <input type="password" class="form-control" placeholder="Mật Khẩu" id="password" name="password">
+                    <label id="lblMessage_password_fail" class="label-error"></label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6 col-sm-offset-3">
+                    <input type="password" class="form-control" placeholder="Xác nhận mật khẩu" id="rePassword" name="rePassword">
+                    <label id="lblMessage_rePassword_fail" class="label-error"></label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6 col-sm-offset-3">
+                    <input type="text" class="form-control" placeholder="Họ và tên" id="name "name="name">
+                    <label id="lblMessage_name_fail" class="label-error"></label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6 col-sm-offset-3">
+                    <input type="text" class="form-control" placeholder="Ngày Sinh" id="dob" name="dob">
+                    <label id="lblMessage_dob_fail" class="label-error"></label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6 col-sm-offset-3">
+                    <input type="email" class="form-control" placeholder="Email" id="email" name="email">
+                    <label id="lblMessage_email_fail" class="label-error"></label>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-6 col-sm-offset-3">
+                    <input type="text" class="form-control" placeholder="Địa chỉ" id="address" name="address">
+                    <label id="lblMessage_address_fail" class="label-error"></label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6 col-sm-offset-3">
+                    <input type="text" class="form-control" placeholder="Số điện thoại" id="phone" name="phone">
+                    <label id="lblMessage_phone_fail" class="label-error"></label>
+                </div>
+            </div>
+            <div class="row add-button">
+                <div class="col-sm-5"></div>
+                <button type="button" id="btnregister" class="sbLogin">Tạo tài khoản</button>
+            </div>
+        </div>
+</div>  
+<script type="text/javascript">
+        $(document).ready(function () {
+            $(function () {
+                $("#username").focus();
+            });
+            $(document).on('click', '#btnregister', function () {
+                    Register();
+            });
+        });
+
+        function Register() {
+            var name = $('#name').val();
+            var dob = $('#dob').val();
+            var email = $('#email').val();
+            var username = $('#username').val();
+            var password = $('#password').val();
+            var rePassword = $('#rePassword').val();
+            var address = $('#address').val();
+            var phone = $('#phone').val();
+
+            $('#lblMessage_username_fail').text("");
+            $('#lblMessage_password_fail').text("");
+            $('#lblMessage_rePassword_fail').text("");
+            $('#lblMessage_name_fail').text("");
+            $('#lblMessage_dob_fail').text("");
+            $('#lblMessage_email_fail').text("");
+            $('#lblMessage_address_fail').text("");
+            $('#lblMessage_phone_fail').text("");
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("Register")",
+                data: {
+                    name: name,
+                    dob: dob,
+                    email: email,
+                    username: username,
+                    password: password,
+                    rePassword: rePassword,
+                    address: address,
+                    phone: phone
+                },
+                dataType: "Json",
+                success: function(res) {
+                    switch (res.Status) {
+                        case 1:
+                            $('#lblMessage_username_fail').text(res.Message);
+                            $('#username').focus();
+                            break;
+                        case 2:
+                            $('#lblMessage_password_fail').text(res.Message);
+                            $('#password').focus();
+                            break;
+                        case 3:
+                            $('#lblMessage_rePassword_fail').text(res.Message);
+                            $('#rePassword').focus();
+                            break;
+                    
+                        case 5:
+                            $('#lblMessage_email_fail').text(res.Message);
+                            $('#email').focus();
+                            break;
+                        case 6:
+                            $('#lblMessage_username_fail').text(res.Message);
+                            $('#username').focus();
+                            break;
+                        case 7:
+                            $('#lblMessage_username_fail').text(res.Message);
+                            $('#username').focus();
+                            break;
+                        case 8:
+                            $('#lblMessage_username_fail').text(res.Message);
+                            $('#username').focus();
+                            break;
+                        case 9:
+                            $('#lblMessage_password_fail').text(res.Message);
+                            $('#password').focus();
+                            break;
+                        case 10:
+                            $('#lblMessage_rePassword_fail').text(res.Message);
+                            $('#rePassword').focus();
+                            break;
+                        case 11:
+                            $('#lblMessage_name_fail').text(res.Message);
+                            $('#name').focus();
+                            break;
+                        case 12:
+                            $('#lblMessage_dob_fail').text(res.Message);
+                            $('#dob').focus();
+                            break;
+                        case 13:
+                            $('#lblMessage_email_fail').text(res.Message);
+                            $('#email').focus();
+                            break;
+                        case 14:
+                            $('#lblMessage_email_fail').text(res.Message);
+                            $('#email').focus();
+                            break;
+                        case 15:
+                            $('#lblMessage_phone_fail').text(res.Message);
+                            $('#phone').focus();
+                            break;
+                        case 16:
+                            $('#lblMessage_phone_fail').text(res.Message);
+                            $('#phone').focus();
+                            break;
+                        case 17:
+                            alert("Đăng kí thành công");
+                            window.location.href = res.RedirectTo;
+                            break;
+                    }
+                }
+            });
+        }
+</script>
+End Section

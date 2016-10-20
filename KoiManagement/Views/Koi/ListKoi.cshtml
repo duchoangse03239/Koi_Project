@@ -1,4 +1,4 @@
-﻿@model IEnumerable<KoiManagement.Models.Koi>
+﻿@model IEnumerable<Model.Entities.Koi>
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Layout/KoiLayout.cshtml";
@@ -76,6 +76,7 @@
 </section>
 
 <script type="text/javascript">
+    
     $("#btnDelete")
         .click(function () {
             GetInfo();
@@ -88,10 +89,10 @@
             datatype: "JSON",
             data: {
                 koiID: parameter1
-                },
+            },
             success: function(returndata) {
                 if (returndata.result) {
-                  //  window.location.reload();
+                    //  window.location.reload();
                     // $('#test').html();
                     alert("updated licenses");
                 } else {

@@ -6,8 +6,8 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using KoiManagement.Models;
 using System.IO;
+using Model.Entities;
 
 namespace KoiManagement.Controllers
 {
@@ -93,7 +93,7 @@ namespace KoiManagement.Controllers
                 db.SaveChanges();
                 return RedirectToAction("KoiInfoDetail/"+infoDetail.KoiID);
             }
-
+            
             ViewBag.KoiID = new SelectList(db.Kois, "KoiID", "KoiName", infoDetail.KoiID);
             return View(infoDetail);
         }

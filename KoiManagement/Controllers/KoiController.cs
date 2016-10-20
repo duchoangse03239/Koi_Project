@@ -6,15 +6,18 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using KoiManagement.Models;
+//using KoiManagement.Models;
 using KoiManagement.ViewModel;
 using System.IO;
+using KoiManagement.Common;
+using Model.Entities;
 
 namespace KoiManagement.Controllers
 {
     public class KoiController : Controller
     {
         private KoiManagementEntities db = new KoiManagementEntities();
+        
         /// <summary>
         /// List Koi
         /// </summary>
@@ -60,6 +63,42 @@ namespace KoiManagement.Controllers
            //Display list koi
             var Koi = db.Kois.Where(p => p.VarietyID == id&&p.Status==true).ToList();
             return View(Koi);
+        }
+
+
+        // GET: /Koi/ListKoi/5
+        public ActionResult KoiUser()
+        {
+            // Lấy KoiId theo người sở hưu
+            if (Session[SessionAccount.SessionUserId] == null)
+            {
+               return RedirectToAction("Login", "Account");
+            }
+            int id = int.Parse(Session[SessionAccount.SessionUserId].ToString());
+            id = 12;
+            var Owner = db.Owners.Where(p => p.OwnerID == id).ToList();
+            if (Owner.Count > 0)
+            {
+                ListKois = new List<Koi>();
+
+                foreach (var item1 in Owner)
+                {
+                    var kois = db.Kois.Where(p => p.KoiID == item1.KoiID).ToList();
+
+                    if (kois.Count > 0)
+                    {
+                        ListKois.Add(kois.ElementAt(0));
+                    }
+                }
+
+                if (ListKois == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(ListKois);
+            }
+            return View();
+
         }
         public ActionResult TestAddd()
         {

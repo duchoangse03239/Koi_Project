@@ -27,10 +27,10 @@ namespace KoiManagement
             //app.UseTwitterAuthentication(
             //   consumerKey: "",
             //   consumerSecret: "");
+            app.UseFacebookAuthentication(
+               appId: "216790255407823",
+               appSecret: "fd230a5737cc01dae0c6587062abbc11");
 
-            //app.UseFacebookAuthentication(
-            //   appId: "",
-            //   appSecret: "");
 
             //app.UseGoogleAuthentication();
         }

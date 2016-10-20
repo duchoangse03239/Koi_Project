@@ -1,4 +1,5 @@
-﻿@{
+﻿@using KoiManagement.Common
+@{
     MvcHtmlString token = null;
     try
     {
@@ -28,16 +29,13 @@
     <script src="~/Scripts/jquery-1.10.2.js"></script>
     <script src="~/Scripts/jquery.parallax-1.1.3.js"></script>
     <script src="~/Scripts/jquery.localscroll-1.2.7-min.js"></script>
-    <script src="http://maps.google.com/maps/api/js?sensor=true"></script>
     <script src="~/Scripts/jquery.ui.map.min.js"></script>
-    <script src="~/Scripts/jquery.flexslider-min.js"></script>
-    <script src="~/Scripts/retina-1.1.0.min.js"></script>
-    <script src="~/Scripts/scrolld.min.js"></script>
     <script src="~/Scripts/scripts.js"></script>
     <script src="~/Scripts/jquery-ui.js"></script>
     <script src="~/Scripts/bootstrap.min.js"></script>
-    
-
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
 
 
     <!--[if IE]>
@@ -75,13 +73,36 @@
 
                     <nav class="navbar-collapse pull-right collapse" role="navigation">
                         <ul class="nav navbar-nav">
-                            <li><a href="#">Trang Chủ</a></li>
+                            <li><a href="/Home/Index">Trang Chủ</a></li>
                             <li><a href="#">Trang Trại</a></li>
                             <li><a href="/Variety/ListVariety">Chủng Loại</a></li>
                             <li><a href="#">Cá Chép Koi</a></li>
                             <li><a href="#">Hướng Dẫn</a></li>
-                            <li><a href="/Account/login">Đăng Nhập</a></li>
-                            <li><a href="/Account/logout">Đăng Ký</a></li>
+                            @if (Session[SessionAccount.SessionUserId] == null)
+                            {
+                                <li><a href="/Account/login">Đăng Nhập</a></li>
+                            }
+                            else
+                            {
+                                 <li><a href="/Account/logout">Đăng xuất</a></li>
+                            }
+                            @if (Session[SessionAccount.SessionUserId] == null)
+                            {
+                                <li><a href="/Account/Register">Đăng Ký</a></li>
+                            }
+                            else
+                            {
+                                <li>
+                                    <a class="btn btn-secondary dropdown-toggle" href="" data-toggle="dropdown" id="dropdownMenuLink">
+                                        Chào @Session[SessionAccount.SessionUserName]
+                                    </a>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                            <li><a href="">Thông tin cá nhân</a></li>
+                                            <li><a href="/Koi/KoiUser">Cá của tôi</a></li>
+                                            <li><a href="/Account/logout">Đăng xuất</a></li>
+                                        </ul>
+</li>
+                            }
                         </ul>
                     </nav>
 

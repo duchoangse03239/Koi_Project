@@ -3,13 +3,108 @@
     ViewBag.Title = "Login";
     Layout = "~/Views/Layout/KoiLayout.cshtml";
 }
-@model KoiManagement.Models.Member
-<div>
-    </br>
-    </br>
-    </br>
-    </br>
-    <h2>Logint successfully</h2>
-</div>
 
+</br></br></br></br></br></br>
+
+<div id="wrapper">
+    <div id="content">
+        <div class="content-form">
+            <div class="banner">
+            </div>
+            <div class="login-form">
+
+                <form action="" id="login_form">
+                    <table>
+                        <tr class="tr-error">
+                            <td colspan="2"><label id="errorMessage" class="label-error"></label></td>
+                        </tr>
+                        <tr>
+                            <td class="f1-label">Login Name</td>
+                            <td>
+                                <input id="inputUsername" type="text" name="txtUserName" value="" maxlength="50" />
+                            </td>
+                        </tr>
+                        <tr class="tr-error">
+                            <td class="f1-label"></td>
+                            <td>
+                                <label id="lbl_login_fail" class="label-error"></label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="f1-label">Password</td>
+                            <td>
+                                <input id="inputPassword" type="password" name="txtPassword" value="" maxlength="50" />
+                            </td>
+                        </tr>
+                        <tr class="tr-error">
+                            <td class="f1-label"></td>
+                            <td>
+                                <label id="lbl_password_fail" class="label-error"></label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>
+                                <button type="button" class="sbLogin" id="btnLogin">Login</button>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+   
+            <p class="fg-password"> Forget your password ? Send <a href="@Url.Action("", "")" name="lnkForgotPassword">password reset request.</a></p>
+            <!--END #login-form -->
+        </div>
+    </div>
+    <!-- End content -->
+</div>
+<!-- End wrapper -->
+
+<script type="text/javascript">
+        $(document).ready(function () {
+            $(function () {
+                $("#inputUsername").focus();
+            });
+            $(document).on('click', '#btnLogin', function () {
+                    CheckLogin();
+            });
+        });
+
+        function CheckLogin() {
+            var username = $('#inputUsername').val();
+            var userpass = $('#inputPassword').val();
+            $('#lbl_login_fail').text("");
+            $('#lbl_password_fail').text("");
+            $('#errorMessage').text("");
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("CheckLogin")",
+                data: {
+                    username: username,
+                    password: userpass
+                },
+                dataType: "Json",
+                success: function(res) {
+                    switch (res.Status) {
+                    case 2:
+                        $('#lbl_login_fail').text(res.Message);
+                        $('#inputUsername').focus();
+                        break;
+                    case 3:
+                        $('#lbl_password_fail').text(res.Message);
+                        $('#inputPassword').focus();
+                        break;
+                    case 4:
+                        $('#errorMessage').text(res.Message);
+                        $('#inputUsername').focus();
+                        break;
+                    case 1:
+                        window.location.href = res.RedirectTo;
+                        break;
+                    }
+                }
+            });
+        }
+</script>
+End Section
 

@@ -6,7 +6,8 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using KoiManagement.Models;
+//using KoiManagement.Models;
+using Model.Entities;
 
 namespace KoiManagement.Controllers
 {
@@ -17,6 +18,7 @@ namespace KoiManagement.Controllers
         // GET: /Variety/
         public ActionResult Index()
         {
+            
             var varieties = db.Varieties.Include(v => v.Variety1).Include(v => v.Variety2);
             return View(varieties.ToList());
         }
@@ -24,8 +26,9 @@ namespace KoiManagement.Controllers
         // GET: /List Variety/
         public ActionResult ListVariety()
         {
-            var varieties = db.Varieties;
-            return View(varieties.ToList());
+            var lt = db.Varieties.ToList();
+            ViewBag.Varieties = lt;
+            return View();
         }
 
         // GET: /Variety/Details/5

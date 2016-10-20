@@ -16,7 +16,7 @@
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
-    <IISExpressSSLPort />
+    <IISExpressSSLPort>44300</IISExpressSSLPort>
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
@@ -162,67 +162,25 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="Common\CommonFunction.cs" />
+    <Compile Include="Common\Constants.cs" />
     <Compile Include="Common\GetOwner.cs" />
-    <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Common\Message.cs" />
+    <Compile Include="Common\Screen.cs" />
+    <Compile Include="Common\SendMail.cs" />
+    <Compile Include="Common\Session.cs" />
+    <Compile Include="Common\StatusObjForJsonResult.cs" />
+    <Compile Include="Common\Validate.cs" />
+    <Compile Include="Controllers\AccountController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Controllers\ErrorController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InfoDetailController.cs" />
     <Compile Include="Controllers\KoiController.cs" />
     <Compile Include="Controllers\VarietyController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Achivement.cs">
-      <DependentUpon>KoiContext.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Comment.cs">
-      <DependentUpon>KoiContext.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\InfoDetail.cs">
-      <DependentUpon>KoiContext.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Koi.cs">
-      <DependentUpon>KoiContext.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\KoiContext.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>KoiContext.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\KoiContext.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>KoiContext.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\KoiContext.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>KoiContext.edmx</DependentUpon>
-    </Compile>
-    <Compile Include="Models\KoiFarm.cs">
-      <DependentUpon>KoiContext.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\KoiParent.cs">
-      <DependentUpon>KoiContext.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Member.cs">
-      <DependentUpon>KoiContext.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\OffSpringOf.cs">
-      <DependentUpon>KoiContext.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Owner.cs">
-      <DependentUpon>KoiContext.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\sp_helpdiagramdefinition_Result.cs">
-      <DependentUpon>KoiContext.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\sp_helpdiagrams_Result.cs">
-      <DependentUpon>KoiContext.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\sysdiagram.cs">
-      <DependentUpon>KoiContext.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Variety.cs">
-      <DependentUpon>KoiContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -303,23 +261,6 @@
     <Content Include="Global.asax" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <EntityDeploy Include="Models\KoiContext.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>KoiContext.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="Models\KoiContext.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>KoiContext.edmx</DependentUpon>
-      <LastGenOutput>KoiContext.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="Models\KoiContext.edmx.diagram">
-      <DependentUpon>KoiContext.edmx</DependentUpon>
-    </Content>
-    <Content Include="Models\KoiContext.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>KoiContext.edmx</DependentUpon>
-      <LastGenOutput>KoiContext.cs</LastGenOutput>
-    </Content>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -379,11 +320,17 @@
     <Content Include="Views\InfoDetail\KoiInfoDetail.cshtml" />
     <Content Include="Views\InfoDetail\Add.cshtml" />
     <Content Include="Views\Koi\TestAddd.cshtml" />
-    <Content Include="Views\Layout\_Parent1.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Error\Error.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Layout\_Layout.cshtml" />
+    <Content Include="Views\Koi\KoiUser.cshtml" />
+    <Content Include="Views\Account\Resetpass.cshtml" />
+    <Content Include="Views\Account\Register.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Shared\" />
+    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -394,6 +341,12 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Model\Model.csproj">
+      <Project>{75bc50c6-867c-4d81-a0c9-354528bdacf9}</Project>
+      <Name>Model</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -413,7 +366,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>55018</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:55015/</IISUrl>
+          <IISUrl>https://localhost:44305/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

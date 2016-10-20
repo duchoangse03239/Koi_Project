@@ -1,0 +1,110 @@
+﻿
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Layout/KoiLayout.cshtml";
+}
+
+</br></br></br></br></br></br>
+
+<div id="wrapper">
+    <div id="content">
+        <div class="content-form">
+            <div class="banner">
+            </div>
+            <div class="login-form">
+
+                <form action="" id="login_form">
+                    <table>
+                        <tr class="tr-error">
+                            <td colspan="2"><label id="errorMessage" class="label-error"></label></td>
+                        </tr>
+                        <tr>
+                            <td class="f1-label">Nhập Email</td>
+                            <td>
+                                <input id="inputEmail" type="text" name="inputEmail" value="" maxlength="50" />
+                            </td>
+                        </tr>
+                        <tr class="tr-error">
+                            <td class="f1-label"></td>
+                            <td>
+                                <label id="lbl_email_fail" class="label-error"></label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="f1-label">Mã xác nhập</td>
+                            <td>
+                                <input id="inputMa" type="text" name="inputMa" value="" maxlength="50" />
+                            </td>
+                        </tr>
+                        <tr class="tr-error">
+                            <td class="f1-label"></td>
+                            <td>
+                                <label id="lbl_Ma_fail" class="label-error"></label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>
+                                <button type="button" class="sbLogin" id="btnSentEmail">Gửi</button>
+                            </td>
+                            <td>
+                                <button type="button" class="sbLogin" id="btnLogin">Reset</button>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+   
+            <p class="fg-password"> Forget your password ? Send <a href="@Url.Action("", "")" name="lnkForgotPassword">password reset request.</a></p>
+            <!--END #login-form -->
+        </div>
+    </div>
+    <!-- End content -->
+</div>
+<!-- End wrapper -->
+
+<script type="text/javascript">
+        $(document).ready(function () {
+            $(function () {
+                $("#inputEmail").focus();
+            });
+            $(document).on('click', '#btnSentEmail', function () {
+                    CheckEmail();
+            });
+        });
+
+        function CheckEmail() {
+            var Email = $('#inputEmail').val();
+            $('#lbl_email_fail').text("");
+          
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("SentEmail")",
+                data: {
+                    Email: Email,
+                },
+                dataType: "Json",
+                success: function(res) {
+                    switch (res.Status) {
+                    case 2:
+                        $('#lbl_login_fail').text(res.Message);
+                        $('#inputUsername').focus();
+                        break;
+                    case 3:
+                        $('#lbl_password_fail').text(res.Message);
+                        $('#inputPassword').focus();
+                        break;
+                    case 4:
+                        $('#errorMessage').text(res.Message);
+                        $('#inputUsername').focus();
+                        break;
+                    case 1:
+                        window.location.href = res.RedirectTo;
+                        break;
+                    }
+                }
+            });
+        }
+</script>
+End Section
+

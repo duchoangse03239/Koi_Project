@@ -1,0 +1,26 @@
+﻿@{
+    Layout = null;
+    ViewBag.Title = "Error";
+    string errorMessage = ViewBag.ErrorMessage;
+    string backTitle = ViewBag.BackLinkTitle;
+    string backUrl = ViewBag.BackUrl;
+}
+
+<!DOCTYPE html>
+
+
+
+<div class="float-left-3">
+    <h4>@errorMessage</h4>
+    <button type="button" class="blue-button-long" id="btnBack">@backTitle</button>
+</div>
+
+
+<script type="text/javascript">
+        $(document).ready(function () {
+            $('#btnBack').click(function () {
+                window.location = '@backUrl';
+            });
+        });
+</script>
+

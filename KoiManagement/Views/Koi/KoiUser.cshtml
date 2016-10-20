@@ -1,0 +1,113 @@
+﻿@model IEnumerable<KoiManagement.Models.Koi>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Layout/KoiLayout.cshtml";
+}
+
+<section id="titleArea">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6">
+                <h2>Danh sách cá Koi</h2>
+            </div>
+            <div class="col-lg-6 col-md-push-4">
+                <a class="btn icon-btn btn-info" href="/Koi/AddKoi">
+                    <span class="glyphicon btn-glyphicon glyphicon-plus img-circle text-success"></span>
+                    Thêm Cá Koi
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="container" id="list-koi">
+    <div class="row">
+        <div class="col-md-12">
+            <form class="searchForm" method="" action="">
+                <h3>Sắp Xếp</h3>
+                <hr>
+            </form>
+        </div>
+
+        <div class="col-md-12">
+            @if (Model!=null)
+            {
+                for (var item = 0; item < Model.Count(); item++)
+                 {
+                     <div class="content-section-b">
+                         <div class="dropdown">
+                             <button class="setting-icon dropdown-toggle" type="button" data-toggle="dropdown">
+                                 <span class="caret"></span></button>
+                             <ul class="dropdown-menu dropdown-menu-right">
+                                 <li><a href="/Koi/edit/@Model.ElementAt(item).KoiID">Sửa</a></li>
+                                 <li><a onclick="GetInfo(@Model.ElementAt(item).KoiID);">Xóa</a></li>
+                             </ul>
+                         </div>
+                         <input type="hidden" id="koiID" name="koiID" value="@Model.ElementAt(item).KoiID">
+                         <div class="row container">
+                             <div class="col-md-3">
+                                 <img class="img-responsive img-koi-list " src="/Content/Image/Koi/@Model.ElementAt(item).Image" alt="">
+                             </div>
+                             <div class="col-md-7">
+                                 <a class="koi-name" href="/Koi/Details/@Model.ElementAt(item).KoiID">@Model.ElementAt(item).KoiName</a>
+                                 <h4>Chủ sở hữu: @if (Model.ElementAt(item).Owners.Count() > 0)
+                                                 {
+                                                     @Model.ElementAt(item).Owners.ElementAt(0).Member.Name
+                                                 }
+                                 </h4>
+                                 <p><a class="btn btn-embossed btn-primary" href="/Koi/Details/@Model.ElementAt(item).KoiID" role="button">Chi tiết</a>
+                                 </p>
+                             </div>
+                             <div class="col-md-2">
+                                 <div class="ratings">
+                                     <a>
+                                         <span class="glyphicon glyphicon-star"></span>
+                                         <span class="glyphicon glyphicon-star"></span>
+                                         <span class="glyphicon glyphicon-star"></span>
+                                         <span class="glyphicon glyphicon-star"></span>
+                                         <span class="glyphicon glyphicon-star"></span>
+                                     </a>
+                                     <br/>
+                                     <br/>
+                                     <a href="">@Model.ElementAt(item).Comments.Count() đánh giá</a>
+                                 </div>
+                                 <p><a class="btn btn-embossed btn-primary" href="/Koi/edit/@Model.ElementAt(item).KoiID" role="button">Chỉnh sửa</a>
+                                 </p>
+                             </div>
+                         </div>
+                     </div>
+                 }
+            }
+            else
+            {
+                <H3>Chưa có cá, hãy thêm cá</H3>
+            }
+        </div>
+    </div>
+</section>
+
+<script type="text/javascript">
+    $("#btnDelete")
+        .click(function () {
+            GetInfo();
+        });
+
+    function GetInfo(parameter1) {
+        $.ajax({
+            type: "POST",
+            url: "@(Url.Content("~/Koi/DeleteConfirmed"))",
+            datatype: "JSON",
+            data: {
+                koiID: parameter1
+                },
+            success: function(returndata) {
+                if (returndata.result) {
+                  //  window.location.reload();
+                    // $('#test').html();
+                    alert("updated licenses");
+                } else {
+                    
+                }
+            }
+        });// end ajax
+    }
+</script>

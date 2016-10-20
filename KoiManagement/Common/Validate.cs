@@ -32,7 +32,7 @@ namespace KoiManagement.Common
         public static bool CheckLengthInput(string strinput, int minLength, int maxLength)
         {
             bool result = strinput.Length < minLength || strinput.Length > maxLength;
-            return result;
+            return !result;
         }
 
         /// <summary>
@@ -50,27 +50,17 @@ namespace KoiManagement.Common
         /// <summary>
         /// Check Email format
         /// </summary>
-        /// <param name="isValidBeforeCheck">Validation status of the Email before check</param>
         /// <param name="email">Email to check</param>
-        /// <param name="isValidAfterCheck">Validation status of the Email after check</param>
-        public static void CheckEmailFormat(bool isValidBeforeCheck, string email,  out bool isValidAfterCheck)
+        public static bool CheckEmailFormat(string email)
         {
-            if (isValidBeforeCheck == false)
-            {
-                isValidAfterCheck = false;
-                return;
-            }
-
             var regexFormat = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,17})+)$");
             if (!regexFormat.IsMatch(email.Trim()))
             {
-                isValidAfterCheck = false;
+                return false;
             }
-            else
-            {
-                isValidAfterCheck = true;
-            }
+            return true;
         }
+
 
 
         /// <summary>
@@ -146,6 +136,55 @@ namespace KoiManagement.Common
             return false;
         }
 
+        public static DateTime? ConverDateTime(string dateTime)
+        {
+            string[] formats = { "MM/dd/yyyy" };
+            DateTime? dt = null;
+            DateTime parsedDateTime;
+            if (DateTime.TryParseExact(dateTime, formats, new CultureInfo("en-US"), DateTimeStyles.None,
+                out parsedDateTime))
+            {
+                dt = parsedDateTime;
+            }
+            return dt;
+
+        }
+
+        /// <summary>
+        /// Normal character a-z A-Z 0-9CheckConfirmInput
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns></returns>
+        public static bool CheckNormalCharacter(String str)
+        {
+            return Regex.IsMatch(str, @"^[A-Za-z0-9_.]+$");
+        }
+
+        public static bool CheckIsDouble(string number)
+        {
+            try
+            {
+                 Double.Parse(number);
+            }
+            catch (FormatException)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public static bool CheckIsLong(string number)
+        {
+            try
+            {
+                long.Parse(number);
+            }
+            catch (FormatException)
+            {
+                return false;
+            }
+            return true;
+        }
 
     
     }
