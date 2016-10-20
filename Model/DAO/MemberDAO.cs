@@ -36,7 +36,7 @@ namespace Model.DAO
         {
             try { 
             db.Members.Add(mem);
-            //db.SaveChanges();
+            db.SaveChanges();
             return true;
             }
             catch
