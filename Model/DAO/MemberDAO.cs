@@ -55,11 +55,10 @@ namespace Model.DAO
             }
         }
 
-        public bool CheckChangePass(string memberId,string password)
+        public string GetOldPass(string memberId,string password)
         {
             var member = db.Members.Find(int.Parse(memberId));
-            if (member.Password.Equals(password)) return false;
-            return true;
+            return member.Password;
         }
 
         public int ChangePass(string memberId, string password)
