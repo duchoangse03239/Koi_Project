@@ -12,25 +12,21 @@ namespace KoiManagement.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class KoiFarm
+    public partial class ActiveCode
     {
-        public KoiFarm()
+        public int ActiveCodeID { get; set; }
+        public Nullable<int> MemberID { get; set; }
+        public string ActCode { get; set; }
+        public Nullable<System.DateTime> ExpireOn { get; set; }
+        public bool Status { get; set; }
+        public ActiveCode(int MemberID, string ActCode, DateTime ExpireOn, bool Status)
         {
-            this.Comments = new HashSet<Comment>();
-            this.Owners = new HashSet<Owner>();
+            this.MemberID = MemberID;
+            this.ActCode = ActCode;
+            this.ExpireOn = ExpireOn;
+            this.Status = Status;
         }
     
-        public int KoifarmID { get; set; }
-        public Nullable<int> MemberID { get; set; }
-        public string FarmName { get; set; }
-        public string Address { get; set; }
-        public string Description { get; set; }
-        public string Image { get; set; }
-        public bool Status { get; set; }
-    
-        public virtual ICollection<Comment> Comments { get; set; }
         public virtual Member Member { get; set; }
-        public virtual ICollection<Owner> Owners { get; set; }
-        public virtual Member Member1 { get; set; }
     }
 }

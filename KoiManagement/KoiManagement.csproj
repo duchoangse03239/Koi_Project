@@ -42,11 +42,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="log4net">
+      <HintPath>..\packages\log4net.2.0.5\lib\net45-full\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Messaging" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
@@ -162,6 +166,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Common\CommonFunction.cs" />
     <Compile Include="Common\Constants.cs" />
     <Compile Include="Common\GetOwner.cs" />
@@ -179,8 +184,68 @@
     <Compile Include="Controllers\InfoDetailController.cs" />
     <Compile Include="Controllers\KoiController.cs" />
     <Compile Include="Controllers\VarietyController.cs" />
+    <Compile Include="DAO\ActiveCodeDAO.cs" />
+    <Compile Include="DAO\KoiDAO.cs" />
+    <Compile Include="DAO\MemberDAO.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Achivement.cs">
+      <DependentUpon>KoiManagementModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ActiveCode.cs">
+      <DependentUpon>KoiManagementModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Comment.cs">
+      <DependentUpon>KoiManagementModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\InfoDetail.cs">
+      <DependentUpon>KoiManagementModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Koi.cs">
+      <DependentUpon>KoiManagementModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\KoiFarm.cs">
+      <DependentUpon>KoiManagementModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\KoiManagementModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>KoiManagementModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\KoiManagementModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>KoiManagementModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\KoiManagementModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>KoiManagementModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\KoiParent.cs">
+      <DependentUpon>KoiManagementModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Member.cs">
+      <DependentUpon>KoiManagementModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\OffSpringOf.cs">
+      <DependentUpon>KoiManagementModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Owner.cs">
+      <DependentUpon>KoiManagementModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_helpdiagramdefinition_Result.cs">
+      <DependentUpon>KoiManagementModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_helpdiagrams_Result.cs">
+      <DependentUpon>KoiManagementModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sysdiagram.cs">
+      <DependentUpon>KoiManagementModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Variety.cs">
+      <DependentUpon>KoiManagementModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -261,6 +326,26 @@
     <Content Include="Global.asax" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Areas\Admin\Views\web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <EntityDeploy Include="Models\KoiManagementModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>KoiManagementModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\KoiManagementModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>KoiManagementModel.edmx</DependentUpon>
+      <LastGenOutput>KoiManagementModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\KoiManagementModel.edmx.diagram">
+      <DependentUpon>KoiManagementModel.edmx</DependentUpon>
+    </Content>
+    <Content Include="Models\KoiManagementModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>KoiManagementModel.edmx</DependentUpon>
+      <LastGenOutput>KoiManagementModel.cs</LastGenOutput>
+    </Content>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -327,10 +412,13 @@
     <Content Include="Views\Koi\KoiUser.cshtml" />
     <Content Include="Views\Account\Resetpass.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
+    <Content Include="Views\Account\ForgotPassword.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
+    <Folder Include="Areas\Admin\Controllers\" />
+    <Folder Include="Areas\Admin\Models\" />
+    <Folder Include="Areas\Admin\Views\Shared\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

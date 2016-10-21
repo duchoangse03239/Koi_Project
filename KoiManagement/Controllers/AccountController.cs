@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using KoiManagement.Common;
+using KoiManagement.Models;
 using log4net;
 using log4net.Repository.Hierarchy;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin.Security;
 using Model.DAO;
-using Model.Entities;
 using WebGrease;
 
 
@@ -37,7 +37,6 @@ namespace KoiManagement.Controllers
         {
             ViewBag.ReturnUrl = returnUrl;
             return View();
-
         }
 
         //
@@ -122,7 +121,6 @@ namespace KoiManagement.Controllers
             }
 
             return RedirectToAction("ListVariety", "Variety"); //current man hinh hoac home
-
         }
 
 
@@ -138,7 +136,89 @@ namespace KoiManagement.Controllers
             Common.SendMail.SendMailHelper(Email, Constants.EmailTitleResetPass, Constants.EmailBodyResetPass);
             return View();
         }
+        public ActionResult ForgotPassword()
+        {
+            return View();
+        }
 
+       
+
+        /// <summary>
+        /// Send email
+        /// </summary>
+        /// <param name="email"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public JsonResult SendEmail(string email)
+        {
+            var obj = new StatusObjForJsonResult();
+            try
+            {
+                MemberDAO mDao = new MemberDAO();
+                ActiveCodeDAO ActCodeDao = new ActiveCodeDAO();
+                // Check input email
+                if (string.IsNullOrWhiteSpace(email))
+                {
+                    obj.Status = 1;
+                    obj.Message = "Vui lòng nhập địa chỉa email";
+                    return Json(obj);
+                }
+
+                if (Validate.CheckEmailFormat(email) == false)
+                {
+                    obj.Status =2;
+                    obj.Message = "Địa chỉ Email không đúng định dạng";
+                    return Json(obj);
+                }
+
+                // Check exist email 
+                var isExistEmail = mDao.CheckExistEmail(email);
+                if (isExistEmail )
+                {
+                    obj.Status = 3;
+                    obj.Message = "Địa chỉ email này không tồn tại";
+                    return Json(obj);
+                }
+                else
+                {
+                    // Get user id
+                    var Member = mDao.GetMemberByEmail(email);
+                    if (Member != null)
+                    {
+                        // Auto code
+                        String ActRandom = CommonFunction.GenerateString(10);
+                        // kiểm tra tồn tại trong database
+                        if (!ActCodeDao.checkExistCode(ActRandom))
+                        {
+                            if (ActCodeDao.AddActiveCode(new ActiveCode(Member.MemberID, ActRandom, DateTime.Now, true)))
+                            {
+                                //thanh cong
+                            }
+                            else
+                            {
+                                //that bai
+                            }
+                        }
+
+
+                    }
+                    else
+                    {
+                        // Error screen
+                        obj.Status = 0;
+                        //obj.RedirectTo = Url.Action(ConstantsForCommon.ErrorParam.Errors, ConstantsForCommon.ErrorParam.SystemErrors);
+                        return Json(obj);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                obj.RedirectTo = this.Url.Action("SystemError", "Error");
+                return Json(obj);
+            }
+            return Json(obj);
+        }
 
         //
         // GET: /Account/Register
@@ -157,7 +237,7 @@ namespace KoiManagement.Controllers
             StatusObjForJsonResult obj = new StatusObjForJsonResult();
             MemberDAO dao = new MemberDAO();
             //Khởi tạo giá trị cho trường không bắt buộc
-            DateTime? dateOfBirth =null;
+            DateTime? dateOfBirth = null;
             try
             {
                 //2.1 Input Check
@@ -284,7 +364,6 @@ namespace KoiManagement.Controllers
             return Json(obj);
         }
 
-
         //public ActionResult Edit()
         //{
         //    var model = db.Members.Find(User.Identity.Name);
@@ -350,8 +429,6 @@ namespace KoiManagement.Controllers
         //    UserManager.ChangePassword(user.Id, TokenCode, NewPassword);
         //    return RedirectToAction("Login");
         //}
-
-
 
 
 

@@ -10,7 +10,7 @@ using System.Web.Mvc;
 using KoiManagement.ViewModel;
 using System.IO;
 using KoiManagement.Common;
-using Model.Entities;
+using KoiManagement.Models;
 
 namespace KoiManagement.Controllers
 {

@@ -14,10 +14,9 @@ namespace KoiManagement.Models
     
     public partial class KoiParent
     {
-        public int id { get; set; }
-        public Nullable<int> OffspringID { get; set; }
-        public Nullable<int> KoiSonID { get; set; }
-        public string IsMomorDad { get; set; }
+        public int OffspringID { get; set; }
+        public int KoiSonID { get; set; }
+        public bool IsMomOrDad { get; set; }
     
         public virtual Koi Koi { get; set; }
         public virtual OffSpringOf OffSpringOf { get; set; }

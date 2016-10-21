@@ -6,8 +6,9 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using KoiManagement.Models;
+
 //using KoiManagement.Models;
-using Model.Entities;
 
 namespace KoiManagement.Controllers
 {
