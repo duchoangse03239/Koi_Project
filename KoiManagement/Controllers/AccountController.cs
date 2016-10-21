@@ -364,6 +364,10 @@ namespace KoiManagement.Controllers
             return Json(obj);
         }
 
+
+        //fsdaflksdajflkjsdjngvlkjsdgvlkdfjgblkjdjflkbndlkbmkldv@@
+        //    gvsfdfsdfsdafsadfsadfsdfsfsdf
+
         //public ActionResult Edit()
         //{
         //    var model = db.Members.Find(User.Identity.Name);
