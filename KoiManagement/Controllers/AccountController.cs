@@ -100,6 +100,7 @@ namespace KoiManagement.Controllers
             catch (Exception ex)
             {
                 _logger.Error(ex.Message);
+
                 obj.RedirectTo = Url.Action("SystemError","Error");
             }
             return Json(obj);
