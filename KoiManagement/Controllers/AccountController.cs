@@ -364,6 +364,92 @@ namespace KoiManagement.Controllers
             return Json(obj);
         }
 
+        // GET: /Account/Change Password
+        public ActionResult ChangePassword()
+        {
+            return View();
+        }
+
+        
+        public JsonResult ChangePassword(string olPassword, string password, string cmfPassword)
+        {
+            StatusObjForJsonResult obj = new StatusObjForJsonResult();
+            MemberDAO dao = new MemberDAO();
+            try
+            {
+                ////2.1 Input Check
+                //if (string.IsNullOrWhiteSpace(username))
+                //{
+                //    obj.Status = 1;
+                //    obj.Message = "Tên đăng nhập không được để trống";
+                //    return Json(obj);
+                //}
+                //if (string.IsNullOrWhiteSpace(password))
+                //{
+                //    obj.Status = 2;
+                //    obj.Message = "Mật khẩu không được để trống";
+                //    return Json(obj);
+                //}
+                //if (string.IsNullOrWhiteSpace(rePassword))
+                //{
+                //    obj.Status = 3;
+                //    obj.Message = "Xác nhận mật khẩu không được để trống";
+                //    return Json(obj);
+                //}
+                //if (string.IsNullOrWhiteSpace(email))
+                //{
+                //    obj.Status = 5;
+                //    obj.Message = "Email không được để trống";
+                //    return Json(obj);
+                //}
+                //if (!Validate.CheckLengthInput(username, 6, 25))
+                //{
+                //    obj.Status = 6;
+                //    obj.Message = "Tên đăng nhập phải chứa từ 6 đến 25 ký tự";
+                //    return Json(obj);
+                //}
+                //if (!Validate.CheckNormalCharacter(username))
+                //{
+                //    obj.Status = 7;
+                //    obj.Message = "Tên đăng nhập không được chứa ký tự đặc biệt";
+                //    return Json(obj);
+                //}
+                //if (!dao.CheckExistUserName(username))
+                //{
+                //    obj.Status = 8;
+                //    obj.Message = "Tên đăng nhập đã được sử dụng";
+                //    return Json(obj);
+                //}
+
+                if (!dao.GetOldPass(Session[SessionAccount.SessionUserId].ToString()).Equals(olPassword))
+                {
+                    obj.Status = 3;
+                    obj.Message = Common.Message.ChangePasswordM03;
+                }
+
+                if (dao.GetOldPass(Session[SessionAccount.SessionUserId].ToString()).Equals(password))
+                {
+                    obj.Message = Common.Message.ChangePasswordM06;
+                }
+
+                if (dao.ChangePass(Session[SessionAccount.SessionUserId].ToString(), password) == 1)
+                {
+                    obj.Message = "Đã đổi mật khẩu thành công";
+                    obj.RedirectTo = Url.Action("Login", "Account");
+                }
+                else
+                {
+                    obj.Message = "Có lỗi xảy ra";
+                    return Json(obj);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                obj.RedirectTo = this.Url.Action("SystemError", "Error");
+            }
+            return Json(obj);
+        }
 
         //fsdaflksdajflkjsdjngvlkjsdgvlkdfjgblkjdjflkbndlkbmkldv@@
         //    gvsfdfsdfsdafsadfsadfsdfsfsdf
