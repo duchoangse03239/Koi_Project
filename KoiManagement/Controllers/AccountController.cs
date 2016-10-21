@@ -2,24 +2,27 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using KoiManagement.Common;
+using log4net;
+using log4net.Repository.Hierarchy;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin.Security;
 using Model.DAO;
 using Model.Entities;
+using WebGrease;
 
 
 namespace KoiManagement.Controllers
 {
     public class AccountController : Controller
     {
+        private readonly ILog _logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        //private KoiManagementEntities db = new KoiManagementEntities();
-        
         //
         // GET: /Account/
         public ActionResult Index()
@@ -96,9 +99,8 @@ namespace KoiManagement.Controllers
             }
             catch (Exception ex)
             {
-                obj.Message = string.Empty;
-                obj.Status = 0;
-                obj.RedirectTo = this.Url.Action("SystemError","Error");
+                _logger.Error(ex.Message);
+                obj.RedirectTo = Url.Action("SystemError","Error");
             }
             return Json(obj);
         }
@@ -114,7 +116,7 @@ namespace KoiManagement.Controllers
             }
             catch (Exception ex)
             {
-
+                _logger.Error(ex.Message);
                 return RedirectToAction("SystemError", "Error");
             }
 
@@ -155,123 +157,129 @@ namespace KoiManagement.Controllers
             MemberDAO dao = new MemberDAO();
             //Khởi tạo giá trị cho trường không bắt buộc
             DateTime? dateOfBirth =null;
+            try
+            {
+                //2.1 Input Check
+                if (string.IsNullOrWhiteSpace(username))
+                {
+                    obj.Status = 1;
+                    obj.Message = "Tên đăng nhập không được để trống";
+                    return Json(obj);
+                }
+                if (string.IsNullOrWhiteSpace(password))
+                {
+                    obj.Status = 2;
+                    obj.Message = "Mật khẩu không được để trống";
+                    return Json(obj);
+                }
+                if (string.IsNullOrWhiteSpace(rePassword))
+                {
+                    obj.Status = 3;
+                    obj.Message = "Xác nhận mật khẩu không được để trống";
+                    return Json(obj);
+                }
+                if (string.IsNullOrWhiteSpace(email))
+                {
+                    obj.Status = 5;
+                    obj.Message = "Email không được để trống";
+                    return Json(obj);
+                }
+                if (!Validate.CheckLengthInput(username, 6, 25))
+                {
+                    obj.Status = 6;
+                    obj.Message = "Tên đăng nhập phải chứa từ 6 đến 25 ký tự";
+                    return Json(obj);
+                }
+                if (!Validate.CheckNormalCharacter(username))
+                {
+                    obj.Status = 7;
+                    obj.Message = "Tên đăng nhập không được chứa ký tự đặc biệt";
+                    return Json(obj);
+                }
+                if (!dao.CheckExistUserName(username))
+                {
+                    obj.Status = 8;
+                    obj.Message = "Tên đăng nhập đã được sử dụng";
+                    return Json(obj);
+                }
+                if (!Validate.CheckLengthInput(password, 6, 50))
+                {
+                    obj.Status = 9;
+                    obj.Message = "Mật khẩu phải chứa từ 6 dến 32 ký tự";
+                    return Json(obj);
+                }
+                if (!Validate.CheckConfirmInput(password, rePassword))
+                {
+                    obj.Status = 10;
+                    obj.Message = "Xác nhận mật khẩu phải trùng với mật khẩu";
+                    return Json(obj);
+                }
+                if (string.IsNullOrWhiteSpace(name))
+                {
+                    name = String.Empty;
+                }
+                else if (!Validate.CheckLengthInput(name, 6, 50))
+                {
+                    obj.Status = 11;
+                    obj.Message = "Họ tên phải chứa từ 6 đến 50 ký tự";
+                    return Json(obj);
+                }
 
-            //2.1 Input Check
-            if (string.IsNullOrWhiteSpace(username))
-            {
-                obj.Status = 1;
-                obj.Message = "username";
-                return Json(obj);
-            }
-            if (string.IsNullOrWhiteSpace(password))
-            {
-                obj.Status = 2;
-                obj.Message = "pass.";
-                return Json(obj);
-            }
-            if (string.IsNullOrWhiteSpace(rePassword))
-            {
-                obj.Status = 3;
-                obj.Message = "repass";
-                return Json(obj);
-            }
-            if (string.IsNullOrWhiteSpace(email))
-            {
-                obj.Status = 5;
-                obj.Message = "email";
-                return Json(obj);
-            }
-            if (!Validate.CheckLengthInput(username, 6, 25))
-            {
-                obj.Status = 6;
-                obj.Message = "leng";
-                return Json(obj);
-            }
-            if (!Validate.CheckNormalCharacter(username))
-            {
-                obj.Status = 7;
-                obj.Message = "Tên đăng nhập không được chứa ký tự đặc biệt";
-                return Json(obj);
-            }
-            if (!dao.CheckExistUserName(username))
-            {
-                obj.Status = 8;
-                obj.Message = "Tên đăng nhập đã được sử dụng";
-                return Json(obj);
-            }
-            if (!Validate.CheckLengthInput(password, 6, 50))
-            {
-                obj.Status = 9;
-                obj.Message = "Mật khẩu phải chứa từ 6 dến 32 ký tự";
-                return Json(obj);
-            }
-            if (!Validate.CheckConfirmInput(password, rePassword))
-            {
-                obj.Status = 10;
-                obj.Message = "Xác nhận mật khẩu phải trùng với mật khẩu";
-                return Json(obj);
-            }
-            if (string.IsNullOrWhiteSpace(name))
-            {
-                name = String.Empty;
-            }
-            else if (!Validate.CheckLengthInput(name, 6, 50))
-            {
-                obj.Status = 11;
-                obj.Message = "Họ tên phải chứa từ 6 đến 50 ký tự";
-                return Json(obj);
-            }
+                if (Validate.ValidateDate(dob))
+                {
+                    obj.Status = 12;
+                    obj.Message = "Date of birt";
+                    dateOfBirth = Validate.ConverDateTime(dob);
+                    return Json(obj);
+                }
 
-            if (Validate.ValidateDate(dob))
-            {
-                obj.Status = 12;
-                obj.Message = "Date of birt";
-                dateOfBirth = Validate.ConverDateTime(dob);
-                return Json(obj);
-            }
+                if (!Validate.CheckEmailFormat(email))
+                {
+                    obj.Status = 13;
+                    obj.Message = "Email không đúng định dạng";
+                    return Json(obj);
+                }
+                if (!dao.CheckExistEmail(email))
+                {
+                    obj.Status = 14;
+                    obj.Message = "Email đã được sử dụng";
+                    return Json(obj);
+                }
+                if (string.IsNullOrWhiteSpace(phone))
+                {
+                    phone = String.Empty;
+                }
+                else if (!Validate.CheckLengthInput(phone, 10, 11))
+                {
+                    obj.Status = 15;
+                    obj.Message = "Số điện thoại phải chứa từ 10 đến 11 ký tự";
+                    return Json(obj);
+                }
+                else if (!string.IsNullOrWhiteSpace(phone) && !Validate.CheckIsLong(phone))
+                {
+                    obj.Status = 16;
+                    obj.Message = "Số điện thoại không đúng định dạng";
+                    return Json(obj);
+                }
 
-            if (!Validate.CheckEmailFormat(email))
-            {
-                obj.Status = 13;
-                obj.Message = "Email không đúng định dạng";
-                return Json(obj);
+                Member me = new Member(name, username, password, dateOfBirth, "", "N", phone, email, "", true);
+                obj.Status = 17;
+                if (dao.AddMember(me))
+                {
+                    obj.Message = "Đăng ký thành công";
+                    obj.RedirectTo = Url.Action("Login", "Account");
+                }
+                else
+                {
+                    obj.Message = "Có lỗi xảy ra";
+                    return Json(obj);
+                }
             }
-            if (!dao.CheckExistEmail(email))
+            catch (Exception ex)
             {
-                obj.Status = 14;
-                obj.Message = "Email đã được sử dụng";
-                return Json(obj);
+                _logger.Error(ex.Message);
+                obj.RedirectTo = this.Url.Action("SystemError", "Error");
             }
-            if (string.IsNullOrWhiteSpace(phone))
-            {
-                phone = String.Empty;
-            }
-            else if ( !Validate.CheckLengthInput(phone, 10, 11))
-            {
-                obj.Status = 15;
-                obj.Message = "Số điện thoại phải chứa từ 10 đến 11 ký tự";
-                return Json(obj);
-            }
-            else if (!string.IsNullOrWhiteSpace(phone) && !Validate.CheckIsLong(phone))
-            {
-                obj.Status = 16;
-                obj.Message = "Số điện thoại không đúng định dạng";
-                return Json(obj);
-            }
-
-            Member me = new Member(name,username,password,dateOfBirth,"","N",phone,email,"",true);
-            obj.Status = 17;
-            if (dao.AddMember(me))
-            {
-                obj.Message = "Đăng ký thành công";
-                obj.RedirectTo = Url.Action("Login", "Account");
-            }
-            else
-            {
-                obj.Message = "Có lỗi xảy ra";
-                return Json(obj);
-            }
-
             return Json(obj);
         }
 
