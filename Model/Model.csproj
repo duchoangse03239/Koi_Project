@@ -51,83 +51,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DAO\MemberDAO.cs" />
-    <Compile Include="Entities\Achivement.cs">
-      <DependentUpon>KoiContext.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Entities\Comment.cs">
-      <DependentUpon>KoiContext.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Entities\InfoDetail.cs">
-      <DependentUpon>KoiContext.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Entities\Koi.cs">
-      <DependentUpon>KoiContext.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Entities\KoiContext.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>KoiContext.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Entities\KoiContext.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>KoiContext.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Entities\KoiContext.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>KoiContext.edmx</DependentUpon>
-    </Compile>
-    <Compile Include="Entities\KoiFarm.cs">
-      <DependentUpon>KoiContext.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Entities\KoiParent.cs">
-      <DependentUpon>KoiContext.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Entities\Member.cs">
-      <DependentUpon>KoiContext.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Entities\OffSpringOf.cs">
-      <DependentUpon>KoiContext.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Entities\Owner.cs">
-      <DependentUpon>KoiContext.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Entities\sp_helpdiagramdefinition_Result.cs">
-      <DependentUpon>KoiContext.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Entities\sp_helpdiagrams_Result.cs">
-      <DependentUpon>KoiContext.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Entities\sysdiagram.cs">
-      <DependentUpon>KoiContext.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Entities\Variety.cs">
-      <DependentUpon>KoiContext.tt</DependentUpon>
-    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <EntityDeploy Include="Entities\KoiContext.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>KoiContext.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <None Include="Entities\KoiContext.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>KoiContext.edmx</DependentUpon>
-      <LastGenOutput>KoiContext.Context.cs</LastGenOutput>
-    </None>
-    <None Include="Entities\KoiContext.edmx.diagram">
-      <DependentUpon>KoiContext.edmx</DependentUpon>
-    </None>
-    <None Include="Entities\KoiContext.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>KoiContext.edmx</DependentUpon>
-      <LastGenOutput>KoiContext.cs</LastGenOutput>
-    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

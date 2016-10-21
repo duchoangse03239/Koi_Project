@@ -20,26 +20,27 @@ namespace Model.Entities
             this.KoiFarms = new HashSet<KoiFarm>();
             this.KoiFarms1 = new HashSet<KoiFarm>();
             this.Owners = new HashSet<Owner>();
+            this.ActiveCodes = new HashSet<ActiveCode>();
         }
-
-        public Member( string Name, string UserName, string Password, DateTime? dob, string Image, string Gender, string Phone, string Email, string Addres, bool Status)
+        public Member(string name,  string Username, string password , DateTime? Dob, string Image, string Gender, string Phone,string email, string Address, bool Status)
         {
             this.Comments = new HashSet<Comment>();
             this.KoiFarms = new HashSet<KoiFarm>();
             this.KoiFarms1 = new HashSet<KoiFarm>();
             this.Owners = new HashSet<Owner>();
-            this.Name = Name;
-            this.UserName = UserName;
-            this.Password = Password;
-            this.Dob = dob;
+            this.ActiveCodes = new HashSet<ActiveCode>();
+            this.Name = name;
+            this.UserName = Username;
+            this.Password = password;
+            this.Dob = Dob;
             this.Image = Image;
             this.Gender = Gender;
             this.Phone = Phone;
-            this.Email = Email;
+            this.Email = email;
             this.Address = Address;
             this.Status = Status;
         }
-
+    
         public int MemberID { get; set; }
         public string Name { get; set; }
         public string UserName { get; set; }
@@ -56,5 +57,6 @@ namespace Model.Entities
         public virtual ICollection<KoiFarm> KoiFarms { get; set; }
         public virtual ICollection<KoiFarm> KoiFarms1 { get; set; }
         public virtual ICollection<Owner> Owners { get; set; }
+        public virtual ICollection<ActiveCode> ActiveCodes { get; set; }
     }
 }

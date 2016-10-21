@@ -32,6 +32,8 @@
         <AssociationConnector Association="KoiManagementModel.FK__KoiParent__Offsp__60A75C0F" ManuallyRouted="false" />
         <AssociationConnector Association="KoiManagementModel.FK__Owner__MemberID__239E4DCF" ManuallyRouted="false" />
         <AssociationConnector Association="KoiManagementModel.FK__Variety__Variety__108B795B" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="KoiManagementModel.ActiveCode" Width="1.5" PointX="3.75" PointY="6.75" />
+        <AssociationConnector Association="KoiManagementModel.FK__ActiveCod__Membe__70DDC3D8" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

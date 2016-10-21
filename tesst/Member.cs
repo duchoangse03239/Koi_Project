@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace KoiManagement.Models
+namespace tesst
 {
     using System;
     using System.Collections.Generic;
@@ -19,26 +19,7 @@ namespace KoiManagement.Models
             this.ActiveCodes = new HashSet<ActiveCode>();
             this.Comments = new HashSet<Comment>();
             this.KoiFarms = new HashSet<KoiFarm>();
-            this.KoiFarms1 = new HashSet<KoiFarm>();
             this.Owners = new HashSet<Owner>();
-        }
-        public Member(string name, string Username, string password, DateTime? Dob, string Image, string Gender, string Phone, string email, string Address, bool Status)
-        {
-            this.Comments = new HashSet<Comment>();
-            this.KoiFarms = new HashSet<KoiFarm>();
-            this.KoiFarms1 = new HashSet<KoiFarm>();
-            this.Owners = new HashSet<Owner>();
-            this.ActiveCodes = new HashSet<ActiveCode>();
-            this.Name = name;
-            this.UserName = Username;
-            this.Password = password;
-            this.Dob = Dob;
-            this.Image = Image;
-            this.Gender = Gender;
-            this.Phone = Phone;
-            this.Email = email;
-            this.Address = Address;
-            this.Status = Status;
         }
     
         public int MemberID { get; set; }
@@ -56,7 +37,6 @@ namespace KoiManagement.Models
         public virtual ICollection<ActiveCode> ActiveCodes { get; set; }
         public virtual ICollection<Comment> Comments { get; set; }
         public virtual ICollection<KoiFarm> KoiFarms { get; set; }
-        public virtual ICollection<KoiFarm> KoiFarms1 { get; set; }
         public virtual ICollection<Owner> Owners { get; set; }
     }
 }
