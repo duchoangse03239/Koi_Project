@@ -275,7 +275,7 @@ body a{text-decoration: none; color:#113949;}
 .profile_img {
     width: 200px;
     height: 200px;
-    background-image: url(../images/avatar2.png);
+    background-image: url(../Image/Common/avatar2.png);
     border-radius: 3px;
 }
 
@@ -388,7 +388,7 @@ body a{text-decoration: none; color:#113949;}
     margin-right: 20px;
 }
 .option_base_select_small {
-    background: url(../images/ic_base2.png) 8px 8px no-repeat #a9834f;
+    background: url(../Image/Common/ic_base2.png) 8px 8px no-repeat #a9834f;
     width: 30px;
     height: 30px;
     border: none;
@@ -396,7 +396,7 @@ body a{text-decoration: none; color:#113949;}
     border-radius: 3px 0 0 3px;
 }
 .option_detail_small {
-    background: url(../images/ic_detail1.png) 6px 8px no-repeat;
+    background: url(../Image/Common/ic_detail1.png) 6px 8px no-repeat;
     width: 30px;
     height: 30px;
     border: none;
@@ -414,7 +414,7 @@ body a{text-decoration: none; color:#113949;}
     padding-right: 35px;
     float: right;
     border: none;
-    background: url(../images/ic_search_small1.png) #ffffff;
+    background: url(../Image/Common/ic_search_small1.png) #ffffff;
     background-position: right 15px top 9px;
     background-repeat: no-repeat;
     -webkit-transition: width 1s;
