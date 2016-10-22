@@ -61,16 +61,52 @@
 <!-- End wrapper -->
 
 <script type="text/javascript">
+
         $(document).ready(function () {
             $(function () {
                 $("#inputUsername").focus();
-            });
-            $(document).on('click', '#btnLogin', function () {
-                    CheckLogin();
+
             });
         });
 
-        function CheckLogin() {
+        $(document).keypress(function (event) {
+            var keycode = (event.keyCode ? event.keyCode : event.which);
+            if (keycode == "13") {
+                if (Validate()) {
+                    Login();
+                } else {
+                    return false;
+                }
+            }
+        });
+
+        $("#btnLogin").click(function () {
+            if (Validate()) {
+                Login();
+            } else {
+
+                return false;
+            }
+        });
+        function Validate() {
+            var username = $("#inputUsername").val();
+            var password = $("#inputPassword").val();
+            $("#lbl_login_fail").text("");
+            $("#lbl_password_fail").text("");
+            if (username == "") {
+                $("#lbl_login_fail").text("Vui lòng nhập tên đăng nhập");
+                $("#inputUsername").focus();
+                return false;
+            } else if (password == "") {
+                $("#errorMessage").text("");
+                $("#lbl_password_fail").text("Vui lòng nhập mật khẩu");
+                $("#inputPassword").focus();
+                return false;
+            }
+            return true;
+        }
+
+        function Login() {
             var username = $('#inputUsername').val();
             var userpass = $('#inputPassword').val();
             $('#lbl_login_fail').text("");
