@@ -138,8 +138,8 @@ namespace KoiManagement.Common
 
         public static DateTime? ConverDateTime(string dateTime)
         {
-            string[] formats = { "MM/dd/yyyy" };
-            DateTime? dt = null;
+            string[] formats = { "yyyy-MM-dd" };
+            DateTime? dt = new DateTime();
             DateTime parsedDateTime;
             if (DateTime.TryParseExact(dateTime, formats, new CultureInfo("en-US"), DateTimeStyles.None,
                 out parsedDateTime))
