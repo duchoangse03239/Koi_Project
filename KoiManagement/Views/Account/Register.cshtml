@@ -3,64 +3,75 @@
     Layout = "~/Views/Layout/KoiLayout.cshtml";
 }
 
-<div class="container" id="add-koi">
-        <h2 id="form-title">Tạo tài khoản</h2>
-        <div class="">
-            <div class="row">
-                <div class="col-sm-6 col-sm-offset-3">
-                    <input type="text" class="form-control" placeholder="Tên đăng nhập" id="username" name="username">
-                    <label id="lblMessage_username_fail" class="label-error"></label>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-6 col-sm-offset-3">
-                    <input type="password" class="form-control" placeholder="Mật Khẩu" id="password" name="password">
-                    <label id="lblMessage_password_fail" class="label-error"></label>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-6 col-sm-offset-3">
-                    <input type="password" class="form-control" placeholder="Xác nhận mật khẩu" id="rePassword" name="rePassword">
-                    <label id="lblMessage_rePassword_fail" class="label-error"></label>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-6 col-sm-offset-3">
-                    <input type="text" class="form-control" placeholder="Họ và tên" id="name "name="name">
-                    <label id="lblMessage_name_fail" class="label-error"></label>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-6 col-sm-offset-3">
-                    <input type="text" class="form-control" placeholder="Ngày Sinh" id="dob" name="dob">
-                    <label id="lblMessage_dob_fail" class="label-error"></label>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-6 col-sm-offset-3">
-                    <input type="email" class="form-control" placeholder="Email" id="email" name="email">
-                    <label id="lblMessage_email_fail" class="label-error"></label>
-                </div>
-            </div>
+<div class="section site-main">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+                <div class="login-block">
+                    <h1>Tạo tài khoản</h1>
+                        <div class="form-group">
+                            <label for="name">Họ và tên</label>
+                            <input type="text" class="form-control" id="name" name="name" placeholder="Họ và tên">
+                            <label id="lblMessage_name_fail" class="label-error"></label>
+                        </div>
+                        <div class="form-group">
+                            <!-- <label>Ngày sinh</label>
+                            <div>
+                                <select>
+                                    <option>Ngày</option>
+                                </select>
+                                <select>
+                                    <option>Tháng</option>
+                                </select>
+                                <select>
+                                    <option>Năm</option>
+                                </select>
+                            </div> -->
+                            <label for="dob">Ngày Sinh</label>
+                            <input type="date" class="form-control" id="dob" name="dob" placeholder="Ngày Sinh">
+                            <label id="lblMessage_dob_fail" class="label-error"></label>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email*</label>
+                            <input type="email" class="form-control" id="email" name="email" placeholder="Email">
+                            <label id="lblMessage_email_fail" class="label-error"></label>
+                        </div>
+                        <div class="form-group">
+                            <label for="username">Tên đăng nhập*</label>
+                            <input type="text" class="form-control" id="username" name="username" placeholder="Tên đăng nhập">
+                            <label id="lblMessage_username_fail" class="label-error"></label>
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Mật khẩu*</label>
+                            <input type="password" class="form-control" id="password" name="password" placeholder="Mật khẩu">
+                            <label id="lblMessage_password_fail" class="label-error"></label>
+                        </div>
+                        <div class="form-group">
+                            <label for="rePassword">Xác nhận mật khẩu*</label>
+                            <input type="password" class="form-control" id="rePassword" name="rePassword" placeholder="Xác nhận mật khẩu">
+                            <label id="lblMessage_rePassword_fail" class="label-error"></label>
+                        </div>
+                        <div class="form-group">
+                            <label for="address">Địa chỉ</label>
+                            <input type="text" class="form-control" id="address" name="address" placeholder="Địa chỉ">
+                            <label id="lblMessage_address_fail" class="label-error"></label>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Số điện thoại</label>
+                            <input type="text" class="form-control" id="phone" name="phone" placeholder="Số điện thoại">
+                            <label id="lblMessage_phone_fail" class="label-error"></label>
+                        </div>
 
-            <div class="row">
-                <div class="col-sm-6 col-sm-offset-3">
-                    <input type="text" class="form-control" placeholder="Địa chỉ" id="address" name="address">
-                    <label id="lblMessage_address_fail" class="label-error"></label>
+                        <div class="form-group">
+                            <button  class="btn btn-primary btn-block" id="btnregister" >Đăng ký</button>
+                        </div>
+
+
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-6 col-sm-offset-3">
-                    <input type="text" class="form-control" placeholder="Số điện thoại" id="phone" name="phone">
-                    <label id="lblMessage_phone_fail" class="label-error"></label>
-                </div>
-            </div>
-            <div class="row add-button">
-                <div class="col-sm-5"></div>
-                <button type="button" id="btnregister" class="btn btn-default">Tạo tài khoản</button>
             </div>
         </div>
-</div>  
+    </div>
+</div>
 <script type="text/javascript">
         $(document).ready(function () {
             $(function () {
@@ -175,4 +186,3 @@
             });
         }
 </script>
-End Section

@@ -191,61 +191,61 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Achivement.cs">
-      <DependentUpon>KoiManagementModel.tt</DependentUpon>
+      <DependentUpon>KoiContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ActiveCode.cs">
-      <DependentUpon>KoiManagementModel.tt</DependentUpon>
+      <DependentUpon>KoiContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Comment.cs">
-      <DependentUpon>KoiManagementModel.tt</DependentUpon>
+      <DependentUpon>KoiContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\InfoDetail.cs">
-      <DependentUpon>KoiManagementModel.tt</DependentUpon>
+      <DependentUpon>KoiContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Koi.cs">
-      <DependentUpon>KoiManagementModel.tt</DependentUpon>
+      <DependentUpon>KoiContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\KoiContext.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>KoiContext.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\KoiContext.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>KoiContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\KoiContext.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>KoiContext.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\KoiFarm.cs">
-      <DependentUpon>KoiManagementModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\KoiManagementModel.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>KoiManagementModel.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\KoiManagementModel.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>KoiManagementModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\KoiManagementModel.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>KoiManagementModel.edmx</DependentUpon>
+      <DependentUpon>KoiContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\KoiParent.cs">
-      <DependentUpon>KoiManagementModel.tt</DependentUpon>
+      <DependentUpon>KoiContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Member.cs">
-      <DependentUpon>KoiManagementModel.tt</DependentUpon>
+      <DependentUpon>KoiContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\OffSpringOf.cs">
-      <DependentUpon>KoiManagementModel.tt</DependentUpon>
+      <DependentUpon>KoiContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Owner.cs">
-      <DependentUpon>KoiManagementModel.tt</DependentUpon>
+      <DependentUpon>KoiContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_helpdiagramdefinition_Result.cs">
-      <DependentUpon>KoiManagementModel.tt</DependentUpon>
+      <DependentUpon>KoiContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_helpdiagrams_Result.cs">
-      <DependentUpon>KoiManagementModel.tt</DependentUpon>
+      <DependentUpon>KoiContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sysdiagram.cs">
-      <DependentUpon>KoiManagementModel.tt</DependentUpon>
+      <DependentUpon>KoiContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Variety.cs">
-      <DependentUpon>KoiManagementModel.tt</DependentUpon>
+      <DependentUpon>KoiContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -253,11 +253,19 @@
     <Compile Include="ViewModel\ListKoiOwner.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\css\bootstrap-theme.css" />
+    <Content Include="Content\css\bootstrap-theme.min.css" />
     <Content Include="Content\css\bootstrap.css" />
     <Content Include="Content\css\bootstrap.min.css" />
-    <Content Include="Content\css\flexslider.css" />
     <Content Include="Content\css\font-awesome.css" />
-    <Content Include="Content\css\style.css" />
+    <Content Include="Content\css\font-awesome.min.css" />
+    <Content Include="Content\css\fonts\fontawesome-webfont.svg" />
+    <Content Include="Content\css\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\css\fonts\index.html" />
+    <Content Include="Content\css\header-bg.jpg" />
+    <Content Include="Content\css\index.html" />
+    <Content Include="Content\css\main.css" />
+    <Content Include="Content\Email\ConfirmEmailWhenForgotPassword.html" />
     <Content Include="Content\Image\Certificate\cer01.jpg.jpg" />
     <Content Include="Content\Image\Certificate\cer02.jpg" />
     <Content Include="Content\Image\Certificate\cer03.jpg.jpg" />
@@ -270,6 +278,7 @@
     <Content Include="Content\Image\Certificate\cer10.jpg" />
     <Content Include="Content\Image\Common\blank.jpg" />
     <Content Include="Content\Image\Common\setting.png" />
+    <Content Include="Content\Image\Common\Slider1.jpg" />
     <Content Include="Content\Image\Detail\detail01.jpg" />
     <Content Include="Content\Image\Detail\detail02.jpg" />
     <Content Include="Content\Image\Detail\detail03.jpg" />
@@ -291,6 +300,14 @@
     <Content Include="Content\Image\Detail\detail19.jpg" />
     <Content Include="Content\Image\Detail\detail20.jpg" />
     <Content Include="Content\Image\Detail\detail21.jpg" />
+    <Content Include="Content\Image\FrontEnd\bg.jpg" />
+    <Content Include="Content\Image\FrontEnd\cat1.jpg" />
+    <Content Include="Content\Image\FrontEnd\cat2.jpg" />
+    <Content Include="Content\Image\FrontEnd\cat3.jpeg" />
+    <Content Include="Content\Image\FrontEnd\cat4.jpeg" />
+    <Content Include="Content\Image\FrontEnd\index.html" />
+    <Content Include="Content\Image\FrontEnd\logo.jpg" />
+    <Content Include="Content\Image\FrontEnd\slider.jpg" />
     <Content Include="Content\Image\Koi\koi01.jpg" />
     <Content Include="Content\Image\Koi\koi02.jpg" />
     <Content Include="Content\Image\Koi\koi03.jpg" />
@@ -322,34 +339,202 @@
     <Content Include="Content\Image\Variety\koi10.jpg" />
     <Content Include="Content\Image\Variety\showa.jpg" />
     <Content Include="favicon.ico" />
+    <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="fonts\index.html" />
     <Content Include="Global.asax" />
+    <Content Include="Scripts\action.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Areas\Admin\Views\web.config">
       <SubType>Designer</SubType>
     </Content>
-    <EntityDeploy Include="Models\KoiManagementModel.edmx">
+    <EntityDeploy Include="Models\KoiContext.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>KoiManagementModel.Designer.cs</LastGenOutput>
+      <LastGenOutput>KoiContext.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <Content Include="Models\KoiManagementModel.Context.tt">
+    <Content Include="Models\KoiContext.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>KoiManagementModel.edmx</DependentUpon>
-      <LastGenOutput>KoiManagementModel.Context.cs</LastGenOutput>
+      <DependentUpon>KoiContext.edmx</DependentUpon>
+      <LastGenOutput>KoiContext.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="Models\KoiManagementModel.edmx.diagram">
-      <DependentUpon>KoiManagementModel.edmx</DependentUpon>
+    <Content Include="Models\KoiContext.edmx.diagram">
+      <DependentUpon>KoiContext.edmx</DependentUpon>
     </Content>
-    <Content Include="Models\KoiManagementModel.tt">
+    <Content Include="Models\KoiContext.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>KoiManagementModel.edmx</DependentUpon>
-      <LastGenOutput>KoiManagementModel.cs</LastGenOutput>
+      <DependentUpon>KoiContext.edmx</DependentUpon>
+      <LastGenOutput>KoiContext.cs</LastGenOutput>
     </Content>
+    <Content Include="fonts\fontawesome-webfont.eot" />
+    <Content Include="fonts\fontawesome-webfont.ttf" />
+    <Content Include="fonts\fontawesome-webfont.woff" />
+    <Content Include="fonts\fontawesome-webfont.woff2" />
+    <Content Include="fonts\FontAwesome.otf" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="fonts\Helvetica\HelveticaLTStd-Blk.otf" />
+    <Content Include="fonts\Helvetica\HelveticaLTStd-BlkCond.otf" />
+    <Content Include="fonts\Helvetica\HelveticaLTStd-BlkCondObl.otf" />
+    <Content Include="fonts\Helvetica\HelveticaLTStd-BlkObl.otf" />
+    <Content Include="fonts\Helvetica\HelveticaLTStd-Bold.otf" />
+    <Content Include="fonts\Helvetica\HelveticaLTStd-BoldCond.otf" />
+    <Content Include="fonts\Helvetica\HelveticaLTStd-BoldCondObl.otf" />
+    <Content Include="fonts\Helvetica\HelveticaLTStd-BoldObl.otf" />
+    <Content Include="fonts\Helvetica\HelveticaLTStd-Comp.otf" />
+    <Content Include="fonts\Helvetica\HelveticaLTStd-Cond.otf" />
+    <Content Include="fonts\Helvetica\HelveticaLTStd-CondObl.otf" />
+    <Content Include="fonts\Helvetica\HelveticaLTStd-ExtraComp.otf" />
+    <Content Include="fonts\Helvetica\HelveticaLTStd-Fractions.otf" />
+    <Content Include="fonts\Helvetica\HelveticaLTStd-FractionsBd.otf" />
+    <Content Include="fonts\Helvetica\HelveticaLTStd-Light.otf" />
+    <Content Include="fonts\Helvetica\HelveticaLTStd-LightCond.otf" />
+    <Content Include="fonts\Helvetica\HelveticaLTStd-LightCondObl.otf" />
+    <Content Include="fonts\Helvetica\HelveticaLTStd-LightObl.otf" />
+    <Content Include="fonts\Helvetica\HelveticaLTStd-Obl.otf" />
+    <Content Include="fonts\Helvetica\HelveticaLTStd-Roman.otf" />
+    <Content Include="fonts\Helvetica\HelveticaLTStd-UltraComp.otf" />
+    <Content Include="fonts\Helvetica\HelveticaNeueLTStd-Bd.otf" />
+    <Content Include="fonts\Helvetica\HelveticaNeueLTStd-BdCn.otf" />
+    <Content Include="fonts\Helvetica\HelveticaNeueLTStd-BdCnO.otf" />
+    <Content Include="fonts\Helvetica\HelveticaNeueLTStd-BdEx.otf" />
+    <Content Include="fonts\Helvetica\HelveticaNeueLTStd-BdExO.otf" />
+    <Content Include="fonts\Helvetica\HelveticaNeueLTStd-BdIt.otf" />
+    <Content Include="fonts\Helvetica\HelveticaNeueLTStd-BdOu.otf" />
+    <Content Include="fonts\Helvetica\HelveticaNeueLTStd-Blk.otf" />
+    <Content Include="fonts\Helvetica\HelveticaNeueLTStd-BlkCn.otf" />
+    <Content Include="fonts\Helvetica\HelveticaNeueLTStd-BlkCnO.otf" />
+    <Content Include="fonts\Helvetica\HelveticaNeueLTStd-BlkEx.otf" />
+    <Content Include="fonts\Helvetica\HelveticaNeueLTStd-BlkExO.otf" />
+    <Content Include="fonts\Helvetica\HelveticaNeueLTStd-BlkIt.otf" />
+    <Content Include="fonts\Helvetica\HelveticaNeueLTStd-Cn.otf" />
+    <Content Include="fonts\Helvetica\HelveticaNeueLTStd-CnO.otf" />
+    <Content Include="fonts\Helvetica\HelveticaNeueLTStd-Ex.otf" />
+    <Content Include="fonts\Helvetica\HelveticaNeueLTStd-ExO.otf" />
+    <Content Include="fonts\Helvetica\HelveticaNeueLTStd-Hv.otf" />
+    <Content Include="fonts\Helvetica\HelveticaNeueLTStd-HvCn.otf" />
+    <Content Include="fonts\Helvetica\HelveticaNeueLTStd-HvCnO.otf" />
+    <Content Include="fonts\Helvetica\HelveticaNeueLTStd-HvEx.otf" />
+    <Content Include="fonts\Helvetica\HelveticaNeueLTStd-HvExO.otf" />
+    <Content Include="fonts\Helvetica\HelveticaNeueLTStd-HvIt.otf" />
+    <Content Include="fonts\Helvetica\HelveticaNeueLTStd-It.otf" />
+    <Content Include="fonts\Helvetica\HelveticaNeueLTStd-Lt.otf" />
+    <Content Include="fonts\Helvetica\HelveticaNeueLTStd-LtCn.otf" />
+    <Content Include="fonts\Helvetica\HelveticaNeueLTStd-LtCnO.otf" />
+    <Content Include="fonts\Helvetica\HelveticaNeueLTStd-LtEx.otf" />
+    <Content Include="fonts\Helvetica\HelveticaNeueLTStd-LtExO.otf" />
+    <Content Include="fonts\Helvetica\HelveticaNeueLTStd-LtIt.otf" />
+    <Content Include="fonts\Helvetica\HelveticaNeueLTStd-Md.otf" />
+    <Content Include="fonts\Helvetica\HelveticaNeueLTStd-MdCn.otf" />
+    <Content Include="fonts\Helvetica\HelveticaNeueLTStd-MdCnO.otf" />
+    <Content Include="fonts\Helvetica\HelveticaNeueLTStd-MdEx.otf" />
+    <Content Include="fonts\Helvetica\HelveticaNeueLTStd-MdExO.otf" />
+    <Content Include="fonts\Helvetica\HelveticaNeueLTStd-MdIt.otf" />
+    <Content Include="fonts\Helvetica\HelveticaNeueLTStd-Roman.otf" />
+    <Content Include="fonts\Helvetica\HelveticaNeueLTStd-Th.otf" />
+    <Content Include="fonts\Helvetica\HelveticaNeueLTStd-ThCn.otf" />
+    <Content Include="fonts\Helvetica\HelveticaNeueLTStd-ThCnO.otf" />
+    <Content Include="fonts\Helvetica\HelveticaNeueLTStd-ThEx.otf" />
+    <Content Include="fonts\Helvetica\HelveticaNeueLTStd-ThExO.otf" />
+    <Content Include="fonts\Helvetica\HelveticaNeueLTStd-ThIt.otf" />
+    <Content Include="fonts\Helvetica\HelveticaNeueLTStd-UltLt.otf" />
+    <Content Include="fonts\Helvetica\HelveticaNeueLTStd-UltLtCn.otf" />
+    <Content Include="fonts\Helvetica\HelveticaNeueLTStd-UltLtCnO.otf" />
+    <Content Include="fonts\Helvetica\HelveticaNeueLTStd-UltLtEx.otf" />
+    <Content Include="fonts\Helvetica\HelveticaNeueLTStd-UltLtExO.otf" />
+    <Content Include="fonts\Helvetica\HelveticaNeueLTStd-UltLtIt.otf" />
+    <Content Include="fonts\Helvetica\HelveticaNeueLTStd-XBlkCn.otf" />
+    <Content Include="fonts\Helvetica\HelveticaNeueLTStd-XBlkCnO.otf" />
+    <Content Include="fonts\UTM Avo.ttf" />
+    <Content Include="Content\css\fonts\fontawesome-webfont.eot" />
+    <Content Include="Content\css\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Content\css\fonts\fontawesome-webfont.woff" />
+    <Content Include="Content\css\fonts\fontawesome-webfont.woff2" />
+    <Content Include="Content\css\fonts\FontAwesome.otf" />
+    <Content Include="Content\css\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\css\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Content\css\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Content\css\fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="Content\css\fonts\Helvetica\HelveticaLTStd-Blk.otf" />
+    <Content Include="Content\css\fonts\Helvetica\HelveticaLTStd-BlkCond.otf" />
+    <Content Include="Content\css\fonts\Helvetica\HelveticaLTStd-BlkCondObl.otf" />
+    <Content Include="Content\css\fonts\Helvetica\HelveticaLTStd-BlkObl.otf" />
+    <Content Include="Content\css\fonts\Helvetica\HelveticaLTStd-Bold.otf" />
+    <Content Include="Content\css\fonts\Helvetica\HelveticaLTStd-BoldCond.otf" />
+    <Content Include="Content\css\fonts\Helvetica\HelveticaLTStd-BoldCondObl.otf" />
+    <Content Include="Content\css\fonts\Helvetica\HelveticaLTStd-BoldObl.otf" />
+    <Content Include="Content\css\fonts\Helvetica\HelveticaLTStd-Comp.otf" />
+    <Content Include="Content\css\fonts\Helvetica\HelveticaLTStd-Cond.otf" />
+    <Content Include="Content\css\fonts\Helvetica\HelveticaLTStd-CondObl.otf" />
+    <Content Include="Content\css\fonts\Helvetica\HelveticaLTStd-ExtraComp.otf" />
+    <Content Include="Content\css\fonts\Helvetica\HelveticaLTStd-Fractions.otf" />
+    <Content Include="Content\css\fonts\Helvetica\HelveticaLTStd-FractionsBd.otf" />
+    <Content Include="Content\css\fonts\Helvetica\HelveticaLTStd-Light.otf" />
+    <Content Include="Content\css\fonts\Helvetica\HelveticaLTStd-LightCond.otf" />
+    <Content Include="Content\css\fonts\Helvetica\HelveticaLTStd-LightCondObl.otf" />
+    <Content Include="Content\css\fonts\Helvetica\HelveticaLTStd-LightObl.otf" />
+    <Content Include="Content\css\fonts\Helvetica\HelveticaLTStd-Obl.otf" />
+    <Content Include="Content\css\fonts\Helvetica\HelveticaLTStd-Roman.otf" />
+    <Content Include="Content\css\fonts\Helvetica\HelveticaLTStd-UltraComp.otf" />
+    <Content Include="Content\css\fonts\Helvetica\HelveticaNeueLTStd-Bd.otf" />
+    <Content Include="Content\css\fonts\Helvetica\HelveticaNeueLTStd-BdCn.otf" />
+    <Content Include="Content\css\fonts\Helvetica\HelveticaNeueLTStd-BdCnO.otf" />
+    <Content Include="Content\css\fonts\Helvetica\HelveticaNeueLTStd-BdEx.otf" />
+    <Content Include="Content\css\fonts\Helvetica\HelveticaNeueLTStd-BdExO.otf" />
+    <Content Include="Content\css\fonts\Helvetica\HelveticaNeueLTStd-BdIt.otf" />
+    <Content Include="Content\css\fonts\Helvetica\HelveticaNeueLTStd-BdOu.otf" />
+    <Content Include="Content\css\fonts\Helvetica\HelveticaNeueLTStd-Blk.otf" />
+    <Content Include="Content\css\fonts\Helvetica\HelveticaNeueLTStd-BlkCn.otf" />
+    <Content Include="Content\css\fonts\Helvetica\HelveticaNeueLTStd-BlkCnO.otf" />
+    <Content Include="Content\css\fonts\Helvetica\HelveticaNeueLTStd-BlkEx.otf" />
+    <Content Include="Content\css\fonts\Helvetica\HelveticaNeueLTStd-BlkExO.otf" />
+    <Content Include="Content\css\fonts\Helvetica\HelveticaNeueLTStd-BlkIt.otf" />
+    <Content Include="Content\css\fonts\Helvetica\HelveticaNeueLTStd-Cn.otf" />
+    <Content Include="Content\css\fonts\Helvetica\HelveticaNeueLTStd-CnO.otf" />
+    <Content Include="Content\css\fonts\Helvetica\HelveticaNeueLTStd-Ex.otf" />
+    <Content Include="Content\css\fonts\Helvetica\HelveticaNeueLTStd-ExO.otf" />
+    <Content Include="Content\css\fonts\Helvetica\HelveticaNeueLTStd-Hv.otf" />
+    <Content Include="Content\css\fonts\Helvetica\HelveticaNeueLTStd-HvCn.otf" />
+    <Content Include="Content\css\fonts\Helvetica\HelveticaNeueLTStd-HvCnO.otf" />
+    <Content Include="Content\css\fonts\Helvetica\HelveticaNeueLTStd-HvEx.otf" />
+    <Content Include="Content\css\fonts\Helvetica\HelveticaNeueLTStd-HvExO.otf" />
+    <Content Include="Content\css\fonts\Helvetica\HelveticaNeueLTStd-HvIt.otf" />
+    <Content Include="Content\css\fonts\Helvetica\HelveticaNeueLTStd-It.otf" />
+    <Content Include="Content\css\fonts\Helvetica\HelveticaNeueLTStd-Lt.otf" />
+    <Content Include="Content\css\fonts\Helvetica\HelveticaNeueLTStd-LtCn.otf" />
+    <Content Include="Content\css\fonts\Helvetica\HelveticaNeueLTStd-LtCnO.otf" />
+    <Content Include="Content\css\fonts\Helvetica\HelveticaNeueLTStd-LtEx.otf" />
+    <Content Include="Content\css\fonts\Helvetica\HelveticaNeueLTStd-LtExO.otf" />
+    <Content Include="Content\css\fonts\Helvetica\HelveticaNeueLTStd-LtIt.otf" />
+    <Content Include="Content\css\fonts\Helvetica\HelveticaNeueLTStd-Md.otf" />
+    <Content Include="Content\css\fonts\Helvetica\HelveticaNeueLTStd-MdCn.otf" />
+    <Content Include="Content\css\fonts\Helvetica\HelveticaNeueLTStd-MdCnO.otf" />
+    <Content Include="Content\css\fonts\Helvetica\HelveticaNeueLTStd-MdEx.otf" />
+    <Content Include="Content\css\fonts\Helvetica\HelveticaNeueLTStd-MdExO.otf" />
+    <Content Include="Content\css\fonts\Helvetica\HelveticaNeueLTStd-MdIt.otf" />
+    <Content Include="Content\css\fonts\Helvetica\HelveticaNeueLTStd-Roman.otf" />
+    <Content Include="Content\css\fonts\Helvetica\HelveticaNeueLTStd-Th.otf" />
+    <Content Include="Content\css\fonts\Helvetica\HelveticaNeueLTStd-ThCn.otf" />
+    <Content Include="Content\css\fonts\Helvetica\HelveticaNeueLTStd-ThCnO.otf" />
+    <Content Include="Content\css\fonts\Helvetica\HelveticaNeueLTStd-ThEx.otf" />
+    <Content Include="Content\css\fonts\Helvetica\HelveticaNeueLTStd-ThExO.otf" />
+    <Content Include="Content\css\fonts\Helvetica\HelveticaNeueLTStd-ThIt.otf" />
+    <Content Include="Content\css\fonts\Helvetica\HelveticaNeueLTStd-UltLt.otf" />
+    <Content Include="Content\css\fonts\Helvetica\HelveticaNeueLTStd-UltLtCn.otf" />
+    <Content Include="Content\css\fonts\Helvetica\HelveticaNeueLTStd-UltLtCnO.otf" />
+    <Content Include="Content\css\fonts\Helvetica\HelveticaNeueLTStd-UltLtEx.otf" />
+    <Content Include="Content\css\fonts\Helvetica\HelveticaNeueLTStd-UltLtExO.otf" />
+    <Content Include="Content\css\fonts\Helvetica\HelveticaNeueLTStd-UltLtIt.otf" />
+    <Content Include="Content\css\fonts\Helvetica\HelveticaNeueLTStd-XBlkCn.otf" />
+    <Content Include="Content\css\fonts\Helvetica\HelveticaNeueLTStd-XBlkCnO.otf" />
+    <Content Include="Content\css\fonts\UTM Avo.ttf" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery-2.1.4.min.js" />
     <Content Include="Scripts\jquery-ui.js" />
     <Content Include="Scripts\jquery-ui.min.js" />
     <Content Include="Scripts\jquery.flexslider-min.js" />
@@ -413,17 +598,16 @@
     <Content Include="Views\Account\Resetpass.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Account\ForgotPassword.cshtml" />
+    <Content Include="Views\Account\SentRequestPass.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Controllers\" />
     <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Areas\Admin\Views\Shared\" />
+    <Folder Include="Content\Image\NewFolder1\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
   </ItemGroup>

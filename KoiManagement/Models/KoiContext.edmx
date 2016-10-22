@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="KoiManagementModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="KoiManagementModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Achivement">
           <Key>
             <PropertyRef Name="AchievementID" />
@@ -14,6 +14,16 @@
           <Property Name="Image" Type="nvarchar" MaxLength="255" />
           <Property Name="DateTime" Type="date" Nullable="false" />
           <Property Name="Description" Type="nvarchar" MaxLength="1000" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ActiveCode">
+          <Key>
+            <PropertyRef Name="ActiveCodeID" />
+          </Key>
+          <Property Name="ActiveCodeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MemberID" Type="int" />
+          <Property Name="ActCode" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ExpireOn" Type="datetime" />
+          <Property Name="Status" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Comment">
           <Key>
@@ -73,12 +83,12 @@
         </EntityType>
         <EntityType Name="KoiParent">
           <Key>
-            <PropertyRef Name="id" />
+            <PropertyRef Name="OffspringID" />
+            <PropertyRef Name="KoiSonID" />
           </Key>
-          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="OffspringID" Type="int" />
-          <Property Name="KoiSonID" Type="int" />
-          <Property Name="IsMomorDad" Type="char" MaxLength="3" />
+          <Property Name="OffspringID" Type="int" Nullable="false" />
+          <Property Name="KoiSonID" Type="int" Nullable="false" />
+          <Property Name="IsMomOrDad" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Member">
           <Key>
@@ -146,6 +156,18 @@
             </Principal>
             <Dependent Role="Achivement">
               <PropertyRef Name="KoiID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ActiveCod__Membe__70DDC3D8">
+          <End Role="Member" Type="Self.Member" Multiplicity="0..1" />
+          <End Role="ActiveCode" Type="Self.ActiveCode" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="MemberID" />
+            </Principal>
+            <Dependent Role="ActiveCode">
+              <PropertyRef Name="MemberID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -233,8 +255,8 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__KoiParent__KoiSo__30F848ED">
-          <End Role="Koi" Type="Self.Koi" Multiplicity="0..1" />
+        <Association Name="FK__KoiParent__KoiSo__619B8048">
+          <End Role="Koi" Type="Self.Koi" Multiplicity="1" />
           <End Role="KoiParent" Type="Self.KoiParent" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Koi">
@@ -245,8 +267,8 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__KoiParent__Offsp__300424B4">
-          <End Role="OffSpringOf" Type="Self.OffSpringOf" Multiplicity="0..1" />
+        <Association Name="FK__KoiParent__Offsp__60A75C0F">
+          <End Role="OffSpringOf" Type="Self.OffSpringOf" Multiplicity="1" />
           <End Role="KoiParent" Type="Self.KoiParent" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="OffSpringOf">
@@ -364,6 +386,7 @@
         <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <EntityContainer Name="KoiManagementModelStoreContainer">
           <EntitySet Name="Achivement" EntityType="Self.Achivement" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ActiveCode" EntityType="Self.ActiveCode" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Comment" EntityType="Self.Comment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="InfoDetail" EntityType="Self.InfoDetail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Koi" EntityType="Self.Koi" Schema="dbo" store:Type="Tables" />
@@ -377,6 +400,10 @@
           <AssociationSet Name="FK__Achivemen__KoiID__1FCDBCEB" Association="Self.FK__Achivemen__KoiID__1FCDBCEB">
             <End Role="Koi" EntitySet="Koi" />
             <End Role="Achivement" EntitySet="Achivement" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ActiveCod__Membe__70DDC3D8" Association="Self.FK__ActiveCod__Membe__70DDC3D8">
+            <End Role="Member" EntitySet="Member" />
+            <End Role="ActiveCode" EntitySet="ActiveCode" />
           </AssociationSet>
           <AssociationSet Name="FK__Comment__Comment__440B1D61" Association="Self.FK__Comment__Comment__440B1D61">
             <End Role="Comment" EntitySet="Comment" />
@@ -406,11 +433,11 @@
             <End Role="Member" EntitySet="Member" />
             <End Role="KoiFarm" EntitySet="KoiFarm" />
           </AssociationSet>
-          <AssociationSet Name="FK__KoiParent__KoiSo__30F848ED" Association="Self.FK__KoiParent__KoiSo__30F848ED">
+          <AssociationSet Name="FK__KoiParent__KoiSo__619B8048" Association="Self.FK__KoiParent__KoiSo__619B8048">
             <End Role="Koi" EntitySet="Koi" />
             <End Role="KoiParent" EntitySet="KoiParent" />
           </AssociationSet>
-          <AssociationSet Name="FK__KoiParent__Offsp__300424B4" Association="Self.FK__KoiParent__Offsp__300424B4">
+          <AssociationSet Name="FK__KoiParent__Offsp__60A75C0F" Association="Self.FK__KoiParent__Offsp__60A75C0F">
             <End Role="OffSpringOf" EntitySet="OffSpringOf" />
             <End Role="KoiParent" EntitySet="KoiParent" />
           </AssociationSet>
@@ -439,7 +466,8 @@
             <End Role="KoiFarm" EntitySet="KoiFarm" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="KoiManagementModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -454,6 +482,17 @@
           <Property Name="Description" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="Koi" Relationship="Self.FK__Achivemen__KoiID__1FCDBCEB" FromRole="Achivement" ToRole="Koi" />
         </EntityType>
+        <EntityType Name="ActiveCode">
+          <Key>
+            <PropertyRef Name="ActiveCodeID" />
+          </Key>
+          <Property Name="ActiveCodeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MemberID" Type="Int32" />
+          <Property Name="ActCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ExpireOn" Type="DateTime" Precision="3" />
+          <Property Name="Status" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Member" Relationship="Self.FK__ActiveCod__Membe__70DDC3D8" FromRole="ActiveCode" ToRole="Member" />
+        </EntityType>
         <EntityType Name="Comment">
           <Key>
             <PropertyRef Name="CommentID" />
@@ -465,13 +504,13 @@
           <Property Name="KoiFarmID" Type="Int32" />
           <Property Name="Rating" Type="Decimal" Precision="2" Scale="1" Nullable="false" />
           <Property Name="CommentDetail" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Privacy" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="KoiFarm" Relationship="Self.FK__Comment__KoiFarm__29572725" FromRole="Comment" ToRole="KoiFarm" />
-          <NavigationProperty Name="Koi" Relationship="Self.FK__Comment__KoiID__276EDEB3" FromRole="Comment" ToRole="Koi" />
-          <NavigationProperty Name="Member" Relationship="Self.FK__Comment__MemberI__286302EC" FromRole="Comment" ToRole="Member" />
           <Property Name="CommentAnswer" Type="Int32" />
-          <NavigationProperty Name="Comment1" Relationship="KoiManagementModel.FK__Comment__Comment__440B1D61" FromRole="Comment" ToRole="Comment1" />
-          <NavigationProperty Name="Comment2" Relationship="KoiManagementModel.FK__Comment__Comment__440B1D61" FromRole="Comment1" ToRole="Comment" />
+          <Property Name="Privacy" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Comment1" Relationship="Self.FK__Comment__Comment__440B1D61" FromRole="Comment" ToRole="Comment1" />
+          <NavigationProperty Name="Comment2" Relationship="Self.FK__Comment__Comment__440B1D61" FromRole="Comment1" ToRole="Comment" />
+          <NavigationProperty Name="KoiFarm" Relationship="Self.FK__Comment__KoiFarm__4316F928" FromRole="Comment" ToRole="KoiFarm" />
+          <NavigationProperty Name="Koi" Relationship="Self.FK__Comment__KoiID__412EB0B6" FromRole="Comment" ToRole="Koi" />
+          <NavigationProperty Name="Member" Relationship="Self.FK__Comment__MemberI__4222D4EF" FromRole="Comment" ToRole="Member" />
         </EntityType>
         <EntityType Name="InfoDetail">
           <Key>
@@ -504,10 +543,10 @@
           <Property Name="Privacy" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
           <Property Name="Report" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Achivements" Relationship="Self.FK__Achivemen__KoiID__1FCDBCEB" FromRole="Koi" ToRole="Achivement" />
-          <NavigationProperty Name="Comments" Relationship="Self.FK__Comment__KoiID__276EDEB3" FromRole="Koi" ToRole="Comment" />
+          <NavigationProperty Name="Comments" Relationship="Self.FK__Comment__KoiID__412EB0B6" FromRole="Koi" ToRole="Comment" />
           <NavigationProperty Name="InfoDetails" Relationship="Self.FK__InfoDetai__KoiID__164452B1" FromRole="Koi" ToRole="InfoDetail" />
           <NavigationProperty Name="Variety" Relationship="Self.FK__Koi__VarietyID__1367E606" FromRole="Koi" ToRole="Variety" />
-          <NavigationProperty Name="KoiParents" Relationship="Self.FK__KoiParent__KoiSo__30F848ED" FromRole="Koi" ToRole="KoiParent" />
+          <NavigationProperty Name="KoiParents" Relationship="Self.FK__KoiParent__KoiSo__619B8048" FromRole="Koi" ToRole="KoiParent" />
           <NavigationProperty Name="OffSpringOfs" Relationship="Self.FK__OffSpring__KoiID__2D27B809" FromRole="Koi" ToRole="OffSpringOf" />
           <NavigationProperty Name="Owners" Relationship="Self.FK__Owner__KoiID__22AA2996" FromRole="Koi" ToRole="Owner" />
         </EntityType>
@@ -522,20 +561,21 @@
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Image" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="Status" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Comments" Relationship="Self.FK__Comment__KoiFarm__29572725" FromRole="KoiFarm" ToRole="Comment" />
+          <NavigationProperty Name="Comments" Relationship="Self.FK__Comment__KoiFarm__4316F928" FromRole="KoiFarm" ToRole="Comment" />
           <NavigationProperty Name="Member" Relationship="Self.FK__KoiFarm__MemberI__1CF15040" FromRole="KoiFarm" ToRole="Member" />
           <NavigationProperty Name="Owners" Relationship="Self.FK__Owner__KoiFarmID__24927208" FromRole="KoiFarm" ToRole="Owner" />
+          <NavigationProperty Name="Member1" Relationship="Self.FK_KoiFarm_MemberID" FromRole="KoiFarm" ToRole="Member" />
         </EntityType>
         <EntityType Name="KoiParent">
           <Key>
-            <PropertyRef Name="id" />
+            <PropertyRef Name="OffspringID" />
+            <PropertyRef Name="KoiSonID" />
           </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="OffspringID" Type="Int32" />
-          <Property Name="KoiSonID" Type="Int32" />
-          <Property Name="IsMomorDad" Type="String" MaxLength="3" FixedLength="true" Unicode="false" />
-          <NavigationProperty Name="Koi" Relationship="Self.FK__KoiParent__KoiSo__30F848ED" FromRole="KoiParent" ToRole="Koi" />
-          <NavigationProperty Name="OffSpringOf" Relationship="Self.FK__KoiParent__Offsp__300424B4" FromRole="KoiParent" ToRole="OffSpringOf" />
+          <Property Name="OffspringID" Type="Int32" Nullable="false" />
+          <Property Name="KoiSonID" Type="Int32" Nullable="false" />
+          <Property Name="IsMomOrDad" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Koi" Relationship="Self.FK__KoiParent__KoiSo__619B8048" FromRole="KoiParent" ToRole="Koi" />
+          <NavigationProperty Name="OffSpringOf" Relationship="Self.FK__KoiParent__Offsp__60A75C0F" FromRole="KoiParent" ToRole="OffSpringOf" />
         </EntityType>
         <EntityType Name="Member">
           <Key>
@@ -543,7 +583,7 @@
           </Key>
           <Property Name="MemberID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="UserName" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="UserName" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Password" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Dob" Type="DateTime" Precision="0" />
           <Property Name="Image" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
@@ -552,8 +592,10 @@
           <Property Name="Email" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Address" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="Status" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Comments" Relationship="Self.FK__Comment__MemberI__286302EC" FromRole="Member" ToRole="Comment" />
+          <NavigationProperty Name="ActiveCodes" Relationship="Self.FK__ActiveCod__Membe__70DDC3D8" FromRole="Member" ToRole="ActiveCode" />
+          <NavigationProperty Name="Comments" Relationship="Self.FK__Comment__MemberI__4222D4EF" FromRole="Member" ToRole="Comment" />
           <NavigationProperty Name="KoiFarms" Relationship="Self.FK__KoiFarm__MemberI__1CF15040" FromRole="Member" ToRole="KoiFarm" />
+          <NavigationProperty Name="KoiFarms1" Relationship="Self.FK_KoiFarm_MemberID" FromRole="Member" ToRole="KoiFarm" />
           <NavigationProperty Name="Owners" Relationship="Self.FK__Owner__MemberID__239E4DCF" FromRole="Member" ToRole="Owner" />
         </EntityType>
         <EntityType Name="OffSpringOf">
@@ -565,7 +607,7 @@
           <Property Name="Image" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="KoiID" Type="Int32" />
           <NavigationProperty Name="Koi" Relationship="Self.FK__OffSpring__KoiID__2D27B809" FromRole="OffSpringOf" ToRole="Koi" />
-          <NavigationProperty Name="KoiParents" Relationship="Self.FK__KoiParent__Offsp__300424B4" FromRole="OffSpringOf" ToRole="KoiParent" />
+          <NavigationProperty Name="KoiParents" Relationship="Self.FK__KoiParent__Offsp__60A75C0F" FromRole="OffSpringOf" ToRole="KoiParent" />
         </EntityType>
         <EntityType Name="Owner">
           <Key>
@@ -617,7 +659,31 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Comment__KoiFarm__29572725">
+        <Association Name="FK__ActiveCod__Membe__70DDC3D8">
+          <End Role="Member" Type="Self.Member" Multiplicity="0..1" />
+          <End Role="ActiveCode" Type="Self.ActiveCode" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="MemberID" />
+            </Principal>
+            <Dependent Role="ActiveCode">
+              <PropertyRef Name="MemberID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Comment__Comment__440B1D61">
+          <End Role="Comment" Type="Self.Comment" Multiplicity="0..1" />
+          <End Role="Comment1" Type="Self.Comment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Comment">
+              <PropertyRef Name="CommentID" />
+            </Principal>
+            <Dependent Role="Comment1">
+              <PropertyRef Name="CommentAnswer" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Comment__KoiFarm__4316F928">
           <End Role="KoiFarm" Type="Self.KoiFarm" Multiplicity="0..1" />
           <End Role="Comment" Type="Self.Comment" Multiplicity="*" />
           <ReferentialConstraint>
@@ -629,7 +695,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Comment__KoiID__276EDEB3">
+        <Association Name="FK__Comment__KoiID__412EB0B6">
           <End Role="Koi" Type="Self.Koi" Multiplicity="0..1" />
           <End Role="Comment" Type="Self.Comment" Multiplicity="*" />
           <ReferentialConstraint>
@@ -641,7 +707,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Comment__MemberI__286302EC">
+        <Association Name="FK__Comment__MemberI__4222D4EF">
           <End Role="Member" Type="Self.Member" Multiplicity="0..1" />
           <End Role="Comment" Type="Self.Comment" Multiplicity="*" />
           <ReferentialConstraint>
@@ -677,8 +743,8 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__KoiParent__KoiSo__30F848ED">
-          <End Role="Koi" Type="Self.Koi" Multiplicity="0..1" />
+        <Association Name="FK__KoiParent__KoiSo__619B8048">
+          <End Role="Koi" Type="Self.Koi" Multiplicity="1" />
           <End Role="KoiParent" Type="Self.KoiParent" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Koi">
@@ -737,8 +803,22 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__KoiParent__Offsp__300424B4">
-          <End Role="OffSpringOf" Type="Self.OffSpringOf" Multiplicity="0..1" />
+        <Association Name="FK_KoiFarm_MemberID">
+          <End Role="Member" Type="Self.Member" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="KoiFarm" Type="Self.KoiFarm" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="MemberID" />
+            </Principal>
+            <Dependent Role="KoiFarm">
+              <PropertyRef Name="MemberID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__KoiParent__Offsp__60A75C0F">
+          <End Role="OffSpringOf" Type="Self.OffSpringOf" Multiplicity="1" />
           <End Role="KoiParent" Type="Self.KoiParent" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="OffSpringOf">
@@ -775,6 +855,7 @@
         </Association>
         <EntityContainer Name="KoiManagementEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Achivements" EntityType="Self.Achivement" />
+          <EntitySet Name="ActiveCodes" EntityType="Self.ActiveCode" />
           <EntitySet Name="Comments" EntityType="Self.Comment" />
           <EntitySet Name="InfoDetails" EntityType="Self.InfoDetail" />
           <EntitySet Name="Kois" EntityType="Self.Koi" />
@@ -789,15 +870,23 @@
             <End Role="Koi" EntitySet="Kois" />
             <End Role="Achivement" EntitySet="Achivements" />
           </AssociationSet>
-          <AssociationSet Name="FK__Comment__KoiFarm__29572725" Association="Self.FK__Comment__KoiFarm__29572725">
+          <AssociationSet Name="FK__ActiveCod__Membe__70DDC3D8" Association="Self.FK__ActiveCod__Membe__70DDC3D8">
+            <End Role="Member" EntitySet="Members" />
+            <End Role="ActiveCode" EntitySet="ActiveCodes" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Comment__Comment__440B1D61" Association="Self.FK__Comment__Comment__440B1D61">
+            <End Role="Comment" EntitySet="Comments" />
+            <End Role="Comment1" EntitySet="Comments" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Comment__KoiFarm__4316F928" Association="Self.FK__Comment__KoiFarm__4316F928">
             <End Role="KoiFarm" EntitySet="KoiFarms" />
             <End Role="Comment" EntitySet="Comments" />
           </AssociationSet>
-          <AssociationSet Name="FK__Comment__KoiID__276EDEB3" Association="Self.FK__Comment__KoiID__276EDEB3">
+          <AssociationSet Name="FK__Comment__KoiID__412EB0B6" Association="Self.FK__Comment__KoiID__412EB0B6">
             <End Role="Koi" EntitySet="Kois" />
             <End Role="Comment" EntitySet="Comments" />
           </AssociationSet>
-          <AssociationSet Name="FK__Comment__MemberI__286302EC" Association="Self.FK__Comment__MemberI__286302EC">
+          <AssociationSet Name="FK__Comment__MemberI__4222D4EF" Association="Self.FK__Comment__MemberI__4222D4EF">
             <End Role="Member" EntitySet="Members" />
             <End Role="Comment" EntitySet="Comments" />
           </AssociationSet>
@@ -809,7 +898,7 @@
             <End Role="Variety" EntitySet="Varieties" />
             <End Role="Koi" EntitySet="Kois" />
           </AssociationSet>
-          <AssociationSet Name="FK__KoiParent__KoiSo__30F848ED" Association="Self.FK__KoiParent__KoiSo__30F848ED">
+          <AssociationSet Name="FK__KoiParent__KoiSo__619B8048" Association="Self.FK__KoiParent__KoiSo__619B8048">
             <End Role="Koi" EntitySet="Kois" />
             <End Role="KoiParent" EntitySet="KoiParents" />
           </AssociationSet>
@@ -829,7 +918,11 @@
             <End Role="KoiFarm" EntitySet="KoiFarms" />
             <End Role="Owner" EntitySet="Owners" />
           </AssociationSet>
-          <AssociationSet Name="FK__KoiParent__Offsp__300424B4" Association="Self.FK__KoiParent__Offsp__300424B4">
+          <AssociationSet Name="FK_KoiFarm_MemberID" Association="Self.FK_KoiFarm_MemberID">
+            <End Role="Member" EntitySet="Members" />
+            <End Role="KoiFarm" EntitySet="KoiFarms" />
+          </AssociationSet>
+          <AssociationSet Name="FK__KoiParent__Offsp__60A75C0F" Association="Self.FK__KoiParent__Offsp__60A75C0F">
             <End Role="OffSpringOf" EntitySet="OffSpringOfs" />
             <End Role="KoiParent" EntitySet="KoiParents" />
           </AssociationSet>
@@ -871,10 +964,6 @@
             <Parameter Name="new_diagramname" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_upgraddiagrams" />
-          <AssociationSet Name="FK__Comment__Comment__440B1D61" Association="KoiManagementModel.FK__Comment__Comment__440B1D61">
-            <End Role="Comment" EntitySet="Comments" />
-            <End Role="Comment1" EntitySet="Comments" />
-          </AssociationSet>
         </EntityContainer>
         <ComplexType Name="sp_helpdiagramdefinition_Result">
           <Property Type="Int32" Name="version" Nullable="true" />
@@ -887,18 +976,6 @@
           <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
           <Property Type="Int32" Name="OwnerID" Nullable="false" />
         </ComplexType>
-        <Association Name="FK__Comment__Comment__440B1D61">
-          <End Type="KoiManagementModel.Comment" Role="Comment" Multiplicity="0..1" />
-          <End Type="KoiManagementModel.Comment" Role="Comment1" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Comment">
-              <PropertyRef Name="CommentID" />
-            </Principal>
-            <Dependent Role="Comment1">
-              <PropertyRef Name="CommentAnswer" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -916,10 +993,20 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="ActiveCodes">
+            <EntityTypeMapping TypeName="KoiManagementModel.ActiveCode">
+              <MappingFragment StoreEntitySet="ActiveCode">
+                <ScalarProperty Name="ActiveCodeID" ColumnName="ActiveCodeID" />
+                <ScalarProperty Name="MemberID" ColumnName="MemberID" />
+                <ScalarProperty Name="ActCode" ColumnName="ActCode" />
+                <ScalarProperty Name="ExpireOn" ColumnName="ExpireOn" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Comments">
             <EntityTypeMapping TypeName="KoiManagementModel.Comment">
               <MappingFragment StoreEntitySet="Comment">
-                <ScalarProperty Name="CommentAnswer" ColumnName="CommentAnswer" />
                 <ScalarProperty Name="CommentID" ColumnName="CommentID" />
                 <ScalarProperty Name="MemberID" ColumnName="MemberID" />
                 <ScalarProperty Name="KoiID" ColumnName="KoiID" />
@@ -927,6 +1014,7 @@
                 <ScalarProperty Name="KoiFarmID" ColumnName="KoiFarmID" />
                 <ScalarProperty Name="Rating" ColumnName="Rating" />
                 <ScalarProperty Name="CommentDetail" ColumnName="CommentDetail" />
+                <ScalarProperty Name="CommentAnswer" ColumnName="CommentAnswer" />
                 <ScalarProperty Name="Privacy" ColumnName="Privacy" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -934,12 +1022,12 @@
           <EntitySetMapping Name="InfoDetails">
             <EntityTypeMapping TypeName="KoiManagementModel.InfoDetail">
               <MappingFragment StoreEntitySet="InfoDetail">
-                <ScalarProperty Name="HeathyStatus" ColumnName="HeathyStatus" />
                 <ScalarProperty Name="DetailID" ColumnName="DetailID" />
                 <ScalarProperty Name="KoiID" ColumnName="KoiID" />
                 <ScalarProperty Name="Date" ColumnName="Date" />
                 <ScalarProperty Name="Weight" ColumnName="Weight" />
                 <ScalarProperty Name="Size" ColumnName="Size" />
+                <ScalarProperty Name="HeathyStatus" ColumnName="HeathyStatus" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="Image" ColumnName="Image" />
               </MappingFragment>
@@ -979,19 +1067,18 @@
           <EntitySetMapping Name="KoiParents">
             <EntityTypeMapping TypeName="KoiManagementModel.KoiParent">
               <MappingFragment StoreEntitySet="KoiParent">
-                <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="OffspringID" ColumnName="OffspringID" />
                 <ScalarProperty Name="KoiSonID" ColumnName="KoiSonID" />
-                <ScalarProperty Name="IsMomorDad" ColumnName="IsMomorDad" />
+                <ScalarProperty Name="IsMomOrDad" ColumnName="IsMomOrDad" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Members">
             <EntityTypeMapping TypeName="KoiManagementModel.Member">
               <MappingFragment StoreEntitySet="Member">
-                <ScalarProperty Name="UserName" ColumnName="UserName" />
                 <ScalarProperty Name="MemberID" ColumnName="MemberID" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
                 <ScalarProperty Name="Password" ColumnName="Password" />
                 <ScalarProperty Name="Dob" ColumnName="Dob" />
                 <ScalarProperty Name="Image" ColumnName="Image" />

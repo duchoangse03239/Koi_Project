@@ -4,68 +4,55 @@
     Layout = "~/Views/Layout/KoiLayout.cshtml";
 }
 
-</br></br></br></br></br></br>
-
-<div id="wrapper">
-    <div id="content">
-        <div class="content-form">
-            <div class="banner">
-            </div>
-            <div class="login-form">
-
-                <form action="" id="login_form">
-                    <table>
-                        <tr class="tr-error">
-                            <td colspan="2"><label id="errorMessage" class="label-error"></label></td>
-                        </tr>
-                        <tr>
-                            <td class="f1-label">Login Name</td>
-                            <td>
-                                <input id="inputUsername" type="text" name="txtUserName" value="" maxlength="50" />
-                            </td>
-                        </tr>
-                        <tr class="tr-error">
-                            <td class="f1-label"></td>
-                            <td>
-                                <label id="lbl_login_fail" class="label-error"></label>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="f1-label">Password</td>
-                            <td>
-                                <input id="inputPassword" type="password" name="txtPassword" value="" maxlength="50" />
-                            </td>
-                        </tr>
-                        <tr class="tr-error">
-                            <td class="f1-label"></td>
-                            <td>
-                                <label id="lbl_password_fail" class="label-error"></label>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td>
-                                <button type="button" class="sbLogin" id="btnLogin">Login</button>
-                            </td>
-                        </tr>
-                    </table>
-                </form>
-            </div>
-   
-            <p class="fg-password"> Forget your password ? Send <a href="@Url.Action("", "")" name="lnkForgotPassword">password reset request.</a></p>
-            <!--END #login-form -->
+<div class="section site-main">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 col-md-offset-4">
+                <div class="panel panel-info">
+                    <div class="login-block">
+                        <h1>Đăng nhập</h1>
+                        <div class="form-group">
+                            <label id="errorMessage" class="label-error"></label>
+                        </div>
+                        <div class="form-group">
+                            <label for="username">Tên đăng nhập*</label>
+                            <input type="text" class="form-control" id="username" name="username" placeholder="Tên đăng nhập">
+                            <label id="lbl_username_fail" class="label-error"></label>
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Mật khẩu*</label>
+                            <input type="password" class="form-control" id="password" name="password" placeholder="Mật khẩu">
+                            <label id="lbl_password_fail" class="label-error"></label>
+                        </div>
+                        <div class="form-group">
+                            <a href="/Account/forgotpassword">Quên mật khẩu?</a> &nbsp; &nbsp;<a href="/Account/Register">Đăng ký</a>
+                        </div>
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label id="lblMessage_login_fail" class="label-error"></label>
+                                    <button class="btn btn-primary btn-block" id="btnLogin">Đăng nhập</button>
+                                </div>
+                                <div class="col-md-6"></div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <a class="btn btn-default btn-block fb-button"><span class="fa fa-facebook-f"></span> Đăng nhập bằng Facebook</a>
+                        </div>
+                        <div class="form-group">
+                            <a class="btn btn-default btn-block gplus-button"><span class="fa fa-google-plus"></span> Đăng nhập bằng Google Plus</a>
+                        </div>
+                    </div>
+                </div>
         </div>
     </div>
-    <!-- End content -->
 </div>
-<!-- End wrapper -->
 
 <script type="text/javascript">
 
         $(document).ready(function () {
             $(function () {
-                $("#inputUsername").focus();
-
+                $("#username").focus();
             });
         });
 
@@ -89,27 +76,27 @@
             }
         });
         function Validate() {
-            var username = $("#inputUsername").val();
-            var password = $("#inputPassword").val();
-            $("#lbl_login_fail").text("");
+            var username = $("#username").val();
+            var password = $("#password").val();
+            $("#lbl_username_fail").text("");
             $("#lbl_password_fail").text("");
             if (username == "") {
-                $("#lbl_login_fail").text("Vui lòng nhập tên đăng nhập");
-                $("#inputUsername").focus();
+                $("#lbl_username_fail").text("Vui lòng nhập tên đăng nhập");
+                $("#username").focus();
                 return false;
             } else if (password == "") {
                 $("#errorMessage").text("");
                 $("#lbl_password_fail").text("Vui lòng nhập mật khẩu");
-                $("#inputPassword").focus();
+                $("#password").focus();
                 return false;
             }
             return true;
         }
 
         function Login() {
-            var username = $('#inputUsername').val();
-            var userpass = $('#inputPassword').val();
-            $('#lbl_login_fail').text("");
+            var username = $('#username').val();
+            var userpass = $('#password').val();
+            $('#lbl_username_fail').text("");
             $('#lbl_password_fail').text("");
             $('#errorMessage').text("");
             $.ajax({
@@ -123,16 +110,16 @@
                 success: function(res) {
                     switch (res.Status) {
                     case 2:
-                        $('#lbl_login_fail').text(res.Message);
-                        $('#inputUsername').focus();
+                        $('#lbl_username_fail').text(res.Message);
+                        $('#username').focus();
                         break;
                     case 3:
                         $('#lbl_password_fail').text(res.Message);
-                        $('#inputPassword').focus();
+                        $('#password').focus();
                         break;
                     case 4:
                         $('#errorMessage').text(res.Message);
-                        $('#inputUsername').focus();
+                        $('#username').focus();
                         break;
                     case 1:
                         window.location.href = res.RedirectTo;
@@ -142,5 +129,5 @@
             });
         }
 </script>
-End Section
+
 

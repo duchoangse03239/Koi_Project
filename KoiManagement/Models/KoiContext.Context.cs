@@ -28,6 +28,7 @@ namespace KoiManagement.Models
         }
     
         public virtual DbSet<Achivement> Achivements { get; set; }
+        public virtual DbSet<ActiveCode> ActiveCodes { get; set; }
         public virtual DbSet<Comment> Comments { get; set; }
         public virtual DbSet<InfoDetail> InfoDetails { get; set; }
         public virtual DbSet<Koi> Kois { get; set; }

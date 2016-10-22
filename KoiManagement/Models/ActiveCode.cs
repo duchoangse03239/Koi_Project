@@ -26,7 +26,6 @@ namespace KoiManagement.Models
             this.ExpireOn = ExpireOn;
             this.Status = Status;
         }
-    
         public virtual Member Member { get; set; }
     }
 }

@@ -4,107 +4,48 @@
     Layout = "~/Views/Layout/KoiLayout.cshtml";
 }
 
-</br></br></br></br></br></br>
 
-<div id="wrapper">
-    <div id="content">
-        <div class="content-form">
-            <div class="banner">
+    <div>
+        <div class="container">
+            <div class="row">
+                <div style="margin-top:30px;" class="col-md-6 col-md-offset-3 well">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <div class="panel-title center" style="font-size: 200%;">Thay đổi mật khẩu</div>
+                            <div style="float:right; font-size: 100%; position: relative; top:-10px"><a href="@Url.Action("Login","Login")">Quay về đăng nhập</a></div>
+                        </div>
+                        <div style="padding-top: 30px" class="panel-body">
+                            <div class="form-group">
+                                <div class="text-center">
+                                    <label style="font-size:30px;" class="label-error">@ViewBag.ErrorActiveCode</label>
+                                </div>
+                            </div>
+                            @if (ViewBag.ErrorActiveCode == null)
+                            {
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                                        <input id="txtPassword" type="password" class="form-control" placeholder="Mật khẩu mới">
+                                    </div>
+                                    <label id="lblPasswordFail" class="label-error"></label>
+                                </div>
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-lock" style="color: cornflowerblue"></i></span>
+                                        <input id="txtConfirmPassword" type="password" class="form-control" placeholder="Xác nhận mật khẩu mới">
+                                    </div>
+                                    <label id="lblConfirmPasswordFail" class="label-error"></label>
+                                </div>
+                                <div class="text-center">
+                                    <label class="text-success" style="font-size: 14px;" id="lblResetSuccess"></label>
+                                    <button class="btn btn-primary" type="submit" id="btnResetPasss" style="width: 300px">Thay đổi mật khẩu ngay</button>
+                                </div>
+                                <br />
+                            }
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="login-form">
-
-                <form action="" id="login_form">
-                    <table>
-                        <tr class="tr-error">
-                            <td colspan="2"><label id="errorMessage" class="label-error"></label></td>
-                        </tr>
-                        <tr>
-                            <td class="f1-label">Nhập Email</td>
-                            <td>
-                                <input id="inputEmail" type="text" name="inputEmail" value="" maxlength="50" />
-                            </td>
-                        </tr>
-                        <tr class="tr-error">
-                            <td class="f1-label"></td>
-                            <td>
-                                <label id="lbl_email_fail" class="label-error"></label>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="f1-label">Mã xác nhập</td>
-                            <td>
-                                <input id="inputMa" type="text" name="inputMa" value="" maxlength="50" />
-                            </td>
-                        </tr>
-                        <tr class="tr-error">
-                            <td class="f1-label"></td>
-                            <td>
-                                <label id="lbl_Ma_fail" class="label-error"></label>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td>
-                                <button type="button" class="sbLogin" id="btnSentEmail">Gửi</button>
-                            </td>
-                            <td>
-                                <button type="button" class="sbLogin" id="btnLogin">Reset</button>
-                            </td>
-                        </tr>
-                    </table>
-                </form>
-            </div>
-   
-            <p class="fg-password"> Forget your password ? Send <a href="@Url.Action("", "")" name="lnkForgotPassword">password reset request.</a></p>
-            <!--END #login-form -->
         </div>
     </div>
-    <!-- End content -->
-</div>
-<!-- End wrapper -->
-
-<script type="text/javascript">
-        $(document).ready(function () {
-            $(function () {
-                $("#inputEmail").focus();
-            });
-            $(document).on('click', '#btnSentEmail', function () {
-                    CheckEmail();
-            });
-        });
-
-        function CheckEmail() {
-            var Email = $('#inputEmail').val();
-            $('#lbl_email_fail').text("");
-          
-            $.ajax({
-                type: "POST",
-                url: "@Url.Action("SentEmail")",
-                data: {
-                    Email: Email,
-                },
-                dataType: "Json",
-                success: function(res) {
-                    switch (res.Status) {
-                    case 2:
-                        $('#lbl_login_fail').text(res.Message);
-                        $('#inputUsername').focus();
-                        break;
-                    case 3:
-                        $('#lbl_password_fail').text(res.Message);
-                        $('#inputPassword').focus();
-                        break;
-                    case 4:
-                        $('#errorMessage').text(res.Message);
-                        $('#inputUsername').focus();
-                        break;
-                    case 1:
-                        window.location.href = res.RedirectTo;
-                        break;
-                    }
-                }
-            });
-        }
-</script>
-End Section
 

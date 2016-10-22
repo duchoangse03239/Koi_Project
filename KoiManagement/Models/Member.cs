@@ -40,7 +40,6 @@ namespace KoiManagement.Models
             this.Address = Address;
             this.Status = Status;
         }
-    
         public int MemberID { get; set; }
         public string Name { get; set; }
         public string UserName { get; set; }

@@ -190,23 +190,25 @@ namespace KoiManagement.Controllers
                         // kiểm tra tồn tại trong database
                         if (!ActCodeDao.checkExistCode(ActRandom))
                         {
-                            if (ActCodeDao.AddActiveCode(new ActiveCode(Member.MemberID, ActRandom, DateTime.Now, true)))
+                           // if (ActCodeDao.AddActiveCode(new ActiveCode(Member.MemberID, ActRandom, DateTime.Now, true)))
                             {
-                                //thanh cong
-                            }
-                            else
-                            {
-                                //that bai
+                                var url = CommonFunction.GetScreenUrl(this, "Account","ResetPassword");
+                                if (url.EndsWith("/") == false)
+                                {
+                                    url += "?actCode=";
+                                }
+                                url += ActRandom;
+
+                                string content = System.IO.File.ReadAllText(Server.MapPath("~/Content/Email/ConfirmEmailWhenForgotPassword.html"));
+                                content = content.Replace("{{Link}}", url);
+                                CommonFunction.SendMailHelper(email, "Thay đổi mật khẩu tài khoản KoiManagement",content);
                             }
                         }
-
-
                     }
                     else
                     {
-                        // Error screen
                         obj.Status = 0;
-                        //obj.RedirectTo = Url.Action(ConstantsForCommon.ErrorParam.Errors, ConstantsForCommon.ErrorParam.SystemErrors);
+                        obj.RedirectTo = this.Url.Action("SystemError", "Error");
                         return Json(obj);
                     }
                 }
@@ -214,6 +216,7 @@ namespace KoiManagement.Controllers
             catch (Exception ex)
             {
                 _logger.Error(ex.Message);
+                obj.Status = 0;
                 obj.RedirectTo = this.Url.Action("SystemError", "Error");
                 return Json(obj);
             }
@@ -451,8 +454,7 @@ namespace KoiManagement.Controllers
             return Json(obj);
         }
 
-        //fsdaflksdajflkjsdjngvlkjsdgvlkdfjgblkjdjflkbndlkbmkldv@@
-        //    gvsfdfsdfsdafsadfsadfsdfsfsdf
+
 
         //public ActionResult Edit()
         //{
