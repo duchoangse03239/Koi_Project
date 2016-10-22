@@ -451,70 +451,66 @@ namespace KoiManagement.Controllers
             return View();
         }
 
-        
-        public JsonResult ChangePassword(string olPassword, string password, string cmfPassword)
+        [HttpPost]
+        public JsonResult ChangePassword(string oldPassword, string password, string cmfPassword)
         {
             StatusObjForJsonResult obj = new StatusObjForJsonResult();
             MemberDAO dao = new MemberDAO();
             try
             {
-                ////2.1 Input Check
-                //if (string.IsNullOrWhiteSpace(username))
-                //{
-                //    obj.Status = 1;
-                //    obj.Message = "Tên đăng nhập không được để trống";
-                //    return Json(obj);
-                //}
-                //if (string.IsNullOrWhiteSpace(password))
-                //{
-                //    obj.Status = 2;
-                //    obj.Message = "Mật khẩu không được để trống";
-                //    return Json(obj);
-                //}
-                //if (string.IsNullOrWhiteSpace(rePassword))
-                //{
-                //    obj.Status = 3;
-                //    obj.Message = "Xác nhận mật khẩu không được để trống";
-                //    return Json(obj);
-                //}
-                //if (string.IsNullOrWhiteSpace(email))
-                //{
-                //    obj.Status = 5;
-                //    obj.Message = "Email không được để trống";
-                //    return Json(obj);
-                //}
-                //if (!Validate.CheckLengthInput(username, 6, 25))
-                //{
-                //    obj.Status = 6;
-                //    obj.Message = "Tên đăng nhập phải chứa từ 6 đến 25 ký tự";
-                //    return Json(obj);
-                //}
-                //if (!Validate.CheckNormalCharacter(username))
-                //{
-                //    obj.Status = 7;
-                //    obj.Message = "Tên đăng nhập không được chứa ký tự đặc biệt";
-                //    return Json(obj);
-                //}
-                //if (!dao.CheckExistUserName(username))
-                //{
-                //    obj.Status = 8;
-                //    obj.Message = "Tên đăng nhập đã được sử dụng";
-                //    return Json(obj);
-                //}
-
-                if (!dao.GetOldPass(Session[SessionAccount.SessionUserId].ToString()).Equals(olPassword))
+                //2.1 Input Check
+                if (string.IsNullOrWhiteSpace(oldPassword))
+                {
+                    obj.Status = 1;
+                    obj.Message = "Vui lòng nhập mật khẩu cũ";
+                    return Json(obj);
+                }
+                else if (!Validate.CheckLengthInput(oldPassword, 6, 32))
+                {
+                    obj.Status = 1;
+                    obj.Message = "Mật khẩu cũ phải chứa từ 6 đến 32 ký tự";
+                    return Json(obj);
+                }
+                 else if (!dao.GetOldPass(Session[SessionAccount.SessionUserId].ToString()).Equals(oldPassword))
+                {
+                    obj.Status = 1;
+                    obj.Message = Common.Message.ChangePasswordM03;
+                    return Json(obj);
+                }
+                if (string.IsNullOrWhiteSpace(password))
+                {
+                    obj.Status = 2;
+                    obj.Message = "Mật khẩu không được để trống.";
+                    return Json(obj);
+                }
+                else if (!Validate.CheckLengthInput(password, 6, 32))
+                {
+                    obj.Status = 2;
+                    obj.Message = "Mật khẩu phải chứa từ 6 đến 32 ký tự";
+                    return Json(obj);
+                }
+                else if (dao.GetOldPass(Session[SessionAccount.SessionUserId].ToString()).Equals(password))
+                {
+                    obj.Status = 2;
+                    obj.Message = "Mật khẩu cũ phải khác mật khẩu mới";
+                    return Json(obj);
+                }
+                if (string.IsNullOrWhiteSpace(cmfPassword))
                 {
                     obj.Status = 3;
-                    obj.Message = Common.Message.ChangePasswordM03;
+                    obj.Message = "Xác nhận mật khẩu không được để trống.";
+                    return Json(obj);
                 }
-
-                if (dao.GetOldPass(Session[SessionAccount.SessionUserId].ToString()).Equals(password))
+                else if (!Validate.CheckConfirmInput(password, cmfPassword))
                 {
-                    obj.Message = Common.Message.ChangePasswordM06;
+                    obj.Status = 3;
+                    obj.Message = "Xác nhận mật khẩu không trùng với mật khẩu.";
+                    return Json(obj);
                 }
 
                 if (dao.ChangePass(Session[SessionAccount.SessionUserId].ToString(), password) == 1)
                 {
+                    obj.Status = 0;
                     obj.Message = "Đã đổi mật khẩu thành công";
                     obj.RedirectTo = Url.Action("Login", "Account");
                 }
