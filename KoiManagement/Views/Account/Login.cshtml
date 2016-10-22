@@ -101,7 +101,7 @@
             $('#errorMessage').text("");
             $.ajax({
                 type: "POST",
-                url: "@Url.Action("CheckLogin")",
+                url: "@Url.Action("Login")",
                 data: {
                     username: username,
                     password: userpass

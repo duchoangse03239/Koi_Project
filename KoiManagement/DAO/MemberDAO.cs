@@ -15,9 +15,15 @@ namespace Model.DAO
             db = new KoiManagementEntities();
         }
 
-        public List<Member> GetMemberByNameAndPass(string username, string password)
+        public Member GetMemberByNameAndPass(string username, string pass)
         {
-             return db.Members.Where(p => p.UserName.Equals(username) && p.Password.Equals(password)).ToList();
+             var mem = db.Members.Where(p => p.UserName.Equals(username) && p.Password.Equals(pass)).ToList();
+            if (mem.Count == 0)
+            {
+                return null;
+            }
+            else return mem.First();
+
         }
 
         public bool CheckExistUserName(string username)
@@ -34,7 +40,7 @@ namespace Model.DAO
 
         public Member GetMemberByEmail(string email)
         {
-            var dbmem = db.Members.Where(p => p.Email == email).ToList();
+            var dbmem = db.Members.Where(p => p.Email == email &&p.Status).ToList();
             if (dbmem.Count>0)
             {
                      return dbmem.ElementAt(0);

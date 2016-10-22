@@ -21,8 +21,7 @@ namespace KoiManagement.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly ILog _logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-
+        
         //
         // GET: /Account/
         public ActionResult Index()
@@ -43,7 +42,7 @@ namespace KoiManagement.Controllers
         // POST: /Account/Login
         [HttpPost]
         [AllowAnonymous]
-        public JsonResult CheckLogin(string username, string password )
+        public JsonResult Login(string username, string password )
         {
             StatusObjForJsonResult obj = new StatusObjForJsonResult();
             try
@@ -69,7 +68,7 @@ namespace KoiManagement.Controllers
                 
 
                 // Check tồn tại
-                if (user.Count==0)
+                if (user==null)
                 {
                     obj.Status = 4;
                     // khong ton tai
@@ -78,7 +77,7 @@ namespace KoiManagement.Controllers
                 }
                 else
                 {
-                    Member member = user.First();
+                    Member member = user;
                     obj.Status = 1;
                     if (member.Status==false)
                     {
@@ -98,9 +97,10 @@ namespace KoiManagement.Controllers
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message);
-
-                obj.RedirectTo = Url.Action("SystemError","Error");
+                Common.Logger.LogException(ex);
+                obj.Status = 0;
+                obj.RedirectTo = this.Url.Action("SystemError", "Error");
+                return Json(obj);
             }
             return Json(obj);
         }
@@ -116,7 +116,7 @@ namespace KoiManagement.Controllers
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message);
+                 Common.Logger.LogException(ex);
                 return RedirectToAction("SystemError", "Error");
             }
 
@@ -125,9 +125,85 @@ namespace KoiManagement.Controllers
 
 
 
-        public ActionResult Resetpass()
+        public ActionResult ResetPassword(string actCode)
         {
+            if (actCode == null)
+            {
+                return RedirectToAction("ForgotPassword", "Account");
+            }
+            ActiveCodeDAO ActiveCodeDAO =  new ActiveCodeDAO();
+            var isExistActiveCode = ActiveCodeDAO.checkExistCode(actCode);
+            if (!isExistActiveCode)
+            {
+                ViewBag.ErrorActiveCode = "Mã xác nhận đã hết hạn.";
+            }
+            ViewBag.actCode = actCode;
+
+
             return View();
+        }
+
+        /// <summary>
+        /// Reset Password
+        /// </summary>
+        /// <param name="password"></param>
+        /// <param name="confirmPassword"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public JsonResult ResetPassword(string password, string confirmPassword,string actCode)
+        {
+            var obj = new StatusObjForJsonResult();
+
+            try
+            {
+                if (string.IsNullOrWhiteSpace(password))
+                {
+                    obj.Status = 1;
+                    obj.Message = "Mật khẩu mới không được để trống";
+                    return Json(obj);
+                }
+                if (!Validate.CheckLengthInput(password,6,32))
+                {
+                    obj.Status = 1;
+                    obj.Message = "Mật khẩu mới phải chứa từ 6 đến 32 ký tự";
+                    return Json(obj);
+                }
+                if (string.IsNullOrWhiteSpace(confirmPassword))
+                {
+                    obj.Status = 2;
+                    obj.Message = "Xác nhận mật khẩu không được để trống";
+                    return Json(obj);
+                }
+                if (!password.Equals(confirmPassword))
+                {
+                    obj.Status = 2;
+                    obj.Message = "Xác nhận mật khẩu không trùng khớp";
+                    return Json(obj);
+                }
+                // đổi lại pass
+                MemberDAO mDao = new MemberDAO();
+                ActiveCodeDAO aDao= new ActiveCodeDAO();
+                var mem =aDao.GetMemberIdByActCode(actCode);
+                if (mem == null)
+                {
+                    //k tim thay member
+                }
+                else
+                {
+                    mDao.ChangePass(mem.MemberID.ToString(), password);
+                    obj.Status = 3;
+                    obj.Message = "Mật khẩu của bạn đã được thay đổ";
+                    return Json(obj);
+                }
+            }
+            catch (Exception ex)
+            {
+                Common.Logger.LogException(ex);
+                obj.Status = 0;
+                obj.RedirectTo = this.Url.Action("SystemError", "Error");
+                return Json(obj);
+            }
+            return Json(obj);
         }
 
         [HttpPost]
@@ -215,7 +291,7 @@ namespace KoiManagement.Controllers
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message);
+                Common.Logger.LogException(ex);
                 obj.Status = 0;
                 obj.RedirectTo = this.Url.Action("SystemError", "Error");
                 return Json(obj);
@@ -361,8 +437,10 @@ namespace KoiManagement.Controllers
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message);
+                Common.Logger.LogException(ex);
+                obj.Status = 0;
                 obj.RedirectTo = this.Url.Action("SystemError", "Error");
+                return Json(obj);
             }
             return Json(obj);
         }
@@ -448,8 +526,10 @@ namespace KoiManagement.Controllers
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message);
+                Common.Logger.LogException(ex);
+                obj.Status = 0;
                 obj.RedirectTo = this.Url.Action("SystemError", "Error");
+                return Json(obj);
             }
             return Json(obj);
         }

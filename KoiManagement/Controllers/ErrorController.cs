@@ -33,12 +33,12 @@ namespace KoiManagement.Controllers
             if (!String.IsNullOrEmpty(SessionAccount.SessionName))
             {
                 ViewBag.BackLinkTitle = Common.Constants.BackLinkTitleToHome;
-                ViewBag.BackUrl = Url.Action("Home", "Home");
+                ViewBag.BackUrl = Url.Action("index", "Home");
             }
             else
             {
                 ViewBag.BackLinkTitle =  Common.Constants.BackLinkTitleToLogin;
-                ViewBag.BackUrl = Url.Action("login", "login");
+                ViewBag.BackUrl = Url.Action("login", "Account");
             }
             ViewBag.ShowHeader = false;
             ViewBag.ErrorMessage = Common.Message.Loi;
