@@ -475,7 +475,7 @@ namespace KoiManagement.Controllers
                     obj.Message = "Mật khẩu cũ phải chứa từ 6 đến 32 ký tự";
                     return Json(obj);
                 }
-                 else if (!dao.GetOldPass(Session[SessionAccount.SessionUserId].ToString()).Equals(oldPassword))
+                else if (!dao.GetOldPass(Session[SessionAccount.SessionUserId].ToString()).Equals(CommonFunction.Md5(oldPassword)))
                 {
                     obj.Status = 1;
                     obj.Message = Common.Message.ChangePasswordM03;
@@ -493,7 +493,7 @@ namespace KoiManagement.Controllers
                     obj.Message = "Mật khẩu phải chứa từ 6 đến 32 ký tự";
                     return Json(obj);
                 }
-                else if (dao.GetOldPass(Session[SessionAccount.SessionUserId].ToString()).Equals(password))
+                else if (dao.GetOldPass(Session[SessionAccount.SessionUserId].ToString()).Equals(CommonFunction.Md5(password)))
                 {
                     obj.Status = 2;
                     obj.Message = "Mật khẩu cũ phải khác mật khẩu mới";
@@ -512,8 +512,9 @@ namespace KoiManagement.Controllers
                     return Json(obj);
                 }
 
-                if (dao.ChangePass(Session[SessionAccount.SessionUserId].ToString(), password) == 1)
+                if (dao.ChangePass(Session[SessionAccount.SessionUserId].ToString(), CommonFunction.Md5(password)) == 1)
                 {
+
                     obj.Status = 0;
                     obj.Message = "Đã đổi mật khẩu thành công";
                     obj.RedirectTo = Url.Action("Login", "Account");
