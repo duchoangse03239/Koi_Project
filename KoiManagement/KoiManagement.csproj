@@ -554,6 +554,7 @@
     <Content Include="Scripts\scripts.js" />
     <Content Include="Scripts\scrolld.min.js" />
     <Content Include="Scripts\_references.js" />
+    <Content Include="Views\Account\ManageAccount.html" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>

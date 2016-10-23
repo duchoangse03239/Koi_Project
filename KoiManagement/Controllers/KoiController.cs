@@ -75,7 +75,7 @@ namespace KoiManagement.Controllers
                return RedirectToAction("Login", "Account");
             }
             int id = int.Parse(Session[SessionAccount.SessionUserId].ToString());
-            id = 12;
+            //id = 12;
             var Owner = db.Owners.Where(p => p.OwnerID == id).ToList();
             if (Owner.Count > 0)
             {

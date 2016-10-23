@@ -42,7 +42,7 @@ namespace KoiManagement.Controllers
         // POST: /Account/Login
         [HttpPost]
         [AllowAnonymous]
-        public JsonResult Login(string username, string password )
+        public JsonResult Login(string username, string password)
         {
             StatusObjForJsonResult obj = new StatusObjForJsonResult();
             try
@@ -103,7 +103,7 @@ namespace KoiManagement.Controllers
                 return Json(obj);
             }
             return Json(obj);
-        }
+            }
 
 
         public ActionResult Logout()
@@ -316,114 +316,119 @@ namespace KoiManagement.Controllers
             StatusObjForJsonResult obj = new StatusObjForJsonResult();
             MemberDAO dao = new MemberDAO();
             //Khởi tạo giá trị cho trường không bắt buộc
-            DateTime? dateOfBirth = null;
+            DateTime? dateOfBirth = new DateTime();
             try
             {
                 //2.1 Input Check
-                if (string.IsNullOrWhiteSpace(username))
-                {
-                    obj.Status = 1;
-                    obj.Message = "Tên đăng nhập không được để trống";
-                    return Json(obj);
-                }
-                if (string.IsNullOrWhiteSpace(password))
-                {
-                    obj.Status = 2;
-                    obj.Message = "Mật khẩu không được để trống";
-                    return Json(obj);
-                }
-                if (string.IsNullOrWhiteSpace(rePassword))
-                {
-                    obj.Status = 3;
-                    obj.Message = "Xác nhận mật khẩu không được để trống";
-                    return Json(obj);
-                }
-                if (string.IsNullOrWhiteSpace(email))
-                {
-                    obj.Status = 5;
-                    obj.Message = "Email không được để trống";
-                    return Json(obj);
-                }
-                if (!Validate.CheckLengthInput(username, 6, 25))
-                {
-                    obj.Status = 6;
-                    obj.Message = "Tên đăng nhập phải chứa từ 6 đến 25 ký tự";
-                    return Json(obj);
-                }
-                if (!Validate.CheckNormalCharacter(username))
-                {
-                    obj.Status = 7;
-                    obj.Message = "Tên đăng nhập không được chứa ký tự đặc biệt";
-                    return Json(obj);
-                }
-                if (!dao.CheckExistUserName(username))
-                {
-                    obj.Status = 8;
-                    obj.Message = "Tên đăng nhập đã được sử dụng";
-                    return Json(obj);
-                }
-                if (!Validate.CheckLengthInput(password, 6, 50))
-                {
-                    obj.Status = 9;
-                    obj.Message = "Mật khẩu phải chứa từ 6 dến 32 ký tự";
-                    return Json(obj);
-                }
-                if (!Validate.CheckConfirmInput(password, rePassword))
-                {
-                    obj.Status = 10;
-                    obj.Message = "Xác nhận mật khẩu phải trùng với mật khẩu";
-                    return Json(obj);
-                }
                 if (string.IsNullOrWhiteSpace(name))
                 {
                     name = String.Empty;
                 }
                 else if (!Validate.CheckLengthInput(name, 6, 50))
                 {
-                    obj.Status = 11;
+                    obj.Status = 1;
                     obj.Message = "Họ tên phải chứa từ 6 đến 50 ký tự";
                     return Json(obj);
                 }
-
                 if (Validate.ValidateDate(dob))
                 {
-                    obj.Status = 12;
+                    obj.Status = 2;
                     obj.Message = "Date of birt";
-                    dateOfBirth = Validate.ConverDateTime(dob);
                     return Json(obj);
                 }
-
+                else
+                {
+                    dateOfBirth = Validate.ConverDateTime(dob);
+                }
+                if (string.IsNullOrWhiteSpace(email))
+                {
+                    obj.Status = 3;
+                    obj.Message = "Email không được để trống";
+                    return Json(obj);
+                }
                 if (!Validate.CheckEmailFormat(email))
                 {
-                    obj.Status = 13;
+                    obj.Status = 3;
                     obj.Message = "Email không đúng định dạng";
                     return Json(obj);
                 }
                 if (!dao.CheckExistEmail(email))
                 {
-                    obj.Status = 14;
+                    obj.Status = 3;
                     obj.Message = "Email đã được sử dụng";
                     return Json(obj);
                 }
+
+                if (string.IsNullOrWhiteSpace(username))
+                {
+                    obj.Status = 4;
+                    obj.Message = "Tên đăng nhập không được để trống";
+                    return Json(obj);
+                }
+
+                if (!Validate.CheckLengthInput(username, 6, 25))
+                {
+                    obj.Status = 4;
+                    obj.Message = "Tên đăng nhập phải chứa từ 6 đến 25 ký tự";
+                    return Json(obj);
+                }
+                if (!Validate.CheckNormalCharacter(username))
+                {
+                    obj.Status = 4;
+                    obj.Message = "Tên đăng nhập không được chứa ký tự đặc biệt";
+                    return Json(obj);
+                }
+                if (!dao.CheckExistUserName(username))
+                {
+                    obj.Status = 4;
+                    obj.Message = "Tên đăng nhập đã được sử dụng";
+                    return Json(obj);
+                }
+                if (string.IsNullOrWhiteSpace(password))
+                {
+                    obj.Status = 5;
+                    obj.Message = "Mật khẩu không được để trống";
+                    return Json(obj);
+                }
+
+                if (!Validate.CheckLengthInput(password, 6, 50))
+                {
+                    obj.Status = 5;
+                    obj.Message = "Mật khẩu phải chứa từ 6 dến 32 ký tự";
+                    return Json(obj);
+                }
+                if (string.IsNullOrWhiteSpace(rePassword))
+                {
+                    obj.Status = 6;
+                    obj.Message = "Xác nhận mật khẩu không được để trống";
+                    return Json(obj);
+                }
+                if (!Validate.CheckConfirmInput(password, rePassword))
+                {
+                    obj.Status = 6;
+                    obj.Message = "Xác nhận mật khẩu phải trùng với mật khẩu";
+                    return Json(obj);
+                }
+
                 if (string.IsNullOrWhiteSpace(phone))
                 {
                     phone = String.Empty;
                 }
                 else if (!Validate.CheckLengthInput(phone, 10, 11))
                 {
-                    obj.Status = 15;
+                    obj.Status = 7;
                     obj.Message = "Số điện thoại phải chứa từ 10 đến 11 ký tự";
                     return Json(obj);
                 }
                 else if (!string.IsNullOrWhiteSpace(phone) && !Validate.CheckIsLong(phone))
                 {
-                    obj.Status = 16;
+                    obj.Status = 7;
                     obj.Message = "Số điện thoại không đúng định dạng";
                     return Json(obj);
                 }
 
-                Member me = new Member(name, username, password, dateOfBirth, "", "N", phone, email, "", true);
-                obj.Status = 17;
+                Member me = new Member(name, username, CommonFunction.Md5(password), dateOfBirth, "", "N", phone, email, "", true);
+                obj.Status = 9;
                 if (dao.AddMember(me))
                 {
                     obj.Message = "Đăng ký thành công";
@@ -431,6 +436,7 @@ namespace KoiManagement.Controllers
                 }
                 else
                 {
+                    obj.Status = 8;
                     obj.Message = "Có lỗi xảy ra";
                     return Json(obj);
                 }
