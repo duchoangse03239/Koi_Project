@@ -8,7 +8,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
-                    <h2>Koi Variety</h2>
+                    <h2>Chủng loại Cá Koi</h2>
                 </div>
             </div>@Model
         </div>
@@ -60,38 +60,38 @@
     @for (var item = 0; item < ViewBag.Varieties.Count; item++)
     {
         <!-- Use it -->
-        <div class="content-section-a">
+    <div class="container content-section-a">
 
-            <div class="container">
-                <a name="item-1"></a>
-                <div class="row">
-                    <div class="col-md-9 wow data-animation-delay=" 200">
-                        <h3 class="section-heading">@ViewBag.Varieties[item].VarietyName</h3>
+        <div class="container">
+            <a name="item-1"></a>
+            <div class="row">
+                <div class="col-md-9 wow data-animation-delay=" 200">
+                    <h3 class="section-heading">@ViewBag.Varieties[item].VarietyName</h3>
 
-                        <p class="lead">
-                            @ViewBag.Varieties[item].Description
-                        </p>
-                        <div class="sub-title lead3"></div>
-                        <p><a class="btn btn-embossed btn-primary" href="/Koi/ListKoi/@ViewBag.Varieties[item].VarietyID" role="button">Xem thêm @ViewBag.Varieties[item].VarietyName </a></p>
+                    <p class="lead">
+                        @ViewBag.Varieties[item].Description
+                    </p>
+                    <div class="sub-title lead3"></div>
+                    <p><a class="btn btn-embossed btn-primary" href="/Koi/ListKoi/@ViewBag.Varieties[item].VarietyID" role="button">Xem thêm @ViewBag.Varieties[item].VarietyName </a></p>
 
-                    </div>
-                    <div class="col-md-3 wow">
-                        <img class="img-responsive " src="/Content/Image/Variety/@ViewBag.Varieties[item].Image" alt="">
-                    </div>
+                </div>
+                <div class="col-md-3 wow">
+                    <img class="img-responsive img-koi-variety" src="/Content/Image/Variety/@ViewBag.Varieties[item].Image" alt="">
                 </div>
             </div>
-            <!-- /.container -->
-        </div><div>
+        </div>
+        <!-- /.container -->
+    </div><div>
             @if (item < Enumerable.Count(ViewBag.Varieties) - 1) { item++; } else { break; }
         </div>
-                <div class="content-section-b">
+                <div class="container content-section-b">
 
             <div class="container">
 
                 <div class="row">
 
                     <div class="col-md-3 wow">
-                        <img class="img-responsive " src="/Content/Image/Variety/@ViewBag.Varieties[item].Image" alt="">
+                        <img class="img-responsive img-koi-variety" src="/Content/Image/Variety/@ViewBag.Varieties[item].Image" alt="">
                     </div>
 
                     <div class="col-md-9 wow pull-right" data-animation-delay="200">
