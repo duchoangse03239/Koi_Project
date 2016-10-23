@@ -389,7 +389,7 @@ namespace KoiManagement.Controllers
                     return Json(obj);
                 }
 
-                if (!Validate.CheckLengthInput(password, 6, 50))
+                if (!Validate.CheckLengthInput(password, 6, 32))
                 {
                     obj.Status = 5;
                     obj.Message = "Mật khẩu phải chứa từ 6 dến 32 ký tự";
