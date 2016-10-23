@@ -535,6 +535,21 @@ namespace KoiManagement.Controllers
             return Json(obj);
         }
 
+        // GET: /Account/Change Password
+        public ActionResult UpdateProfile()
+        {
+            MemberDAO MDao = new MemberDAO();
+            var mem = MDao.GetMemberbyID(int.Parse(Session[SessionAccount.SessionUserId].ToString()));
+            return View(mem);
+        }
+
+        // GET: /Account/Change Password
+        [HttpPost]
+        public JsonResult UpdateProfile(String name)
+        {
+            StatusObjForJsonResult obj = new StatusObjForJsonResult();
+            return Json(obj);
+        }
    
     }
 }

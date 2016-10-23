@@ -21,7 +21,16 @@ namespace KoiManagement.Models
         public System.DateTime DateOwerFrom { get; set; }
         public Nullable<System.DateTime> DateOwerTo { get; set; }
         public bool Status { get; set; }
-    
+        public Owner() { }
+        public Owner(int MemberID, int KoiID, int? KoiFarmID, DateTime DateOwerFrom, DateTime? DateOwerTo, bool Status)
+        {
+            this.MemberID = MemberID;
+            this.KoiID = KoiID;
+            this.KoiFarmID = KoiFarmID;
+            this.DateOwerFrom = DateOwerFrom;
+            this.DateOwerTo = DateOwerTo;
+            this.Status = Status;
+        }
         public virtual Koi Koi { get; set; }
         public virtual KoiFarm KoiFarm { get; set; }
         public virtual Member Member { get; set; }

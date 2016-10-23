@@ -22,7 +22,19 @@ namespace KoiManagement.Models
         public string HeathyStatus { get; set; }
         public string Description { get; set; }
         public string Image { get; set; }
-    
+
+        public InfoDetail(){}
+
+        public InfoDetail(int KoiID, DateTime Date, decimal Weight,decimal Size,string HeathyStatus, string Description,string Image)
+        {
+            this.KoiID = KoiID;
+            this.Date = Date;
+            this.Weight = Weight;
+            this.Size = Size;
+            this.HeathyStatus = HeathyStatus;
+            this.Description = Description;
+            this.Image = Image;
+        }
         public virtual Koi Koi { get; set; }
     }
 }
