@@ -91,6 +91,7 @@ namespace KoiManagement.Controllers
                         Session.Add(SessionAccount.SessionUserId,member.MemberID);
                         Session.Add(SessionAccount.SessionUserName, member.UserName);
                         Session.Add(SessionAccount.SessionName, member.Name);
+                        Session.Add(SessionAccount.SessionImage, member.Image);
                         obj.RedirectTo = Url.Action("ListVariety","Variety");
 
                     }
