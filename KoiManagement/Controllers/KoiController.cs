@@ -157,17 +157,14 @@ namespace KoiManagement.Controllers
             }
             return View(koi);
         }
+
         // GET: /Koi/Create
         public ActionResult AddKoi()
         {
-            ViewBag.VarietyID = new SelectList(db.Varieties, "VarietyID", "VarietyName");
-            var variety = db.Varieties.ToList();
-            return View(variety);
-        }
-
-        // GET: /Koi/Create
-        public ActionResult AddKoi1()
-        {
+            if (Session[SessionAccount.SessionUserId] == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
             ViewBag.VarietyID = new SelectList(db.Varieties, "VarietyID", "VarietyName");
             var variety = db.Varieties.ToList();
             return View(variety);
@@ -178,8 +175,12 @@ namespace KoiManagement.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult AddKoi1(HttpPostedFileBase file, string KoiName, string Size, string VarietyID, string Gender, string DoB, string Temperament, string Origin)
+        public ActionResult AddKoi(HttpPostedFileBase file, string KoiName, string Size, string VarietyID, string Gender, string DoB, string Temperament, string Origin)
         {
+            if (Session[SessionAccount.SessionUserId] == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
             if (ModelState.IsValid)
             {
                 KoiDAO koiDao = new KoiDAO();
@@ -226,43 +227,6 @@ namespace KoiManagement.Controllers
 
             ViewBag.VarietyID = new SelectList(db.Varieties, "VarietyID", "VarietyName");
             return View();
-        }
-
-        // POST: /Koi/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult AddKoi(HttpPostedFileBase file, [Bind(Include = "VarietyID,KoiName,DoB,Gender,Temperament,Origin,Status")] Koi koi)
-        {
-            if (ModelState.IsValid)
-            {
-                // lấy id max đặt tên file ảnh
-                var MaxID = db.Kois.Max(g => g.KoiID)+1 ;
-
-                //set default value
-                koi.Privacy = true;
-                koi.Status = true;
-
-                //Save file to local
-                if (file != null)
-                {
-                    //String id = db.Kois.SqlQuery(@"SELECT IDENT_CURRENT ('Koi') AS AnimalID").First().ToString();
-                    var filename = Path.GetFileName("Koi" + MaxID + file.FileName.Substring(file.FileName.LastIndexOf('.')));
-                    koi.Image = filename;
-                    var path = Path.Combine(Server.MapPath("~/Content/Image/Koi"), filename);
-                    file.SaveAs(path);
-                }
-
-                db.Kois.Add(koi);
-                db.SaveChanges();
-                // Lấy giá trị id vừa add
-                var koinewID = koi.KoiID;
-                return RedirectToAction("/ListKoi/1");
-            }
-
-            ViewBag.VarietyID = new SelectList(db.Varieties, "VarietyID", "VarietyName", koi.VarietyID);
-            return View(koi);
         }
 
         // GET: /Koi/Edit/5
