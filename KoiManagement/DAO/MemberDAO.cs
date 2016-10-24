@@ -78,6 +78,17 @@ namespace Model.DAO
             return db.SaveChanges();
         }
 
+        public Member GetMemberbyID(int id)
+        {
+            var mem = db.Members.Where(p => p.MemberID == id).ToList();
+            if (mem.Count > 0)
+            {
+                return mem.First();
+            }
+            return null;
+        }
+
+
         public int ChangePass1(string memberId, string password)
         {
             var member = db.Members.Find(int.Parse(memberId));
