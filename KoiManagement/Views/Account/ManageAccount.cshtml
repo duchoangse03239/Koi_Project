@@ -1,136 +1,8 @@
-﻿
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Cá Koi</title>
-        <meta charset="UTF-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <meta name="description" content="Cá Koi"/>
-        <meta name="author" content="Cá Koi"/>
-        <meta name="keywords" content="Cá Koi"/>
-        <meta name="robots" content="index,follow" />
-        <meta property="og:url" content="http://domain.com"/>
-        <meta property="og:image" content="images/logo.png"/>
-        <meta property="og:title" content="Cá Koi"/>
-        <meta property="og:description" content="Cá Koi"/>
-        <link rel="canonical" href="http://domain.com/"/>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans" type="text/css" />
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto" type="text/css" />
-        <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Sansita+One" type="text/css" />
-        <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Oswald" type="text/css" />
-        <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Forum|Great+Vibes|Handlee|Lalezar" type="text/css" />
-        <link rel="shortcut icon" type="image/png" href="images/favicon.png">
-        <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css" />
-        <link rel="stylesheet" href="css/font-awesome.min.css" type="text/css"/>
-        <link rel="stylesheet" href="css/main.css" type="text/css"/>
-        <script src="js/jquery-2.1.4.min.js" type="text/javascript"></script>
-        <script src="js/bootstrap.min.js" type="text/javascript"></script>
-        <script src="js/action.js" type="text/javascript"></script>
-    </head>
-    <body>
-        <div id="wrapper"> 
-            <div class="section site-header">
-                <div class="hidden-xs hidden-sm">
-                    <div class="top-menu">
-                        <div class="container">
-                            <div class="top-menu-logo">
-                                <a class="menu-item" data-href="#top" href="/">
-                                    <img alt="Cá Koi" class="erp-logo" src="images/logo.jpg" style="">
-                                </a>
-                            </div>
-                            <div class="top-left-menu top-block">
-                                <ul class="homemenu nav navbar-nav">
-                                    <li class="active">
-                                        <a href="/">
-                                            <span>Tin tức</span>
-                                        </a>
-
-                                    </li>
-
-                                    <li>
-                                        <a href="#">
-                                            <span>Chủng loại</span>
-                                        </a>
-                                        <ul>
-                                            <li><a href="#">Cuộc thi</a></li>
-                                            <li><a href="#">Hướng dẫn</a></li>
-                                        </ul>
-                                    </li>
-
-                                    <li>
-                                        <a href="#">
-                                            <span>Cá Koi</span>
-                                        </a>
-
-                                    </li>
-
-                                    <li>
-                                        <a href="#">
-                                            <span>Trang trại</span>
-                                        </a>
-
-                                    </li>
-
-                                    <li>
-                                        <a href="#">
-                                            <span>Hỏi đáp</span>
-                                        </a>
-
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <span>Đăng nhập</span>
-                                        </a>
-
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="container">
-                    <div class="row"> 
-                        <div class="visible-xs visible-sm">
-                            <nav class="navbar navbar-default">
-                                <div class="container">
-                                    <div class="navbar-header">
-                                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                                            <span class="sr-only">Toggle navigation</span>
-                                            <span class="icon-bar"></span>
-                                            <span class="icon-bar"></span>
-                                            <span class="icon-bar"></span>
-                                        </button>
-                                        <a class="navbar-brand" href="https://domain.com/"><img src="images/logo.jpg" class="erp-logo-small" alt="Cá Koi"></a>
-                                    </div>
-                                    <div id="navbar" class="navbar-collapse collapse">
-                                        <ul class="nav navbar-nav">
-                                            <li>
-                                                <a class="menu-item" href="#">Tin tức</a>
-                                            </li>
-                                            <li>
-                                                <a class="menu-item" href="#">Chủng loại</a>
-                                            </li>
-                                            <li>
-                                                <a class="menu-item" href="#">Cá Koi</a>
-                                            </li>
-                                            <li>
-                                                <a class="menu-item" href="#">Trang trại</a>
-                                            </li>
-                                            <li>
-                                                <a class="menu-item" href="#">Hỏi đáp</a>
-                                            </li>
-                                            <li>
-                                                <a class="menu-item" href="#">Đăng nhập</a>
-                                            </li>
-                                        </ul>
-                                    </div><!--/.nav-collapse -->
-                                </div><!--/.container-fluid -->
-                            </nav>
-                        </div>
-                    </div>
-                </div>
-            </div>
+﻿@model KoiManagement.Models.Member
+@{
+    ViewBag.Title = "SentRequestPass";
+    Layout = "~/Views/Layout/KoiLayout.cshtml";
+}
 
             <div class="section site-main">
                 <div class="container">
@@ -138,22 +10,22 @@
                         <div class="profile_info">
                             <div class="profile_left">
                                 <a href="#">
-                                    <img src="" id="avatar" class="profile_img" alt="">
+                                    <img src="~/Content/Image/Member/@Model.Image" id="avatar" class="profile_img" alt="">
                                 </a>
                                 <!-- <a href="#" class="profile_edit">Đổi mật khẩu</a> -->
                                 <!-- <a href="http://sharecode.vn/thanh-vien/thangnc-80839.htm" id="ContentPlaceHolder1_ContentPlaceHolder1_uscprofile1_LinkPageUser" class="profile_page">Trang cá nhân</a> -->
                             </div>
                         </div>
                         <div class="line"></div>
-                        <a href="#" class="profile_link">
+                        <a href="@Url.Action("ChangePassword", "Account")" class=" profile_link">
                             <h3 class="profile_item">Đổi mật khẩu</h3>
                         </a>
                         <div class="line"></div>
-                        <a href="#" class="profile_link">
+                        <a href="@Url.Action("ManageAccount", "Account")" class="profile_link">
                             <h3 class="profile_item">Thông tin cá nhân</h3>
                         </a>
                         <div class="line"></div>
-                        <a href="#" class="profile_link">
+                        <a href="@Url.Action("KoiUser", "Koi")" class="profile_link">
                             <h3 class="profile_item">Cá Koi của tôi [<span id="my_koi_count">0</span>]</h3>
                         </a>
                         <div class="line"></div>
@@ -179,68 +51,4 @@
                     </div>
                 </div>
             </div>
-
-            <div class="section site-top-12" id="footer">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-8 col-md-offset-2">
-                            <div class="line1">
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <a href="#"><div class="footer-item">
-                                                <span class="fa fa-facebook"></span>
-                                                <div class="item-name"><p>Facebook</p></div>
-                                            </div></a>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <a href="#"><div class="footer-item">
-                                                <span class="fa fa-twitter"></span>
-                                                <div class="item-name"><p>Twitter</p></div>
-                                            </div></a>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <a href="#"><div class="footer-item">
-                                                <span class="fa fa-google-plus"></span>
-                                                <div class="item-name"><p>Google Plus</p></div>
-                                            </div></a>
-                                    </div>
-
-                                </div>
-                            </div>
-                            <div class="line2">
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <a href="#"><div class="footer-item">
-                                                <span class="fa fa-envelope"></span>
-                                                <div class="item-name"><p>mkt.daniel.vu@gmail.com</p></div>
-                                            </div></a>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <a href="#"><div class="footer-item">
-                                                <span class="fa fa-phone"></span>
-                                                <div class="item-name"><p>0123456789</p></div>
-                                            </div></a>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <a href="#"><div class="footer-item">
-                                                <span class="fa fa-map-marker"></span>
-                                                <div class="item-name"><p>Hai Phong, Viet Nam</p></div>
-                                            </div></a>
-                                    </div>
-
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="section site-top-13">
-                <div class="container">
-                    <p>Copyright  2016 Cá Koi</p>
-                </div>
-            </div>
-        </div>
-    </body> 
-</html>
 
