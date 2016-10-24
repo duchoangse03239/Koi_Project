@@ -535,7 +535,7 @@ namespace KoiManagement.Controllers
             return Json(obj);
         }
 
-        // GET: /Account/Change Password
+        // GET: /Account/UpdateProfile
         public ActionResult UpdateProfile()
         {
             MemberDAO MDao = new MemberDAO();
@@ -543,13 +543,78 @@ namespace KoiManagement.Controllers
             return View(mem);
         }
 
-        // GET: /Account/Change Password
+        // GET: /Account/UpdateProfile
         [HttpPost]
-        public JsonResult UpdateProfile(String name)
+        public JsonResult UpdateProfile(string name, string dob, string email, string username, string password, string rePassword, string address, string phone)
         {
             StatusObjForJsonResult obj = new StatusObjForJsonResult();
+            MemberDAO dao = new MemberDAO();
+            //Khởi tạo giá trị cho trường không bắt buộc
+            DateTime? dateOfBirth = new DateTime();
+            try
+            {
+                //2.1 Input Check
+                if (string.IsNullOrWhiteSpace(name))
+                {
+                    name = String.Empty;
+                }
+                else if (!Validate.CheckLengthInput(name, 6, 50))
+                {
+                    obj.Status = 1;
+                    obj.Message = "Họ tên phải chứa từ 6 đến 50 ký tự";
+                    return Json(obj);
+                }
+                if (Validate.ValidateDate(dob))
+                {
+                    obj.Status = 2;
+                    obj.Message = "Date of birt";
+                    return Json(obj);
+                }
+                else
+                {
+                    dateOfBirth = Validate.ConverDateTime(dob);
+                }
+               
+                
+                if (string.IsNullOrWhiteSpace(phone))
+                {
+                    phone = String.Empty;
+                }
+                else if (!Validate.CheckLengthInput(phone, 10, 11))
+                {
+                    obj.Status = 7;
+                    obj.Message = "Số điện thoại phải chứa từ 10 đến 11 ký tự";
+                    return Json(obj);
+                }
+                else if (!string.IsNullOrWhiteSpace(phone) && !Validate.CheckIsLong(phone))
+                {
+                    obj.Status = 7;
+                    obj.Message = "Số điện thoại không đúng định dạng";
+                    return Json(obj);
+                }
+
+                Member me = new Member(name, "", "", dateOfBirth, "", "N", phone, "", address, true);
+                obj.Status = 9;
+                if (dao.UpdateProfile(me, int.Parse(Session[SessionAccount.SessionUserId].ToString())) == 1)
+                {
+                    obj.Message = "Đăng ký thành công";
+                    obj.RedirectTo = Url.Action("Login", "Account");
+                }
+                else
+                {
+                    obj.Status = 8;
+                    obj.Message = "Có lỗi xảy ra";
+                    return Json(obj);
+                }
+            }
+            catch (Exception ex)
+            {
+                Common.Logger.LogException(ex);
+                obj.Status = 0;
+                obj.RedirectTo = this.Url.Action("SystemError", "Error");
+                return Json(obj);
+            }
             return Json(obj);
         }
-   
     }
 }

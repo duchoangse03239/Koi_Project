@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using KoiManagement.Models;
+using System.Data.Entity;
 
 namespace Model.DAO
 {
@@ -78,6 +79,11 @@ namespace Model.DAO
             return db.SaveChanges();
         }
 
+        /// <summary>
+        /// Get Member By ID
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public Member GetMemberbyID(int id)
         {
             var mem = db.Members.Where(p => p.MemberID == id).ToList();
@@ -88,14 +94,29 @@ namespace Model.DAO
             return null;
         }
 
-
-        public int ChangePass1(string memberId, string password)
+        /// <summary>
+        /// UpdateProfile
+        /// </summary>
+        /// <param name="member"></param>
+        /// <returns></returns>
+        public int UpdateProfile(Member member, int memberID)
         {
-            var member = db.Members.Find(int.Parse(memberId));
-            member.Password = password;
-            db.Members.Attach(member);
-            db.Entry(member).Property(x => x.Password).IsModified = true;
-            return db.SaveChanges();
+            try
+            {
+                member.MemberID = memberID;
+                db.Members.Attach(member);
+                var entry = db.Entry(member);
+                entry.State = EntityState.Modified;
+                entry.Property(x => x.Email).IsModified = false;
+                entry.Property(x => x.UserName).IsModified = false;
+                entry.Property(x => x.Status).IsModified = false;
+                entry.Property(x => x.Password).IsModified = false;
+                return db.SaveChanges();
+            }
+            catch
+            {
+                return 0;
+            }
         }
     }
 }
