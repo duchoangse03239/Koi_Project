@@ -1,4 +1,4 @@
-﻿
+﻿@model KoiManagement.Models.Member
 @{
     ViewBag.Title = "SentRequestPass";
     Layout = "~/Views/Layout/KoiLayout.cshtml";
@@ -13,7 +13,7 @@
                     <form>
                         <div class="form-group">
                             <label for="email">Email*</label>
-                            <input type="email" class="form-control" id="email" name="email" placeholder="Email" disabled>
+                            <input type="email" class="form-control" id="email" name="email" value="@Model.Email" placeholder="Email" disabled>
                         </div>
                         <div class="form-group">
                             <label for="username">Tên đăng nhập*</label>
@@ -70,7 +70,7 @@
                             </script>
                         </div>
                         <div class="form-group">
-                            <button type="submit" class="btn btn-primary btn-block" id="btnSaveProfile">Lưu</button>
+                            <button class="btn btn-primary btn-block" id="btnSaveProfile">Lưu</button>
                         </div>
                     </form>
                 </div>
@@ -79,3 +79,105 @@
     </div>
 </div>
 
+<script type="text/javascript">
+    $(document)
+        .ready(function() {
+            $(function() {
+                $("#name").focus();
+            });
+        });
+
+    $(document)
+        .keypress(function(event) {
+            var keycode = (event.keyCode ? event.keyCode : event.which);
+            if (keycode == "13") {
+                if (Validate()) {
+                    ChangePassword();
+                } else {
+                    return false;
+                }
+            }
+        });
+
+    $("#btnSaveProfile")
+        .click(function() {
+            if (Validate()) {
+                UpdateProfile();
+            } else {
+
+                return false;
+            }
+        });
+
+    function Validate() {
+        var oldPassword = $('#oldPassword').val();
+        var password = $('#password').val();
+        var cmfPassword = $('#cmfPassword').val();
+
+        $('#lblMessage_oldPassword_fail').text("");
+        $('#lblMessage_password_fail').text("");
+        $('#lblMessage_cmfPassword_fail').text("");
+
+        if (oldPassword == "") {
+            $("#lblMessage_oldPassword_fail").text("Vui lòng nhập mật khẩu hiện tại.");
+            $("#oldPassword").focus();
+            return false;
+        }
+        if (password == "") {
+            $("#lblMessage_password_fail").text("Vui lòng nhập mật khẩu");
+            $("#password").focus();
+            return false;
+        }
+        if (cmfPassword == "") {
+            $("#lblMessage_cmfPassword_fail").text("Vui lòng nhập xác nhận mật khẩu");
+            $("#password").focus();
+            return false;
+        }
+        if (password.length < 6 && password.length > 32) {
+            $("#lblMessage_password_fail").text("Vui lòng nhập mật khẩu hiện tại.");
+            $("#oldPassword").focus();
+            return false;
+        }
+        return true;
+    }
+
+    function UpdateProfile() {
+        var oldPassword = $('#oldPassword').val();
+        var password = $('#password').val();
+        var cmfPassword = $('#cmfPassword').val();
+
+        $('#lblMessage_oldPassword_fail').text("");
+        $('#lblMessage_password_fail').text("");
+        $('#lblMessage_cmfPassword_fail').text("");
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("UpdateProfile")",
+            data: {
+            oldPassword: oldPassword,
+            password: password,
+            cmfPassword: cmfPassword
+            },
+        dataType: "Json",
+        success: function (res) {
+            switch (res.Status) {
+                case 1:
+                    $('#lblMessage_oldPassword_fail').text(res.Message);
+                    $('#oldPassword').focus();
+                    break;
+                case 2:
+                    $('#lblMessage_password_fail').text(res.Message);
+                    $('#password').focus();
+                    break;
+                case 3:
+                    $('#lblMessage_cmfPassword_fail').text(res.Message);
+                    $('#cmfPassword').focus();
+                    break;
+                case 0:
+                    alert("Đổi mật khẩu thành công.");
+                    window.location.href = res.RedirectTo;
+                    break;
+            }
+        }
+    })
+    }
+</script>
