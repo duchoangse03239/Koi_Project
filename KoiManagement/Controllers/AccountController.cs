@@ -535,6 +535,12 @@ namespace KoiManagement.Controllers
             return Json(obj);
         }
 
+        // GET: /Account/Change Password
+        public ActionResult UpdateProfile()
+        {
+            return View();
+        }
+
    
     }
 }

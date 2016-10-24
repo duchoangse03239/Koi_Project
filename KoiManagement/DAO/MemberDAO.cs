@@ -77,5 +77,14 @@ namespace Model.DAO
             db.Entry(member).Property(x => x.Password).IsModified = true;
             return db.SaveChanges();
         }
+
+        public int ChangePass1(string memberId, string password)
+        {
+            var member = db.Members.Find(int.Parse(memberId));
+            member.Password = password;
+            db.Members.Attach(member);
+            db.Entry(member).Property(x => x.Password).IsModified = true;
+            return db.SaveChanges();
+        }
     }
 }

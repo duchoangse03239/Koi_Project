@@ -7,19 +7,19 @@ using KoiManagement.Models;
 
 namespace Model.DAO
 {
-    public class OwnerDAO
+    public class InfoDetailDAO
     {
         KoiManagementEntities db = null;
-        public OwnerDAO()
+        public InfoDetailDAO()
         {
             db = new KoiManagementEntities();
         }
 
-        public bool AddOwner(Owner owner)
+        public bool AddInfoDetail(InfoDetail info)
         {
             try
             {
-                db.Owners.Add(owner);
+                db.InfoDetails.Add(info);
                 db.SaveChanges();
                 return true;
             }

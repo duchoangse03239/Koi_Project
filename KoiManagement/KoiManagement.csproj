@@ -61,6 +61,7 @@
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Abstractions" />
     <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Web.Services" />
@@ -186,6 +187,7 @@
     <Compile Include="Controllers\KoiController.cs" />
     <Compile Include="Controllers\VarietyController.cs" />
     <Compile Include="DAO\ActiveCodeDAO.cs" />
+    <Compile Include="DAO\InfoDetailDAO.cs" />
     <Compile Include="DAO\OwnerDAO.cs" />
     <Compile Include="DAO\KoiDAO.cs" />
     <Compile Include="DAO\MemberDAO.cs" />
@@ -607,6 +609,7 @@
     <Content Include="Views\Account\SentRequestPass.cshtml" />
     <Content Include="Views\Account\ChangePassword.cshtml" />
     <Content Include="Views\Koi\AddKoi1.cshtml" />
+    <Content Include="Views\Account\UpdateProfile.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

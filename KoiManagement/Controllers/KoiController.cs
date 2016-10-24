@@ -77,7 +77,7 @@ namespace KoiManagement.Controllers
             }
             int id = int.Parse(Session[SessionAccount.SessionUserId].ToString());
             //id = 12;
-            var Owner = db.Owners.Where(p => p.OwnerID == id).ToList();
+            var Owner = db.Owners.Where(p => p.MemberID == id).ToList();
             if (Owner.Count > 0)
             {
                 ListKois = new List<Koi>();
@@ -178,37 +178,50 @@ namespace KoiManagement.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult AddKoi1(HttpPostedFileBase file, string KoiName, string VarietyID, string Gender, string DoB, string Temperament, string Origin)
+        public ActionResult AddKoi1(HttpPostedFileBase file, string KoiName, string Size, string VarietyID, string Gender, string DoB, string Temperament, string Origin)
         {
             if (ModelState.IsValid)
             {
                 KoiDAO koiDao = new KoiDAO();
+                OwnerDAO owneiDao = new OwnerDAO();
+                InfoDetailDAO infoDao = new InfoDetailDAO();
+                // check session
                 //validate
-
-                 
+                decimal size ;
+                size = decimal.Parse(Size);
+                DateTime? dateOfBirth = Validate.ConverDateTime(DoB);
                 // lấy id max đặt tên file ảnh
                 var MaxID = koiDao.GetMaxKoiID();
-
-                ////set default value
-                //koi.Privacy = "1";
-                //koi.Report = true;
-                //koi.Status = true;
-                //Koi = new 
+                var koi = new Koi(int.Parse(VarietyID), KoiName, dateOfBirth, Gender, Temperament, DoB, "certificate", Origin, true, true);
+                
+                //set default value
+                string Imagename=String.Empty;
+                var fullpath = String.Empty;
                 ////Save file to local
                 if (file != null)
                 {
                     //String id = db.Kois.SqlQuery(@"SELECT IDENT_CURRENT ('Koi') AS AnimalID").First().ToString();
-                    var filename = Path.GetFileName("Koi" + MaxID + file.FileName.Substring(file.FileName.LastIndexOf('.')));
-                   // koi.Image = filename;
-                    var path = Path.Combine(Server.MapPath("~/Content/Image/Koi"), filename);
+                    Imagename = Path.GetFileName("Koi" + MaxID + file.FileName.Substring(file.FileName.LastIndexOf('.')));
+                    koi.Image = Imagename;
+                    fullpath = Server.MapPath("~/Content/Image/Koi/" + Imagename);
+                    var path = Path.Combine(Server.MapPath("~/Content/Image/Koi"), Imagename);
                     file.SaveAs(path);
+ 
                 }
-
-                //db.Kois.Add(koi);
-                //db.SaveChanges();
-                //// Lấy giá trị id vừa add
-                //var koinewID = koi.KoiID;
-                //return RedirectToAction("/ListKoi/1");
+                
+                // thêm thông tin koi vào 3 bảng: koi, owner, infoDetail
+                if (koiDao.AddTranKoi(koi, int.Parse(Session[SessionAccount.SessionUserId].ToString()), Imagename ,size ))
+                {
+                    //success
+                }
+                else
+                {
+                    //Nếu fail xoa anh da them
+                    if (System.IO.File.Exists(fullpath))
+                    {
+                        System.IO.File.Delete(fullpath);
+                    }
+                }
             }
 
             ViewBag.VarietyID = new SelectList(db.Varieties, "VarietyID", "VarietyName");
