@@ -1,33 +1,51 @@
 ﻿@model KoiManagement.Models.Member
 @{
-    ViewBag.Title = "SentRequestPass";
-    Layout = "~/Views/Layout/MemberAccountLayout.cshtml";
+    ViewBag.Title = "UpdateProfile";
+    Layout = "~/Views/Layout/KoiLayout.cshtml";
 }
 
 <div class="section site-main">
     <div class="container">
         <div class="row">
-            <div class="col-md-6 ">
+            <div class="col-md-6 col-md-offset-3">
+                <div class="login-block">
                     <h1>Thay đổi thông tin</h1>
-                    <form>
                         <div class="form-group">
                             <label for="email">Email*</label>
                             <input type="email" class="form-control" id="email" name="email" value="@Model.Email" placeholder="Email" disabled>
                         </div>
                         <div class="form-group">
                             <label for="username">Tên đăng nhập*</label>
-                            <input type="text" class="form-control" id="username" name="username" placeholder="Tên đăng nhập" disabled>
+                            <input type="text" class="form-control" id="username" name="username" value="@Model.UserName" placeholder="Tên đăng nhập" disabled>
                         </div>
                         <div class="form-group">
                             <label for="name">Họ và tên</label>
-                            <input type="text" class="form-control" id="name" name="name" placeholder="Họ và tên">
+                            <input type="text" class="form-control" id="name" name="name" value="@Model.Name" placeholder="Họ và tên">
                             <label id="lblMessage_name_fail" class="label-error"></label>
                         </div>
                         <div class="form-group">
                             <label id="lblGender" for="gender">Giới tính:</label>
-                            <label id="lblGender" class="radio-inline"><input type="radio" name="optradio" value="M">Nam</label>
-                            <label id="lblGender" class="radio-inline"><input type="radio" name="optradio" value="F">>Nữ</label>
-                            <label id="lblGender" class="radio-inline"><input type="radio" name="optradio" value="N">Không xác định</label>
+                            @{
+                            if(@Model.Gender.Equals("M"))
+                            {
+                                <label id="lblGender" class="radio-inline"><input type="radio" name="optradio" checked="true">Nam</label>
+                                <label id="lblGender" class="radio-inline"><input type="radio" name="optradio">Nữ</label>
+                                <label id="lblGender" class="radio-inline"><input type="radio" name="optradio">Không xác định</label>
+                            }
+                            else if(@Model.Gender.Equals("F"))
+                            {
+                                <label id="lblGender" class="radio-inline"><input type="radio" name="optradio">Nam</label>
+                                <label id="lblGender" class="radio-inline"><input type="radio" name="optradio" checked="true">Nữ</label>
+                                <label id="lblGender" class="radio-inline"><input type="radio" name="optradio">Không xác định</label>
+                            }
+                            else
+                            {
+                                <label id="lblGender" class="radio-inline"><input type="radio" name="optradio">Nam</label>
+                                <label id="lblGender" class="radio-inline"><input type="radio" name="optradio">Nữ</label>
+                                <label id="lblGender" class="radio-inline"><input type="radio" name="optradio" checked="true">Không xác định</label>
+                            }
+                            }
+                           
                         </div>
                         <div class="form-group">
                             <!-- <label>Ngày sinh</label>
@@ -43,17 +61,17 @@
                                 </select>
                             </div> -->
                             <label for="dob">Ngày Sinh</label>
-                            <input type="date" class="form-control" id="dob" name="dob" placeholder="Ngày Sinh">
+                            <input type="text" class="form-control" id="dob" name="dob" value="@Model.Dob.Value.ToString("MM/dd/yyyy")" onfocus="(this.type='date')" placeholder=" ngày sinh">
                             <label id="lblMessage_dob_fail" class="label-error"></label>
                         </div>
                         <div class="form-group">
                             <label for="address">Địa chỉ</label>
-                            <input type="text" class="form-control" id="address" name="address" placeholder="Địa chỉ">
+                            <input type="text" class="form-control" id="address" name="address" value="@Model.Address" placeholder="Địa chỉ">
                             <label id="lblMessage_address_fail" class="label-error"></label>
                         </div>
                         <div class="form-group">
                             <label for="phone">Số điện thoại</label>
-                            <input type="text" class="form-control" id="phone" name="phone" placeholder="Số điện thoại">
+                            <input type="text" class="form-control" id="phone" name="phone" value="@Model.Phone" placeholder="Số điện thoại">
                             <label id="lblMessage_phone_fail" class="label-error"></label>
                         </div>
                         <div class="form-group">
@@ -71,7 +89,7 @@
                         <div class="form-group">
                             <button class="btn btn-primary btn-block" id="btnSaveProfile">Lưu</button>
                         </div>
-                    </form>
+                </div>
             </div>
         </div>
     </div>
@@ -90,7 +108,7 @@
             var keycode = (event.keyCode ? event.keyCode : event.which);
             if (keycode == "13") {
                 if (Validate()) {
-                    ChangePassword();
+                    UpdateProfile();
                 } else {
                     return false;
                 }
@@ -106,76 +124,71 @@
                 return false;
             }
         });
-
     function Validate() {
-        var oldPassword = $('#oldPassword').val();
-        var password = $('#password').val();
-        var cmfPassword = $('#cmfPassword').val();
-
-        $('#lblMessage_oldPassword_fail').text("");
-        $('#lblMessage_password_fail').text("");
-        $('#lblMessage_cmfPassword_fail').text("");
-
-        if (oldPassword == "") {
-            $("#lblMessage_oldPassword_fail").text("Vui lòng nhập mật khẩu hiện tại.");
-            $("#oldPassword").focus();
-            return false;
-        }
-        if (password == "") {
-            $("#lblMessage_password_fail").text("Vui lòng nhập mật khẩu");
-            $("#password").focus();
-            return false;
-        }
-        if (cmfPassword == "") {
-            $("#lblMessage_cmfPassword_fail").text("Vui lòng nhập xác nhận mật khẩu");
-            $("#password").focus();
-            return false;
-        }
-        if (password.length < 6 && password.length > 32) {
-            $("#lblMessage_password_fail").text("Vui lòng nhập mật khẩu hiện tại.");
-            $("#oldPassword").focus();
-            return false;
-        }
         return true;
     }
 
     function UpdateProfile() {
-        var oldPassword = $('#oldPassword').val();
-        var password = $('#password').val();
-        var cmfPassword = $('#cmfPassword').val();
+        var name = $('#name').val();
+        var dob = $('#dob').val();
+        var address = $('#address').val();
+        var phone = $('#phone').val();
 
-        $('#lblMessage_oldPassword_fail').text("");
-        $('#lblMessage_password_fail').text("");
-        $('#lblMessage_cmfPassword_fail').text("");
+        $('#lblMessage_name_fail').text("");
+        $('#lblMessage_dob_fail').text("");
+        $('#lblMessage_address_fail').text("");
+        $('#lblMessage_phone_fail').text("");
+        $('#errorMessage').text("");
         $.ajax({
             type: "POST",
             url: "@Url.Action("UpdateProfile")",
             data: {
-            oldPassword: oldPassword,
-            password: password,
-            cmfPassword: cmfPassword
+            name: name,
+            dob: dob,
+            address: address,
+            phone: phone
             },
         dataType: "Json",
-        success: function (res) {
+        success: function(res) {
             switch (res.Status) {
                 case 1:
-                    $('#lblMessage_oldPassword_fail').text(res.Message);
-                    $('#oldPassword').focus();
+                    $('#lblMessage_name_fail').text(res.Message);
+                    $('#name').focus();
                     break;
                 case 2:
+                    $('#lblMessage_dob_fail').text(res.Message);
+                    $('#dob').focus();
+                    break;
+                case 3:
+                    $('#lblMessage_email_fail').text(res.Message);
+                    $('#email').focus();
+                    break;
+                case 4:
+                    $('#lblMessage_username_fail').text(res.Message);
+                    $('#username').focus();
+                    break;
+                case 5:
                     $('#lblMessage_password_fail').text(res.Message);
                     $('#password').focus();
                     break;
-                case 3:
-                    $('#lblMessage_cmfPassword_fail').text(res.Message);
-                    $('#cmfPassword').focus();
+                case 6:
+                    $('#lblMessage_rePassword_fail').text(res.Message);
+                    $('#rePassword').focus();
                     break;
-                case 0:
-                    alert("Đổi mật khẩu thành công.");
+                case 7:
+                    $('#lblMessage_phone_fail').text(res.Message);
+                    $('#phone').focus();
+                    break;
+                case 8:
+                    $('#errorMessage').text(res.Message);
+                    $('#name').focus();
+                    break;
+                case 9:
+                    alert("Lưu Thông Tin Thành Công!");
                     window.location.href = res.RedirectTo;
                     break;
             }
         }
-    })
+    });
     }
 </script>
