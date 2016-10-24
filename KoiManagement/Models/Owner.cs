@@ -22,8 +22,8 @@ namespace KoiManagement.Models
         public Nullable<System.DateTime> DateOwerTo { get; set; }
         public bool Status { get; set; }
     
-        public virtual Koi Koi { get; set; }
         public virtual KoiFarm KoiFarm { get; set; }
         public virtual Member Member { get; set; }
+        public virtual Koi Koi { get; set; }
     }
 }

@@ -18,7 +18,7 @@ namespace KoiManagement.Models
         public int KoiSonID { get; set; }
         public bool IsMomOrDad { get; set; }
     
-        public virtual Koi Koi { get; set; }
         public virtual OffSpringOf OffSpringOf { get; set; }
+        public virtual Koi Koi { get; set; }
     }
 }

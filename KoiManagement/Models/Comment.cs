@@ -32,7 +32,7 @@ namespace KoiManagement.Models
         public virtual ICollection<Comment> Comment1 { get; set; }
         public virtual Comment Comment2 { get; set; }
         public virtual KoiFarm KoiFarm { get; set; }
-        public virtual Koi Koi { get; set; }
         public virtual Member Member { get; set; }
+        public virtual Koi Koi { get; set; }
     }
 }

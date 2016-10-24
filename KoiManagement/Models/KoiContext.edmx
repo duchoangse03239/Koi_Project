@@ -66,8 +66,6 @@
           <Property Name="Image" Type="varchar" MaxLength="255" />
           <Property Name="Origin" Type="nvarchar" MaxLength="255" />
           <Property Name="Status" Type="bit" Nullable="false" />
-          <Property Name="Privacy" Type="char" MaxLength="1" />
-          <Property Name="Report" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="KoiFarm">
           <Key>
@@ -479,7 +477,7 @@
           <Property Name="Image" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="DateTime" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="Description" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Koi" Relationship="Self.FK__Achivemen__KoiID__1FCDBCEB" FromRole="Achivement" ToRole="Koi" />
+          <NavigationProperty Name="Koi" Relationship="KoiManagementModel.FK__Achivemen__KoiID__1FCDBCEB" FromRole="Achivement" ToRole="Koi" />
         </EntityType>
         <EntityType Name="ActiveCode">
           <Key>
@@ -508,8 +506,8 @@
           <NavigationProperty Name="Comment1" Relationship="Self.FK__Comment__Comment__440B1D61" FromRole="Comment" ToRole="Comment1" />
           <NavigationProperty Name="Comment2" Relationship="Self.FK__Comment__Comment__440B1D61" FromRole="Comment1" ToRole="Comment" />
           <NavigationProperty Name="KoiFarm" Relationship="Self.FK__Comment__KoiFarm__4316F928" FromRole="Comment" ToRole="KoiFarm" />
-          <NavigationProperty Name="Koi" Relationship="Self.FK__Comment__KoiID__412EB0B6" FromRole="Comment" ToRole="Koi" />
           <NavigationProperty Name="Member" Relationship="Self.FK__Comment__MemberI__4222D4EF" FromRole="Comment" ToRole="Member" />
+          <NavigationProperty Name="Koi" Relationship="KoiManagementModel.FK__Comment__KoiID__412EB0B6" FromRole="Comment" ToRole="Koi" />
         </EntityType>
         <EntityType Name="InfoDetail">
           <Key>
@@ -523,31 +521,7 @@
           <Property Name="HeathyStatus" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="Description" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
           <Property Name="Image" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Koi" Relationship="Self.FK__InfoDetai__KoiID__164452B1" FromRole="InfoDetail" ToRole="Koi" />
-        </EntityType>
-        <EntityType Name="Koi">
-          <Key>
-            <PropertyRef Name="KoiID" />
-          </Key>
-          <Property Name="KoiID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="VarietyID" Type="Int32" Nullable="false" />
-          <Property Name="KoiName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="DoB" Type="DateTime" Precision="0" />
-          <Property Name="Gender" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
-          <Property Name="Temperament" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="Certificate" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="Image" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="Origin" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="Status" Type="Boolean" Nullable="false" />
-          <Property Name="Privacy" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
-          <Property Name="Report" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Achivements" Relationship="Self.FK__Achivemen__KoiID__1FCDBCEB" FromRole="Koi" ToRole="Achivement" />
-          <NavigationProperty Name="Comments" Relationship="Self.FK__Comment__KoiID__412EB0B6" FromRole="Koi" ToRole="Comment" />
-          <NavigationProperty Name="InfoDetails" Relationship="Self.FK__InfoDetai__KoiID__164452B1" FromRole="Koi" ToRole="InfoDetail" />
-          <NavigationProperty Name="Variety" Relationship="Self.FK__Koi__VarietyID__1367E606" FromRole="Koi" ToRole="Variety" />
-          <NavigationProperty Name="KoiParents" Relationship="Self.FK__KoiParent__KoiSo__619B8048" FromRole="Koi" ToRole="KoiParent" />
-          <NavigationProperty Name="OffSpringOfs" Relationship="Self.FK__OffSpring__KoiID__2D27B809" FromRole="Koi" ToRole="OffSpringOf" />
-          <NavigationProperty Name="Owners" Relationship="Self.FK__Owner__KoiID__22AA2996" FromRole="Koi" ToRole="Owner" />
+          <NavigationProperty Name="Koi" Relationship="KoiManagementModel.FK__InfoDetai__KoiID__164452B1" FromRole="InfoDetail" ToRole="Koi" />
         </EntityType>
         <EntityType Name="KoiFarm">
           <Key>
@@ -573,8 +547,8 @@
           <Property Name="OffspringID" Type="Int32" Nullable="false" />
           <Property Name="KoiSonID" Type="Int32" Nullable="false" />
           <Property Name="IsMomOrDad" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Koi" Relationship="Self.FK__KoiParent__KoiSo__619B8048" FromRole="KoiParent" ToRole="Koi" />
           <NavigationProperty Name="OffSpringOf" Relationship="Self.FK__KoiParent__Offsp__60A75C0F" FromRole="KoiParent" ToRole="OffSpringOf" />
+          <NavigationProperty Name="Koi" Relationship="KoiManagementModel.FK__KoiParent__KoiSo__619B8048" FromRole="KoiParent" ToRole="Koi" />
         </EntityType>
         <EntityType Name="Member">
           <Key>
@@ -605,8 +579,8 @@
           <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="Image" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="KoiID" Type="Int32" />
-          <NavigationProperty Name="Koi" Relationship="Self.FK__OffSpring__KoiID__2D27B809" FromRole="OffSpringOf" ToRole="Koi" />
           <NavigationProperty Name="KoiParents" Relationship="Self.FK__KoiParent__Offsp__60A75C0F" FromRole="OffSpringOf" ToRole="KoiParent" />
+          <NavigationProperty Name="Koi" Relationship="KoiManagementModel.FK__OffSpring__KoiID__2D27B809" FromRole="OffSpringOf" ToRole="Koi" />
         </EntityType>
         <EntityType Name="Owner">
           <Key>
@@ -619,9 +593,9 @@
           <Property Name="DateOwerFrom" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="DateOwerTo" Type="DateTime" Precision="0" />
           <Property Name="Status" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Koi" Relationship="Self.FK__Owner__KoiID__22AA2996" FromRole="Owner" ToRole="Koi" />
           <NavigationProperty Name="KoiFarm" Relationship="Self.FK__Owner__KoiFarmID__24927208" FromRole="Owner" ToRole="KoiFarm" />
           <NavigationProperty Name="Member" Relationship="Self.FK__Owner__MemberID__239E4DCF" FromRole="Owner" ToRole="Member" />
+          <NavigationProperty Name="Koi" Relationship="KoiManagementModel.FK__Owner__KoiID__22AA2996" FromRole="Owner" ToRole="Koi" />
         </EntityType>
         <EntityType Name="sysdiagram">
           <Key>
@@ -642,22 +616,10 @@
           <Property Name="Description" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Image" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="VarietyDetailID" Type="Int32" />
-          <NavigationProperty Name="Kois" Relationship="Self.FK__Koi__VarietyID__1367E606" FromRole="Variety" ToRole="Koi" />
           <NavigationProperty Name="Variety1" Relationship="Self.FK__Variety__Variety__108B795B" FromRole="Variety" ToRole="Variety1" />
           <NavigationProperty Name="Variety2" Relationship="Self.FK__Variety__Variety__108B795B" FromRole="Variety1" ToRole="Variety" />
+          <NavigationProperty Name="Kois" Relationship="KoiManagementModel.FK__Koi__VarietyID__1367E606" FromRole="Variety" ToRole="Koi" />
         </EntityType>
-        <Association Name="FK__Achivemen__KoiID__1FCDBCEB">
-          <End Role="Koi" Type="Self.Koi" Multiplicity="0..1" />
-          <End Role="Achivement" Type="Self.Achivement" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Koi">
-              <PropertyRef Name="KoiID" />
-            </Principal>
-            <Dependent Role="Achivement">
-              <PropertyRef Name="KoiID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK__ActiveCod__Membe__70DDC3D8">
           <End Role="Member" Type="Self.Member" Multiplicity="0..1" />
           <End Role="ActiveCode" Type="Self.ActiveCode" Multiplicity="*" />
@@ -694,18 +656,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Comment__KoiID__412EB0B6">
-          <End Role="Koi" Type="Self.Koi" Multiplicity="0..1" />
-          <End Role="Comment" Type="Self.Comment" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Koi">
-              <PropertyRef Name="KoiID" />
-            </Principal>
-            <Dependent Role="Comment">
-              <PropertyRef Name="KoiID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK__Comment__MemberI__4222D4EF">
           <End Role="Member" Type="Self.Member" Multiplicity="0..1" />
           <End Role="Comment" Type="Self.Comment" Multiplicity="*" />
@@ -715,66 +665,6 @@
             </Principal>
             <Dependent Role="Comment">
               <PropertyRef Name="MemberID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__InfoDetai__KoiID__164452B1">
-          <End Role="Koi" Type="Self.Koi" Multiplicity="0..1" />
-          <End Role="InfoDetail" Type="Self.InfoDetail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Koi">
-              <PropertyRef Name="KoiID" />
-            </Principal>
-            <Dependent Role="InfoDetail">
-              <PropertyRef Name="KoiID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__Koi__VarietyID__1367E606">
-          <End Role="Variety" Type="Self.Variety" Multiplicity="1" />
-          <End Role="Koi" Type="Self.Koi" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Variety">
-              <PropertyRef Name="VarietyID" />
-            </Principal>
-            <Dependent Role="Koi">
-              <PropertyRef Name="VarietyID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__KoiParent__KoiSo__619B8048">
-          <End Role="Koi" Type="Self.Koi" Multiplicity="1" />
-          <End Role="KoiParent" Type="Self.KoiParent" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Koi">
-              <PropertyRef Name="KoiID" />
-            </Principal>
-            <Dependent Role="KoiParent">
-              <PropertyRef Name="KoiSonID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__OffSpring__KoiID__2D27B809">
-          <End Role="Koi" Type="Self.Koi" Multiplicity="0..1" />
-          <End Role="OffSpringOf" Type="Self.OffSpringOf" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Koi">
-              <PropertyRef Name="KoiID" />
-            </Principal>
-            <Dependent Role="OffSpringOf">
-              <PropertyRef Name="KoiID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__Owner__KoiID__22AA2996">
-          <End Role="Koi" Type="Self.Koi" Multiplicity="0..1" />
-          <End Role="Owner" Type="Self.Owner" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Koi">
-              <PropertyRef Name="KoiID" />
-            </Principal>
-            <Dependent Role="Owner">
-              <PropertyRef Name="KoiID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -857,7 +747,6 @@
           <EntitySet Name="ActiveCodes" EntityType="Self.ActiveCode" />
           <EntitySet Name="Comments" EntityType="Self.Comment" />
           <EntitySet Name="InfoDetails" EntityType="Self.InfoDetail" />
-          <EntitySet Name="Kois" EntityType="Self.Koi" />
           <EntitySet Name="KoiFarms" EntityType="Self.KoiFarm" />
           <EntitySet Name="KoiParents" EntityType="Self.KoiParent" />
           <EntitySet Name="Members" EntityType="Self.Member" />
@@ -865,10 +754,6 @@
           <EntitySet Name="Owners" EntityType="Self.Owner" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
           <EntitySet Name="Varieties" EntityType="Self.Variety" />
-          <AssociationSet Name="FK__Achivemen__KoiID__1FCDBCEB" Association="Self.FK__Achivemen__KoiID__1FCDBCEB">
-            <End Role="Koi" EntitySet="Kois" />
-            <End Role="Achivement" EntitySet="Achivements" />
-          </AssociationSet>
           <AssociationSet Name="FK__ActiveCod__Membe__70DDC3D8" Association="Self.FK__ActiveCod__Membe__70DDC3D8">
             <End Role="Member" EntitySet="Members" />
             <End Role="ActiveCode" EntitySet="ActiveCodes" />
@@ -881,33 +766,9 @@
             <End Role="KoiFarm" EntitySet="KoiFarms" />
             <End Role="Comment" EntitySet="Comments" />
           </AssociationSet>
-          <AssociationSet Name="FK__Comment__KoiID__412EB0B6" Association="Self.FK__Comment__KoiID__412EB0B6">
-            <End Role="Koi" EntitySet="Kois" />
-            <End Role="Comment" EntitySet="Comments" />
-          </AssociationSet>
           <AssociationSet Name="FK__Comment__MemberI__4222D4EF" Association="Self.FK__Comment__MemberI__4222D4EF">
             <End Role="Member" EntitySet="Members" />
             <End Role="Comment" EntitySet="Comments" />
-          </AssociationSet>
-          <AssociationSet Name="FK__InfoDetai__KoiID__164452B1" Association="Self.FK__InfoDetai__KoiID__164452B1">
-            <End Role="Koi" EntitySet="Kois" />
-            <End Role="InfoDetail" EntitySet="InfoDetails" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Koi__VarietyID__1367E606" Association="Self.FK__Koi__VarietyID__1367E606">
-            <End Role="Variety" EntitySet="Varieties" />
-            <End Role="Koi" EntitySet="Kois" />
-          </AssociationSet>
-          <AssociationSet Name="FK__KoiParent__KoiSo__619B8048" Association="Self.FK__KoiParent__KoiSo__619B8048">
-            <End Role="Koi" EntitySet="Kois" />
-            <End Role="KoiParent" EntitySet="KoiParents" />
-          </AssociationSet>
-          <AssociationSet Name="FK__OffSpring__KoiID__2D27B809" Association="Self.FK__OffSpring__KoiID__2D27B809">
-            <End Role="Koi" EntitySet="Kois" />
-            <End Role="OffSpringOf" EntitySet="OffSpringOfs" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Owner__KoiID__22AA2996" Association="Self.FK__Owner__KoiID__22AA2996">
-            <End Role="Koi" EntitySet="Kois" />
-            <End Role="Owner" EntitySet="Owners" />
           </AssociationSet>
           <AssociationSet Name="FK__KoiFarm__MemberI__1CF15040" Association="Self.FK__KoiFarm__MemberI__1CF15040">
             <End Role="Member" EntitySet="Members" />
@@ -963,6 +824,35 @@
             <Parameter Name="new_diagramname" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_upgraddiagrams" />
+          <EntitySet Name="Kois" EntityType="KoiManagementModel.Koi" />
+          <AssociationSet Name="FK__Achivemen__KoiID__1FCDBCEB" Association="KoiManagementModel.FK__Achivemen__KoiID__1FCDBCEB">
+            <End Role="Koi" EntitySet="Kois" />
+            <End Role="Achivement" EntitySet="Achivements" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Comment__KoiID__412EB0B6" Association="KoiManagementModel.FK__Comment__KoiID__412EB0B6">
+            <End Role="Koi" EntitySet="Kois" />
+            <End Role="Comment" EntitySet="Comments" />
+          </AssociationSet>
+          <AssociationSet Name="FK__InfoDetai__KoiID__164452B1" Association="KoiManagementModel.FK__InfoDetai__KoiID__164452B1">
+            <End Role="Koi" EntitySet="Kois" />
+            <End Role="InfoDetail" EntitySet="InfoDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Koi__VarietyID__1367E606" Association="KoiManagementModel.FK__Koi__VarietyID__1367E606">
+            <End Role="Variety" EntitySet="Varieties" />
+            <End Role="Koi" EntitySet="Kois" />
+          </AssociationSet>
+          <AssociationSet Name="FK__KoiParent__KoiSo__619B8048" Association="KoiManagementModel.FK__KoiParent__KoiSo__619B8048">
+            <End Role="Koi" EntitySet="Kois" />
+            <End Role="KoiParent" EntitySet="KoiParents" />
+          </AssociationSet>
+          <AssociationSet Name="FK__OffSpring__KoiID__2D27B809" Association="KoiManagementModel.FK__OffSpring__KoiID__2D27B809">
+            <End Role="Koi" EntitySet="Kois" />
+            <End Role="OffSpringOf" EntitySet="OffSpringOfs" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Owner__KoiID__22AA2996" Association="KoiManagementModel.FK__Owner__KoiID__22AA2996">
+            <End Role="Koi" EntitySet="Kois" />
+            <End Role="Owner" EntitySet="Owners" />
+          </AssociationSet>
         </EntityContainer>
         <ComplexType Name="sp_helpdiagramdefinition_Result">
           <Property Type="Int32" Name="version" Nullable="true" />
@@ -975,6 +865,113 @@
           <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
           <Property Type="Int32" Name="OwnerID" Nullable="false" />
         </ComplexType>
+        <EntityType Name="Koi">
+          <Key>
+            <PropertyRef Name="KoiID" />
+          </Key>
+          <Property Name="KoiID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="VarietyID" Type="Int32" Nullable="false" />
+          <Property Name="KoiName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="DoB" Type="DateTime" Precision="0" />
+          <Property Name="Gender" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="Temperament" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Certificate" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Image" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Origin" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Status" Type="Boolean" Nullable="false" />
+          <Property Name="Privacy" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Achivements" Relationship="KoiManagementModel.FK__Achivemen__KoiID__1FCDBCEB" FromRole="Koi" ToRole="Achivement" />
+          <NavigationProperty Name="Comments" Relationship="KoiManagementModel.FK__Comment__KoiID__412EB0B6" FromRole="Koi" ToRole="Comment" />
+          <NavigationProperty Name="InfoDetails" Relationship="KoiManagementModel.FK__InfoDetai__KoiID__164452B1" FromRole="Koi" ToRole="InfoDetail" />
+          <NavigationProperty Name="Variety" Relationship="KoiManagementModel.FK__Koi__VarietyID__1367E606" FromRole="Koi" ToRole="Variety" />
+          <NavigationProperty Name="KoiParents" Relationship="KoiManagementModel.FK__KoiParent__KoiSo__619B8048" FromRole="Koi" ToRole="KoiParent" />
+          <NavigationProperty Name="OffSpringOfs" Relationship="KoiManagementModel.FK__OffSpring__KoiID__2D27B809" FromRole="Koi" ToRole="OffSpringOf" />
+          <NavigationProperty Name="Owners" Relationship="KoiManagementModel.FK__Owner__KoiID__22AA2996" FromRole="Koi" ToRole="Owner" />
+        </EntityType>
+        <Association Name="FK__Achivemen__KoiID__1FCDBCEB">
+          <End Type="KoiManagementModel.Koi" Role="Koi" Multiplicity="0..1" />
+          <End Type="KoiManagementModel.Achivement" Role="Achivement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Koi">
+              <PropertyRef Name="KoiID" />
+            </Principal>
+            <Dependent Role="Achivement">
+              <PropertyRef Name="KoiID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Comment__KoiID__412EB0B6">
+          <End Type="KoiManagementModel.Koi" Role="Koi" Multiplicity="0..1" />
+          <End Type="KoiManagementModel.Comment" Role="Comment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Koi">
+              <PropertyRef Name="KoiID" />
+            </Principal>
+            <Dependent Role="Comment">
+              <PropertyRef Name="KoiID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__InfoDetai__KoiID__164452B1">
+          <End Type="KoiManagementModel.Koi" Role="Koi" Multiplicity="0..1" />
+          <End Type="KoiManagementModel.InfoDetail" Role="InfoDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Koi">
+              <PropertyRef Name="KoiID" />
+            </Principal>
+            <Dependent Role="InfoDetail">
+              <PropertyRef Name="KoiID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Koi__VarietyID__1367E606">
+          <End Type="KoiManagementModel.Variety" Role="Variety" Multiplicity="1" />
+          <End Type="KoiManagementModel.Koi" Role="Koi" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Variety">
+              <PropertyRef Name="VarietyID" />
+            </Principal>
+            <Dependent Role="Koi">
+              <PropertyRef Name="VarietyID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__KoiParent__KoiSo__619B8048">
+          <End Type="KoiManagementModel.Koi" Role="Koi" Multiplicity="1" />
+          <End Type="KoiManagementModel.KoiParent" Role="KoiParent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Koi">
+              <PropertyRef Name="KoiID" />
+            </Principal>
+            <Dependent Role="KoiParent">
+              <PropertyRef Name="KoiSonID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__OffSpring__KoiID__2D27B809">
+          <End Type="KoiManagementModel.Koi" Role="Koi" Multiplicity="0..1" />
+          <End Type="KoiManagementModel.OffSpringOf" Role="OffSpringOf" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Koi">
+              <PropertyRef Name="KoiID" />
+            </Principal>
+            <Dependent Role="OffSpringOf">
+              <PropertyRef Name="KoiID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Owner__KoiID__22AA2996">
+          <End Type="KoiManagementModel.Koi" Role="Koi" Multiplicity="0..1" />
+          <End Type="KoiManagementModel.Owner" Role="Owner" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Koi">
+              <PropertyRef Name="KoiID" />
+            </Principal>
+            <Dependent Role="Owner">
+              <PropertyRef Name="KoiID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1029,24 +1026,6 @@
                 <ScalarProperty Name="HeathyStatus" ColumnName="HeathyStatus" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="Image" ColumnName="Image" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Kois">
-            <EntityTypeMapping TypeName="KoiManagementModel.Koi">
-              <MappingFragment StoreEntitySet="Koi">
-                <ScalarProperty Name="KoiID" ColumnName="KoiID" />
-                <ScalarProperty Name="VarietyID" ColumnName="VarietyID" />
-                <ScalarProperty Name="KoiName" ColumnName="KoiName" />
-                <ScalarProperty Name="DoB" ColumnName="DoB" />
-                <ScalarProperty Name="Gender" ColumnName="Gender" />
-                <ScalarProperty Name="Temperament" ColumnName="Temperament" />
-                <ScalarProperty Name="Certificate" ColumnName="Certificate" />
-                <ScalarProperty Name="Image" ColumnName="Image" />
-                <ScalarProperty Name="Origin" ColumnName="Origin" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="Privacy" ColumnName="Privacy" />
-                <ScalarProperty Name="Report" ColumnName="Report" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1158,6 +1137,22 @@
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="KoiManagementModel.Store.sp_renamediagram" />
           <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="KoiManagementModel.Store.sp_upgraddiagrams" />
+          <EntitySetMapping Name="Kois">
+            <EntityTypeMapping TypeName="KoiManagementModel.Koi">
+              <MappingFragment StoreEntitySet="Koi">
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Origin" ColumnName="Origin" />
+                <ScalarProperty Name="Image" ColumnName="Image" />
+                <ScalarProperty Name="Certificate" ColumnName="Certificate" />
+                <ScalarProperty Name="Temperament" ColumnName="Temperament" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="DoB" ColumnName="DoB" />
+                <ScalarProperty Name="KoiName" ColumnName="KoiName" />
+                <ScalarProperty Name="VarietyID" ColumnName="VarietyID" />
+                <ScalarProperty Name="KoiID" ColumnName="KoiID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

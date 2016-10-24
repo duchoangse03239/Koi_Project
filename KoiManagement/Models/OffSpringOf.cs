@@ -24,7 +24,7 @@ namespace KoiManagement.Models
         public string Image { get; set; }
         public Nullable<int> KoiID { get; set; }
     
-        public virtual Koi Koi { get; set; }
         public virtual ICollection<KoiParent> KoiParents { get; set; }
+        public virtual Koi Koi { get; set; }
     }
 }
