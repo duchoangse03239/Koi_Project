@@ -89,13 +89,23 @@ namespace Model.DAO
         }
 
 
-        public int ChangePass1(string memberId, string password)
+        public int UpdateProfile(Member member)
         {
-            var member = db.Members.Find(int.Parse(memberId));
-            member.Password = password;
-            db.Members.Attach(member);
-            db.Entry(member).Property(x => x.Password).IsModified = true;
-            return db.SaveChanges();
+            try
+            {
+                db.Members.Attach(member);
+                var entry = db.Entry(member);
+                entry.Property(x => x.Email).IsModified = false;
+                entry.Property(x => x.UserName).IsModified = false;
+                entry.Property(x => x.Status).IsModified = false;
+                return db.SaveChanges();
+            }
+            catch
+            {
+                return 0;
+            }
+        }
+
         }
     }
 }

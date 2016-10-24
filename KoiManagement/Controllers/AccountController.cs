@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 using KoiManagement.Common;
 using KoiManagement.Models;
 using log4net;
@@ -425,7 +426,7 @@ namespace KoiManagement.Controllers
                     return Json(obj);
                 }
 
-                Member me = new Member(name, username, CommonFunction.Md5(password), dateOfBirth, "", "N", phone, email, "", true);
+                Member me = new Member(name, username, CommonFunction.Md5(password), dateOfBirth, "", "N", phone, email, address, true);
                 obj.Status = 9;
                 if (dao.AddMember(me))
                 {
@@ -452,6 +453,10 @@ namespace KoiManagement.Controllers
         // GET: /Account/Change Password
         public ActionResult ChangePassword()
         {
+            if (Session[SessionAccount.SessionUserId] == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
             return View();
         }
 
@@ -550,6 +555,19 @@ namespace KoiManagement.Controllers
             StatusObjForJsonResult obj = new StatusObjForJsonResult();
             return Json(obj);
         }
-   
+
+
+        // GET: /Account/Change Password
+        public ActionResult ManageAccount()
+        {
+            if (Session[SessionAccount.SessionUserId] == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            MemberDAO MDao = new MemberDAO();
+            var mem = MDao.GetMemberbyID(int.Parse(Session[SessionAccount.SessionUserId].ToString()));
+            return View(mem);
+        }
+
     }
 }
