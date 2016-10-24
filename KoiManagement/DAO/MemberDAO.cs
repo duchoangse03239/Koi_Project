@@ -19,6 +19,7 @@ namespace Model.DAO
         public Member GetMemberByNameAndPass(string username, string pass)
         {
              var mem = db.Members.Where(p => p.UserName.Equals(username) && p.Password.Equals(pass)).ToList();
+            db.Database.Log = Console.Write;
             if (mem.Count == 0)
             {
                 return null;

@@ -186,6 +186,7 @@
     <Compile Include="Controllers\KoiController.cs" />
     <Compile Include="Controllers\VarietyController.cs" />
     <Compile Include="DAO\ActiveCodeDAO.cs" />
+    <Compile Include="DAO\OwnerDAO.cs" />
     <Compile Include="DAO\KoiDAO.cs" />
     <Compile Include="DAO\MemberDAO.cs" />
     <Compile Include="Global.asax.cs">
@@ -278,6 +279,9 @@
     <Content Include="Content\Image\Certificate\cer09.jpg" />
     <Content Include="Content\Image\Certificate\cer10.jpg" />
     <Content Include="Content\Image\Common\blank.jpg" />
+    <Content Include="Content\Image\Common\ic_base2.png" />
+    <Content Include="Content\Image\Common\ic_detail1.png" />
+    <Content Include="Content\Image\Common\ic_search_small1.png" />
     <Content Include="Content\Image\Common\setting.png" />
     <Content Include="Content\Image\Common\Slider1.jpg" />
     <Content Include="Content\Image\Detail\detail01.jpg" />
@@ -344,28 +348,21 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="fonts\index.html" />
     <Content Include="Global.asax" />
-    <Content Include="Scripts\action.js" />
-    <Content Include="Scripts\bootstrap.js" />
-    <Content Include="Scripts\bootstrap.min.js" />
-    <Content Include="Areas\Admin\Views\web.config">
-      <SubType>Designer</SubType>
-    </Content>
-    <EntityDeploy Include="Models\KoiContext.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>KoiContext.Designer.cs</LastGenOutput>
-    </EntityDeploy>
     <Content Include="Models\KoiContext.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>KoiContext.edmx</DependentUpon>
       <LastGenOutput>KoiContext.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="Models\KoiContext.edmx.diagram">
-      <DependentUpon>KoiContext.edmx</DependentUpon>
-    </Content>
     <Content Include="Models\KoiContext.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>KoiContext.edmx</DependentUpon>
       <LastGenOutput>KoiContext.cs</LastGenOutput>
+    </Content>
+    <Content Include="Scripts\action.js" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Areas\Admin\Views\web.config">
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="fonts\fontawesome-webfont.eot" />
     <Content Include="fonts\fontawesome-webfont.ttf" />
@@ -531,6 +528,13 @@
     <Content Include="Content\css\fonts\Helvetica\HelveticaNeueLTStd-XBlkCn.otf" />
     <Content Include="Content\css\fonts\Helvetica\HelveticaNeueLTStd-XBlkCnO.otf" />
     <Content Include="Content\css\fonts\UTM Avo.ttf" />
+    <EntityDeploy Include="Models\KoiContext.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>KoiContext.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\KoiContext.edmx.diagram">
+      <DependentUpon>KoiContext.edmx</DependentUpon>
+    </Content>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -554,7 +558,8 @@
     <Content Include="Scripts\scripts.js" />
     <Content Include="Scripts\scrolld.min.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="Views\Account\ManageAccount.html" />
+    <None Include="Views\Account\ManageAccount.cshtml" />
+    <Content Include="Views\Account\ResetPassword.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -597,11 +602,11 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Layout\_Layout.cshtml" />
     <Content Include="Views\Koi\KoiUser.cshtml" />
-    <Content Include="Views\Account\ResetPassword.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Account\ForgotPassword.cshtml" />
     <Content Include="Views\Account\SentRequestPass.cshtml" />
     <Content Include="Views\Account\ChangePassword.cshtml" />
+    <Content Include="Views\Koi\AddKoi1.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

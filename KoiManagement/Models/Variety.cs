@@ -16,8 +16,8 @@ namespace KoiManagement.Models
     {
         public Variety()
         {
-            this.Variety1 = new HashSet<Variety>();
             this.Kois = new HashSet<Koi>();
+            this.Variety1 = new HashSet<Variety>();
         }
     
         public int VarietyID { get; set; }
@@ -26,8 +26,8 @@ namespace KoiManagement.Models
         public string Image { get; set; }
         public Nullable<int> VarietyDetailID { get; set; }
     
+        public virtual ICollection<Koi> Kois { get; set; }
         public virtual ICollection<Variety> Variety1 { get; set; }
         public virtual Variety Variety2 { get; set; }
-        public virtual ICollection<Koi> Kois { get; set; }
     }
 }

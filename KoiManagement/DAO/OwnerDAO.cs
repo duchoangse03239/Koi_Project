@@ -7,19 +7,13 @@ using KoiManagement.Models;
 
 namespace Model.DAO
 {
-    public class KoiDAO
+    public class OwnerDAO
     {
         KoiManagementEntities db = null;
-        public KoiDAO()
+        public OwnerDAO()
         {
             db = new KoiManagementEntities();
         }
-
-        public int GetMaxKoiID()
-        {
-            return  db.Kois.Max(g => g.KoiID) + 1;
-        }
-
 
     }
 }

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using KoiManagement.Models;
+using WebGrease.Css.Extensions;
 
 namespace Model.DAO
 {
@@ -24,8 +25,8 @@ namespace Model.DAO
         public Member GetMemberIdByActCode(String code)
         {
 
-
-                var  mem = db.ActiveCodes.Where(p => p.ActCode == code).ToList();
+           // var mem = db.Members.Where(p => p.ActiveCodes.ForEach(activeCode => activeCode.ActCode==));
+               var  mem = db.ActiveCodes.Where(p => p.ActCode == code && p.Status).ToList();
                 if (mem.Count > 0)
                 {
                     return mem.First().Member;
@@ -34,8 +35,6 @@ namespace Model.DAO
                 {
                     return null;
                 }
-
-
 
         }
 

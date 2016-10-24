@@ -11,6 +11,7 @@ using KoiManagement.ViewModel;
 using System.IO;
 using KoiManagement.Common;
 using KoiManagement.Models;
+using Model.DAO;
 
 namespace KoiManagement.Controllers
 {
@@ -164,6 +165,56 @@ namespace KoiManagement.Controllers
             return View(variety);
         }
 
+        // GET: /Koi/Create
+        public ActionResult AddKoi1()
+        {
+            ViewBag.VarietyID = new SelectList(db.Varieties, "VarietyID", "VarietyName");
+            var variety = db.Varieties.ToList();
+            return View(variety);
+        }
+
+        // POST: /Koi/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AddKoi1(HttpPostedFileBase file, string KoiName, string VarietyID, string Gender, string DoB, string Temperament, string Origin)
+        {
+            if (ModelState.IsValid)
+            {
+                KoiDAO koiDao = new KoiDAO();
+                //validate
+
+                 
+                // lấy id max đặt tên file ảnh
+                var MaxID = koiDao.GetMaxKoiID();
+
+                ////set default value
+                //koi.Privacy = "1";
+                //koi.Report = true;
+                //koi.Status = true;
+                //Koi = new 
+                ////Save file to local
+                if (file != null)
+                {
+                    //String id = db.Kois.SqlQuery(@"SELECT IDENT_CURRENT ('Koi') AS AnimalID").First().ToString();
+                    var filename = Path.GetFileName("Koi" + MaxID + file.FileName.Substring(file.FileName.LastIndexOf('.')));
+                   // koi.Image = filename;
+                    var path = Path.Combine(Server.MapPath("~/Content/Image/Koi"), filename);
+                    file.SaveAs(path);
+                }
+
+                //db.Kois.Add(koi);
+                //db.SaveChanges();
+                //// Lấy giá trị id vừa add
+                //var koinewID = koi.KoiID;
+                //return RedirectToAction("/ListKoi/1");
+            }
+
+            ViewBag.VarietyID = new SelectList(db.Varieties, "VarietyID", "VarietyName");
+            return View();
+        }
+
         // POST: /Koi/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -177,8 +228,7 @@ namespace KoiManagement.Controllers
                 var MaxID = db.Kois.Max(g => g.KoiID)+1 ;
 
                 //set default value
-                koi.Privacy = "1";
-                koi.Report = true;
+                koi.Privacy = true;
                 koi.Status = true;
 
                 //Save file to local
@@ -256,7 +306,6 @@ namespace KoiManagement.Controllers
                 // Set column not change
                 entry.Property(e => e.Status).IsModified = false;
                 entry.Property(e => e.Privacy).IsModified = false;
-                entry.Property(e => e.Report).IsModified = false;
                 db.SaveChanges();
                 return RedirectToAction("ListKoi/" + koi.VarietyID);
             }

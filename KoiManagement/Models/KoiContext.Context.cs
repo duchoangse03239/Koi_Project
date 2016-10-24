@@ -31,6 +31,7 @@ namespace KoiManagement.Models
         public virtual DbSet<ActiveCode> ActiveCodes { get; set; }
         public virtual DbSet<Comment> Comments { get; set; }
         public virtual DbSet<InfoDetail> InfoDetails { get; set; }
+        public virtual DbSet<Koi> Kois { get; set; }
         public virtual DbSet<KoiFarm> KoiFarms { get; set; }
         public virtual DbSet<KoiParent> KoiParents { get; set; }
         public virtual DbSet<Member> Members { get; set; }
@@ -38,7 +39,6 @@ namespace KoiManagement.Models
         public virtual DbSet<Owner> Owners { get; set; }
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<Variety> Varieties { get; set; }
-        public virtual DbSet<Koi> Kois { get; set; }
     
         public virtual int sp_alterdiagram(string diagramname, Nullable<int> owner_id, Nullable<int> version, byte[] definition)
         {

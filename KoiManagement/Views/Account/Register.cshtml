@@ -136,11 +136,11 @@
                 $('#txtUserName').focus();
                 return false;
             } else if (!isSpecialCharacter(userName)) {
-                $('#lblMessage_username_fail').text("Tên đăng nhập không chứa kí tự đặc biệt");
+                $('#lblMessage_username_fail').text("Tên đăng nhập không được chứa ký tự đặc biệt");
                 $('#txtUserName').focus();
                 return false;
-            } else if (userName.length < 6) {
-                $('#lblMessage_username_fail').text("Tên đăng nhập cần có ít nhất 6 kí tự");
+            } else if (userName.length < 6 || userName.length > 25) {
+                $('#lblMessage_username_fail').text("Tên đăng nhập phải chứa từ 6 đến 25 ký tự");
                 $('#txtUserName').focus();
                 return false;
             }
@@ -149,8 +149,8 @@
                 $('#txtPassword').focus();
                 return false;
             }
-            else if (password.length < 8) {
-                $('#lblMessage_password_fail').text("Mật khẩu phải lớn hơn 8 kí tự");
+            else if (password.length < 6 || password.length > 32) {
+                $('#lblMessage_password_fail').text("Mật khẩu phải chứa từ 6 dến 32 ký tự");
                 $('#txtPassword').focus();
                 return false;
             }

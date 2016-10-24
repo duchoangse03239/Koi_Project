@@ -10,12 +10,7 @@
             <div class="col-lg-6">
                 <h2>Danh sách cá Koi</h2>
             </div>
-            <div class="col-lg-6 col-md-push-4">
-                <a class="btn icon-btn btn-info" href="/Koi/AddKoi">
-                    <span class="glyphicon btn-glyphicon glyphicon-plus img-circle text-success"></span>
-                    Thêm Cá Koi
-                </a>
-            </div>
+
         </div>
     </div>
 </section>
@@ -31,14 +26,7 @@
         <div class="col-md-12" >
             @for (var item = 0; item < Model.Count(); item++) { 
             <div class="content-section-b">
-                    <div class="dropdown">
-                        <button class="setting-icon dropdown-toggle" type="button" data-toggle="dropdown">
-                        <span class="caret"></span></button>
-                        <ul class="dropdown-menu dropdown-menu-right">
-                            <li><a href="/Koi/edit/@Model.ElementAt(item).KoiID">Sửa</a></li>
-                            <li><a onclick="GetInfo(@Model.ElementAt(item).KoiID);" >Xóa</a></li>
-                        </ul>
-                    </div>
+
                 <input type="hidden" id="koiID" name="koiID" value="@Model.ElementAt(item).KoiID">
                 <div class="row container">
                     <div class="col-md-3">
@@ -66,7 +54,6 @@
                             <br />
                             <a href="">@Model.ElementAt(item).Comments.Count() đánh giá</a>
                         </div>
-                        <p><a class="btn btn-embossed btn-primary" href="/Koi/edit/@Model.ElementAt(item).KoiID" role="button">Chỉnh sửa</a></p>
                     </div>
                 </div>
             </div>  

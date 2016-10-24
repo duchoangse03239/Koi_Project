@@ -23,17 +23,7 @@ namespace KoiManagement.Models
             this.OffSpringOfs = new HashSet<OffSpringOf>();
             this.Owners = new HashSet<Owner>();
         }
-
-        public Koi(int KoiID, int VarietyID, string KoiName, DateTime? DoB, string Gender, string Temperament, string Certificate, string Image,string Origin, bool Status ,bool Privacy)
-        {
-            this.Achivements = new HashSet<Achivement>();
-            this.Comments = new HashSet<Comment>();
-            this.InfoDetails = new HashSet<InfoDetail>();
-            this.KoiParents = new HashSet<KoiParent>();
-            this.OffSpringOfs = new HashSet<OffSpringOf>();
-            this.Owners = new HashSet<Owner>();
-            this.KoiID = KoiID;
-        }
+    
         public int KoiID { get; set; }
         public int VarietyID { get; set; }
         public string KoiName { get; set; }

@@ -1,11 +1,10 @@
-﻿@model KoiManagement.Models.Koi
+﻿@using KoiManagement.Common
+@model KoiManagement.Models.Koi
 
 @{
     ViewBag.Title = "Details";
     Layout = "~/Views/Layout/KoiLayout.cshtml";
 }
-
-<h2>Details</h2>
 
 <div id="variety" class="content-section-b" style="border-top: 0">
     <div class="container">
@@ -31,12 +30,13 @@
                     <p class="lead">Tính Cách: @Model.Temperament</p>
                     <p class="lead"><a style="border-bottom: solid 1px #3377ff; color: #3377ff;" href="">Giải thưởng</a></p>
                     <p class="lead"><a style="border-bottom: solid 1px #3377ff; color: #3377ff;" href="/InfoDetail/KoiInfoDetail/@Model.KoiID">Thông tin sinh trưởng </a></p>
-                    <p><a class="btn btn-embossed btn-warning" href="/Koi/Edit/@Model.KoiID" role="button">Chỉnh Sửa</a></p>
-                    <p><a class="btn btn-embossed btn-warning" href="" role="button">Báo cáo spam</a></p>
+                    @if (Session[SessionAccount.SessionUserId] != null)
+                    {
+                        <p><a class="btn btn-embossed btn-warning" href="/Koi/Edit/@Model.KoiID" role="button">Chỉnh Sửa</a></p>
+                        <p><a class="btn btn-embossed btn-warning" href="" role="button">Báo cáo spam</a></p>
+                    }
                 </div>
-                <p>
-                    @Html.ActionLink("Back to List", "Index")
-                </p>
+
             </div>
         </section>
     </div>

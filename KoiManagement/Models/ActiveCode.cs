@@ -19,8 +19,6 @@ namespace KoiManagement.Models
         public string ActCode { get; set; }
         public Nullable<System.DateTime> ExpireOn { get; set; }
         public bool Status { get; set; }
-    
-        public virtual Member Member { get; set; }
         public ActiveCode() { }
         public ActiveCode(int MemberID, string ActCode, DateTime ExpireOn, bool Status)
         {
@@ -29,5 +27,6 @@ namespace KoiManagement.Models
             this.ExpireOn = ExpireOn;
             this.Status = Status;
         }
+        public virtual Member Member { get; set; }
     }
 }
