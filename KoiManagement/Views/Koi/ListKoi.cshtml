@@ -71,7 +71,12 @@
         </div>
 
         <div class="col-md-9" >
-            @for (var item = 0; item < Model.Count(); item++) { 
+            <div class="container btn-select-list-koi">
+                <button type="button" class="btn btn-default">Mới nhất</button>
+                <button type="button" class="btn btn-default">Đánh giá cao nhất</button>
+                <button type="button" class="btn btn-default">Xem nhiều nhất</button>
+            </div>
+            @for (var item = 0; item < Model.Count(); item++) {  
             <div class="content-section-b">
 
                 <input type="hidden" id="koiID" name="koiID" value="@Model.ElementAt(item).KoiID">
