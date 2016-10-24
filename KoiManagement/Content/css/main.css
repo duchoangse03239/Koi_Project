@@ -354,6 +354,11 @@ body a{text-decoration: none; color:#113949;}
 .profile_item span {
     color: #ff8401;
 }
+#dropdownMenuLink {
+    font-weight: bold;
+    font-size: 14px;
+    font-style: italic;
+}
 .profile_link {
     color: #8c6635;
     text-decoration: none;
@@ -488,7 +493,7 @@ body a{text-decoration: none; color:#113949;}
     margin-bottom: 20px;
     margin-top: 25px;
 	color: red;
-	font-size: 45px;    
+	font-size: 40px;    
 }
 /*.lead {
     margin-bottom: 25px;
@@ -549,6 +554,9 @@ body a{text-decoration: none; color:#113949;}
 #lbl-name {
     margin-right: 55px;
 }
+.btn-select-list-koi {
+
+}
 /*END LIST KOI*/
 /*KOI USER*/
 .setting-icon{
@@ -564,5 +572,6 @@ body a{text-decoration: none; color:#113949;}
 }
 .btn-Add-Koi {
     margin-top: 30px;
+    margin-bottom: 15px;
 }
 /*END KOI USER*/
