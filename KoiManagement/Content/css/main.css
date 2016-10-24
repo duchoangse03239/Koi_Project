@@ -478,3 +478,91 @@ body a{text-decoration: none; color:#113949;}
 	color: #3377ff;
 }
 /*END VARIETY*/
+/*KOI DETAIL*/
+.img-koi-detail {
+   height: 500px; 
+   width: 350px; 
+   overflow: hidden; 
+}
+.title-koi-name {
+    margin-bottom: 20px;
+    margin-top: 25px;
+	color: red;
+	font-size: 45px;    
+}
+/*.lead {
+    margin-bottom: 25px;
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 1.2;
+}*/
+/*END KOI DETAIL*/
+/*LIST KOI*/
+.glyphicon-star {
+    color: #F7FE2E;
+}
+#drop-sex {
+    width:150px; 
+    margin-left:10px;
+}
+#drop-variety {
+    width:150px; 
+    margin-left:40px;
+}
+.koi-size {
+    width:55px;
+    margin-left:5px;
+    margin-right:5px;
+}
+.searchForm {
+	padding-left: 10px;
+	padding-right: 5px;
+	padding-bottom: 5px;
+	border: 1px solid #01A9DB;
+	border-radius: 1%;
+
+}
+.koi-year-old {
+    width:50px;
+    margin-left:3px;
+    margin-right:3px;
+}
+.input-search {
+    width:150px;
+}
+#lbl-year-old {
+    margin-right: 48px;
+}
+#lbl-variety {
+    margin-right: 12px;
+}
+#lbl-gender {
+    margin-right: 12px;
+}
+#btnSearch{
+    margin-left: 35%;
+    text-align: center;
+}
+#lbl-owner {
+    margin-right: 30px;
+}
+#lbl-name {
+    margin-right: 55px;
+}
+/*END LIST KOI*/
+/*KOI USER*/
+.setting-icon{
+	background: url("../Content/Image/Common/setting.png") no-repeat scroll 0 0 transparent;
+  color: #000000;
+  border: 0px;
+  cursor: pointer;
+  height: 20px;
+  width: 20px;
+  float: right;
+  margin-right: 20px;
+  margin-top: -10px;
+}
+.btn-Add-Koi {
+    margin-top: 30px;
+}
+/*END KOI USER*/

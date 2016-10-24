@@ -11,7 +11,7 @@
                 <h2>Danh sách cá Koi</h2>
             </div>
             <div class="col-lg-6 col-md-push-4">
-                <a class="btn icon-btn btn-info" href="/Koi/AddKoi">
+                <a class="btn icon-btn btn-info btn-Add-Koi" href="/Koi/AddKoi">
                     <span class="glyphicon btn-glyphicon glyphicon-plus img-circle text-success"></span>
                     Thêm Cá Koi
                 </a>
@@ -48,7 +48,7 @@
                                  <img class="img-responsive img-koi-list " src="/Content/Image/Koi/@Model.ElementAt(item).Image" alt="">
                              </div>
                              <div class="col-md-7">
-                                 <a class="koi-name" href="/Koi/Details/@Model.ElementAt(item).KoiID">@Model.ElementAt(item).KoiName</a>
+                                 <a class="title-koi-name" href="/Koi/Details/@Model.ElementAt(item).KoiID">@Model.ElementAt(item).KoiName</a>
                                  <h4>Chủ sở hữu: @if (Model.ElementAt(item).Owners.Count() > 0)
                                                  {
                                                      @Model.ElementAt(item).Owners.ElementAt(0).Member.Name

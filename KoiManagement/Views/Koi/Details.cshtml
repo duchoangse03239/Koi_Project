@@ -10,16 +10,16 @@
     <div class="container">
 
         <div class="wrap_title">
-            <h2>Koi variety</h2>
-            <p class="lead" style="margin-top:0">Information about Koi</p>
+            <h2 class="title-koi-name">Cá Koi</h2>
+            <p class="lead" style="margin-top:0">Thông tin Cá Koi</p>
         </div>
         <section class="container" id="koi-info">
             <div class="row">
-                <div class="col-md-6 wow">
-                    <img style="padding-top: 33px;" class="img-responsive img-koi-deatail"  src="/Content/Image/Koi/@Model.Image" alt="">
+                <div class="col-md-5 wow">
+                    <img style="padding-top: 33px;" class="img-responsive img-koi-detail"  src="/Content/Image/Koi/@Model.Image" alt="">
                 </div>
-                <div class="col-md-6 wow data-animation-delay=" 200">
-                    <h3 class="section-heading">@Model.KoiName</h3>
+                <div class="col-md-7 wow data-animation-delay=" 200">
+                    <h3 class="title-koi-name">@Model.KoiName</h3>
                     <p class="lead">Loại:@Model.Variety.VarietyName</p>
                     <p class="lead">Ngày Sinh: @(Model.DoB != null ? Model.DoB.Value.ToString("dd/MM/yyyy") : "Chưa biết")</p>
                     <p class="lead">Giới tính:@Model.Gender</p>
