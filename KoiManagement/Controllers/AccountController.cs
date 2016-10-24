@@ -452,6 +452,10 @@ namespace KoiManagement.Controllers
         // GET: /Account/Change Password
         public ActionResult ChangePassword()
         {
+            if (Session[SessionAccount.SessionUserId] == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
             return View();
         }
 
