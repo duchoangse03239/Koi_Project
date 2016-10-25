@@ -10,6 +10,7 @@ namespace KoiManagement.Common
            public const string SessionUserId = "userid";
            public const string SessionUserName = "username";
            public const string SessionName = "fullname";
+           public const string SessionImage = "Image";
             /// <summary>
            /// Session screen redirect to other screen
             /// </summary>

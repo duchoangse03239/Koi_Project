@@ -281,6 +281,7 @@
     <Content Include="Content\Image\Certificate\cer09.jpg" />
     <Content Include="Content\Image\Certificate\cer10.jpg" />
     <Content Include="Content\Image\Common\blank.jpg" />
+    <Content Include="Content\Image\Common\bg.jpg" />
     <Content Include="Content\Image\Common\ic_base2.png" />
     <Content Include="Content\Image\Common\ic_detail1.png" />
     <Content Include="Content\Image\Common\ic_search_small1.png" />
@@ -590,7 +591,6 @@
     <Content Include="Views\Account\Index.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Account\Logout.cshtml" />
-    <Content Include="Views\Koi\AddKoi.cshtml" />
     <Content Include="Views\Koi\Edit.cshtml" />
     <Content Include="Views\InfoDetail\Delete.cshtml" />
     <Content Include="Views\InfoDetail\Details.cshtml" />
@@ -608,8 +608,9 @@
     <Content Include="Views\Account\ForgotPassword.cshtml" />
     <Content Include="Views\Account\SentRequestPass.cshtml" />
     <Content Include="Views\Account\ChangePassword.cshtml" />
-    <Content Include="Views\Koi\AddKoi1.cshtml" />
+    <Content Include="Views\Koi\AddKoi.cshtml" />
     <Content Include="Views\Account\UpdateProfile.cshtml" />
+    <Content Include="Views\Layout\MemberAccountLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
