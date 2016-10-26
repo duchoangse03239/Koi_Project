@@ -20,6 +20,28 @@ namespace Model.DAO
             return  db.Kois.Max(g => g.KoiID) + 1;
         }
 
+        public List<Koi> GetListKoiByMember(int memberID)
+        {
+             var Owner = db.Owners.Where(p => p.MemberID == memberID).ToList();
+            if (Owner.Count > 0)
+            {
+                var ListKois = new List<Koi>();
+
+                foreach (var item1 in Owner)
+                {
+                    var kois = db.Kois.Where(p => p.KoiID == item1.KoiID).ToList();
+
+                    if (kois.Count > 0)
+                    {
+                        ListKois.Add(kois.ElementAt(0));
+                    }
+                }
+
+           return ListKois;
+            }
+            return null;
+        }
+
         public bool AddKoi(Koi koi)
         {
             try
@@ -34,7 +56,7 @@ namespace Model.DAO
             }
         }
 
-        public bool AddTranKoi(Koi koi,int memberID, string image,decimal size)
+        public bool AddKoi(Koi koi,int memberID, string image,decimal size)
         {
             // Transaction
             using (var dbContextTransaction = db.Database.BeginTransaction())

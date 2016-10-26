@@ -9,6 +9,7 @@ using System.Web.Mvc;
 //using KoiManagement.Models;
 using KoiManagement.ViewModel;
 using System.IO;
+using System.Linq.Expressions;
 using KoiManagement.Common;
 using KoiManagement.Models;
 using Model.DAO;
@@ -75,28 +76,17 @@ namespace KoiManagement.Controllers
             {
                return RedirectToAction("Login", "Account");
             }
-            int id = int.Parse(Session[SessionAccount.SessionUserId].ToString());
-            //id = 12;
-            var Owner = db.Owners.Where(p => p.MemberID == id).ToList();
-            if (Owner.Count > 0)
+            try
             {
-                ListKois = new List<Koi>();
-
-                foreach (var item1 in Owner)
+                int id = int.Parse(Session[SessionAccount.SessionUserId].ToString());
+                KoiDAO koiDao = new KoiDAO();
+                ListKois = koiDao.GetListKoiByMember(id);
+                if (ListKois != null)
                 {
-                    var kois = db.Kois.Where(p => p.KoiID == item1.KoiID).ToList();
-
-                    if (kois.Count > 0)
-                    {
-                        ListKois.Add(kois.ElementAt(0));
-                    }
+                    return View(ListKois);
                 }
-
-                if (ListKois == null)
-                {
-                    return HttpNotFound();
-                }
-                return View(ListKois);
+            }catch (Exception ex){
+                return RedirectToAction("SystemError", "Error");
             }
             return View();
 
@@ -211,7 +201,7 @@ namespace KoiManagement.Controllers
                 }
                 
                 // thêm thông tin koi vào 3 bảng: koi, owner, infoDetail
-                if (koiDao.AddTranKoi(koi, int.Parse(Session[SessionAccount.SessionUserId].ToString()), Imagename ,size ))
+                if (koiDao.AddKoi(koi, int.Parse(Session[SessionAccount.SessionUserId].ToString()), Imagename ,size ))
                 {
                     //success
                 }
