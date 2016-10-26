@@ -378,22 +378,20 @@ namespace KoiManagement.Controllers
                     return Json(obj);
                 }
 
-                if (!Validate.CheckLengthInput(username, 6, 25))
+                if (!Validate.CheckEmailFormat(username)&&!Validate.CheckLengthInput(username, 6, 25))
                 {
                     obj.Status = 4;
                     obj.Message = "Tên đăng nhập phải chứa từ 6 đến 25 ký tự";
                     return Json(obj);
                 }
-                if (Validate.CheckEmailFormat(username))
-                {
-                    
-                }
-                else if (!Validate.CheckNormalCharacter(username))
-                {
-                    obj.Status = 4;
-                    obj.Message = "Tên đăng nhập không được chứa ký tự đặc biệt";
-                    return Json(obj);
-                }
+
+                    if (!Validate.CheckEmailFormat(username)&&!Validate.CheckNormalCharacter(username))
+                    {
+                        obj.Status = 4;
+                        obj.Message = "Tên đăng nhập không được chứa ký tự đặc biệt";
+                        return Json(obj);
+                    }
+
                 if (!dao.CheckExistUserName(username))
                 {
                     obj.Status = 4;
