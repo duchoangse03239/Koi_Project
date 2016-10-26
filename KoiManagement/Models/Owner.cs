@@ -31,6 +31,7 @@ namespace KoiManagement.Models
             this.DateOwerTo = DateOwerTo;
             this.Status = Status;
         }
+
         public virtual Koi Koi { get; set; }
         public virtual KoiFarm KoiFarm { get; set; }
         public virtual Member Member { get; set; }

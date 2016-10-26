@@ -48,7 +48,7 @@ namespace Model.DAO
                     db.Owners.Add(new Owner(memberID, koinewID, null, DateTime.Now, null, true));
                     db.SaveChanges();
 
-                    db.InfoDetails.Add(new InfoDetail(koinewID, DateTime.Now, 0, size, String.Empty, String.Empty, image));
+                    db.InfoDetails.Add(new InfoDetail(koinewID, DateTime.Now, 0, size, String.Empty, String.Empty, image,true));
                     db.SaveChanges();
 
                     dbContextTransaction.Commit();

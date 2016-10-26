@@ -14,6 +14,7 @@ namespace KoiManagement.Models
     
     public partial class Comment
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Comment()
         {
             this.Comment1 = new HashSet<Comment>();
@@ -25,10 +26,11 @@ namespace KoiManagement.Models
         public Nullable<System.DateTime> DateTime { get; set; }
         public Nullable<int> KoiFarmID { get; set; }
         public decimal Rating { get; set; }
-        public string CommentDetail { get; set; }
+        public string Content { get; set; }
         public Nullable<int> CommentAnswer { get; set; }
-        public string Privacy { get; set; }
+        public bool Status { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Comment> Comment1 { get; set; }
         public virtual Comment Comment2 { get; set; }
         public virtual KoiFarm KoiFarm { get; set; }

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Reflection;
+using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -11,18 +13,20 @@ using KoiManagement.Common;
 using KoiManagement.Models;
 using log4net;
 using log4net.Repository.Hierarchy;
+using Microsoft.Ajax.Utilities;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin.Security;
 using Model.DAO;
 using WebGrease;
+using Member = KoiManagement.Models.Member;
 
 
 namespace KoiManagement.Controllers
 {
     public class AccountController : Controller
     {
-        
+
         //
         // GET: /Account/
         public ActionResult Index()
@@ -35,6 +39,10 @@ namespace KoiManagement.Controllers
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
+            if (Session[SessionAccount.SessionUserId] != null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
             ViewBag.ReturnUrl = returnUrl;
             return View();
         }
@@ -65,11 +73,11 @@ namespace KoiManagement.Controllers
                 // Lấy thông tin user theo Username / Password
                 var memberDao = new MemberDAO();
                 var user = memberDao.GetMemberByNameAndPass(username, CommonFunction.Md5(password));
-                    //db.Members.Where(p => p.UserName.Equals(username) && p.Password.Equals(password)).ToList();
-                
+                //db.Members.Where(p => p.UserName.Equals(username) && p.Password.Equals(password)).ToList();
+
 
                 // Check tồn tại
-                if (user==null)
+                if (user == null)
                 {
                     obj.Status = 4;
                     // khong ton tai
@@ -80,7 +88,7 @@ namespace KoiManagement.Controllers
                 {
                     Member member = user;
                     obj.Status = 1;
-                    if (member.Status==false)
+                    if (member.Status == false)
                     {
                         //User check : Tài khoản đã bị xóa: chuyển màn hình login.
                         obj.Message = "Tài khoản đã bị khóa vui long đăng kí tài khoản mới.";
@@ -88,11 +96,11 @@ namespace KoiManagement.Controllers
                     }
                     else
                     {
-                        Session.Add(SessionAccount.SessionUserId,member.MemberID);
+                        Session.Add(SessionAccount.SessionUserId, member.MemberID);
                         Session.Add(SessionAccount.SessionUserName, member.UserName);
                         Session.Add(SessionAccount.SessionName, member.Name);
                         Session.Add(SessionAccount.SessionImage, member.Image);
-                        obj.RedirectTo = Url.Action("ListVariety","Variety");
+                        obj.RedirectTo = Url.Action("ListVariety", "Variety");
 
                     }
                 }
@@ -105,7 +113,7 @@ namespace KoiManagement.Controllers
                 return Json(obj);
             }
             return Json(obj);
-            }
+        }
 
 
         public ActionResult Logout()
@@ -118,7 +126,7 @@ namespace KoiManagement.Controllers
             }
             catch (Exception ex)
             {
-                 Common.Logger.LogException(ex);
+                Common.Logger.LogException(ex);
                 return RedirectToAction("SystemError", "Error");
             }
 
@@ -133,7 +141,7 @@ namespace KoiManagement.Controllers
             {
                 return RedirectToAction("ForgotPassword", "Account");
             }
-            ActiveCodeDAO ActiveCodeDAO =  new ActiveCodeDAO();
+            ActiveCodeDAO ActiveCodeDAO = new ActiveCodeDAO();
             var isExistActiveCode = ActiveCodeDAO.checkExistCode(actCode);
             if (!isExistActiveCode)
             {
@@ -152,7 +160,7 @@ namespace KoiManagement.Controllers
         /// <param name="confirmPassword"></param>
         /// <returns></returns>
         [HttpPost]
-        public JsonResult ResetPassword(string password, string confirmPassword,string actCode)
+        public JsonResult ResetPassword(string password, string confirmPassword, string actCode)
         {
             var obj = new StatusObjForJsonResult();
 
@@ -164,7 +172,7 @@ namespace KoiManagement.Controllers
                     obj.Message = "Mật khẩu mới không được để trống";
                     return Json(obj);
                 }
-                if (!Validate.CheckLengthInput(password,6,32))
+                if (!Validate.CheckLengthInput(password, 6, 32))
                 {
                     obj.Status = 1;
                     obj.Message = "Mật khẩu mới phải chứa từ 6 đến 32 ký tự";
@@ -184,8 +192,8 @@ namespace KoiManagement.Controllers
                 }
                 // đổi lại pass
                 MemberDAO mDao = new MemberDAO();
-                ActiveCodeDAO aDao= new ActiveCodeDAO();
-                var mem =aDao.GetMemberIdByActCode(actCode);
+                ActiveCodeDAO aDao = new ActiveCodeDAO();
+                var mem = aDao.GetMemberIdByActCode(actCode);
                 if (mem == null)
                 {
                     //k tim thay member
@@ -215,7 +223,7 @@ namespace KoiManagement.Controllers
             return View();
         }
 
-       
+
 
         /// <summary>
         /// Send email
@@ -240,14 +248,14 @@ namespace KoiManagement.Controllers
 
                 if (Validate.CheckEmailFormat(email) == false)
                 {
-                    obj.Status =2;
+                    obj.Status = 2;
                     obj.Message = "Địa chỉ Email không đúng định dạng";
                     return Json(obj);
                 }
 
                 // Check exist email 
                 var isExistEmail = mDao.CheckExistEmail(email);
-                if (isExistEmail )
+                if (isExistEmail)
                 {
                     obj.Status = 3;
                     obj.Message = "Địa chỉ email này không tồn tại";
@@ -266,16 +274,19 @@ namespace KoiManagement.Controllers
                         {
                             if (ActCodeDao.AddActiveCode(new ActiveCode(Member.MemberID, ActRandom, DateTime.Now, true)))
                             {
-                                var url = CommonFunction.GetScreenUrl(this, "Account","ResetPassword");
+                                var url = CommonFunction.GetScreenUrl(this, "Account", "ResetPassword");
                                 if (url.EndsWith("/") == false)
                                 {
                                     url += "?actCode=";
                                 }
                                 url += ActRandom;
 
-                                string content = System.IO.File.ReadAllText(Server.MapPath("~/Content/Email/ConfirmEmailWhenForgotPassword.html"));
+                                string content =
+                                    System.IO.File.ReadAllText(
+                                        Server.MapPath("~/Content/Email/ConfirmEmailWhenForgotPassword.html"));
                                 content = content.Replace("{{Link}}", url);
-                                CommonFunction.SendMailHelper(email, "Thay đổi mật khẩu tài khoản KoiManagement",content);
+                                CommonFunction.SendMailHelper(email, "Thay đổi mật khẩu tài khoản KoiManagement",
+                                    content);
                                 obj.Status = 3;
                                 obj.Message = "Email đc được gửi, bạn vui long vào mail để kiểm tra";
                             }
@@ -311,7 +322,8 @@ namespace KoiManagement.Controllers
         // POST: /Account/Register
         [HttpPost]
         [AllowAnonymous]
-        public JsonResult Register(string name, string dob, string email, string username, string password, string rePassword, string address, string phone)
+        public JsonResult Register(string name, string dob, string email, string username, string password,
+            string rePassword, string address, string phone)
         {
             StatusObjForJsonResult obj = new StatusObjForJsonResult();
             MemberDAO dao = new MemberDAO();
@@ -372,7 +384,11 @@ namespace KoiManagement.Controllers
                     obj.Message = "Tên đăng nhập phải chứa từ 6 đến 25 ký tự";
                     return Json(obj);
                 }
-                if (!Validate.CheckNormalCharacter(username))
+                if (Validate.CheckEmailFormat(username))
+                {
+                    
+                }
+                else if (!Validate.CheckNormalCharacter(username))
                 {
                     obj.Status = 4;
                     obj.Message = "Tên đăng nhập không được chứa ký tự đặc biệt";
@@ -427,7 +443,8 @@ namespace KoiManagement.Controllers
                     return Json(obj);
                 }
 
-                Member me = new Member(name, username, CommonFunction.Md5(password), dateOfBirth, "", "N", phone, email, address, true);
+                Member me = new Member(name, username, CommonFunction.Md5(password), dateOfBirth, "", "N", phone, email,
+                    address, true);
                 obj.Status = 9;
                 if (dao.AddMember(me))
                 {
@@ -464,6 +481,10 @@ namespace KoiManagement.Controllers
         [HttpPost]
         public JsonResult ChangePassword(string oldPassword, string password, string cmfPassword)
         {
+            if (Session[SessionAccount.SessionUserId] == null)
+            {
+                RedirectToAction("Login", "Account");
+            }
             StatusObjForJsonResult obj = new StatusObjForJsonResult();
             MemberDAO dao = new MemberDAO();
             try
@@ -481,7 +502,9 @@ namespace KoiManagement.Controllers
                     obj.Message = "Mật khẩu cũ phải chứa từ 6 đến 32 ký tự";
                     return Json(obj);
                 }
-                else if (!dao.GetOldPass(Session[SessionAccount.SessionUserId].ToString()).Equals(CommonFunction.Md5(oldPassword)))
+                else if (
+                    !dao.GetOldPass(Session[SessionAccount.SessionUserId].ToString())
+                        .Equals(CommonFunction.Md5(oldPassword)))
                 {
                     obj.Status = 1;
                     obj.Message = Common.Message.ChangePasswordM03;
@@ -499,7 +522,8 @@ namespace KoiManagement.Controllers
                     obj.Message = "Mật khẩu phải chứa từ 6 đến 32 ký tự";
                     return Json(obj);
                 }
-                else if (dao.GetOldPass(Session[SessionAccount.SessionUserId].ToString()).Equals(CommonFunction.Md5(password)))
+                else if (dao.GetOldPass(Session[SessionAccount.SessionUserId].ToString())
+                    .Equals(CommonFunction.Md5(password)))
                 {
                     obj.Status = 2;
                     obj.Message = "Mật khẩu cũ phải khác mật khẩu mới";
@@ -551,7 +575,8 @@ namespace KoiManagement.Controllers
 
         // GET: /Account/UpdateProfile
         [HttpPost]
-        public JsonResult UpdateProfile(string name, string dob, string email, string username, string password, string rePassword, string address, string phone)
+        public JsonResult UpdateProfile(string name, string dob, string email, string username, string password,
+            string rePassword, string address, string phone)
         {
             StatusObjForJsonResult obj = new StatusObjForJsonResult();
             MemberDAO dao = new MemberDAO();
@@ -574,14 +599,14 @@ namespace KoiManagement.Controllers
                 {
                     obj.Status = 2;
                     obj.Message = "Date of birt";
-            return Json(obj);
-        }
+                    return Json(obj);
+                }
                 else
                 {
                     dateOfBirth = Validate.ConverDateTime(dob);
                 }
-   
-                
+
+
                 if (string.IsNullOrWhiteSpace(phone))
                 {
                     phone = String.Empty;
@@ -635,5 +660,115 @@ namespace KoiManagement.Controllers
             return View(mem);
         }
 
+        //
+        // POST: /Account/ExternalLogin
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public ActionResult ExternalLogin(string provider, string returnUrl)
+        {
+            // Request a redirect to the external login provider
+            return new ChallengeResult(provider, Url.Action("ExternalLoginCallback",
+                "Account", new {ReturnUrl = returnUrl}));
+        }
+
+        //
+        // GET: /Account/ExternalLoginCallback
+        [AllowAnonymous]
+        public async Task<ActionResult> ExternalLoginCallback(string returnUrl)
+        {
+            var loginInfo = await AuthenticationManager.GetExternalLoginInfoAsync();
+            //  var loginInfo = await AuthenticationManager.AuthenticateAsync(DefaultAuthenticationTypes.ExternalCookie);
+
+            if (loginInfo == null)
+            {
+                return RedirectToAction("Login");
+            }
+
+            // Sign in the user with this external login provider if the user already has a login
+            MemberDAO mDao = new MemberDAO();
+            var user = mDao.GetMemberByEmail(loginInfo.Email);
+            if (user !=null)
+            {
+                Login(loginInfo.Email, CommonFunction.Md5(loginInfo.Login.ProviderKey));
+            }
+            else
+            {
+              //register
+                Register("", null,loginInfo.Email, loginInfo.Email, CommonFunction.Md5(loginInfo.Login.ProviderKey), CommonFunction.Md5(loginInfo.Login.ProviderKey),"","");
+                Login(loginInfo.Email, CommonFunction.Md5(loginInfo.Login.ProviderKey));
+            }
+            return RedirectToAction("Index", "Home");
+        }
+
+        #region Helpers
+
+        // Used for XSRF protection when adding external logins
+        private const string XsrfKey = "XsrfId";
+
+        private IAuthenticationManager AuthenticationManager
+        {
+            get { return HttpContext.GetOwinContext().Authentication; }
+        }
+
+
+        private void AddErrors(IdentityResult result)
+        {
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError("", error);
+            }
+        }
+
+
+        public enum ManageMessageId
+        {
+            ChangePasswordSuccess,
+            SetPasswordSuccess,
+            RemoveLoginSuccess,
+            Error
+        }
+
+        private ActionResult RedirectToLocal(string returnUrl)
+        {
+            if (Url.IsLocalUrl(returnUrl))
+            {
+                return Redirect(returnUrl);
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
+        }
+
+        private class ChallengeResult : HttpUnauthorizedResult
+        {
+            public ChallengeResult(string provider, string redirectUri) : this(provider, redirectUri, null)
+            {
+            }
+
+            public ChallengeResult(string provider, string redirectUri, string userId)
+            {
+                LoginProvider = provider;
+                RedirectUri = redirectUri;
+                UserId = userId;
+            }
+
+            public string LoginProvider { get; set; }
+            public string RedirectUri { get; set; }
+            public string UserId { get; set; }
+
+            public override void ExecuteResult(ControllerContext context)
+            {
+                var properties = new AuthenticationProperties() {RedirectUri = RedirectUri};
+                if (UserId != null)
+                {
+                    properties.Dictionary[XsrfKey] = UserId;
+                }
+                context.HttpContext.GetOwinContext().Authentication.Challenge(properties, LoginProvider);
+            }
+        }
+
+        #endregion
     }
 }

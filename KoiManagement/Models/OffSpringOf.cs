@@ -14,6 +14,7 @@ namespace KoiManagement.Models
     
     public partial class OffSpringOf
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public OffSpringOf()
         {
             this.KoiParents = new HashSet<KoiParent>();
@@ -25,6 +26,7 @@ namespace KoiManagement.Models
         public Nullable<int> KoiID { get; set; }
     
         public virtual Koi Koi { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<KoiParent> KoiParents { get; set; }
     }
 }

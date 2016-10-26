@@ -17,7 +17,7 @@ namespace KoiManagement.Models
         public int ActiveCodeID { get; set; }
         public Nullable<int> MemberID { get; set; }
         public string ActCode { get; set; }
-        public Nullable<System.DateTime> ExpireOn { get; set; }
+        public System.DateTime ExpireOn { get; set; }
         public bool Status { get; set; }
         public ActiveCode() { }
         public ActiveCode(int MemberID, string ActCode, DateTime ExpireOn, bool Status)

@@ -6,6 +6,8 @@ using System.Linq;
 using System.Net;
 using System.Net.Mail;
 using System.Security.Cryptography;
+using System.Text;
+using System.Text.RegularExpressions;
 using System.Web;
 
 namespace KoiManagement.Common
@@ -117,6 +119,13 @@ namespace KoiManagement.Common
             CultureInfo culture = CultureInfo.CreateSpecificCulture("en-US");
             DateTime dateReturn = DateTime.ParseExact(dateTime, "yyyy-MM-dd", culture);
             return dateReturn;
+        }
+
+        public static string convertToNormalString(string s)
+        {
+            Regex regex = new Regex("\\p{IsCombiningDiacriticalMarks}+");
+            string temp = s.Normalize(NormalizationForm.FormD);
+            return regex.Replace(temp, String.Empty).Replace('\u0111', 'd').Replace('\u0110', 'D');
         }
     }
 }
