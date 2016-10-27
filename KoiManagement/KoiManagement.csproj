@@ -95,6 +95,14 @@
       <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="PagedList, Version=1.17.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PagedList.Mvc, Version=4.5.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -182,7 +190,6 @@
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Common\CommonFunction.cs" />
     <Compile Include="Common\Constants.cs" />
-    <Compile Include="Common\GetOwner.cs" />
     <Compile Include="Common\Logger.cs" />
     <Compile Include="Common\Message.cs" />
     <Compile Include="Common\Screen.cs" />
@@ -198,11 +205,12 @@
     <Compile Include="Controllers\InfoDetailController.cs" />
     <Compile Include="Controllers\KoiController.cs" />
     <Compile Include="Controllers\VarietyController.cs" />
-    <Compile Include="DAO\ActiveCodeDAO.cs" />
-    <Compile Include="DAO\InfoDetailDAO.cs" />
-    <Compile Include="DAO\OwnerDAO.cs" />
-    <Compile Include="DAO\KoiDAO.cs" />
-    <Compile Include="DAO\MemberDAO.cs" />
+    <Compile Include="DAL\ActiveCodeDAO.cs" />
+    <Compile Include="DAL\InfoDetailDAO.cs" />
+    <Compile Include="DAL\CommentDAO.cs" />
+    <Compile Include="DAL\OwnerDAO.cs" />
+    <Compile Include="DAL\KoiDAO.cs" />
+    <Compile Include="DAL\MemberDAO.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -245,6 +253,7 @@
     <Compile Include="Models\KoiFarm.cs">
       <DependentUpon>KoiContext.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\KoiFilterModel.cs" />
     <Compile Include="Models\KoiParent.cs">
       <DependentUpon>KoiContext.tt</DependentUpon>
     </Compile>
@@ -382,6 +391,7 @@
     <Content Include="Content\Image\Variety\koi09.jpg" />
     <Content Include="Content\Image\Variety\koi10.jpg" />
     <Content Include="Content\Image\Variety\showa.jpg" />
+    <Content Include="Content\PagedList.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -623,7 +633,6 @@
     <Content Include="Views\Variety\Index.cshtml" />
     <Content Include="Views\Koi\Details.cshtml" />
     <Content Include="Views\Variety\ListVariety.cshtml" />
-    <Content Include="Views\Koi\ListKoi.cshtml" />
     <Content Include="Views\Account\Index.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Account\Logout.cshtml" />
@@ -647,6 +656,7 @@
     <Content Include="Views\Koi\AddKoi.cshtml" />
     <Content Include="Views\Account\UpdateProfile.cshtml" />
     <Content Include="Views\Layout\MemberAccountLayout.cshtml" />
+    <Content Include="Views\Koi\ListKoi.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

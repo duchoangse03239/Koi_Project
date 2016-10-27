@@ -10,6 +10,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using KoiManagement.Common;
+using KoiManagement.DAL;
 using KoiManagement.Models;
 using log4net;
 using log4net.Repository.Hierarchy;

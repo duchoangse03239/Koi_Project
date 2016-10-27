@@ -28,5 +28,15 @@ namespace Model.DAO
                 return false;
             }
         }
+        public String GetOwnerName(int KoiId)
+        {
+            String OwnerName = String.Empty;
+            var Owner = db.Owners.Where(p => p.KoiID == KoiId && p.Status == true).Select(p => p.Member.Name).ToList();
+            if (Owner != null && Owner.Count > 0)
+            {
+                OwnerName = Owner.ElementAt(0);
+            }
+            return OwnerName;
+        }
     }
 }

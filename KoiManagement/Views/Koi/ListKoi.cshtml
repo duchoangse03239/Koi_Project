@@ -1,143 +1,138 @@
-﻿@model IEnumerable<KoiManagement.Models.Koi>
+﻿@using KoiManagement.Models
+@using Model.DAO
+@using PagedList.Mvc;
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Layout/KoiLayout.cshtml";
-}
-
-<section id="titleArea">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-6">
-                <h2>Danh sách cá Koi</h2>
-            </div>
-
-        </div>
-    </div>
-</section>
-<section class="container" id="list-koi">
-    <div class="row">
-        <div class="col-md-3">
-            <!-- Form Search -->
-            <form class="searchForm">
-                <h3>Tìm kiếm</h3>
-                <hr/>
-                <div>
-                    <label id="lbl-name">Tên</label>
-                    <input class="input-search" type="text" placeholder="">
-                </div>
-                <hr/>
-                <div>
-                    <label id="lbl-variety">Loại</label>
-                    <span>
-                        <select name="Koi" id="drop-variety">
-                            <option value="#" selected>Tất cả</option>
-                            <option value="#">TanCho</option>
-                            <option value="#">Showa</option>
-                        </select>
-                    </span>
-                </div>
-                <hr>          
-                <div>
-                    <label id="lbl-size">Kích thước</label> 
-                    <input class="koi-size" type="text" placeholder="From"><label>-</label>
-                    <input class="koi-size" type="text" placeholder="To"><label>cm</label>
-                </div>
-                <hr>
-                <div>
-                    <label id ="lbl-gender">Giới tính</label>
-                    <span>
-                        <select name="Koi" id="drop-sex">
-                            <option value="#" selected>Tất cả</option>
-                            <option value="#">Đực</option>
-                            <option value="#">Cái</option>
-                        </select>
-                    </span>
-                </div>
-                <hr/>   
-                <div>
-                    <label id="lbl-year-old">Tuổi</label>
-                    <input class="koi-year-old" type="text" placeholder="From"><label>-</label>
-                    <input class="koi-year-old" type="text" placeholder="To"><label>tháng</label>
-                </div>
-                <hr/>
-                <div>
-                    <label id="lbl-owner">Sở hữu</label>
-                    <input class="input-search" type="text" placeholder="">
-                </div>
-                <hr/>
-                <button class="btn btn-primary" id="btnSearch" name="btnSearch">SUBMIT</button>
-            </form>
-            <!-- END form Search -->
-        </div>
-
-        <div class="col-md-9" >
-            <div class="container btn-select-list-koi">
-                <button type="button" class="btn btn-default">Mới nhất</button>
-                <button type="button" class="btn btn-default">Đánh giá cao nhất</button>
-                <button type="button" class="btn btn-default">Xem nhiều nhất</button>
-            </div>
-            @for (var item = 0; item < Model.Count(); item++) {  
-            <div class="content-section-b">
-
-                <input type="hidden" id="koiID" name="koiID" value="@Model.ElementAt(item).KoiID">
-                <div class="row container">
-                    <div class="col-md-2">
-                        <img class="img-responsive img-koi-list " src="/Content/Image/Koi/@Model.ElementAt(item).Image" alt="">
-                    </div>
-                    <div class="col-md-5">
-                        <a class="title-koi-name" href="/Koi/Details/@Model.ElementAt(item).KoiID">@Model.ElementAt(item).KoiName</a>
-                        <h4 class="lead">Chủ sở hữu: @if (Model.ElementAt(item).Owners.Count() > 0)
-                        {
-                        @Model.ElementAt(item).Owners.ElementAt(0).Member.Name
-                        }
-                        </h4>
-                        <p><a class="btn btn-embossed btn-primary" href="/Koi/Details/@Model.ElementAt(item).KoiID" role="button">Chi tiết</a></p>
-                    </div>
-                    <div class="col-md-2">
-                        <div class="ratings">
-                            <a>
-                                <span class="glyphicon glyphicon-star"></span>
-                                <span class="glyphicon glyphicon-star"></span>
-                                <span class="glyphicon glyphicon-star"></span>
-                                <span class="glyphicon glyphicon-star"></span>
-                                <span class="glyphicon glyphicon-star"></span>
-                            </a>
-                            <br />
-                            <br />
-                            @*<a href="">@Model.ElementAt(item).Comments.Count() đánh giá</a>*@
-                        </div>
-                    </div>
-                </div>
-            </div>  
-            }
-        </div>
-    </div>
-</section>
-
-<script type="text/javascript">
+    PagedList.IPagedList ListKoi = ViewBag.Listkoi;
+    KoiFilterModel filter = ViewBag.Filter;
+    CommentDAO cmDao = new CommentDAO();
+    OwnerDAO oDao = new OwnerDAO();
     
-    $("#btnDelete")
-        .click(function () {
-            GetInfo();
-        });
+    //filter.VarietyId = ViewBag.VarietyId.ToString();
 
-    function GetInfo(parameter1) {
-        $.ajax({
-            type: "POST",
-            url: "@(Url.Content("~/Koi/DeleteConfirmed"))",
-            datatype: "JSON",
-            data: {
-                koiID: parameter1
-            },
-            success: function(returndata) {
-                if (returndata.result) {
-                    //  window.location.reload();
-                    // $('#test').html();
-                    alert("updated licenses");
-                } else {
-                    
-                }
-            }
-        });// end ajax
-    }
-</script>
+}
+    <section id="titleArea">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6">
+                    <h2>Danh sách cá Koi</h2>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="container" id="list-koi">
+        <div class="row">
+            <div class="col-md-3">
+                <!-- Form Search -->
+                <form action="/Koi/ListKoi/4" method="get">
+                    <h3>Tìm kiếm</h3>
+                    <hr />
+                    <div>
+                        <label id="lbl-name">Tên</label>
+                        <input class="input-search" name="nameKoi" id="nameKoi" type="text" value="@filter.KoiName" placeholder="">
+                    </div>
+                    <hr />
+                    <div>
+                        <label id="lbl-variety">Loại</label>
+                        <span>
+                            <select name="variety" id="variety" >
+                                <option value="0" selected>Tất cả</option>
+                                <option value="5">TanCho</option>
+                                <option value="4">Showa</option>
+                            </select>
+                        </span>
+                        <Script type="text/javascript">
+                            var $opt = $('#variety').children(('option[value='+ @filter.VarietyId+']')); $opt.attr('selected','selected');
+                        </Script>
+                    </div>
+                    <hr>
+                    <div>
+                        <label id="lbl-size">Kích thước</label>
+                        <input class="koi-size" name="SizeFrom" id="sizeFrom" value="@filter.SizeFrom" type="text" placeholder="From"><label>-</label>
+                        <input class="koi-size" name="SizeTo" id="sizeTo" value="@filter.SizeTo" type="text" placeholder="To"><label>cm</label>
+                    </div>
+                    <hr>
+                    <div>
+                        <label id="lbl-gender">Giới tính</label>
+                        <span>
+                            <select name="gender" id="gender">
+                                <option value="" selected>Tất cả</option>
+                                <option value="M">Đực</option>
+                                <option value="F">Cái</option>
+                            </select>
+                        </span>
+                    </div>
+                    <hr />
+                    <div>
+                        <label id="lbl-year-old">Tuổi</label>
+                        <input class="koi-year-old" type="text" placeholder="From"><label>-</label>
+                        <input class="koi-year-old" type="text" placeholder="To"><label>tháng</label>
+                    </div>
+                    <hr />
+                    <div>
+                        <label id="lbl-owner">Sở hữu</label>
+                        <input class="input-search" type="text" name="owner" id="owner" placeholder="">
+                    </div>
+                    <hr />
+                    <button class="btn btn-primary" type="submit" id="btnSearch" name="btnSearch">SUBMIT</button>
+                </form>
+                    @*</form>*@
+                    <!-- END form Search -->
+</div>
+            <div class="col-md-9">
+                <div class="container btn-select-list-koi">
+                    <a href="@Url.Action("ListKoi", "Koi", new {orderby ="newest", nameKoi= filter.KoiName  , variety= filter.VarietyId , sizeFrom= filter.SizeFrom , sizeTo= filter.SizeTo ,gender= filter.Gender ,owner=  filter.Owner } )">mới nhất</a>
+                    <a href="@Url.Action("ListKoi", "Koi", new {orderby ="review", nameKoi= filter.KoiName  , variety= filter.VarietyId , sizeFrom= filter.SizeFrom , sizeTo= filter.SizeTo ,gender= filter.Gender ,owner=  filter.Owner } )">Nhiều đánh giá</a>
+
+                    <button type="button" class="btn btn-default">Mới nhất</button>
+                    <button type="button" class="btn btn-default">Đánh giá cao nhất</button>
+                    <button type="button" class="btn btn-default">Xem nhiều nhất</button>
+                </div>
+                <div id="Main-ListKoi">
+                    @for (var item = 0; item < ViewBag.Listkoi.Count; item++)
+                    {
+                        <div class="content-section-b">
+                            <input type="hidden" id="koiID" name="koiID" value="@ViewBag.Listkoi[item].KoiID">
+                            <div class="row container">
+                                <div class="col-md-2">
+                                    <img class="img-responsive img-koi-list " src="/Content/Image/Koi/@ViewBag.Listkoi[item].Image" alt="">
+                                </div>
+                                <div class="col-md-5">
+                                    <a class="title-koi-name" href="/Koi/Details/@ViewBag.Listkoi[item].KoiID">@ViewBag.Listkoi[item].KoiName</a>
+                                    <h4 class="lead">
+                                        Chủ sở hữu:  <a href="">@oDao.GetOwnerName(ViewBag.Listkoi[item].KoiID)</a>
+                                    </h4>
+                                    <p class="lead"><a style="border-bottom: solid 1px #3377ff; color: #3377ff;" href="/InfoDetail/KoiInfoDetail/@ViewBag.Listkoi[item].KoiID">Thông tin sinh trưởng </a></p>
+                                    <p><a class="btn btn-embossed btn-primary" href="/Koi/Details/@ViewBag.Listkoi[item].KoiID" role="button">Chi tiết</a></p>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="ratings">
+                                        <a>
+                                            <span class="glyphicon glyphicon-star"></span>
+                                            <span class="glyphicon glyphicon-star"></span>
+                                            <span class="glyphicon glyphicon-star"></span>
+                                            <span class="glyphicon glyphicon-star"></span>
+                                            <span class="glyphicon glyphicon-star"></span>
+                                        </a>
+                                        <br />
+                                        <br />
+                                        <a href="">@cmDao.CountCommentByKoiID(ViewBag.Listkoi[item].KoiID) đánh giá</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <br />
+
+                Page @(ListKoi.PageCount < ListKoi.PageNumber ? 0 : ListKoi.PageNumber) of @ListKoi.PageCount
+
+                @Html.PagedListPager(ListKoi, page => Url.Action("ListKoi/"+ @ViewBag.VarietyId,
+    new { page, orderby = filter.orderby, nameKoi = filter.KoiName, variety = filter.VarietyId, sizeFrom = filter.SizeFrom, sizeTo = filter.SizeTo, gender = filter.Gender, owner = filter.Owner  }))
+            </div>
+        </div>
+    </section>
+    <script type="text/javascript">
+
+    </script>

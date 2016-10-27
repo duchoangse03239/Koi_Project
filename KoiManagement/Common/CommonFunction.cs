@@ -127,5 +127,31 @@ namespace KoiManagement.Common
             string temp = s.Normalize(NormalizationForm.FormD);
             return regex.Replace(temp, String.Empty).Replace('\u0111', 'd').Replace('\u0110', 'D');
         }
+
+        /// <summary>
+        /// Ép kiểu int 
+        /// </summary>
+        /// <param name="s"></param>
+        /// <returns></returns>
+        public static int? ToNullableInt(this string s)
+        {
+            int i;
+            if (int.TryParse(s, out i)) return i;
+            return null;
+        }
+
+        /// <summary>
+        /// Ép kiểu int 
+        /// </summary>
+        /// <param name="s"></param>
+        /// <returns></returns>
+        public static decimal? ToNullableDecimal(this string s)
+        {
+            decimal i;
+            if (decimal.TryParse(s, out i)) return i;
+            return null;
+        }
+
+
     }
 }

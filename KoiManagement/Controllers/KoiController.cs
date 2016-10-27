@@ -6,13 +6,15 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
-//using KoiManagement.Models;
 using KoiManagement.ViewModel;
 using System.IO;
 using System.Linq.Expressions;
 using KoiManagement.Common;
+using KoiManagement.DAL;
 using KoiManagement.Models;
+using Microsoft.Ajax.Utilities;
 using Model.DAO;
+using PagedList;
 
 namespace KoiManagement.Controllers
 {
@@ -55,17 +57,65 @@ namespace KoiManagement.Controllers
             return View(ListKois);
         }
 
+
         // GET: /Koi/ListKoi/5
-        public ActionResult ListKoi(int id = 0)
+        public ActionResult ListKoi(int? id ,int? page ,string orderby, string nameKoi,string variety,string sizeFrom, string sizeTo, string gender, string owner)
         {
-            if (id==0)
+            KoiDAO kDao = new KoiDAO();
+            if (id != null&& String.IsNullOrEmpty(variety))
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                variety = id.ToString();
             }
-           //Display list koi
-            var Koi = db.Kois.Where(p => p.VarietyID == id&&p.Status==true).ToList();
-            return View(Koi);
+            if (!String.IsNullOrEmpty(variety)&&variety.Equals("0"))
+            {
+                variety ="";
+            }
+
+            //ViewBag.VarietyId = id;
+
+            KoiFilterModel filter = new KoiFilterModel(orderby, nameKoi, variety, sizeFrom, sizeTo, gender,owner);
+            ViewBag.Filter = filter;
+            var listkoi = new List<Koi>();
+
+            var koi = db.Kois.AsQueryable();
+
+            koi = kDao.KoiFilter(filter);
+
+            // phân trang 6 item 1trang
+            int pageSize = 3;
+            int pageNumber = (page ?? 1);
+            ViewBag.Listkoi = koi.ToList().ToPagedList(pageNumber, pageSize);
+            return View();
         }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public JsonResult ListKoiFilter(string nameKoi, string sizeFrom, string sizeTo)
+        {
+            var listkoi = new List<Koi>();
+            var Koi = db.Kois.Where(p => p.VarietyID == 4 && p.Status == true).ToList();
+            foreach (var item in Koi)
+            {
+                if (!String.IsNullOrWhiteSpace(sizeTo) &&GetLastInfoDetail(item.KoiID).Size <= decimal.Parse(sizeTo))
+                {
+                    listkoi.Add(item);
+                }
+            }
+            StatusObjForJsonResult obj = new StatusObjForJsonResult();
+            obj.JsonObject = Koi;
+            int pageSize = 6;
+            int pageNumber = 1;
+            ViewBag.Listkoi = listkoi.ToPagedList(pageNumber, pageSize);
+            return Json(obj);
+        }
+
+        public InfoDetail GetLastInfoDetail(int koiId)
+        {
+            var infordetail = db.InfoDetails.Where(p =>p.KoiID== koiId && p.Date == db.InfoDetails.Max(j => j.Date).Value).ToList();
+            var infordetail1 = db.InfoDetails.Max(j => j.Date);
+            return infordetail.FirstOrDefault();
+        }
+
 
 
         // GET: /Koi/ListKoi/5
@@ -130,9 +180,10 @@ namespace KoiManagement.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+            OwnerDAO ownDao= new OwnerDAO();
             Koi koi = db.Kois.Find(id);
                 // return name of owner
-            ViewBag.Owner = Common.GetOwner.GetOwnerName(id);
+            ViewBag.Owner = ownDao.GetOwnerName(id);
             // Lấy giá trị deatail cuối cùng
             var KoiDeatail = db.InfoDetails.Where(p => p.KoiID == id).OrderBy(p => p.Date);
             if (KoiDeatail.Any())

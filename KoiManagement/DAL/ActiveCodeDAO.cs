@@ -1,13 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity.Core.Objects;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using KoiManagement.Models;
-using WebGrease.Css.Extensions;
 
-namespace Model.DAO
+namespace KoiManagement.DAL
 {
     public class ActiveCodeDAO
     {
