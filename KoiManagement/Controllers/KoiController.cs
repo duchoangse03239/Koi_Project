@@ -266,7 +266,7 @@ namespace KoiManagement.Controllers
         }
 
         // GET: /Koi/Edit/5
-        public ActionResult Edit(int? id)
+        public ActionResult EditKoi(int? id)
         {
             if (Session[SessionAccount.SessionUserId] == null)
             {
@@ -286,52 +286,10 @@ namespace KoiManagement.Controllers
             return View(koi);
         }
 
-        // POST: /Koi/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Edit(HttpPostedFileBase file, [Bind(Include = "KoiId,VarietyID,Image,KoiName,DoB,Gender,Temperament,Origin")] Koi koi)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        string filename;
 
-        //        //Edit file to local
-        //        if (file != null)
-        //        {
-        //            if (koi.Image == null)
-        //            {
-        //                filename = Path.GetFileName("Koi" + koi.KoiID + file.FileName.Substring(file.FileName.LastIndexOf('.')));
-        //                koi.Image = filename;
-        //            }
-        //            else
-        //            {
-        //                filename = koi.Image;
-        //            }
-        //            var fullpath = Server.MapPath("~/Content/Image/Koi/" + filename);
-        //            var path = Path.Combine(Server.MapPath("~/Content/Image/Koi"), filename);
-        //            if(System.IO.File.Exists(fullpath)){
-        //               System.IO.File.Delete(fullpath);
-        //            }
-        //            file.SaveAs(path);
-        //        }
-
-        //        db.Kois.Attach(koi);
-        //        var entry = db.Entry(koi);
-        //        entry.State = EntityState.Modified;
-        //        // Set column not change
-        //        entry.Property(e => e.Status).IsModified = false;
-        //        entry.Property(e => e.Privacy).IsModified = false;
-        //        db.SaveChanges();
-        //        return RedirectToAction("ListKoi/" + koi.VarietyID);
-        //    }
-        //    ViewBag.VarietyID = db.Varieties;
-        //    return View(koi);
-        //}
 
         [HttpPost]
-        public JsonResult Edit(string KoiId,string KoiName, string Image, string VarietyID, string Gender, string DoB, string Temperament, string Origin)
+        public JsonResult EditKoi(string KoiId,string KoiName, string Image, string VarietyID, string Gender, string DoB, string Temperament, string Origin)
         {
             StatusObjForJsonResult obj = new StatusObjForJsonResult();
             // check login

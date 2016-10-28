@@ -92,16 +92,23 @@ namespace KoiManagement.DAL
 
         public int EditKoi(Koi koi)
         {
-            db.Kois.Attach(koi);
-            var entry = db.Entry(koi);
-            entry.State = EntityState.Modified;
-            // Set column not change
-            entry.Property(e => e.Status).IsModified = false;
-            entry.Property(e => e.Privacy).IsModified = false;
-            entry.Property(e => e.DeadReason).IsModified = false;
-            entry.Property(e => e.IsDead).IsModified = false;
-            
-            return db.SaveChanges();
+            try
+            {
+                db.Kois.Attach(koi);
+                var entry = db.Entry(koi);
+                entry.State = EntityState.Modified;
+                // Set column not change
+                entry.Property(e => e.Status).IsModified = false;
+                entry.Property(e => e.Privacy).IsModified = false;
+                entry.Property(e => e.DeadReason).IsModified = false;
+                entry.Property(e => e.IsDead).IsModified = false;
+
+                return db.SaveChanges();
+            }
+            catch
+            {
+                return 0;
+            }
         }
 
         public IQueryable<Koi> KoiFilter(KoiFilterModel searchModel)

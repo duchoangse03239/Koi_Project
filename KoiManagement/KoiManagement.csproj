@@ -200,11 +200,13 @@
     <Compile Include="Controllers\AccountController.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Controllers\AchievementController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InfoDetailController.cs" />
     <Compile Include="Controllers\KoiController.cs" />
     <Compile Include="Controllers\VarietyController.cs" />
+    <Compile Include="DAL\AchievementDAO.cs" />
     <Compile Include="DAL\ActiveCodeDAO.cs" />
     <Compile Include="DAL\InfoDetailDAO.cs" />
     <Compile Include="DAL\CommentDAO.cs" />
@@ -637,7 +639,7 @@
     <Content Include="Views\Account\Index.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Account\Logout.cshtml" />
-    <Content Include="Views\Koi\Edit.cshtml" />
+    <Content Include="Views\Koi\EditKoi.cshtml" />
     <Content Include="Views\InfoDetail\Delete.cshtml" />
     <Content Include="Views\InfoDetail\Details.cshtml" />
     <Content Include="Views\InfoDetail\Edit.cshtml" />
@@ -659,6 +661,9 @@
     <Content Include="Views\Layout\MemberAccountLayout.cshtml" />
     <Content Include="Views\Koi\ListKoi.cshtml" />
     <Content Include="Views\Account\Profile.cshtml" />
+    <Content Include="Views\Achievement\Index.cshtml" />
+    <Content Include="Views\Achievement\AddAchievement.cshtml" />
+    <Content Include="Views\Achievement\EditAchievement.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

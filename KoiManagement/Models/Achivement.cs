@@ -20,7 +20,17 @@ namespace KoiManagement.Models
         public System.DateTime Date { get; set; }
         public string Description { get; set; }
         public bool Status { get; set; }
-    
+
+        public Achivement() { }
+        public Achivement(int KoiID, string Image, DateTime Date, string Description, bool Status)
+        {
+            this.KoiID = KoiID;
+            this.Image = Image;
+            this.Date = Date;
+            this.Description = Description;
+            this.Status = Status;
+        }
+
         public virtual Koi Koi { get; set; }
     }
 }

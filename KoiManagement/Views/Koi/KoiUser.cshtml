@@ -41,7 +41,7 @@
                              <button class="setting-icon dropdown-toggle" type="button" data-toggle="dropdown">
                                  <span class="caret"></span></button>
                              <ul class="dropdown-menu dropdown-menu-right">
-                                 <li><a href="/Koi/edit/@Model.ElementAt(item).KoiID">Sửa</a></li>
+                                 <li><a href="/Koi/editKoi/@Model.ElementAt(item).KoiID">Sửa</a></li>
                                  <li><a onclick="GetInfo(@Model.ElementAt(item).KoiID);">Xóa</a></li>
                              </ul>
                          </div>}
@@ -73,7 +73,7 @@
                                      <br/>
                                      <a href="">@Model.ElementAt(item).Comments.Count() đánh giá</a>
                                  </div>
-                                 <p><a class="btn btn-embossed btn-primary" href="/Koi/edit/@Model.ElementAt(item).KoiID" role="button">Chỉnh sửa</a>
+                                 <p><a class="btn btn-embossed btn-primary" href="/Koi/editKoi/@Model.ElementAt(item).KoiID" role="button">Chỉnh sửa</a>
                                  </p>
                              </div>
                          </div>

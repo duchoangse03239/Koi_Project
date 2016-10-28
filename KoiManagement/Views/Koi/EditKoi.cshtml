@@ -1,8 +1,10 @@
-﻿@model KoiManagement.Models.Koi
+﻿@using System.Diagnostics
+@model KoiManagement.Models.Koi
 
 @{
     ViewBag.Title = "Create";
     Layout = "~/Views/Layout/KoiLayout.cshtml";
+    string date;
 }
 
 <div class="container" id="add-koi">
@@ -57,7 +59,8 @@
                     </select>
                 </div>
                 <div class="col-sm-6">
-                    <input type="text" class="form-control" placeholder="Ngày Sinh" id="DoB" value="@Model.DoB" name="DoB" >
+                    @{ date = Model.DoB != null ? Model.DoB.Value.ToString("dd/MM/yyyy") : string.Empty;}
+                    <input type="text" class="form-control" placeholder="Ngày Sinh" id="DoB" value="@date" onfocus="(this.type = 'date')" name="DoB">
                     <label id=" lblmessage_dob_fail" class="label-error"></label>
                 </div>
             </div>
@@ -164,7 +167,7 @@
         $('#lblMessage_origin_fail').text("");
         $.ajax({
             type: "POST",
-            url: "@Url.Action("Edit")",
+            url: "@Url.Action("EditKoi")",
             contentType: false, // Not to set any content header
             processData: false,
             data: fileData,
