@@ -6,9 +6,8 @@
 }
 
 <div class="container" id="add-koi">
-    <form action="/Koi/Edit" enctype="multipart/form-data" method="post">
+    @*<form action="/Koi/Edit" enctype="multipart/form-data" method="post">*@
         <h2 id="form-title">THÊM CÁ KOI MỚI</h2>
-        @Html.AntiForgeryToken()
         <div class="">
             <div class="row">
                 <div class="col-sm-6">
@@ -88,13 +87,12 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <input type="hidden" name="Image" value="@Model.Image">
-                <input type="hidden" name="KoiId" value="@Model.KoiID">
-                <button type="submit" value="Add" class="btn btn-default">Lưu</button>
+
+                <button  id="btnEditKoi" value="Add" class="btn btn-default">Lưu</button>
                 <button type="button" class="btn btn-default" onclick="location.href='/Koi/edit/@Model.KoiID';" >Hủy</button>
             </div>
         </div>
-    </form>
+    @*</form>*@
 </div>
 
 
@@ -103,3 +101,95 @@
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $(function () {
+            $("#KoiName").focus();
+
+        });
+    });
+
+    $(document).keypress(function (event) {
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        if (keycode == "13") {
+            if (Validate()) {
+                EditKoi();
+            } else {
+                return false;
+            }
+        }
+    });
+
+
+    $("#btnEditKoi").click(function () {
+        if (Validate()) {
+            EditKoi();
+        } else {
+
+            return false;
+        }
+    });
+    function Validate() {
+
+        return true;
+    }
+
+    function EditKoi() {
+        var fileUpload = $("#file").get(0);
+        var files = fileUpload.files;
+        // Looping over all files and add it to FormData object
+        var fileData = new FormData();
+
+        for (var i = 0; i < files.length; i++) {
+            fileData.append(files[i].name, files[i]);
+        }
+
+        // Adding one more key to FormData object
+        fileData.append('KoiName', $('#KoiName').val());
+        fileData.append('VarietyID', $('#VarietyID').val());
+        fileData.append('Gender', $('#Gender').val());
+        fileData.append('DoB', $('#DoB').val());
+        fileData.append('KoiId', "@Model.KoiID");
+        fileData.append('Image', "@Model.Image");
+        fileData.append('Temperament', $('#Temperament').val());
+        fileData.append('Origin', $('#Origin').val());
+
+        $('#lblMessage_koi_name_fail').text("");
+        $('#lblMessage_koi_variety_fail').text("");
+        $('#lblMessage_koi_size_fail').text("");
+        $('#lblmessage_dob_fail').text("");
+        $('#lblMessage_temperament_fail').text("");
+        $('#lblMessage_origin_fail').text("");
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("Edit")",
+            contentType: false, // Not to set any content header
+            processData: false,
+            data: fileData,
+            dataType: "Json",
+            success: function(res) {
+                switch (res.Status) {
+                    case 2:
+                        $('#..').text(res.Message);
+                        $('#username').focus();
+                        break;
+                    case 3:
+
+                        break;
+                    case 4:
+
+                        break;
+                    case 1:
+                        alert(res.Message);
+                        window.location.href = res.RedirectTo;
+                        break;
+                    case 0:
+                        window.location.href = res.RedirectTo;
+                        break;
+                }
+            }
+        });
+    }
+</script>

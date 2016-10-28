@@ -90,6 +90,20 @@ namespace KoiManagement.DAL
             return true;
         }
 
+        public int EditKoi(Koi koi)
+        {
+            db.Kois.Attach(koi);
+            var entry = db.Entry(koi);
+            entry.State = EntityState.Modified;
+            // Set column not change
+            entry.Property(e => e.Status).IsModified = false;
+            entry.Property(e => e.Privacy).IsModified = false;
+            entry.Property(e => e.DeadReason).IsModified = false;
+            entry.Property(e => e.IsDead).IsModified = false;
+            
+            return db.SaveChanges();
+        }
+
         public IQueryable<Koi> KoiFilter(KoiFilterModel searchModel)
         {
             var koi = db.Kois.AsQueryable();
@@ -99,6 +113,12 @@ namespace KoiManagement.DAL
                 {
                     string koiname = CommonFunction.convertToNormalString(searchModel.KoiName);
                     koi = koi.Where(p => p.KoiName.Contains(searchModel.KoiName));
+                }
+                if (!string.IsNullOrEmpty(searchModel.Username))
+                {
+                    //@@
+                    //string koiname = CommonFunction.convertToNormalString(searchModel.KoiName);
+                    //koi = koi.Where(p => p.KoiName.Contains(searchModel.KoiName));
                 }
                 if (!string.IsNullOrEmpty(searchModel.VarietyId))
                 {
@@ -121,7 +141,13 @@ namespace KoiManagement.DAL
                 }
                 if (!string.IsNullOrEmpty(searchModel.Owner))
                 {
-                    koi = koi.Where(p => p.KoiName.Contains(searchModel.KoiName));
+                    //@@
+                   // koi = koi.Where(p => p.KoiName.Contains(searchModel.KoiName));
+                }
+                if (!string.IsNullOrEmpty(searchModel.Age))
+                {
+                    //@@
+                   // koi = koi.Where(p => p.KoiName.Contains(searchModel.KoiName));
                 }
                 if (!string.IsNullOrEmpty(searchModel.orderby))
                 {

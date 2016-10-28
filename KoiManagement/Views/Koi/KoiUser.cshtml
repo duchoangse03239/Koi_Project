@@ -11,12 +11,13 @@
             <div class="col-lg-6">
                 <h2>Danh sách cá Koi</h2>
             </div>
+            @if ( Session[SessionAccount.SessionUserId] != null && Session[SessionAccount.SessionUserId].ToString().Equals(ViewBag.MemberId.ToString())) {
             <div class="col-lg-6 col-md-push-4">
                 <a class="btn icon-btn btn-info btn-Add-Koi" href="/Koi/AddKoi">
                     <span class="glyphicon btn-glyphicon glyphicon-plus img-circle text-success"></span>
                     Thêm Cá Koi
                 </a>
-            </div>
+            </div>}
         </div>
     </div>
 </section>
@@ -35,7 +36,7 @@
                 for (var item = 0; item < Model.Count(); item++)
                  {
                      <div class="content-section-b">
-                         @if(Session[SessionAccount.SessionUserId]!=null && Session[SessionAccount.SessionUserId].ToString().Equals(Model.ElementAt(item).Owners.ElementAt(0).Member.MemberID.ToString())) {
+                         @if(Session[SessionAccount.SessionUserId]!=null && Session[SessionAccount.SessionUserId].ToString().Equals(ViewBag.MemberId.ToString())) {
                          <div class="dropdown">
                              <button class="setting-icon dropdown-toggle" type="button" data-toggle="dropdown">
                                  <span class="caret"></span></button>
@@ -105,7 +106,7 @@
                 if (returndata.result) {
                   //  window.location.reload();
                     // $('#test').html();
-                    alert("updated licenses");
+                    alert("xóa thành công");
                 } else {
                     
                 }

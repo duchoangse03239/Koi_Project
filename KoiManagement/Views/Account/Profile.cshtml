@@ -46,14 +46,12 @@
                             </div>
                             <div class="form-group">
                                 <label for="name">Họ và tên</label>
-                                <input type="text" class="form-control" id="name" name="name" value="@Model.Name" placeholder="Họ và tên">
+                                <input type="text" class="form-control" id="name" name="name" value="@Model.Name" placeholder="Họ và tên" disabled>
                                 <label id="lblMessage_name_fail" class="label-error"></label>
                             </div>
                             <div class="form-group">
                                 <label id="lblGender" for="gender">Giới tính:</label>
-                                <label id="lblGender" class="radio-inline"><input type="radio" name="optradio" value="M">Nam</label>
-                                <label id="lblGender" class="radio-inline"><input type="radio" name="optradio" value="F">>Nữ</label>
-                                <label id="lblGender" class="radio-inline"><input type="radio" name="optradio" value="N">Không xác định</label>
+                                <input type="text" class="form-control" id="name" name="name" value="@Model.Gender" placeholder="Họ và tên" disabled>
                             </div>
                             <div class="form-group">
                                 <!-- <label>Ngày sinh</label>
@@ -69,34 +67,20 @@
                                     </select>
                                 </div> -->
                                 <label for="dob">Ngày Sinh</label>
-                                <input type="date" class="form-control" id="dob" name="dob" placeholder="Ngày Sinh">
+                                <input type="date" class="form-control" id="dob" name="dob" placeholder="Ngày Sinh" disabled>
                                 <label id="lblMessage_dob_fail" class="label-error"></label>
                             </div>
                             <div class="form-group">
                                 <label for="address">Địa chỉ</label>
-                                <input type="text" class="form-control" id="address" name="address" placeholder="Địa chỉ">
+                                <input type="text" class="form-control" id="address" name="address" placeholder="Địa chỉ" disabled>
                                 <label id="lblMessage_address_fail" class="label-error"></label>
                             </div>
                             <div class="form-group">
                                 <label for="phone">Số điện thoại</label>
-                                <input type="text" class="form-control" id="phone" name="phone" placeholder="Số điện thoại">
+                                <input type="text" class="form-control" id="phone" name="phone" placeholder="Số điện thoại" disabled>
                                 <label id="lblMessage_phone_fail" class="label-error"></label>
                             </div>
-                            <div class="form-group">
-                                <label for="phone">Ảnh đại diện</label>
-                                <input id="uploadFile" type="file" accept="image/png, image/jpeg, image/gif" name="image" class="img" onchange="loadFile(event)" />
-                                <br />
-                                <div><img id="imagePreview" src="images/blank.jpg" alt="" /></div>
-                                <script>
-                                    var loadFile = function (event) {
-                                        var output = document.getElementById('imagePreview');
-                                        imagePreview.src = URL.createObjectURL(event.target.files[0]);
-                                    };
-                                </script>
-                            </div>
-                            <div class="form-group">
-                                <button type="submit" class="btn btn-primary btn-block" id="btnSaveProfile">Lưu</button>
-                            </div>
+
                         </div>
                     </div>
                 </div>

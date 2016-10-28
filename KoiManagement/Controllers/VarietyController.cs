@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using KoiManagement.Models;
+using Model.DAO;
 
 //using KoiManagement.Models;
 
@@ -27,8 +28,8 @@ namespace KoiManagement.Controllers
         // GET: /List Variety/
         public ActionResult ListVariety()
         {
-            var lt = db.Varieties.Where(p=>p.VarietyDetailID==null).ToList();
-            ViewBag.Varieties = lt;
+            VarietyDAO varietyDao = new VarietyDAO();
+            ViewBag.Varieties = varietyDao.getListMainVariety();
             return View();
         }
 

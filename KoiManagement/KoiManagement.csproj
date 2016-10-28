@@ -208,6 +208,7 @@
     <Compile Include="DAL\ActiveCodeDAO.cs" />
     <Compile Include="DAL\InfoDetailDAO.cs" />
     <Compile Include="DAL\CommentDAO.cs" />
+    <Compile Include="DAL\VarietyDAO.cs" />
     <Compile Include="DAL\OwnerDAO.cs" />
     <Compile Include="DAL\KoiDAO.cs" />
     <Compile Include="DAL\MemberDAO.cs" />

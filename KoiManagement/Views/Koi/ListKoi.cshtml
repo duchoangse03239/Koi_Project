@@ -8,7 +8,7 @@
     KoiFilterModel filter = ViewBag.Filter;
     CommentDAO cmDao = new CommentDAO();
     OwnerDAO oDao = new OwnerDAO();
-    
+    List<Variety> listVariety = ViewBag.listVariety;
     //filter.VarietyId = ViewBag.VarietyId.ToString();
 
 }
@@ -34,12 +34,24 @@
                     </div>
                     <hr />
                     <div>
+                        <label id="lbl-name">Tên đăng nhập</label>
+                        <input class="input-search" name="username" id="username" type="text" value="@filter.Username" placeholder="">
+                    </div>
+                    <hr />
+                    <div>
+                        <label id="lbl-owner">Tên người sở hữu</label>
+                        <input class="input-search" type="text" name="owner" id="owner" value="@filter.Owner" placeholder="">
+                    </div>
+                    <hr />
+                    <div>
                         <label id="lbl-variety">Loại</label>
                         <span>
                             <select name="variety" id="variety" >
-                                <option value="0" selected>Tất cả</option>
-                                <option value="5">TanCho</option>
-                                <option value="4">Showa</option>
+                                <option value="0">Tất cả</option>
+                                @foreach (var item in listVariety)
+                                {
+                                    <option value="@item.VarietyID" >@item.VarietyName</option>
+                                }
                             </select>
                         </span>
                         <Script type="text/javascript">
@@ -64,15 +76,13 @@
                         </span>
                     </div>
                     <hr />
+                    <Script type="text/javascript">
+                        var $opt = $('#gender').children(('option[value=' + @filter.Gender +']')); $opt.attr('selected', 'selected');
+                    </Script>
                     <div>
                         <label id="lbl-year-old">Tuổi</label>
                         <input class="koi-year-old" type="text" placeholder="From"><label>-</label>
                         <input class="koi-year-old" type="text" placeholder="To"><label>tháng</label>
-                    </div>
-                    <hr />
-                    <div>
-                        <label id="lbl-owner">Sở hữu</label>
-                        <input class="input-search" type="text" name="owner" id="owner" placeholder="">
                     </div>
                     <hr />
                     <button class="btn btn-primary" type="submit" id="btnSearch" name="btnSearch">SUBMIT</button>

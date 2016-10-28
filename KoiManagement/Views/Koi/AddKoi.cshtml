@@ -159,19 +159,18 @@
                 success: function(res) {
                     switch (res.Status) {
                     case 2:
-                        $('#lblMessage_koi_name_fail').text(res.Message);
-                        $('#username').focus();
                         break;
                     case 3:
-                        $('#lbl_password_fail').text(res.Message);
+                        $('#..').text(res.Message);
                         $('#password').focus();
                         break;
                     case 4:
-                        $('#errorMessage').text(res.Message);
-                        $('#username').focus();
                         break;
                     case 1:
                         alert(res.Message);
+                        window.location.href = res.RedirectTo;
+                        break;
+                    case 0:
                         window.location.href = res.RedirectTo;
                         break;
                     }

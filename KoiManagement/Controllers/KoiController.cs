@@ -59,9 +59,10 @@ namespace KoiManagement.Controllers
 
 
         // GET: /Koi/ListKoi/5
-        public ActionResult ListKoi(int? id ,int? page ,string orderby, string nameKoi,string variety,string sizeFrom, string sizeTo, string gender, string owner)
+        public ActionResult ListKoi(int? id ,int? page ,string orderby, string nameKoi, string username,string variety,string sizeFrom, string sizeTo, string gender, string owner, string age)
         {
             KoiDAO kDao = new KoiDAO();
+            VarietyDAO varietyDao = new VarietyDAO();
             if (id != null&& String.IsNullOrEmpty(variety))
             {
                 variety = id.ToString();
@@ -73,10 +74,9 @@ namespace KoiManagement.Controllers
 
             //ViewBag.VarietyId = id;
 
-            KoiFilterModel filter = new KoiFilterModel(orderby, nameKoi, variety, sizeFrom, sizeTo, gender,owner);
+            KoiFilterModel filter = new KoiFilterModel(orderby, nameKoi, username, variety, sizeFrom, sizeTo, gender,owner,age);
             ViewBag.Filter = filter;
-            var listkoi = new List<Koi>();
-
+            ViewBag.listVariety = varietyDao.getListMainVariety();
             var koi = db.Kois.AsQueryable();
 
             koi = kDao.KoiFilter(filter);
@@ -131,6 +131,7 @@ namespace KoiManagement.Controllers
                 // id = int.Parse(Session[SessionAccount.SessionUserId].ToString());
                 KoiDAO koiDao = new KoiDAO();
                 ListKois = koiDao.GetListKoiByMember(id);
+                ViewBag.MemberId = id;
                 if (ListKois != null)
                 {
                     return View(ListKois);
@@ -192,12 +193,15 @@ namespace KoiManagement.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        public JsonResult AddKoi( string KoiName, string Size, string VarietyID, string Gender, string DoB, string Temperament, string Origin)
+        public JsonResult AddKoi(string KoiName, string Size, string VarietyID, string Gender, string DoB, string Temperament, string Origin)
         {
             StatusObjForJsonResult obj = new StatusObjForJsonResult();
+            // check login
             if (Session[SessionAccount.SessionUserId] == null)
             {
-               // return RedirectToAction("Login", "Account");
+                obj.Status = 0;
+                obj.RedirectTo = Url.Action("Login", "Account");
+                return Json(obj);
             }
             //validate
             if (String.IsNullOrWhiteSpace(Size))
@@ -244,7 +248,7 @@ namespace KoiManagement.Controllers
                     //success
                     obj.Status = 1;
                     obj.Message = "Bạn đã thêm koi thành công";
-                    obj.RedirectTo = Url.Action("KoiUser", "Koi");
+                    obj.RedirectTo = Url.Action("KoiUser/"+ Session[SessionAccount.SessionUserId], "Koi");
                     return Json(obj);
                 }
                 else
@@ -264,9 +268,13 @@ namespace KoiManagement.Controllers
         // GET: /Koi/Edit/5
         public ActionResult Edit(int? id)
         {
+            if (Session[SessionAccount.SessionUserId] == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("ListKoi", "Koi");
             }
             Koi koi = db.Kois.Find(id);
             if (koi == null)
@@ -323,12 +331,37 @@ namespace KoiManagement.Controllers
         //}
 
         [HttpPost]
-        public ActionResult Edit(HttpPostedFileBase file, [Bind(Include = "KoiId,VarietyID,Image,KoiName,DoB,Gender,Temperament,Origin")] Koi koi)
+        public JsonResult Edit(string KoiId,string KoiName, string Image, string VarietyID, string Gender, string DoB, string Temperament, string Origin)
         {
-            if (ModelState.IsValid)
+            StatusObjForJsonResult obj = new StatusObjForJsonResult();
+            // check login
+            if (Session[SessionAccount.SessionUserId] == null)
             {
-                string filename;
+                obj.Status = 0;
+                obj.RedirectTo = Url.Action("Login", "Account");
+                return Json(obj);
+            }
+            try
+            {
+                KoiDAO koiDao = new KoiDAO();
+                VarietyDAO varietyDao = new VarietyDAO();
 
+                // Validate
+
+                string filename;
+                //Lấy file ảnh
+                HttpFileCollectionBase files = Request.Files;
+                HttpPostedFileBase file = null;
+                //Trường hợp chỉ  có 1 file
+                for (int i = 0; i < files.Count; i++)
+                {
+                    //string filename = Path.GetFileName(Request.Files[i].FileName);  
+                    file = files[i];
+                }
+                DateTime? dateOfBirth = Validate.ConverDateTime(DoB);
+                Koi koi = new Koi(int.Parse(VarietyID),KoiName, dateOfBirth, Gender,Temperament,DoB,"",Origin,true,true);
+                koi.KoiID = int.Parse(KoiId);
+                koi.Image = Image;
                 //Edit file to local
                 if (file != null)
                 {
@@ -349,18 +382,22 @@ namespace KoiManagement.Controllers
                     }
                     file.SaveAs(path);
                 }
+                //thanh cong
+                if (koiDao.EditKoi(koi) == 1)
+                {
+                    obj.Status = 1;
+                    obj.Message = "Cập nhật thông tin thành công";
+                    obj.RedirectTo = Url.Action("KoiUser/" + Session[SessionAccount.SessionUserId], "Koi");
+                }
+            ViewBag.VarietyID = varietyDao.getListVariety();
 
-                db.Kois.Attach(koi);
-                var entry = db.Entry(koi);
-                entry.State = EntityState.Modified;
-                // Set column not change
-                entry.Property(e => e.Status).IsModified = false;
-                entry.Property(e => e.Privacy).IsModified = false;
-                db.SaveChanges();
-                return RedirectToAction("ListKoi/" + koi.VarietyID);
+            } catch (Exception ex){
+                Common.Logger.LogException(ex);
+                obj.Status = 0;
+                obj.RedirectTo = this.Url.Action("SystemError", "Error");
+                return Json(obj);
             }
-            ViewBag.VarietyID = db.Varieties;
-            return View(koi);
+            return Json(obj);
         }
 
 
