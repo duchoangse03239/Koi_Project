@@ -27,7 +27,7 @@ namespace KoiManagement.Controllers
         // GET: /List Variety/
         public ActionResult ListVariety()
         {
-            var lt = db.Varieties.ToList();
+            var lt = db.Varieties.Where(p=>p.VarietyDetailID==null).ToList();
             ViewBag.Varieties = lt;
             return View();
         }
