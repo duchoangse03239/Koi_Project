@@ -119,23 +119,23 @@ namespace KoiManagement.Controllers
 
 
         // GET: /Koi/ListKoi/5
-        public ActionResult KoiUser()
+        public ActionResult KoiUser(int id=0)
         {
             // Lấy KoiId theo người sở hưu
-            if (Session[SessionAccount.SessionUserId] == null)
+            if (id == 0)
             {
-               return RedirectToAction("Login", "Account");
+               return RedirectToAction("ListKoi", "Koi");
             }
             try
             {
-                int id = int.Parse(Session[SessionAccount.SessionUserId].ToString());
+                // id = int.Parse(Session[SessionAccount.SessionUserId].ToString());
                 KoiDAO koiDao = new KoiDAO();
                 ListKois = koiDao.GetListKoiByMember(id);
                 if (ListKois != null)
                 {
                     return View(ListKois);
                 }
-            }catch (Exception ex){
+            }catch (Exception ){
                 return RedirectToAction("SystemError", "Error");
             }
             return View();
@@ -149,29 +149,6 @@ namespace KoiManagement.Controllers
             return View();
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult TestAddd(string oldPass, string newPass)
-        {
-            string koiname = oldPass;
-            string Dob = newPass;
-            //return RedirectToAction("Index", "Koi", "3");
-            // su dung result
-            bool result = true;
-            if (result)
-            {
-                return Json(new { result = true });
-            }
-            else
-            {
-                return Json(new
-                {
-                    result = false
-                });
-            }
-
-            //   return View("~/Views/koi/index.cshtml");
-        }
 
         // GET: /Koi/Details/5
         public ActionResult Details(int id=0)
@@ -215,20 +192,30 @@ namespace KoiManagement.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult AddKoi(HttpPostedFileBase file, string KoiName, string Size, string VarietyID, string Gender, string DoB, string Temperament, string Origin)
+        public JsonResult AddKoi( string KoiName, string Size, string VarietyID, string Gender, string DoB, string Temperament, string Origin)
         {
+            StatusObjForJsonResult obj = new StatusObjForJsonResult();
             if (Session[SessionAccount.SessionUserId] == null)
             {
-                return RedirectToAction("Login", "Account");
+               // return RedirectToAction("Login", "Account");
             }
-            if (ModelState.IsValid)
+            //validate
+            if (String.IsNullOrWhiteSpace(Size))
             {
+                obj.Status = 2;
+                obj.Message = "Kích thước không được để trống";
+            }
+
+            //Lấy file ảnh
+            HttpFileCollectionBase files = Request.Files;
+            HttpPostedFileBase file = null;
+            //Trường hợp chỉ  có 1 file
+            for (int i = 0; i < files.Count; i++)
+            {
+                //string filename = Path.GetFileName(Request.Files[i].FileName);  
+                file = files[i];
+            }
                 KoiDAO koiDao = new KoiDAO();
-                OwnerDAO owneiDao = new OwnerDAO();
-                InfoDetailDAO infoDao = new InfoDetailDAO();
-                // check session
-                //validate
                 decimal size ;
                 size = decimal.Parse(Size);
                 DateTime? dateOfBirth = Validate.ConverDateTime(DoB);
@@ -242,7 +229,7 @@ namespace KoiManagement.Controllers
                 ////Save file to local
                 if (file != null)
                 {
-                    //String id = db.Kois.SqlQuery(@"SELECT IDENT_CURRENT ('Koi') AS AnimalID").First().ToString();
+                    //string path = AppDomain.CurrentDomain.BaseDirectory + "Uploads/"; 
                     Imagename = Path.GetFileName("Koi" + MaxID + file.FileName.Substring(file.FileName.LastIndexOf('.')));
                     koi.Image = Imagename;
                     fullpath = Server.MapPath("~/Content/Image/Koi/" + Imagename);
@@ -255,6 +242,10 @@ namespace KoiManagement.Controllers
                 if (koiDao.AddKoi(koi, int.Parse(Session[SessionAccount.SessionUserId].ToString()), Imagename ,size ))
                 {
                     //success
+                    obj.Status = 1;
+                    obj.Message = "Bạn đã thêm koi thành công";
+                    obj.RedirectTo = Url.Action("KoiUser", "Koi");
+                    return Json(obj);
                 }
                 else
                 {
@@ -264,10 +255,10 @@ namespace KoiManagement.Controllers
                         System.IO.File.Delete(fullpath);
                     }
                 }
-            }
 
             ViewBag.VarietyID = new SelectList(db.Varieties, "VarietyID", "VarietyName");
-            return View();
+            //return View();
+            return Json(obj);
         }
 
         // GET: /Koi/Edit/5
@@ -290,8 +281,48 @@ namespace KoiManagement.Controllers
         // POST: /Koi/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult Edit(HttpPostedFileBase file, [Bind(Include = "KoiId,VarietyID,Image,KoiName,DoB,Gender,Temperament,Origin")] Koi koi)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        string filename;
+
+        //        //Edit file to local
+        //        if (file != null)
+        //        {
+        //            if (koi.Image == null)
+        //            {
+        //                filename = Path.GetFileName("Koi" + koi.KoiID + file.FileName.Substring(file.FileName.LastIndexOf('.')));
+        //                koi.Image = filename;
+        //            }
+        //            else
+        //            {
+        //                filename = koi.Image;
+        //            }
+        //            var fullpath = Server.MapPath("~/Content/Image/Koi/" + filename);
+        //            var path = Path.Combine(Server.MapPath("~/Content/Image/Koi"), filename);
+        //            if(System.IO.File.Exists(fullpath)){
+        //               System.IO.File.Delete(fullpath);
+        //            }
+        //            file.SaveAs(path);
+        //        }
+
+        //        db.Kois.Attach(koi);
+        //        var entry = db.Entry(koi);
+        //        entry.State = EntityState.Modified;
+        //        // Set column not change
+        //        entry.Property(e => e.Status).IsModified = false;
+        //        entry.Property(e => e.Privacy).IsModified = false;
+        //        db.SaveChanges();
+        //        return RedirectToAction("ListKoi/" + koi.VarietyID);
+        //    }
+        //    ViewBag.VarietyID = db.Varieties;
+        //    return View(koi);
+        //}
+
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult Edit(HttpPostedFileBase file, [Bind(Include = "KoiId,VarietyID,Image,KoiName,DoB,Gender,Temperament,Origin")] Koi koi)
         {
             if (ModelState.IsValid)
@@ -312,8 +343,9 @@ namespace KoiManagement.Controllers
                     }
                     var fullpath = Server.MapPath("~/Content/Image/Koi/" + filename);
                     var path = Path.Combine(Server.MapPath("~/Content/Image/Koi"), filename);
-                    if(System.IO.File.Exists(fullpath)){
-                       System.IO.File.Delete(fullpath);
+                    if (System.IO.File.Exists(fullpath))
+                    {
+                        System.IO.File.Delete(fullpath);
                     }
                     file.SaveAs(path);
                 }

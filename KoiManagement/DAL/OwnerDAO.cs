@@ -31,10 +31,21 @@ namespace Model.DAO
         public String GetOwnerName(int KoiId)
         {
             String OwnerName = String.Empty;
-            var Owner = db.Owners.Where(p => p.KoiID == KoiId && p.Status == true).Select(p => p.Member.Name).ToList();
+            var Owner = db.Owners.Where(p => p.KoiID == KoiId && p.Status).Select(p => p.Member.Name).ToList();
             if (Owner != null && Owner.Count > 0)
             {
                 OwnerName = Owner.ElementAt(0);
+            }
+            return OwnerName;
+        }
+
+        public String GetOwnerID(int KoiId)
+        {
+            String OwnerName = String.Empty;
+            var Owner = db.Owners.Where(p => p.KoiID == KoiId && p.Status).Select(p => p.Member. MemberID).ToList();
+            if (Owner != null && Owner.Count > 0)
+            {
+                OwnerName = Owner.ElementAt(0).ToString();
             }
             return OwnerName;
         }

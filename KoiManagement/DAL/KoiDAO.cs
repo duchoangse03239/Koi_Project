@@ -42,6 +42,12 @@ namespace KoiManagement.DAL
             return null;
         }
 
+        public int CountKoibyOwnerId(int id)
+        {
+            var ow = db.Owners.Where(p=>p.MemberID== id&& p.Status);
+            return ow.Include(p => p.Koi).Count(); 
+        }
+
         public bool AddKoi(Koi koi)
         {
             try

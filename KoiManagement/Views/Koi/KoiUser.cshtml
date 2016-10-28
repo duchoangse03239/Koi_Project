@@ -1,4 +1,5 @@
-﻿@model IEnumerable<KoiManagement.Models.Koi>
+﻿@using KoiManagement.Common
+@model IEnumerable<KoiManagement.Models.Koi>
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Layout/KoiLayout.cshtml";
@@ -34,6 +35,7 @@
                 for (var item = 0; item < Model.Count(); item++)
                  {
                      <div class="content-section-b">
+                         @if(Session[SessionAccount.SessionUserId]!=null && Session[SessionAccount.SessionUserId].ToString().Equals(Model.ElementAt(item).Owners.ElementAt(0).Member.MemberID.ToString())) {
                          <div class="dropdown">
                              <button class="setting-icon dropdown-toggle" type="button" data-toggle="dropdown">
                                  <span class="caret"></span></button>
@@ -41,7 +43,7 @@
                                  <li><a href="/Koi/edit/@Model.ElementAt(item).KoiID">Sửa</a></li>
                                  <li><a onclick="GetInfo(@Model.ElementAt(item).KoiID);">Xóa</a></li>
                              </ul>
-                         </div>
+                         </div>}
                          <input type="hidden" id="koiID" name="koiID" value="@Model.ElementAt(item).KoiID">
                          <div class="row container">
                              <div class="col-md-3">

@@ -657,6 +657,7 @@
     <Content Include="Views\Account\UpdateProfile.cshtml" />
     <Content Include="Views\Layout\MemberAccountLayout.cshtml" />
     <Content Include="Views\Koi\ListKoi.cshtml" />
+    <Content Include="Views\Account\Profile.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

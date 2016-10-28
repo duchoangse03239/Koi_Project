@@ -179,7 +179,13 @@
                         <h3 class="profile_item">Đổi mật khẩu</h3>
                     </a>
                     <div class="line"></div>
-                    <a href="@Url.Action("KoiUser", "Koi")" class="profile_link">
+                    @{
+                        String id=String.Empty;
+                        if (Session[SessionAccount.SessionUserId] != null)
+                        {
+                            id = Session[SessionAccount.SessionUserId].ToString();
+                        }}
+                    <a href="@Url.Action("KoiUser/"+id, "Koi")" class="profile_link">
                         <h3 class="profile_item">Cá Koi của tôi [<span id="my_koi_count">0</span>]</h3>
                     </a>
                     <div class="line"></div>

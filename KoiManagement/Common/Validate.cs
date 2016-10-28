@@ -146,6 +146,10 @@ namespace KoiManagement.Common
             {
                 dt = parsedDateTime;
             }
+            else
+            {
+                return null;
+            }
             return dt;
 
         }

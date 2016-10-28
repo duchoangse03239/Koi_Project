@@ -480,11 +480,12 @@ namespace KoiManagement.Controllers
         [HttpPost]
         public JsonResult ChangePassword(string oldPassword, string password, string cmfPassword)
         {
+            StatusObjForJsonResult obj = new StatusObjForJsonResult();
             if (Session[SessionAccount.SessionUserId] == null)
             {
                 RedirectToAction("Login", "Account");
+                return Json(obj);
             }
-            StatusObjForJsonResult obj = new StatusObjForJsonResult();
             MemberDAO dao = new MemberDAO();
             try
             {
@@ -565,12 +566,29 @@ namespace KoiManagement.Controllers
         }
 
         // GET: /Account/UpdateProfile
+        public ActionResult Profile(int id=0)
+        {
+            //check ton tai id
+            if (id == 0)
+            {
+                return RedirectToAction("UpdateProfile", "Account");
+            }
+            MemberDAO MDao = new MemberDAO();
+            KoiDAO kDao= new KoiDAO();
+            ViewBag.CountKoi = kDao.CountKoibyOwnerId(id);
+            var mem = MDao.GetMemberbyID(id);
+            return View(mem);
+        }
+
+        // GET: /Account/UpdateProfile
         public ActionResult UpdateProfile()
         {
+  
             MemberDAO MDao = new MemberDAO();
             var mem = MDao.GetMemberbyID(int.Parse(Session[SessionAccount.SessionUserId].ToString()));
             return View(mem);
         }
+
 
         // GET: /Account/UpdateProfile
         [HttpPost]
@@ -627,8 +645,8 @@ namespace KoiManagement.Controllers
                 obj.Status = 9;
                 if (dao.UpdateProfile(me, int.Parse(Session[SessionAccount.SessionUserId].ToString())) == 1)
                 {
-                    obj.Message = "Đăng ký thành công";
-                    obj.RedirectTo = Url.Action("Login", "Account");
+                    obj.Message = "Cập nhật thành công";
+                    obj.RedirectTo = Url.Action("UpdateProfile", "Account");
                 }
                 else
                 {

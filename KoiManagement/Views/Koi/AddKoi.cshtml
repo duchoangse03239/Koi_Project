@@ -6,9 +6,7 @@
 }
 
 <div class="container" id="add-koi" >
-    <form  enctype="multipart/form-data" method="post">
         <h2 id="form-title">THÊM CÁ KOI MỚI</h2>
-        @Html.AntiForgeryToken()
         <div class="">
             <div class="row">
                 <div class="col-sm-6">
@@ -26,7 +24,7 @@
                     <label id="lblMessage_koi_variety_fail" class="label-error"></label>
                 </div>
 
-                </div>
+            </div>
             <div class="row">
                 <div class="col-sm-6">
                     <select class="form-control" id="Gender" name="Gender">
@@ -51,7 +49,7 @@
                         <label id="lblMessage_temperament_fail" class="label-error"></label>
                     </div>
                 </div>
-                    <div class="col-sm-6">
+                <div class="col-sm-6">
                     <input type="text" class="form-control" placeholder="Nguồn Gốc" id="Origin" name="Origin">
                     <label id="lblMessage_origin_fail" class="label-error"></label>
                 </div>
@@ -61,22 +59,22 @@
             <div class="row">
                 <div class="col-sm-12">
                     <input type="file" accept="image/png, image/jpeg, image/gif" name="file" id="file" class="img" onchange="loadFile(event)" />
-                        <br />
-                        <div><img id="imagePreview" src="~/Content/Image/Common/blank.jpg" alt="" /></div>
-                        <script>
-                            var loadFile = function (event) {
-                                var output = document.getElementById('imagePreview');
-                                imagePreview.src = URL.createObjectURL(event.target.files[0]);
-                            };
-                        </script>
+                    <br />
+                    <div><img id="imagePreview" src="~/Content/Image/Common/blank.jpg" alt="" /></div>
+                    <script>
+                        var loadFile = function (event) {
+                            var output = document.getElementById('imagePreview');
+                            imagePreview.src = URL.createObjectURL(event.target.files[0]);
+                        };
+                    </script>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="submit" value="Add" class="btn btn-default">Thêm mới</button>
+                <button   id="btnAddKoi"  class="btn btn-default">Thêm mới</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Hủy</button>
             </div>
         </div>
-    </form>
+  
 </div>
 
 
@@ -98,8 +96,9 @@
                 }
             }
         });
+ 
 
-        $("#btnLogin").click(function () {
+        $("#btnAddKoi").click(function () {
             if (Validate()) {
                 AddKoi();
             } else {
@@ -126,13 +125,24 @@
         }
 
         function AddKoi() {
-            var KoiName = $('#KoiName').val();
-            var VarietyID = $('#VarietyID').val();
-            var Size = $('#Size').val();
-            var Gender = $('#Gender').val();
-            var DoB = $('#DoB').val();
-            var Temperament = $('#Temperament').val();
-            var Origin = $('#Origin').val();
+            var fileUpload = $("#file").get(0);
+            var files = fileUpload.files;
+            // Looping over all files and add it to FormData object  
+            var fileData = new FormData();
+
+            for (var i = 0; i < files.length; i++) {  
+                fileData.append(files[i].name, files[i]);  
+            }  
+              
+            // Adding one more key to FormData object  
+            fileData.append('KoiName', $('#KoiName').val());
+            fileData.append('VarietyID', $('#VarietyID').val());
+            fileData.append('Size', $('#Size').val());
+            fileData.append('Gender', $('#Gender').val());
+            fileData.append('DoB', $('#DoB').val());
+            fileData.append('Temperament', $('#Temperament').val());
+            fileData.append('Origin', $('#Origin').val());
+
             $('#lblMessage_koi_name_fail').text("");
             $('#lblMessage_koi_variety_fail').text("");
             $('#lblMessage_koi_size_fail').text("");
@@ -142,15 +152,14 @@
             $.ajax({
                 type: "POST",
                 url: "@Url.Action("AddKoi")",
-                data: {
-                    username: username,
-                    password: userpass
-                },
+                contentType: false, // Not to set any content header  
+                processData: false,
+                data: fileData,
                 dataType: "Json",
                 success: function(res) {
                     switch (res.Status) {
                     case 2:
-                        $('#lbl_username_fail').text(res.Message);
+                        $('#lblMessage_koi_name_fail').text(res.Message);
                         $('#username').focus();
                         break;
                     case 3:
@@ -162,6 +171,7 @@
                         $('#username').focus();
                         break;
                     case 1:
+                        alert(res.Message);
                         window.location.href = res.RedirectTo;
                         break;
                     }

@@ -101,7 +101,7 @@
                                 <div class="col-md-5">
                                     <a class="title-koi-name" href="/Koi/Details/@ViewBag.Listkoi[item].KoiID">@ViewBag.Listkoi[item].KoiName</a>
                                     <h4 class="lead">
-                                        Chủ sở hữu:  <a href="">@oDao.GetOwnerName(ViewBag.Listkoi[item].KoiID)</a>
+                                        Chủ sở hữu:  <a href="/Account/profile/@oDao.GetOwnerID(ViewBag.Listkoi[item].KoiID)">@oDao.GetOwnerName(ViewBag.Listkoi[item].KoiID)</a>
                                     </h4>
                                     <p class="lead"><a style="border-bottom: solid 1px #3377ff; color: #3377ff;" href="/InfoDetail/KoiInfoDetail/@ViewBag.Listkoi[item].KoiID">Thông tin sinh trưởng </a></p>
                                     <p><a class="btn btn-embossed btn-primary" href="/Koi/Details/@ViewBag.Listkoi[item].KoiID" role="button">Chi tiết</a></p>
