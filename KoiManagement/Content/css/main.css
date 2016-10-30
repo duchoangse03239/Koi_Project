@@ -484,24 +484,24 @@ body a{text-decoration: none; color:#113949;}
     margin-bottom: 20px;
     margin-top: 25px;
 	color: red;
-	font-size: 40px;    
+	font-size: 200%;    
 }
-/*.lead {
+.lead {
     margin-bottom: 25px;
     font-size: 14px;
     font-weight: 300;
     line-height: 1.2;
-}*/
+}
 /*END KOI DETAIL*/
 /*LIST KOI*/
 .glyphicon-star {
     color: #F7FE2E;
 }
-#drop-sex {
+#gender {
     width:150px; 
     margin-left:10px;
 }
-#drop-variety {
+#variety {
     width:150px; 
     margin-left:40px;
 }
@@ -524,7 +524,7 @@ body a{text-decoration: none; color:#113949;}
     margin-right:3px;
 }
 .input-search {
-    width:150px;
+    width:100px;
 }
 #lbl-year-old {
     margin-right: 48px;
@@ -539,14 +539,18 @@ body a{text-decoration: none; color:#113949;}
     margin-left: 35%;
     text-align: center;
 }
-#lbl-owner {
-    margin-right: 30px;
+#lbl-koi-name {
+    margin-right: 62px;
 }
-#lbl-name {
-    margin-right: 55px;
+#lbl-owner {
+    margin-right: 10px;
+}
+#lbl-user-name {
+    margin-right: 33px;
 }
 .btn-select-list-koi {
-
+    margin-bottom: 13px;
+    margin-top: 20px;
 }
 /*END LIST KOI*/
 /*KOI USER*/
