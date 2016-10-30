@@ -247,6 +247,9 @@ body a{text-decoration: none; color:#113949;}
 .label-error {
     color: red;
 }
+#btnSaveProfile {
+    width: 100px;
+}
 /*manage account  */ 
 .box_left {
     width: 250px;
@@ -329,7 +332,6 @@ body a{text-decoration: none; color:#113949;}
 .profile_item {
     font-weight: bold;
     height: 33px;
-    width: 250px;
     color: #33C0D9;
     padding-left: 25px;
     padding-top: 12px;
