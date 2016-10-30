@@ -25,16 +25,11 @@
         <div class="row">
             <div class="col-md-3">
                 <!-- Form Search -->
-                <form action="/Koi/ListKoi/4" method="get">
+                <form class="searchForm" action="/Koi/ListKoi/4" method="get">
                     <h3>Tìm kiếm</h3>
                     <hr />
                     <div>
-                        <label id="lbl-name">Tên</label>
-                        <input class="input-search" name="nameKoi" id="nameKoi" type="text" value="@filter.KoiName" placeholder="">
-                    </div>
-                    <hr />
-                    <div>
-                        <label id="lbl-name">Tên đăng nhập</label>
+                        <label id="lbl-user-name" >Tên đăng nhập</label>
                         <input class="input-search" name="username" id="username" type="text" value="@filter.Username" placeholder="">
                     </div>
                     <hr />
@@ -44,19 +39,24 @@
                     </div>
                     <hr />
                     <div>
+                        <label id="lbl-koi-name">Tên cá Koi</label>
+                        <input class="input-search" name="nameKoi" id="nameKoi" type="text" value="@filter.KoiName" placeholder="">
+                    </div>
+                    <hr />
+                    <div>
                         <label id="lbl-variety">Loại</label>
                         <span>
-                            <select name="variety" id="variety" >
+                            <select name="variety" id="variety">
                                 <option value="0">Tất cả</option>
                                 @foreach (var item in listVariety)
                                 {
-                                    <option value="@item.VarietyID" >@item.VarietyName</option>
+                                    <option value="@item.VarietyID">@item.VarietyName</option>
                                 }
                             </select>
                         </span>
-                        <Script type="text/javascript">
-                            var $opt = $('#variety').children(('option[value='+ @filter.VarietyId+']')); $opt.attr('selected','selected');
-                        </Script>
+                        <script type="text/javascript">
+                            var $opt = $('#variety').children(('option[value=' + @filter.VarietyId +']')); $opt.attr('selected', 'selected');
+                        </script>
                     </div>
                     <hr>
                     <div>
@@ -76,20 +76,20 @@
                         </span>
                     </div>
                     <hr />
-                    <Script type="text/javascript">
+                    <script type="text/javascript">
                         var $opt = $('#gender').children(('option[value=' + @filter.Gender +']')); $opt.attr('selected', 'selected');
-                    </Script>
+                    </script>
                     <div>
                         <label id="lbl-year-old">Tuổi</label>
                         <input class="koi-year-old" type="text" placeholder="From"><label>-</label>
                         <input class="koi-year-old" type="text" placeholder="To"><label>tháng</label>
                     </div>
                     <hr />
-                    <button class="btn btn-primary" type="submit" id="btnSearch" name="btnSearch">SUBMIT</button>
+                    <button class="btn btn-primary" type="submit" id="btnSearch" name="btnSearch">Tìm kiếm</button>
                 </form>
                     @*</form>*@
                     <!-- END form Search -->
-</div>
+        </div>
             <div class="col-md-9">
                 <div class="container btn-select-list-koi">
                     <a class="btn" href="@Url.Action("ListKoi", "Koi", new {orderby ="newest", nameKoi= filter.KoiName  , variety= filter.VarietyId , sizeFrom= filter.SizeFrom , sizeTo= filter.SizeTo ,gender= filter.Gender ,owner=  filter.Owner } )">Mới nhất</a>|
@@ -107,14 +107,14 @@
                                 </div>
                                 <div class="col-md-5">
                                     <a class="title-koi-name" href="/Koi/Details/@ViewBag.Listkoi[item].KoiID">@ViewBag.Listkoi[item].KoiName</a>
-                                    <h4 class="lead">
+                                    <h4 class="">
                                         Chủ sở hữu:  <a href="/Account/profile/@oDao.GetOwnerID(ViewBag.Listkoi[item].KoiID)">@oDao.GetOwnerName(ViewBag.Listkoi[item].KoiID)</a>
                                     </h4>
-                                    <p class="lead"><a style="border-bottom: solid 1px #3377ff; color: #3377ff;" href="/InfoDetail/KoiInfoDetail/@ViewBag.Listkoi[item].KoiID">Thông tin sinh trưởng </a></p>
+                                    <p class=""><a style="border-bottom: solid 1px #3377ff; color: #3377ff;" href="/InfoDetail/KoiInfoDetail/@ViewBag.Listkoi[item].KoiID">Thông tin sinh trưởng </a></p>
                                     <p><a class="btn btn-embossed btn-primary" href="/Koi/Details/@ViewBag.Listkoi[item].KoiID" role="button">Chi tiết</a></p>
                                 </div>
                                 <div class="col-md-2">
-                                    <div class="ratings">
+                                    <div class="ratings align-right">
                                         <a>
                                             <span class="glyphicon glyphicon-star"></span>
                                             <span class="glyphicon glyphicon-star"></span>
