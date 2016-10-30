@@ -363,12 +363,13 @@ body a{text-decoration: none; color:#113949;}
     width: 125px;
 }
 .title_box {
-    background-color: #f4f0e2;
+    margin-top: 15px;
+    background-color: #CEF6EC;
     border-radius: 3px;
     height: 45px;
 }
 .title2 {
-    color: #33C0D9;
+    color: #A4A4A4;
     float: left;
     font-size: 18px;
     margin: 12px 0 0 20px;
@@ -566,10 +567,6 @@ body a{text-decoration: none; color:#113949;}
   float: right;
   margin-right: 20px;
   margin-top: -10px;
-}
-.btn-Add-Koi {
-    margin-top: 30px;
-    margin-bottom: 15px;
 }
 /*END KOI USER*/
 .thumb-image {
