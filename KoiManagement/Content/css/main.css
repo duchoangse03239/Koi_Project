@@ -589,6 +589,7 @@ input[type="file"] {
   margin: 10px 10px 0 0;
 }
 .remove {
+  float: right;
   display: block;
   cursor: pointer;
   position: absolute;
@@ -598,4 +599,5 @@ input[type="file"] {
   background-image: url("../Content/Image/Common/x-icon.png") no-repeat scroll 0 0 transparent;
 }
 .remove:hover {
+    color: red;
 }
