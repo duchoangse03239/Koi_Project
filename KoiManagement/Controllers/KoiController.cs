@@ -204,6 +204,25 @@ namespace KoiManagement.Controllers
                 return Json(obj);
             }
             //validate
+           
+            if (Validate.CheckLengthInput(KoiName, 0, 100))
+            {
+                obj.Status = 1;
+                obj.Message = "Vui lòng nhập tên Koi!(Không quá 100 ký tự)";
+                return Json(obj);
+            }
+            if (Validate.CheckSpecialCharacterInput(KoiName, @"^[a-zA-Z0-9- ]*$"))
+            {
+                obj.Status = 1;
+                obj.Message = "Vui lòng không nhập ký tự đặc biệt cho tên Koi";
+                return Json(obj);
+            }
+            if (Decimal.Parse(Size) < 0)
+            {
+                obj.Status = 2;
+                obj.Message = "Vui lòng không nhập số âm cho kích thước của Koi";
+                return Json(obj);
+            }
             if (String.IsNullOrWhiteSpace(Size))
             {
                 obj.Status = 2;

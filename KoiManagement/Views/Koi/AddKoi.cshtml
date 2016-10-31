@@ -105,20 +105,39 @@
             }
         });
         function Validate() {
-            //var username = $("#username").val();
-            //var password = $("#password").val();
-            //$("#lbl_username_fail").text("");
-            //$("#lbl_password_fail").text("");
-            //if (username == "") {
-            //    $("#lbl_username_fail").text("Vui lòng nhập tên đăng nhập");
-            //    $("#username").focus();
-            //    return false;
-            //} else if (password == "") {
-            //    $("#errorMessage").text("");
-            //    $("#lbl_password_fail").text("Vui lòng nhập mật khẩu");
-            //    $("#password").focus();
-            //    return false;
-            //}
+            var KoiName = $('#KoiName').val();
+            var VarietyID = $('#VarietyID').val();
+            var Size = $('#Size').val();
+            var Gender = $('#Gender').val();
+            var DoB = $('#DoB').val();
+            var Temperament = $('#Temperament').val();
+            var Origin = $('#Origin').val();
+            function isSpecialCharacter(Koiname) {
+                var regex = /^[a-zA-Z0-9- ]*$/;
+                return regex.test(Koiname);
+            };
+            function isPositiveNumber(Size) {
+                var regex = /^[0-9 \.\,\+]+$/;
+                return regex.test(Size);
+            };
+
+            if (KoiName.length > 100 || KoiName.length < 0) {
+                $('#lblMessage_koi_name_fail').text("Tên Koi quá dài! Vui lòng không nhập quá 100 ký tự!");
+                return false;
+            }
+            else if (KoiName == "") {
+                $('#lblMessage_koi_name_fail').text("Vui lòng nhập tên Koi!");
+                return false;
+            }
+            else if (!isSpecialCharacter(KoiName)) {
+                $('#lblMessage_koi_name_fail').text("Vui lòng không nhập ký tự đặc biệt!");
+                return false;
+            }
+            else if (!isPositiveNumber(Size)) {
+                $('#lblMessage_koi_size_fail').text("Vui lòng không nhập số âm cho kích thước của Koi!");
+                return false;
+            }
+
             return true;
         }
 
