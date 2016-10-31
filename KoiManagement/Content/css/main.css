@@ -158,7 +158,7 @@ body a{text-decoration: none; color:#113949;}
 .site-top-1 .carousel-content h2{font-size: 30px;color: #fff;text-transform: uppercase;}
 .site-top-1 .carousel-sub-desc{text-align: center;margin-top: 30%; width:70%;margin-left: auto;margin-right: auto;}
 @media(min-width:767px){
-    .site-top-1 .carousel img.img-responsive{width:100%;}
+    .site-top-1 .carousel img.img-responsive{width:100%; height: 80%;}
 }
 @media (max-width: 767px) {
     .site-top-1 .carousel-indicators, .carousel-caption{display: none;}
@@ -437,14 +437,16 @@ body a{text-decoration: none; color:#113949;}
 	padding: 30px 0; 
 }
 .img-koi-variety {
-   height: 250px; 
+   height: 280px; 
    width: 200px; 
-   overflow: hidden; 
+   overflow: hidden;
+   display: block; 
 }
 .img-koi-list {
    height: 200px; 
-   width: 200px; 
+   width: 150px; 
    overflow: hidden; 
+   display: block; 
 }
 .section-heading {
 	margin-bottom: 20px;
