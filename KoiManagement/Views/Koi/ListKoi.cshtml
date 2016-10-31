@@ -86,14 +86,15 @@
                     </div>
                     <hr />
                     <button class="btn btn-primary" type="submit" id="btnSearch" name="btnSearch">Tìm kiếm</button>
+
                 </form>
                     @*</form>*@
                     <!-- END form Search -->
         </div>
             <div class="col-md-9">
                 <div class="container btn-select-list-koi">
-                    <a class="btn" href="@Url.Action("ListKoi", "Koi", new {orderby ="newest", nameKoi= filter.KoiName  , variety= filter.VarietyId , sizeFrom= filter.SizeFrom , sizeTo= filter.SizeTo ,gender= filter.Gender ,owner=  filter.Owner } )">Mới nhất</a>|
-                    <a class="btn" href="@Url.Action("ListKoi", "Koi", new {orderby ="review", nameKoi= filter.KoiName  , variety= filter.VarietyId , sizeFrom= filter.SizeFrom , sizeTo= filter.SizeTo ,gender= filter.Gender ,owner=  filter.Owner } )">Nhiều đánh giá</a>
+                    <a class="btn" href="@Url.Action("ListKoi", "Koi", new {orderby ="newest",username =filter.Username, nameKoi= filter.KoiName  , variety= filter.VarietyId , sizeFrom= filter.SizeFrom , sizeTo= filter.SizeTo ,gender= filter.Gender ,owner=  filter.Owner } )">Mới nhất</a>|
+                    <a class="btn" href="@Url.Action("ListKoi", "Koi", new {orderby ="review",username =filter.Username, nameKoi= filter.KoiName  , variety= filter.VarietyId , sizeFrom= filter.SizeFrom , sizeTo= filter.SizeTo ,gender= filter.Gender ,owner=  filter.Owner } )">Nhiều đánh giá</a>
 
                 </div>
                 <div id="Main-ListKoi">
@@ -124,7 +125,7 @@
                                         </a>
                                         <br />
                                         <br />
-                                        @*<a href="">@cmDao.CountCommentByKoiID(ViewBag.Listkoi[item].KoiID) đánh giá</a>*@
+                                        <a href="">@cmDao.CountCommentByKoiID(ViewBag.Listkoi[item].KoiID) đánh giá</a>
                                     </div>
                                 </div>
                             </div>

@@ -1,0 +1,44 @@
+﻿@using KoiManagement.Common
+@model KoiManagement.Models.Koi
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Layout/KoiLayout.cshtml";
+}
+
+<div id="variety" class="content-section-b" style="border-top: 0">
+    <div class="container">
+
+        <div class="wrap_title">
+            <h2 class="title-koi-name">Cá Koi</h2>
+            <p class="lead" style="margin-top:0">Thông tin Cá Koi</p>
+        </div>
+        <section class="container" id="koi-info">
+            <div class="row">
+                <div class="col-md-5 wow">
+                    <img style="padding-top: 33px;" class="img-responsive img-koi-detail"  src="/Content/Image/Koi/@Model.Image" alt="">
+                </div>
+                <div class="col-md-7 wow data-animation-delay=" 200">
+                    <h3 class="title-koi-name">@Model.KoiName</h3>
+                    <p class="lead">Loại:@Model.Variety.VarietyName</p>
+                    <p class="lead">Ngày Sinh: @(Model.DoB != null ? Model.DoB.Value.ToString("dd/MM/yyyy") : "Chưa biết")</p>
+                    <p class="lead">Giới tính:@Model.Gender</p>
+                    <p class="lead">Nguồn gốc: @Model.KoiName</p>
+                    <p class="lead">Cha : </p>
+                    <p class="lead">Mẹ : </p>
+                    <p class="lead">Chủ Sở hữu: @ViewBag.Owner</p>
+                    <p class="lead">Tính Cách: @Model.Temperament</p>
+                    <p class="lead"><a style="border-bottom: solid 1px #3377ff; color: #3377ff;" href="">Giải thưởng</a></p>
+                    <p class="lead"><a style="border-bottom: solid 1px #3377ff; color: #3377ff;" href="/InfoDetail/KoiInfoDetail/@Model.KoiID">Thông tin sinh trưởng </a></p>
+                    @if (Session[SessionAccount.SessionUserId] != null)
+                    {
+                        <p><a class="btn btn-embossed btn-warning" href="" role="button">Báo cáo spam</a></p>
+                    }
+                </div>
+
+            </div>
+        </section>
+    </div>
+</div>
+
+

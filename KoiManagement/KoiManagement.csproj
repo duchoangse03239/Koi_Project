@@ -603,12 +603,16 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\jssor.slider-21.1.6.mini.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\retina-1.1.0.min.js" />
     <Content Include="Scripts\scripts.js" />
     <Content Include="Scripts\scrolld.min.js" />
+    <Content Include="Scripts\slider.js" />
+    <Content Include="Scripts\smoothproducts.js" />
+    <Content Include="Scripts\smoothproducts.min.js" />
     <Content Include="Scripts\_references.js" />
     <None Include="Views\Account\ManageAccount.cshtml" />
     <Content Include="Views\Account\ResetPassword.cshtml" />
@@ -634,7 +638,6 @@
     <Content Include="Views\Variety\Details.cshtml" />
     <Content Include="Views\Variety\Edit.cshtml" />
     <Content Include="Views\Variety\Index.cshtml" />
-    <Content Include="Views\Koi\Details.cshtml" />
     <Content Include="Views\Variety\ListVariety.cshtml" />
     <Content Include="Views\Account\Index.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
@@ -664,6 +667,7 @@
     <Content Include="Views\Achievement\Index.cshtml" />
     <Content Include="Views\Achievement\AddAchievement.cshtml" />
     <Content Include="Views\Achievement\EditAchievement.cshtml" />
+    <Content Include="Views\Koi\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

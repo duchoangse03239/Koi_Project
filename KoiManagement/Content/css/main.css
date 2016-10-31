@@ -603,3 +603,246 @@ input[type="file"] {
 .remove:hover {
     color: red;
 }
+/*KOI INFO*/
+.koi-detail label{font-family: 'Open Sans';font-weight: normal;}
+.koi-detail .item{border:1px solid #d9d9d9;margin:10px 0;border-radius: 5px;}
+.koi-detail .line{padding: 10px;border-bottom:1px dotted #d9d9d9;}
+.koi-detail .line:last-child{border-bottom:none;}
+.koi-detail .line label{width: 50%;padding-left:20px;position: relative;font-size: 13px;color:#666;}
+.koi-detail .line label .fa{position: absolute;top:3px;left:0;}
+.koi-detail .line:hover{background: #e5e5e5;cursor: pointer;color:#fff;}
+.koi-detail .line:hover label{color:#fff;}
+.koi-detail a{
+    -webkit-transition: all 0.4s ease 0s;
+    transition: all 0.4s ease 0s;
+}
+.koi-detail .line:hover a{color:#fff;padding-left:10px;}
+
+.koi-detail .line a:hover{text-decoration: none;}
+.koi-detail .line.item-name {background: #1fadc5;}
+.koi-detail .line.item-name h1{color:#fff;margin:10px;text-align: center;font-family:'Roboto';font-size:22px;}
+.btn-button{background: #1fadc5;color:#fff;text-transform: uppercase;}
+.btn-button:hover{background: #FF8000;color:#1fadc5; }
+.image-slider{width: 90%;overflow: hidden;margin-top:10px;}
+
+.jssora05l, .jssora05r {
+    display: block;
+    position: absolute;
+    /* size of arrow element */
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    background: url('../img/a17.png') no-repeat;
+    overflow: hidden;
+}
+.jssora05l, .jssora05r {
+    display: block;
+    position: absolute;
+    /* size of arrow element */
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    background: url('../img/a17.png') no-repeat;
+    overflow: hidden;
+}
+.jssora05l { background-position: -10px -40px; }
+.jssora05r { background-position: -70px -40px; }
+.jssora05l:hover { background-position: -130px -40px; }
+.jssora05r:hover { background-position: -190px -40px; }
+.jssora05l.jssora05ldn { background-position: -250px -40px; }
+.jssora05r.jssora05rdn { background-position: -310px -40px; }
+.jssora05l.jssora05lds { background-position: -10px -40px; opacity: .3; pointer-events: none; }
+.jssora05r.jssora05rds { background-position: -70px -40px; opacity: .3; pointer-events: none; }
+.jssort01 .p {    
+    position: absolute;    
+    top: 0;    left: 0;    
+    width: 72px;    
+    height: 72px;}
+.jssort01 .t {    
+    position: absolute;    
+    top: 0;    left: 0;    
+    width: 100%;    
+    height: 100%;    
+    border: none;}
+.jssort01 .w {    
+    position: absolute;    
+    top: 0px;    
+    left: 0px;    
+    width: 100%;    
+    height: 100%;}
+.jssort01 .c {    
+    position: absolute;    
+    top: 0px;    left: 0px;    
+    width: 68px;    
+    height: 68px;    
+    border: #000 2px solid;    
+    box-sizing: content-box;    
+    background: url('img/t01.png') -800px -800px no-repeat;
+        _background: none;}
+.jssort01 .pav .c {    top: 2px;    _top: 0px;    left: 2px;    _left: 0px;    width: 68px;    height: 68px;    border: #000 0px solid;    _border: #fff 2px solid;    background-position: 50% 50%;}
+.jssort01 .p:hover .c {    top: 0px;    left: 0px;    width: 70px;    height: 70px;    border: #fff 1px solid;    background-position: 50% 50%;}
+.jssort01 .p.pdn .c {    background-position: 50% 50%;    width: 68px;    height: 68px;    border: #000 2px solid;}
+* html .jssort01 .c, * html .jssort01 .pdn .c, * html .jssort01 .pav .c { 
+    width: 72px;    
+    height: 72px;}
+/*END KOI INFO*/
+
+
+.sp-loading {
+    text-align: center;
+    max-width: 270px;
+    padding: 15px;
+    border: 5px solid #eee;
+    border-radius: 3px;
+    font-size: 12px;
+    color: #888;
+}
+
+/* Element wrapper */
+
+.sp-wrap {
+    display: none;
+    line-height: 0;
+    font-size: 0;
+    background: #eee;
+    border: 5px solid #eee;
+    border-radius: 3px;
+    position: relative;
+    margin: 0 25px 15px 0;
+    float: left;
+    /**************
+      Set max-width to your thumbnail width
+    ***************/
+    
+    max-width: 300px;
+}
+
+/* Thumbnails */
+
+.sp-thumbs {
+    text-align: left;
+    display: inline-block;
+}
+.sp-thumbs img {
+    min-height: 50px;
+    min-width: 50px;
+    max-width: 50px;
+}
+.sp-thumbs a:link, .sp-thumbs a:visited {
+    width: 50px;
+    height: 50px;
+    overflow: hidden;
+    opacity: .3;
+    display: inline-block;
+    background-size: cover;
+    background-position: center;
+    -webkit-transition: all .2s ease-out;
+    -moz-transition: all .2s ease-out;
+    -ms-transition: all .2s ease-out;
+    -o-transition: all .2s ease-out;
+    transition: all .2s ease-out;
+}
+.sp-thumbs a:hover {
+    opacity: 1;
+}
+
+/* Styles for the currently selected thumbnail */
+
+.sp-thumbs a:active, .sp-current {
+    opacity: 1!important;
+    position: relative;
+}
+
+/* Image currently being viewed */
+
+.sp-large {
+    position: relative;
+    overflow: hidden;
+    top: 0;
+    left: 0;
+}
+.sp-large a img {
+    max-width: 100%;
+    height: auto;
+}
+.sp-large a {
+    display: block;
+}
+
+/* Panning Zoomed Image */
+
+.sp-zoom {
+    position: absolute;
+    left: -50%;
+    top: -50%;
+    cursor: -webkit-zoom-in;
+    cursor: -moz-zoom-in;
+    cursor: zoom-in;
+    display: none;
+}
+/* Lightbox */
+
+.sp-lightbox {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: rgb(0, 0, 0);
+    background: rgba(0, 0, 0, .9);
+    z-index: 500;
+    display: none;
+    cursor: pointer;
+}
+.sp-lightbox img {
+    position: absolute;
+    margin: auto;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    max-width: 90%;
+    max-height: 90%;
+    border: 2px solid #fff;
+}
+#sp-prev, #sp-next {
+    position: absolute;
+    top: 50%;
+    margin-top: -25px;
+    z-index: 501;
+    color: #fff;
+    padding: 14px;
+    text-decoration: none;
+    background: #000;
+    border-radius: 25px;
+    border: 2px solid #fff;
+    width: 50px;
+    height: 50px;
+    box-sizing: border-box;
+    transition: .2s;
+}
+#sp-prev {
+    left: 10px;
+}
+#sp-prev:before {
+    content: '';
+    border: 7px solid transparent;
+    border-right: 15px solid #fff;
+    position: absolute;
+    top: 16px;
+    left: 7px;
+}
+#sp-next {
+    right: 10px;
+}
+#sp-next:before {
+    content: '';
+    border: 7px solid transparent;
+    border-left: 15px solid white;
+    position: absolute;
+    top: 16px;
+    left: 18px;
+}
+#sp-prev:hover, #sp-next:hover {
+    background: #444;
+}
