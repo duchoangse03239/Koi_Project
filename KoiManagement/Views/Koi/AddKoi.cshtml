@@ -58,13 +58,7 @@
             <br />
             <div class="row">
                 <div class="col-sm-12">
-                    <input type="file" id="files" name="files[]" multiple />
-                    @*<script>
-                        var loadFile = function (event) {
-                            var output = document.getElementById('imagePreview');
-                            imagePreview.src = URL.createObjectURL(event.target.files[0]);
-                        };
-                    </script>*@
+                    <input type="file" name="files[]" id="filer_input2" multiple="multiple">
                 </div>
             </div>
             <div class="modal-footer">
@@ -226,30 +220,34 @@
     //    });
     //});
 
-    $(document).ready(function () {
-        if (window.File && window.FileList && window.FileReader) {
-            $("#files").on("change", function (e) {
-                var files = e.target.files,
-                  filesLength = files.length;
-                for (var i = 0; i < filesLength; i++) {
-                    var f = files[i]
-                    var fileReader = new FileReader();
-                    fileReader.onload = (function (e) {
-                        var file = e.target;
-                        $("<span class=\"pip\">" +
-                          "<img class=\"imageThumb\" src=\"" + e.target.result + "\" title=\"" + file.name + "\"/>" +
-                          "<br/><span class=\"remove\">X</span>" +
-                          "</span>").insertAfter("#files");
-                        $(".remove").click(function () {
-                            $(this).parent(".pip").remove();
-                        });
-                    });
-                    fileReader.readAsDataURL(f);
-                }
-            });
-        } else {
-            alert("Your browser doesn't support to File API")
-        }
-    });
+    //$(document).ready(function () {
+    //    if (window.File && window.FileList && window.FileReader) {
+    //        $("#files").on("change", function (e) {
+    //            var files = e.target.files,
+    //              filesLength = files.length;
+    //            for (var i = 0; i < filesLength; i++) {
+    //                var f = files[i]
+    //                var fileReader = new FileReader();
+    //                fileReader.onload = (function (e) {
+    //                    var file = e.target;
+    //                    $("<span class=\"pip\">" +
+    //                      "<img class=\"imageThumb\" src=\"" + e.target.result + "\" title=\"" + file.name + "\"/>" +
+    //                      "<br/><span class=\"remove\">X</span>" +
+    //                      "</span>").insertAfter("#files");
+    //                    $(".remove").click(function () {
+    //                        $(this).parent(".pip").remove();
+    //                    });
+    //                });
+    //                fileReader.readAsDataURL(f);
+    //            }
+    //        });
+    //    } else {
+    //        alert("Your browser doesn't support to File API")
+    //    }
+    //});
 </script>
 @*<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>*@
+<script src="~/Scripts/custom.js"></script>
+<script src="~/Scripts/jquery.filer.min.js"></script>
+<link href="~/Content/css/jquery.filer-dragdropbox-theme.css" rel="stylesheet" />
+<link href="~/Content/css/jquery.filer.css" rel="stylesheet" />
