@@ -160,43 +160,45 @@
         </div>
         <div class="section site-main">
             <div class="container">
-                <div class="box_left">
-                    <div class="profile_info">
-                        <div class="profile_left">
-                            <a href="#">
-                                <img src="~/Content/Image/Member/@Session[SessionAccount.SessionImage]" id="avatar" class="profile_img" alt="">
-                            </a>
-                            <!-- <a href="#" class="profile_edit">Đổi mật khẩu</a> -->
-                            <!-- <a href="http://sharecode.vn/thanh-vien/thangnc-80839.htm" id="ContentPlaceHolder1_ContentPlaceHolder1_uscprofile1_LinkPageUser" class="profile_page">Trang cá nhân</a> -->
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="profile_info">
+                            <div class="profile_left">
+                                <a href="#">
+                                    <img src="~/Content/Image/Member/@Session[SessionAccount.SessionImage]" id="avatar" class="profile_img" alt="">
+                                </a>
+                                <!-- <a href="#" class="profile_edit">Đổi mật khẩu</a> -->
+                                <!-- <a href="http://sharecode.vn/thanh-vien/thangnc-80839.htm" id="ContentPlaceHolder1_ContentPlaceHolder1_uscprofile1_LinkPageUser" class="profile_page">Trang cá nhân</a> -->
+                            </div>
                         </div>
+                        <div class="line"></div>
+                        <a href="@Url.Action("UpdateProfile", "Account")" class="profile_link">
+                            <h3 class="profile_item">Thông tin cá nhân</h3>
+                        </a>
+                        <div class="line"></div>
+                        <a href="@Url.Action("ChangePassword", "Account")" class=" profile_link">
+                            <h3 class="profile_item">Đổi mật khẩu</h3>
+                        </a>
+                        <div class="line"></div>
+                        @{
+                            String id = String.Empty;
+                            if (Session[SessionAccount.SessionUserId] != null)
+                            {
+                                id = Session[SessionAccount.SessionUserId].ToString();
+                            }}
+                        <a href="@Url.Action("KoiUser/"+id, "Koi")" class="profile_link">
+                            <h3 class="profile_item">Cá Koi của tôi [<span id="my_koi_count">0</span>]</h3>
+                        </a>
+                        <div class="line"></div>
+                        <a href="#" class="profile_link">
+                            <h3 class="profile_item">Trang trại của tôi [<span id="my_farm_count">0</span>]</h3>
+                        </a>
                     </div>
-                    <div class="line"></div>
-                    <a href="@Url.Action("UpdateProfile", "Account")" class="profile_link">
-                        <h3 class="profile_item">Thông tin cá nhân</h3>
-                    </a>
-                    <div class="line"></div>
-                    <a href="@Url.Action("ChangePassword", "Account")" class=" profile_link">
-                        <h3 class="profile_item">Đổi mật khẩu</h3>
-                    </a>
-                    <div class="line"></div>
-                    @{
-                        String id=String.Empty;
-                        if (Session[SessionAccount.SessionUserId] != null)
-                        {
-                            id = Session[SessionAccount.SessionUserId].ToString();
-                        }}
-                    <a href="@Url.Action("KoiUser/"+id, "Koi")" class="profile_link">
-                        <h3 class="profile_item">Cá Koi của tôi [<span id="my_koi_count">0</span>]</h3>
-                    </a>
-                    <div class="line"></div>
-                    <a href="#" class="profile_link">
-                        <h3 class="profile_item">Trang trại của tôi [<span id="my_farm_count">0</span>]</h3>
-                    </a>
+                    <div class="col-md-9">
+                        @RenderBody()
+                    </div>
                 </div>
-                <div class="box_right">
-                    @RenderBody()
-                </div>
-                </div>
+             </div>
         </div>
         <!-- start footer area -->
         <div class="section site-top-12" id="footer">
