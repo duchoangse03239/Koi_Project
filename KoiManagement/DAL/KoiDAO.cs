@@ -123,9 +123,7 @@ namespace KoiManagement.DAL
                 }
                 if (!string.IsNullOrEmpty(searchModel.Username))
                 {
-                    //@@
-                    //string koiname = CommonFunction.convertToNormalString(searchModel.KoiName);
-                    //koi = koi.Where(p => p.KoiName.Contains(searchModel.KoiName));
+                    koi = koi.Where(p => p.Owners.Where(o => o.Status).FirstOrDefault().Member.UserName.Equals(searchModel.Username));
                 }
                 if (!string.IsNullOrEmpty(searchModel.VarietyId))
                 {
@@ -150,6 +148,7 @@ namespace KoiManagement.DAL
                 {
                     //@@
                    // koi = koi.Where(p => p.KoiName.Contains(searchModel.KoiName));
+                    koi = koi.Where(p => p.Owners.Where(o => o.Status).FirstOrDefault().Member.Name.Contains(searchModel.Owner)) ;
                 }
                 if (!string.IsNullOrEmpty(searchModel.Age))
                 {
