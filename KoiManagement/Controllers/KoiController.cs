@@ -70,7 +70,7 @@ namespace KoiManagement.Controllers
             {
                 variety ="";
             }
-
+            variety = variety;
             //ViewBag.VarietyId = id;
 
             KoiFilterModel filter = new KoiFilterModel(orderby, nameKoi, username, variety, sizeFrom, sizeTo, gender,owner,age);

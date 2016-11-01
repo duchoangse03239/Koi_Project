@@ -41,8 +41,8 @@ namespace KoiManagement
 
             var facebookOptions = new Microsoft.Owin.Security.Facebook.FacebookAuthenticationOptions
             {
-                AppId = "216790255407823",
-                AppSecret = "fd230a5737cc01dae0c6587062abbc11",
+                AppId = "1786200161668518",
+                AppSecret = "53f9d82d3cc002fe8d042db0a36e082d",
                 UserInformationEndpoint = "https://graph.facebook.com/v2.4/me?fields=id,name,email,first_name,last_name",
                 BackchannelHttpHandler = new FacebookBackChannelHandler(),
                 Provider = new Microsoft.Owin.Security.Facebook.FacebookAuthenticationProvider
