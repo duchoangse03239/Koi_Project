@@ -13,7 +13,6 @@ using KoiManagement.Common;
 using KoiManagement.DAL;
 using KoiManagement.Models;
 using Microsoft.Ajax.Utilities;
-using Model.DAO;
 using PagedList;
 
 namespace KoiManagement.Controllers
@@ -203,52 +202,55 @@ namespace KoiManagement.Controllers
                 obj.RedirectTo = Url.Action("Login", "Account");
                 return Json(obj);
             }
+            string Imagename = String.Empty;
+            var fullpath = String.Empty;
             //validate
-           
-            if (Validate.CheckLengthInput(KoiName, 0, 100))
+            try
             {
-                obj.Status = 1;
-                obj.Message = "Vui lòng nhập tên Koi!(Không quá 100 ký tự)";
-                return Json(obj);
-            }
-            if (Validate.CheckSpecialCharacterInput(KoiName, @"^[a-zA-Z0-9- ]*$"))
-            {
-                obj.Status = 1;
-                obj.Message = "Vui lòng không nhập ký tự đặc biệt cho tên Koi";
-                return Json(obj);
-            }
-            if (Decimal.Parse(Size) < 0)
-            {
-                obj.Status = 2;
-                obj.Message = "Vui lòng không nhập số âm cho kích thước của Koi";
-                return Json(obj);
-            }
-            if (String.IsNullOrWhiteSpace(Size))
-            {
-                obj.Status = 2;
-                obj.Message = "Kích thước không được để trống";
-            }
+                if (!Validate.CheckLengthInput(KoiName, 0, 100))
+                {
+                    obj.Status = 1;
+                    obj.Message = "Vui lòng nhập tên Koi!(Không quá 100 ký tự)";
+                    return Json(obj);
+                }
+                if (!Validate.CheckSpecialCharacterInput(KoiName, @"^[a-zA-Z0-9- ]*$"))
+                {
+                    obj.Status = 1;
+                    obj.Message = "Vui lòng không nhập ký tự đặc biệt cho tên Koi";
+                    return Json(obj);
+                }
+                if (Decimal.Parse(Size) < 0)
+                {
+                    obj.Status = 2;
+                    obj.Message = "Vui lòng không nhập số âm cho kích thước của Koi";
+                    return Json(obj);
+                }
+                if (String.IsNullOrWhiteSpace(Size))
+                {
+                    obj.Status = 2;
+                    obj.Message = "Kích thước không được để trống";
+                }
 
-            //Lấy file ảnh
-            HttpFileCollectionBase files = Request.Files;
-            HttpPostedFileBase file = null;
-            //Trường hợp chỉ  có 1 file
-            for (int i = 0; i < files.Count; i++)
-            {
-                //string filename = Path.GetFileName(Request.Files[i].FileName);  
-                file = files[i];
-            }
+                //Lấy file ảnh
+                HttpFileCollectionBase files = Request.Files;
+                HttpPostedFileBase file = null;
+                //Trường hợp chỉ  có 1 file
+                for (int i = 0; i < files.Count; i++)
+                {
+                    //string filename = Path.GetFileName(Request.Files[i].FileName);  
+                    file = files[i];
+                }
                 KoiDAO koiDao = new KoiDAO();
-                decimal size ;
+                decimal size;
                 size = decimal.Parse(Size);
                 DateTime? dateOfBirth = Validate.ConverDateTime(DoB);
                 // lấy id max đặt tên file ảnh
                 var MaxID = koiDao.GetMaxKoiID();
-                var koi = new Koi(int.Parse(VarietyID), KoiName, dateOfBirth, Gender, Temperament, DoB, "certificate", Origin, true, true);
-                
+                var koi = new Koi(int.Parse(VarietyID), KoiName, dateOfBirth, Gender, Temperament, DoB, "certificate",
+                    Origin, true, true);
+
                 //set default value
-                string Imagename=String.Empty;
-                var fullpath = String.Empty;
+
                 ////Save file to local
                 if (file != null)
                 {
@@ -258,16 +260,16 @@ namespace KoiManagement.Controllers
                     fullpath = Server.MapPath("~/Content/Image/Koi/" + Imagename);
                     var path = Path.Combine(Server.MapPath("~/Content/Image/Koi"), Imagename);
                     file.SaveAs(path);
- 
+
                 }
-                
+
                 // thêm thông tin koi vào 3 bảng: koi, owner, infoDetail
-                if (koiDao.AddKoi(koi, int.Parse(Session[SessionAccount.SessionUserId].ToString()), Imagename ,size ))
+                if (koiDao.AddKoi(koi, int.Parse(Session[SessionAccount.SessionUserId].ToString()), Imagename, size))
                 {
                     //success
                     obj.Status = 1;
                     obj.Message = "Bạn đã thêm koi thành công";
-                    obj.RedirectTo = Url.Action("KoiUser/"+ Session[SessionAccount.SessionUserId], "Koi");
+                    obj.RedirectTo = Url.Action("KoiUser/" + Session[SessionAccount.SessionUserId], "Koi");
                     return Json(obj);
                 }
                 else
@@ -279,8 +281,16 @@ namespace KoiManagement.Controllers
                     }
                 }
 
-            ViewBag.VarietyID = new SelectList(db.Varieties, "VarietyID", "VarietyName");
-            //return View();
+                ViewBag.VarietyID = new SelectList(db.Varieties, "VarietyID", "VarietyName");
+                //return View();
+            }
+            catch (Exception ex)
+            {
+                Common.Logger.LogException(ex);
+                obj.Status = 0;
+                obj.RedirectTo = this.Url.Action("SystemError", "Error");
+                return Json(obj);
+            }
             return Json(obj);
         }
 

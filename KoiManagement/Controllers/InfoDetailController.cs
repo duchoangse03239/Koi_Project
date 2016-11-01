@@ -7,6 +7,8 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using System.IO;
+using KoiManagement.Common;
+using KoiManagement.DAL;
 using KoiManagement.Models;
 
 namespace KoiManagement.Controllers
@@ -53,7 +55,7 @@ namespace KoiManagement.Controllers
         }
 
         // GET: InfoDetail/add new koi
-        public ActionResult Add(int id=0)
+        public ActionResult AddDetail(int id=0)
         {
             if (id == 0)
             {
@@ -66,38 +68,138 @@ namespace KoiManagement.Controllers
         // POST: InfoDetail/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult AddDetail(HttpPostedFileBase file, [Bind(Include = "KoiId,Weight,Size,HeathyStatus,Description,Image")] InfoDetail infoDetail)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        // lấy id max đặt tên file ảnh
+        //        var MaxID = db.InfoDetails.Max(g => g.DetailID) + 1;
+
+        //        //set default value
+        //        infoDetail.Date = DateTime.Now;
+
+        //        //Save file to local
+        //        if (file != null)
+        //        {
+        //            //String id = db.Kois.SqlQuery(@"SELECT IDENT_CURRENT ('Koi') AS AnimalID").First().ToString();
+        //            var filename = Path.GetFileName("Detail" + MaxID + file.FileName.Substring(file.FileName.LastIndexOf('.')));
+        //            infoDetail.Image = filename;
+        //            var path = Path.Combine(Server.MapPath("~/Content/Image/Detail"), filename);
+        //            file.SaveAs(path);
+        //        }
+
+
+        //        db.InfoDetails.Add(infoDetail);
+        //        db.SaveChanges();
+        //        return RedirectToAction("KoiInfoDetail/"+infoDetail.KoiID);
+        //    }
+            
+        //    ViewBag.KoiID = new SelectList(db.Kois, "KoiID", "KoiName", infoDetail.KoiID);
+        //    return View(infoDetail);
+        //}
+
+
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Add(HttpPostedFileBase file, [Bind(Include = "KoiId,Weight,Size,HeathyStatus,Description,Image")] InfoDetail infoDetail)
+        public JsonResult AddDetail(string KoiID, string Weight, string Size, string HeathyStatus, string Description)
         {
-            if (ModelState.IsValid)
+            StatusObjForJsonResult obj = new StatusObjForJsonResult();
+            var fullpath = new List<string>();
+            if (Session[SessionAccount.SessionUserId] == null)
             {
+                obj.Status = 0;
+                obj.RedirectTo = Url.Action("Login", "Account");
+                return Json(obj);
+            }
+            try
+            {
+                InfoDetailDAO infoDetailDao = new InfoDetailDAO();
+                MediaDAO mediaDao = new MediaDAO();
+                var infoDetail = new InfoDetail();
+                infoDetail.Weight = decimal.Parse(Weight);
+                infoDetail.Size = decimal.Parse(Size);
+                infoDetail.HeathyStatus = HeathyStatus;
+                infoDetail.Description = Description;
+                infoDetail.KoiID = int.Parse(KoiID);
+                infoDetail.Status = true;
                 // lấy id max đặt tên file ảnh
                 var MaxID = db.InfoDetails.Max(g => g.DetailID) + 1;
 
+                //Lấy file ảnh
+                HttpFileCollectionBase files = Request.Files;
+                HttpPostedFileBase file = null;
+                //Trường hợp chỉ  có 1 file
+                for (int i = 0; i < files.Count; i++)
+                {
+                    //string filename = Path.GetFileName(Request.Files[i].FileName);  
+                    file = files[i];
+                    //Save file to local
+                    if (file != null && i==0)
+                    {
+                        var filename = Path.GetFileName("Detail" + MaxID + i + file.FileName.Substring(file.FileName.LastIndexOf('.')) );
+                        infoDetail.Image = filename;
+                        fullpath.Add(Server.MapPath("~/Content/Image/Detail/" + filename));
+                        var path = Path.Combine(Server.MapPath("~/Content/Image/Detail"), filename);
+                        file.SaveAs(path);
+                    }
+                    else if (file != null )
+                    {
+                        var filename = Path.GetFileName("Detail" + MaxID + i + file.FileName.Substring(file.FileName.LastIndexOf('.')));
+                        infoDetail.Image = filename;
+                        fullpath.Add(Server.MapPath("~/Content/Image/Detail/" + filename));
+                        var path = Path.Combine(Server.MapPath("~/Content/Image/Detail"), filename);
+                        file.SaveAs(path);
+                        Medium a =  new Medium();
+                        a.ModelTypeID = "InfoDetail";
+                        a.LinkImage = filename;
+                        a.ModelId = infoDetail.DetailID;
+                        mediaDao.addMedia(a);
+                    }
+                }
                 //set default value
                 infoDetail.Date = DateTime.Now;
 
-                //Save file to local
-                if (file != null)
+                // return RedirectToAction("KoiInfoDetail/"+infoDetail.KoiID);
+
+                ViewBag.KoiID = new SelectList(db.Kois, "KoiID", "KoiName", infoDetail.KoiID);
+                 if (infoDetailDao.AddInfoDetail(infoDetail))
                 {
-                    //String id = db.Kois.SqlQuery(@"SELECT IDENT_CURRENT ('Koi') AS AnimalID").First().ToString();
-                    var filename = Path.GetFileName("Detail" + MaxID + file.FileName.Substring(file.FileName.LastIndexOf('.')));
-                    infoDetail.Image = filename;
-                    var path = Path.Combine(Server.MapPath("~/Content/Image/Detail"), filename);
-                    file.SaveAs(path);
+                    //success
+                    obj.Status = 1;
+                    obj.Message = "Bạn đã thêm";
+                    obj.RedirectTo = Url.Action("KoiInfoDetail/" + KoiID, "InfoDetail");
+                    return Json(obj);
                 }
-
-
-                db.InfoDetails.Add(infoDetail);
-                db.SaveChanges();
-                return RedirectToAction("KoiInfoDetail/"+infoDetail.KoiID);
+                else
+                {
+                    //Nếu fail xoa anh da them
+                    foreach (var item in fullpath)
+                    {
+                        if (System.IO.File.Exists(item))
+                        {
+                            System.IO.File.Delete(item);
+                        }
+                    }
+                }
             }
-            
-            ViewBag.KoiID = new SelectList(db.Kois, "KoiID", "KoiName", infoDetail.KoiID);
-            return View(infoDetail);
+            catch (Exception ex)
+            {
+                Common.Logger.LogException(ex);
+                obj.Status = 0;
+                obj.RedirectTo = this.Url.Action("SystemError", "Error");
+                //Nếu fail xoa anh da them
+                foreach (var item in fullpath)
+                {
+                    if (System.IO.File.Exists(item))
+                    {
+                        System.IO.File.Delete(item);
+                    }
+                }
+                return Json(obj);
+            }
+            return Json(obj);
         }
-
 
         // GET: InfoDetail/Edit/5
         public ActionResult Edit(int? id)

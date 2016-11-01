@@ -210,6 +210,7 @@
     <Compile Include="DAL\ActiveCodeDAO.cs" />
     <Compile Include="DAL\InfoDetailDAO.cs" />
     <Compile Include="DAL\CommentDAO.cs" />
+    <Compile Include="DAL\MediaDAO.cs" />
     <Compile Include="DAL\VarietyDAO.cs" />
     <Compile Include="DAL\OwnerDAO.cs" />
     <Compile Include="DAL\KoiDAO.cs" />
@@ -648,7 +649,7 @@
     <Content Include="Views\InfoDetail\Edit.cshtml" />
     <Content Include="Views\InfoDetail\Index.cshtml" />
     <Content Include="Views\InfoDetail\KoiInfoDetail.cshtml" />
-    <Content Include="Views\InfoDetail\Add.cshtml" />
+    <Content Include="Views\InfoDetail\AddDetail.cshtml" />
     <Content Include="Views\Koi\TestAddd.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Error\SystemError.cshtml" />

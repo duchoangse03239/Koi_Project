@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using KoiManagement.Models;
 using System.Data.Entity;
+using System.Linq;
+using KoiManagement.Models;
 
-namespace Model.DAO
+namespace KoiManagement.DAL
 {
     public class MemberDAO
     {

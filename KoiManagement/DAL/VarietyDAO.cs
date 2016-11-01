@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using KoiManagement.Models;
 
-namespace Model.DAO
+namespace KoiManagement.DAL
 {
     public class VarietyDAO
     {

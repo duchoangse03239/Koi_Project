@@ -6,8 +6,8 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using KoiManagement.DAL;
 using KoiManagement.Models;
-using Model.DAO;
 
 //using KoiManagement.Models;
 

@@ -133,6 +133,10 @@
                 $('#lblMessage_koi_name_fail').text("Vui lòng không nhập ký tự đặc biệt!");
                 return false;
             }
+            else if (Size == "") {
+                $('#lblMessage_koi_size_fail').text("Vui lòng nhập kích thước");
+                return false;
+            }
             else if (!isPositiveNumber(Size)) {
                 $('#lblMessage_koi_size_fail').text("Vui lòng không nhập số âm cho kích thước của Koi!");
                 return false;
@@ -142,7 +146,7 @@
         }
 
         function AddKoi() {
-            var fileUpload = $("#file").get(0);
+            var fileUpload = $("#files").get(0);
             var files = fileUpload.files;
             // Looping over all files and add it to FormData object  
             var fileData = new FormData();

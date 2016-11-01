@@ -2,19 +2,19 @@
 
 namespace KoiManagement.DAL
 {
-    public class InfoDetailDAO
+    public class MediaDAO
     {
         KoiManagementEntities db = null;
-        public InfoDetailDAO()
+        public MediaDAO()
         {
             db = new KoiManagementEntities();
         }
 
-        public bool AddInfoDetail(InfoDetail info)
+        public bool addMedia(Medium  medi)
         {
             try
             {
-                db.InfoDetails.Add(info);
+                db.Media.Add(medi);
                 db.SaveChanges();
                 return true;
             }
@@ -23,5 +23,7 @@ namespace KoiManagement.DAL
                 return false;
             }
         }
+
+
     }
 }
