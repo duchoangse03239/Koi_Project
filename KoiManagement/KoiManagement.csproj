@@ -317,6 +317,8 @@
     <Content Include="Content\css\fonts\index.html" />
     <Content Include="Content\css\header-bg.jpg" />
     <Content Include="Content\css\index.html" />
+    <Content Include="Content\css\jquery.filer-dragdropbox-theme.css" />
+    <Content Include="Content\css\jquery.filer.css" />
     <Content Include="Content\css\main.css" />
     <Content Include="Content\Email\ConfirmEmailWhenForgotPassword.html" />
     <Content Include="Content\Image\Certificate\cer01.jpg.jpg" />
@@ -589,12 +591,15 @@
       <DependentUpon>KoiContext.edmx</DependentUpon>
     </Content>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\custom.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery-2.1.4.min.js" />
     <Content Include="Scripts\jquery-ui.js" />
     <Content Include="Scripts\jquery-ui.min.js" />
+    <Content Include="Scripts\jquery.filer.js" />
+    <Content Include="Scripts\jquery.filer.min.js" />
     <Content Include="Scripts\jquery.flexslider-min.js" />
     <Content Include="Scripts\jquery.localscroll-1.2.7-min.js" />
     <Content Include="Scripts\jquery.min.js" />
