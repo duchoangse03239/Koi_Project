@@ -17,7 +17,7 @@ namespace KoiManagement.Models
         public int AchievementID { get; set; }
         public Nullable<int> KoiID { get; set; }
         public string Image { get; set; }
-        public System.DateTime Date { get; set; }
+        public Nullable<System.DateTime> Date { get; set; }
         public string Description { get; set; }
         public bool Status { get; set; }
 

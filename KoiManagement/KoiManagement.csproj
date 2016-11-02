@@ -261,6 +261,7 @@
     <Compile Include="Models\KoiParent.cs">
       <DependentUpon>KoiContext.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ListTimeLine.cs" />
     <Compile Include="Models\Medium.cs">
       <DependentUpon>KoiContext.tt</DependentUpon>
     </Compile>
@@ -316,6 +317,7 @@
     <Content Include="Content\css\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Content\css\fonts\index.html" />
     <Content Include="Content\css\header-bg.jpg" />
+    <Content Include="Content\css\images-grid.css" />
     <Content Include="Content\css\index.html" />
     <Content Include="Content\css\jquery.filer-dragdropbox-theme.css" />
     <Content Include="Content\css\jquery.filer.css" />
@@ -338,6 +340,10 @@
     <Content Include="Content\Image\Common\ic_search_small1.png" />
     <Content Include="Content\Image\Common\setting.png" />
     <Content Include="Content\Image\Common\Slider1.jpg" />
+    <Content Include="Content\Image\Detail\Detai102.jpg" />
+    <Content Include="Content\Image\Detail\Detai301.jpg" />
+    <Content Include="Content\Image\Detail\Detai302.jpg" />
+    <Content Include="Content\Image\Detail\Detai503.jpg" />
     <Content Include="Content\Image\Detail\detail01.jpg" />
     <Content Include="Content\Image\Detail\detail02.jpg" />
     <Content Include="Content\Image\Detail\detail03.jpg" />
@@ -348,6 +354,8 @@
     <Content Include="Content\Image\Detail\detail08.jpg" />
     <Content Include="Content\Image\Detail\detail09.jpg" />
     <Content Include="Content\Image\Detail\detail10.jpg" />
+    <Content Include="Content\Image\Detail\Detail101.jpg" />
+    <Content Include="Content\Image\Detail\Detail103.jpg" />
     <Content Include="Content\Image\Detail\detail11.jpg" />
     <Content Include="Content\Image\Detail\detail12.jpg" />
     <Content Include="Content\Image\Detail\detail13.jpg" />
@@ -358,7 +366,49 @@
     <Content Include="Content\Image\Detail\detail18.jpg" />
     <Content Include="Content\Image\Detail\detail19.jpg" />
     <Content Include="Content\Image\Detail\detail20.jpg" />
+    <Content Include="Content\Image\Detail\Detail202.jpg" />
+    <Content Include="Content\Image\Detail\Detail203.jpg" />
     <Content Include="Content\Image\Detail\detail21.jpg" />
+    <Content Include="Content\Image\Detail\Detail22.jpg" />
+    <Content Include="Content\Image\Detail\Detail23.jpg" />
+    <Content Include="Content\Image\Detail\Detail24.jpg" />
+    <Content Include="Content\Image\Detail\Detail25.jpg" />
+    <Content Include="Content\Image\Detail\Detail26.jpg" />
+    <Content Include="Content\Image\Detail\Detail27.jpg" />
+    <Content Include="Content\Image\Detail\Detail28.jpg" />
+    <Content Include="Content\Image\Detail\Detail29.jpg" />
+    <Content Include="Content\Image\Detail\Detail30.jpg" />
+    <Content Include="Content\Image\Detail\Detail303.jpg" />
+    <Content Include="Content\Image\Detail\Detail31.jpg" />
+    <Content Include="Content\Image\Detail\Detail32.jpg" />
+    <Content Include="Content\Image\Detail\Detail33.jpg" />
+    <Content Include="Content\Image\Detail\Detail34.jpg" />
+    <Content Include="Content\Image\Detail\Detail35.jpg" />
+    <Content Include="Content\Image\Detail\Detail36.jpg" />
+    <Content Include="Content\Image\Detail\Detail37.jpg" />
+    <Content Include="Content\Image\Detail\Detail38.jpg" />
+    <Content Include="Content\Image\Detail\Detail39.jpg" />
+    <Content Include="Content\Image\Detail\Detail40.jpg" />
+    <Content Include="Content\Image\Detail\Detail401.jpg" />
+    <Content Include="Content\Image\Detail\Detail402.jpg" />
+    <Content Include="Content\Image\Detail\Detail403.jpg" />
+    <Content Include="Content\Image\Detail\Detail41.jpg" />
+    <Content Include="Content\Image\Detail\Detail42.jpg" />
+    <Content Include="Content\Image\Detail\Detail43.jpg" />
+    <Content Include="Content\Image\Detail\Detail44.jpg" />
+    <Content Include="Content\Image\Detail\Detail45.jpg" />
+    <Content Include="Content\Image\Detail\Detail46.jpg" />
+    <Content Include="Content\Image\Detail\Detail47.jpg" />
+    <Content Include="Content\Image\Detail\Detail48.jpg" />
+    <Content Include="Content\Image\Detail\Detail49.jpg" />
+    <Content Include="Content\Image\Detail\Detail50.jpg" />
+    <Content Include="Content\Image\Detail\Detail501.jpg" />
+    <Content Include="Content\Image\Detail\Detail502.jpg" />
+    <Content Include="Content\Image\Detail\Detail51.jpg" />
+    <Content Include="Content\Image\Detail\Detail52.jpg" />
+    <Content Include="Content\Image\Detail\Detail53.jpg" />
+    <Content Include="Content\Image\Detail\Detail54.jpg" />
+    <Content Include="Content\Image\Detail\Detail55.jpg" />
     <Content Include="Content\Image\FrontEnd\bg.jpg" />
     <Content Include="Content\Image\FrontEnd\cat1.jpg" />
     <Content Include="Content\Image\FrontEnd\cat2.jpg" />
@@ -592,6 +642,7 @@
     </Content>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\custom.js" />
+    <Content Include="Scripts\images-grid.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
@@ -622,6 +673,7 @@
     <Content Include="Scripts\_references.js" />
     <None Include="Views\Account\ManageAccount.cshtml" />
     <Content Include="Views\Account\ResetPassword.cshtml" />
+    <None Include="Views\InfoDetail\timeline.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>

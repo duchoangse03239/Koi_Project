@@ -35,7 +35,7 @@
             </div>
             <div class="col-sm-6">
                 <input type="text" class="form-control" placeholder="Ngày Sinh" id="DoB" name="DoB" onfocus="(this.type='date')">
-                <label id=" lblmessage_dob_fail" class="label-error"></label>
+                <label id="lblmessage_dob_fail" class="label-error"></label>
             </div>
         </div>
         <div class="row">
@@ -112,10 +112,7 @@
             var DoB = $('#DoB').val();
             var Temperament = $('#Temperament').val();
             var Origin = $('#Origin').val();
-            function isSpecialCharacter(Koiname) {
-                var regex = /^[a-zA-Z0-9- ]*$/;
-                return regex.test(Koiname);
-            };
+
             function isPositiveNumber(Size) {
                 var regex = /^[0-9 \.\,\+]+$/;
                 return regex.test(Size);
@@ -125,15 +122,7 @@
                 $('#lblMessage_koi_name_fail').text("Tên Koi quá dài! Vui lòng không nhập quá 100 ký tự!");
                 return false;
             }
-            else if (KoiName == "") {
-                $('#lblMessage_koi_name_fail').text("Vui lòng nhập tên Koi!");
-                return false;
-            }
-            else if (!isSpecialCharacter(KoiName)) {
-                $('#lblMessage_koi_name_fail').text("Vui lòng không nhập ký tự đặc biệt!");
-                return false;
-            }
-            else if (Size == "") {
+            if (Size == "") {
                 $('#lblMessage_koi_size_fail').text("Vui lòng nhập kích thước");
                 return false;
             }
@@ -180,12 +169,16 @@
                 success: function(res) {
                     switch (res.Status) {
                     case 2:
+                        $('#KoiName').focus();
+                        $('#lblMessage_koi_name_fail').text(res.Message);
                         break;
                     case 3:
-                        $('#..').text(res.Message);
-                        $('#password').focus();
+                        $('#lblMessage_koi_size_fail').text(res.Message);
+                        $('#Size').focus();
                         break;
-                    case 4:
+                   case 4:
+                        $('#lblmessage_dob_fail').text(res.Message);
+                         $('#DoB').focus();
                         break;
                     case 1:
                         alert(res.Message);

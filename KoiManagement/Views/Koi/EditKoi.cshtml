@@ -135,6 +135,23 @@
         }
     });
     function Validate() {
+        var KoiName = $('#KoiName').val();
+        var VarietyID = $('#VarietyID').val();
+        var Gender = $('#Gender').val();
+        var DoB = $('#DoB').val();
+        var Temperament = $('#Temperament').val();
+        var Origin = $('#Origin').val();
+
+
+
+        if (KoiName.length > 100 || KoiName.length < 0) {
+            $('#lblMessage_koi_name_fail').text("Tên Koi quá dài! Vui lòng không nhập quá 100 ký tự!");
+            return false;
+        }
+        else if (KoiName == "") {
+            $('#lblMessage_koi_name_fail').text("Vui lòng nhập tên Koi!");
+            return false;
+        }
 
         return true;
     }

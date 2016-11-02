@@ -53,6 +53,10 @@ namespace KoiManagement.Controllers
             }
             return View(infoDetail);
         }
+        public ActionResult timeline()
+        {
+            return View();
+        }
 
         // GET: InfoDetail/add new koi
         public ActionResult AddDetail(int id=0)
@@ -61,6 +65,29 @@ namespace KoiManagement.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+            var flist = db.InfoDetails.Where(p => p.KoiID == 1).ToList();
+            var slist = db.Achivements.Where(p => p.KoiID == 1).ToList();
+            ListTimeLine listTimeLine = new ListTimeLine();
+            listTimeLine.ListInfo.AddRange(flist);
+            listTimeLine.ListIAchi.AddRange(slist);
+
+
+            var customCollection = (from InfoDetail in flist
+                                    select new
+                                    {
+                                        Name = InfoDetail.DetailID,
+                                        Weight = InfoDetail.Weight.ToString(),
+                                        Date = InfoDetail.Date,
+                                    }
+                                         ).Concat(from Achivement in slist
+                                                 select new
+                                                 {
+                                                     Name = Achivement.AchievementID,
+                                                     Weight = "",
+                                                     Date = Achivement.Date,
+                                                 }).OrderBy(x => x.Date).ToList();
+
+            //var result = flist.Union(slist).ToList();
             ViewBag.KoiID = id;
             return View();
         }

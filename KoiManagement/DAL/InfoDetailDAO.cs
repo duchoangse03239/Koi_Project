@@ -1,4 +1,6 @@
-﻿using KoiManagement.Models;
+﻿using System.Collections.Generic;
+using System.Linq;
+using KoiManagement.Models;
 
 namespace KoiManagement.DAL
 {
@@ -23,5 +25,16 @@ namespace KoiManagement.DAL
                 return false;
             }
         }
+
+        public List<InfoDetail> GetlistInfoDetails(int koiId)
+        {
+            return db.InfoDetails.Where(p => p.KoiID == koiId).ToList();
+        }
+
+        //get detail
+        //get achievemment
+
+        //get image
+
     }
 }
