@@ -318,6 +318,8 @@
     <Content Include="Content\css\fonts\index.html" />
     <Content Include="Content\css\header-bg.jpg" />
     <Content Include="Content\css\images-grid.css" />
+    <Content Include="Content\css\images\imgs-grid-icons.png" />
+    <Content Include="Content\css\images\photo-grid-icons.png" />
     <Content Include="Content\css\index.html" />
     <Content Include="Content\css\jquery.filer-dragdropbox-theme.css" />
     <Content Include="Content\css\jquery.filer.css" />
