@@ -27,7 +27,7 @@ namespace KoiManagement.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<Achivement> Achivements { get; set; }
+        public virtual DbSet<Achievement> Achievements { get; set; }
         public virtual DbSet<ActiveCode> ActiveCodes { get; set; }
         public virtual DbSet<Answer> Answers { get; set; }
         public virtual DbSet<Article> Articles { get; set; }

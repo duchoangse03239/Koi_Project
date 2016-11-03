@@ -5,7 +5,7 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="KoiManagementModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <EntityType Name="Achivement">
+        <EntityType Name="Achievement">
           <Key>
             <PropertyRef Name="AchievementID" />
           </Key>
@@ -233,14 +233,14 @@
           <Property Name="VarietyDetailID" Type="int" />
           <Property Name="Status" Type="bit" Nullable="false" />
         </EntityType>
-        <Association Name="FK__Achivemen__KoiID__25869641">
+        <Association Name="FK__Achievement__KoiID__25869641">
           <End Role="Koi" Type="Self.Koi" Multiplicity="0..1" />
-          <End Role="Achivement" Type="Self.Achivement" Multiplicity="*" />
+          <End Role="Achievement" Type="Self.Achievement" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Koi">
               <PropertyRef Name="KoiID" />
             </Principal>
-            <Dependent Role="Achivement">
+            <Dependent Role="Achievement">
               <PropertyRef Name="KoiID" />
             </Dependent>
           </ReferentialConstraint>
@@ -697,7 +697,7 @@
         </Function>
         <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <EntityContainer Name="KoiManagementModelStoreContainer">
-          <EntitySet Name="Achivement" EntityType="Self.Achivement" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Achievement" EntityType="Self.Achievement" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ActiveCode" EntityType="Self.ActiveCode" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Answer" EntityType="Self.Answer" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Article" EntityType="Self.Article" Schema="dbo" store:Type="Tables" />
@@ -717,9 +717,9 @@
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Type" EntityType="Self.Type" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Variety" EntityType="Self.Variety" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK__Achivemen__KoiID__25869641" Association="Self.FK__Achivemen__KoiID__25869641">
+          <AssociationSet Name="FK__Achievement__KoiID__25869641" Association="Self.FK__Achievement__KoiID__25869641">
             <End Role="Koi" EntitySet="Koi" />
-            <End Role="Achivement" EntitySet="Achivement" />
+            <End Role="Achievement" EntitySet="Achievement" />
           </AssociationSet>
           <AssociationSet Name="FK__ActiveCod__Membe__1FCDBCEB" Association="Self.FK__ActiveCod__Membe__1FCDBCEB">
             <End Role="Member" EntitySet="Member" />
@@ -866,7 +866,7 @@
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="KoiManagementModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityType Name="Achivement">
+        <EntityType Name="Achievement">
           <Key>
             <PropertyRef Name="AchievementID" />
           </Key>
@@ -876,7 +876,7 @@
           <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="Description" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Status" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Koi" Relationship="Self.FK__Achivemen__KoiID__25869641" FromRole="Achivement" ToRole="Koi" />
+          <NavigationProperty Name="Koi" Relationship="Self.FK__Achievement__KoiID__25869641" FromRole="Achievement" ToRole="Koi" />
         </EntityType>
         <EntityType Name="ActiveCode">
           <Key>
@@ -973,7 +973,7 @@
           <Property Name="DeadReason" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
           <Property Name="Status" Type="Boolean" Nullable="false" />
           <Property Name="Privacy" Type="Boolean" />
-          <NavigationProperty Name="Achivements" Relationship="Self.FK__Achivemen__KoiID__25869641" FromRole="Koi" ToRole="Achivement" />
+          <NavigationProperty Name="Achievements" Relationship="Self.FK__Achievement__KoiID__25869641" FromRole="Koi" ToRole="Achievement" />
           <NavigationProperty Name="Comments" Relationship="Self.FK__Comment__KoiID__2D27B809" FromRole="Koi" ToRole="Comment" />
           <NavigationProperty Name="InfoDetails" Relationship="Self.FK__InfoDetai__KoiID__173876EA" FromRole="Koi" ToRole="InfoDetail" />
           <NavigationProperty Name="Variety" Relationship="Self.FK__Koi__VarietyID__145C0A3F" FromRole="Koi" ToRole="Variety" />
@@ -1140,14 +1140,14 @@
           <NavigationProperty Name="Variety1" Relationship="Self.FK__Variety__Variety__108B795B" FromRole="Variety" ToRole="Variety1" />
           <NavigationProperty Name="Variety2" Relationship="Self.FK__Variety__Variety__108B795B" FromRole="Variety1" ToRole="Variety" />
         </EntityType>
-        <Association Name="FK__Achivemen__KoiID__25869641">
+        <Association Name="FK__Achievement__KoiID__25869641">
           <End Role="Koi" Type="Self.Koi" Multiplicity="0..1" />
-          <End Role="Achivement" Type="Self.Achivement" Multiplicity="*" />
+          <End Role="Achievement" Type="Self.Achievement" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Koi">
               <PropertyRef Name="KoiID" />
             </Principal>
-            <Dependent Role="Achivement">
+            <Dependent Role="Achievement">
               <PropertyRef Name="KoiID" />
             </Dependent>
           </ReferentialConstraint>
@@ -1453,7 +1453,7 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="KoiManagementEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Achivements" EntityType="Self.Achivement" />
+          <EntitySet Name="Achievements" EntityType="Self.Achievement" />
           <EntitySet Name="ActiveCodes" EntityType="Self.ActiveCode" />
           <EntitySet Name="Answers" EntityType="Self.Answer" />
           <EntitySet Name="Articles" EntityType="Self.Article" />
@@ -1472,9 +1472,9 @@
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
           <EntitySet Name="Types" EntityType="Self.Type" />
           <EntitySet Name="Varieties" EntityType="Self.Variety" />
-          <AssociationSet Name="FK__Achivemen__KoiID__25869641" Association="Self.FK__Achivemen__KoiID__25869641">
+          <AssociationSet Name="FK__Achievement__KoiID__25869641" Association="Self.FK__Achievement__KoiID__25869641">
             <End Role="Koi" EntitySet="Kois" />
-            <End Role="Achivement" EntitySet="Achivements" />
+            <End Role="Achievement" EntitySet="Achievements" />
           </AssociationSet>
           <AssociationSet Name="FK__Answer__AnswerDe__44FF419A" Association="Self.FK__Answer__AnswerDe__44FF419A">
             <End Role="Answer" EntitySet="Answers" />
@@ -1811,9 +1811,9 @@
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="KoiManagementModelStoreContainer" CdmEntityContainer="KoiManagementEntities">
-          <EntitySetMapping Name="Achivements">
-            <EntityTypeMapping TypeName="KoiManagementModel.Achivement">
-              <MappingFragment StoreEntitySet="Achivement">
+          <EntitySetMapping Name="Achievements">
+            <EntityTypeMapping TypeName="KoiManagementModel.Achievement">
+              <MappingFragment StoreEntitySet="Achievement">
                 <ScalarProperty Name="AchievementID" ColumnName="AchievementID" />
                 <ScalarProperty Name="KoiID" ColumnName="KoiID" />
                 <ScalarProperty Name="Image" ColumnName="Image" />

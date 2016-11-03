@@ -9,102 +9,102 @@
     <div class="container">
         <div class="row">
             <div class="col-md-6 col-md-offset-1">
-                    <h1>Thay đổi thông tin</h1>
-                        <div class="form-group">
-                            <label for="email">Email*</label>
-                            <input type="email" class="form-control" id="email" name="email" value="@Model.Email" placeholder="Email" disabled>
-                        </div>
-                        <div class="form-group">
-                            <label for="username">Tên đăng nhập*</label>
-                            <input type="text" class="form-control" id="username" name="username" value="@Model.UserName" placeholder="Tên đăng nhập" disabled>
-                        </div>
-                        <div class="form-group">
-                            <label for="name">Họ và tên</label>
-                            <input type="text" class="form-control" id="name" name="name" value="@Model.Name" placeholder="Họ và tên">
-                            <label id="lblMessage_name_fail" class="label-error"></label>
-                        </div>
-                        <div class="form-group">
-                            <label id="lblGender" for="gender">Giới tính:</label>
-                            @{
-                            if(@Model.Gender.Equals("M"))
-                            {
-                                <label id="lblGender" class="radio-inline"><input type="radio" name="optradio" checked="true">Nam</label>
-                                <label id="lblGender" class="radio-inline"><input type="radio" name="optradio">Nữ</label>
-                                <label id="lblGender" class="radio-inline"><input type="radio" name="optradio">Không xác định</label>
-                            }
-                            else if(@Model.Gender.Equals("F"))
-                            {
-                                <label id="lblGender" class="radio-inline"><input type="radio" name="optradio">Nam</label>
-                                <label id="lblGender" class="radio-inline"><input type="radio" name="optradio" checked="true">Nữ</label>
-                                <label id="lblGender" class="radio-inline"><input type="radio" name="optradio">Không xác định</label>
-                            }
-                            else
-                            {
-                                <label id="lblGender" class="radio-inline"><input type="radio" name="optradio">Nam</label>
-                                <label id="lblGender" class="radio-inline"><input type="radio" name="optradio">Nữ</label>
-                                <label id="lblGender" class="radio-inline"><input type="radio" name="optradio" checked="true">Không xác định</label>
-                            }
-                            }
-                           
-                        </div>
-                        <div class="form-group">
-                            <!-- <label>Ngày sinh</label>
-                            <div>
-                                <select>
-                                    <option>Ngày</option>
-                                </select>
-                                <select>
-                                    <option>Tháng</option>
-                                </select>
-                                <select>
-                                    <option>Năm</option>
-                                </select>
-                            </div> -->
-                            <label for="dob">Ngày Sinh</label>
-                            @{ date = Model.Dob != null ? Model.Dob.Value.ToString("dd/MM/yyyy") : string.Empty;}
-                            <input type="text" class="form-control" id="dob" name="dob" value="@date" onfocus="(this.type='date')" placeholder=" ngày sinh">
-                            <label id="lblMessage_dob_fail" class="label-error"></label>
-                        </div>
-                        <div class="form-group">
-                            <label for="address">Địa chỉ</label>
-                            <input type="text" class="form-control" id="address" name="address" value="@Model.Address" placeholder="Địa chỉ">
-                            <label id="lblMessage_address_fail" class="label-error"></label>
-                        </div>
-                        <div class="form-group">
-                            <label for="phone">Số điện thoại</label>
-                            <input type="text" class="form-control" id="phone" name="phone" value="@Model.Phone" placeholder="Số điện thoại">
-                            <label id="lblMessage_phone_fail" class="label-error"></label>
-                        </div>
-                        <div class="form-group">
-                            <label for="phone">Ảnh đại diện</label>
-                            <input id="uploadFile" type="file" accept="image/png, image/jpeg, image/gif" name="image" class="img" onchange="loadFile(event)" />
-                            <br />
-                            <div><img id="imagePreview" src="images/blank.jpg" alt="" /></div>
-                            <script>
-                                var loadFile = function (event) {
-                                    var output = document.getElementById('imagePreview');
-                                    imagePreview.src = URL.createObjectURL(event.target.files[0]);
-                                };
-                            </script>
-                        </div>
-                        <div class="form-group">
-                            <button class="btn btn-primary" id="btnSaveProfile">Lưu</button>
-                        </div>
+                <h1>Thay đổi thông tin</h1>
+                <div class="form-group">
+                    <label for="email">Email*</label>
+                    <input type="email" class="form-control" id="email" name="email" value="@Model.Email" placeholder="Email" disabled>
                 </div>
+                <div class="form-group">
+                    <label for="username">Tên đăng nhập*</label>
+                    <input type="text" class="form-control" id="username" name="username" value="@Model.UserName" placeholder="Tên đăng nhập" disabled>
+                </div>
+                <div class="form-group">
+                    <label for="name">Họ và tên</label>
+                    <input type="text" class="form-control" id="name" name="name" value="@Model.Name" placeholder="Họ và tên">
+                    <label id="lblMessage_name_fail" class="label-error"></label>
+                </div>
+                <div class="form-group">
+                    <label id="lblGender" for="gender">Giới tính:</label>
+                    @{
+                        if (@Model.Gender.Equals("M"))
+                        {
+                            <label id="lblGender" class="radio-inline"><input type="radio" name="optradio" checked="true">Nam</label>
+                            <label id="lblGender" class="radio-inline"><input type="radio" name="optradio">Nữ</label>
+                            <label id="lblGender" class="radio-inline"><input type="radio" name="optradio">Không xác định</label>
+                        }
+                        else if (@Model.Gender.Equals("F"))
+                        {
+                            <label id="lblGender" class="radio-inline"><input type="radio" name="optradio">Nam</label>
+                            <label id="lblGender" class="radio-inline"><input type="radio" name="optradio" checked="true">Nữ</label>
+                            <label id="lblGender" class="radio-inline"><input type="radio" name="optradio">Không xác định</label>
+                        }
+                        else
+                        {
+                            <label id="lblGender" class="radio-inline"><input type="radio" name="optradio">Nam</label>
+                            <label id="lblGender" class="radio-inline"><input type="radio" name="optradio">Nữ</label>
+                            <label id="lblGender" class="radio-inline"><input type="radio" name="optradio" checked="true">Không xác định</label>
+                        }
+                    }
+
+                </div>
+                <div class="form-group">
+                    <!-- <label>Ngày sinh</label>
+                    <div>
+                        <select>
+                            <option>Ngày</option>
+                        </select>
+                        <select>
+                            <option>Tháng</option>
+                        </select>
+                        <select>
+                            <option>Năm</option>
+                        </select>
+                    </div> -->
+                    <label for="dob">Ngày Sinh</label>
+                    @{ date = Model.Dob != null ? Model.Dob.Value.ToString("dd/MM/yyyy") : string.Empty;}
+                    <input type="text" class="form-control" id="dob" name="dob" value="@date" onfocus="(this.type='date')" placeholder=" ngày sinh">
+                    <label id="lblMessage_dob_fail" class="label-error"></label>
+                </div>
+                <div class="form-group">
+                    <label for="address">Địa chỉ</label>
+                    <input type="text" class="form-control" id="address" name="address" value="@Model.Address" placeholder="Địa chỉ">
+                    <label id="lblMessage_address_fail" class="label-error"></label>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Số điện thoại</label>
+                    <input type="text" class="form-control" id="phone" name="phone" value="@Model.Phone" placeholder="Số điện thoại">
+                    <label id="lblMessage_phone_fail" class="label-error"></label>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Ảnh đại diện</label>
+                    <input id="uploadFile" type="file" accept="image/png, image/jpeg, image/gif" name="image" class="img" onchange="loadFile(event)" />
+                    <br />
+                    <div><img id="imagePreview" src="images/blank.jpg" alt="" /></div>
+                    <script>
+                        var loadFile = function (event) {
+                            var output = document.getElementById('imagePreview');
+                            imagePreview.src = URL.createObjectURL(event.target.files[0]);
+                        };
+                    </script>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-primary" id="btnSaveProfile">Lưu</button>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 
 <script type="text/javascript">
     $(document)
-        .ready(function() {
-            $(function() {
-                $("#name").focus();
+        .ready(function () {
+            $(function () {
+                $("#phone").focus();
             });
         });
 
     $(document)
-        .keypress(function(event) {
+        .keypress(function (event) {
             var keycode = (event.keyCode ? event.keyCode : event.which);
             if (keycode == "13") {
                 if (Validate()) {
@@ -115,16 +115,47 @@
             }
         });
 
-    $("#btnSaveProfile")
-        .click(function() {
-            if (Validate()) {
-                UpdateProfile();
-            } else {
+    $("#btnSaveProfile").click(function () {
+        if (Validate()) {
+            UpdateProfile();
+        } else {
+            return false;
+        }
+    });
 
-                return false;
-            }
-        });
+    function isSpecialCharacter(phone) {
+        var regex = /"^(\+[0-9])$"/;
+        return regex.test(phone);
+    };
+
     function Validate() {
+        var name = $('#name').val();
+        var dob = $('#dob').val();
+        var address = $('#address').val();
+        var phone = $('#phone').val();
+
+        $('#lblMessage_name_fail').text("");
+        $('#lblMessage_dob_fail').text("");
+        $('#lblMessage_address_fail').text("");
+        $('#lblMessage_phone_fail').text("");
+
+        if (name.length < 6 || name.length > 50) {
+            $('#lblMessage_name_fail').text("Họ tên phải chứa từ 6 đến 50 ký tự");
+            $('#name').focus;
+            return false;
+        }
+        if (phone.length < 10 || name.length > 11) {
+            $('#lblMessage_phone_fail').text("Số điện thoại phải từ 10 đến 11 số");
+            $('#lblMessage_phone_fail').focus;
+            return false;
+        }
+        if (!isSpecialCharacter(phone)) {
+            $('#lblMessage_phone_fail').text("Số điện thoại không đúng định dạng");
+            $('#lblMessage_phone_fail').focus;
+            return false;
+        }
+
+
         return true;
     }
 
@@ -132,6 +163,16 @@
         var name = $('#name').val();
         var dob = $('#dob').val();
         var address = $('#address').val();
+        var gender;
+        if ($('#gender'.toString == "Nam")) {
+            gender = 'M';
+        }
+        else if ($('#gender'.toString == "Nữ")) {
+            gender = 'F';
+        }
+        else {
+            gender = 'N';
+        }
         var phone = $('#phone').val();
 
         $('#lblMessage_name_fail').text("");
@@ -143,52 +184,53 @@
             type: "POST",
             url: "@Url.Action("UpdateProfile")",
             data: {
-            name: name,
-            dob: dob,
-            address: address,
-            phone: phone
+                name: name,
+                dob: dob,
+                gender: gender,
+                address: address,
+                phone: phone
             },
-        dataType: "Json",
-        success: function(res) {
-            switch (res.Status) {
-                case 1:
-                    $('#lblMessage_name_fail').text(res.Message);
-                    $('#name').focus();
-                    break;
-                case 2:
-                    $('#lblMessage_dob_fail').text(res.Message);
-                    $('#dob').focus();
-                    break;
-                case 3:
-                    $('#lblMessage_email_fail').text(res.Message);
-                    $('#email').focus();
-                    break;
-                case 4:
-                    $('#lblMessage_username_fail').text(res.Message);
-                    $('#username').focus();
-                    break;
-                case 5:
-                    $('#lblMessage_password_fail').text(res.Message);
-                    $('#password').focus();
-                    break;
-                case 6:
-                    $('#lblMessage_rePassword_fail').text(res.Message);
-                    $('#rePassword').focus();
-                    break;
-                case 7:
-                    $('#lblMessage_phone_fail').text(res.Message);
-                    $('#phone').focus();
-                    break;
-                case 8:
-                    $('#errorMessage').text(res.Message);
-                    $('#name').focus();
-                    break;
-                case 9:
-                    alert("Lưu Thông Tin Thành Công!");
-                    window.location.href = res.RedirectTo;
-                    break;
+            dataType: "Json",
+            success: function (res) {
+                switch (res.Status) {
+                    case 1:
+                        $('#lblMessage_name_fail').text(res.Message);
+                        $('#name').focus();
+                        break;
+                    case 2:
+                        $('#lblMessage_dob_fail').text(res.Message);
+                        $('#dob').focus();
+                        break;
+                    case 3:
+                        $('#lblMessage_email_fail').text(res.Message);
+                        $('#email').focus();
+                        break;
+                    case 4:
+                        $('#lblMessage_username_fail').text(res.Message);
+                        $('#username').focus();
+                        break;
+                    case 5:
+                        $('#lblMessage_password_fail').text(res.Message);
+                        $('#password').focus();
+                        break;
+                    case 6:
+                        $('#lblMessage_rePassword_fail').text(res.Message);
+                        $('#rePassword').focus();
+                        break;
+                    case 7:
+                        $('#lblMessage_phone_fail').text(res.Message);
+                        $('#phone').focus();
+                        break;
+                    case 8:
+                        $('#errorMessage').text(res.Message);
+                        $('#name').focus();
+                        break;
+                    case 9:
+                        alert("Lưu Thông Tin Thành Công!");
+                        window.location.href = res.RedirectTo;
+                        break;
+                }
             }
-        }
-    });
+        });
     }
 </script>

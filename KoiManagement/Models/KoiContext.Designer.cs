@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'E:\Do-An\Source\KoiProject\KoiManagement\KoiManagement\Models\KoiContext.edmx'. 
+﻿// T4 code generation is enabled for model 'C:\Users\Duong\Source\Repos\Koi_Project\KoiManagement\Models\KoiContext.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.

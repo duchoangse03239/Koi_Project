@@ -17,7 +17,7 @@ namespace KoiManagement.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Koi()
         {
-            this.Achivements = new HashSet<Achivement>();
+            this.Achievements = new HashSet<Achievement>();
             this.Comments = new HashSet<Comment>();
             this.InfoDetails = new HashSet<InfoDetail>();
             this.KoiParents = new HashSet<KoiParent>();
@@ -28,7 +28,7 @@ namespace KoiManagement.Models
 
         public Koi(int VarietyID, string KoiName, DateTime? DoB, string Gender, string Temperament, string Certificate, string Image, string Origin, bool Status, bool Privacy)
         {
-            this.Achivements = new HashSet<Achivement>();
+            this.Achievements = new HashSet<Achievement>();
             this.Comments = new HashSet<Comment>();
             this.InfoDetails = new HashSet<InfoDetail>();
             this.KoiParents = new HashSet<KoiParent>();
@@ -62,7 +62,7 @@ namespace KoiManagement.Models
         public Nullable<bool> Privacy { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Achivement> Achivements { get; set; }
+        public virtual ICollection<Achievement> Achievements { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Comment> Comments { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
