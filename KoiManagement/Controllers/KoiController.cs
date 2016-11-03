@@ -87,33 +87,33 @@ namespace KoiManagement.Controllers
             return View();
         }
 
-        [HttpPost]
-        [AllowAnonymous]
-        public JsonResult ListKoiFilter(string nameKoi, string sizeFrom, string sizeTo)
-        {
-            var listkoi = new List<Koi>();
-            var Koi = db.Kois.Where(p => p.VarietyID == 4 && p.Status == true).ToList();
-            foreach (var item in Koi)
-            {
-                if (!String.IsNullOrWhiteSpace(sizeTo) &&GetLastInfoDetail(item.KoiID).Size <= decimal.Parse(sizeTo))
-                {
-                    listkoi.Add(item);
-                }
-            }
-            StatusObjForJsonResult obj = new StatusObjForJsonResult();
-            obj.JsonObject = Koi;
-            int pageSize = 6;
-            int pageNumber = 1;
-            ViewBag.Listkoi = listkoi.ToPagedList(pageNumber, pageSize);
-            return Json(obj);
-        }
+        //[HttpPost]
+        //[AllowAnonymous]
+        //public JsonResult ListKoiFilter(string nameKoi, string sizeFrom, string sizeTo)
+        //{
+        //    var listkoi = new List<Koi>();
+        //    var Koi = db.Kois.Where(p => p.VarietyID == 4 && p.Status == true).ToList();
+        //    foreach (var item in Koi)
+        //    {
+        //        if (!String.IsNullOrWhiteSpace(sizeTo) &&GetLastInfoDetail(item.KoiID).Size <= decimal.Parse(sizeTo))
+        //        {
+        //            listkoi.Add(item);
+        //        }
+        //    }
+        //    StatusObjForJsonResult obj = new StatusObjForJsonResult();
+        //    obj.JsonObject = Koi;
+        //    int pageSize = 6;
+        //    int pageNumber = 1;
+        //    ViewBag.Listkoi = listkoi.ToPagedList(pageNumber, pageSize);
+        //    return Json(obj);
+        //}
 
-        public InfoDetail GetLastInfoDetail(int koiId)
-        {
-            var infordetail = db.InfoDetails.Where(p =>p.KoiID== koiId && p.Date == db.InfoDetails.Max(j => j.Date).Value).ToList();
-            var infordetail1 = db.InfoDetails.Max(j => j.Date);
-            return infordetail.FirstOrDefault();
-        }
+        //public InfoDetail GetLastInfoDetail(int koiId)
+        //{
+        //    var infordetail = db.InfoDetails.Where(p =>p.KoiID== koiId && p.Date == db.InfoDetails.Max(j => j.Date).Value).ToList();
+        //    var infordetail1 = db.InfoDetails.Max(j => j.Date);
+        //    return infordetail.FirstOrDefault();
+        //}
 
 
 
@@ -260,7 +260,6 @@ namespace KoiManagement.Controllers
                     fullpath = Server.MapPath("~/Content/Image/Koi/" + Imagename);
                     var path = Path.Combine(Server.MapPath("~/Content/Image/Koi"), Imagename);
                     file.SaveAs(path);
-
                 }
 
                 // thêm thông tin koi vào 3 bảng: koi, owner, infoDetail

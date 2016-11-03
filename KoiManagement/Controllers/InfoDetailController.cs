@@ -53,8 +53,43 @@ namespace KoiManagement.Controllers
             }
             return View(infoDetail);
         }
-        public ActionResult timeline()
+
+        public ActionResult test()
         {
+            return View();
+        }
+
+        public ActionResult timeline(int id, int? pageNum, int? filterVal)
+        {
+
+            List<List<Medium>> myList = new List<List<Medium>>();
+            string t = "";
+            BaseFilter filter;
+            pageNum = pageNum ?? 1;
+            filter = new BaseFilter { CurrentPage = pageNum.Value };
+
+            var ListInfo = db.InfoDetails.Where(p => p.KoiID == id).OrderByDescending(p => p.Date).Skip(filter.Skip).Take(filter.ItemsPerPage).ToList();
+            if (ListInfo.Count < filter.ItemsPerPage) ViewBag.IsEndOfRecords = true;
+
+            List<String> ListImage = new List<string>();
+            foreach (var item in ListInfo)
+            {
+                var ListImage1 = db.Media.Where(p => p.ModelTypeID == "infodetail" && p.ModelId == item.DetailID).ToList();
+                ListImage1.Add(new Medium(item.Image,"",item.DetailID, "infodetail"));
+                myList.Add(ListImage1);
+            }
+            foreach (List<Medium> subList in myList)
+            {
+                t =string.Empty;
+                foreach (var item in subList)
+                {
+                    t = t + "\'" + @Url.Content("~/Content/Image/Detail/" + item.LinkImage) + "\',\n";
+                }
+                ListImage.Add(t);
+            }
+            ViewBag.ListInfo = ListInfo;
+            ViewBag.ListAnh = ListImage;
+
             return View();
         }
 
@@ -65,29 +100,6 @@ namespace KoiManagement.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var flist = db.InfoDetails.Where(p => p.KoiID == 1).ToList();
-            var slist = db.Achivements.Where(p => p.KoiID == 1).ToList();
-            ListTimeLine listTimeLine = new ListTimeLine();
-            listTimeLine.ListInfo.AddRange(flist);
-            listTimeLine.ListIAchi.AddRange(slist);
-
-
-            var customCollection = (from InfoDetail in flist
-                                    select new
-                                    {
-                                        Name = InfoDetail.DetailID,
-                                        Weight = InfoDetail.Weight.ToString(),
-                                        Date = InfoDetail.Date,
-                                    }
-                                         ).Concat(from Achivement in slist
-                                                 select new
-                                                 {
-                                                     Name = Achivement.AchievementID,
-                                                     Weight = "",
-                                                     Date = Achivement.Date,
-                                                 }).OrderBy(x => x.Date).ToList();
-
-            //var result = flist.Union(slist).ToList();
             ViewBag.KoiID = id;
             return View();
         }
