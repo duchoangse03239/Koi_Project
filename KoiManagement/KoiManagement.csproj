@@ -262,7 +262,6 @@
     <Compile Include="Models\KoiParent.cs">
       <DependentUpon>KoiContext.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\ListTimeLine.cs" />
     <Compile Include="Models\Medium.cs">
       <DependentUpon>KoiContext.tt</DependentUpon>
     </Compile>
@@ -732,6 +731,7 @@
     <Content Include="Views\Achievement\AddAchievement.cshtml" />
     <Content Include="Views\Achievement\EditAchievement.cshtml" />
     <Content Include="Views\Koi\Details.cshtml" />
+    <Content Include="Views\InfoDetail\TimelineVertical.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

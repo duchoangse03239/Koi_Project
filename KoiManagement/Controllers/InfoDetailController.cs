@@ -59,6 +59,16 @@ namespace KoiManagement.Controllers
             return View();
         }
 
+        public ActionResult TimelineVertical()
+        {
+            var listYear = db.InfoDetails.Where(p => p.KoiID == 2).OrderBy(p => p.Date).ToList();/*GroupBy(p=>p.Date.Year).Select(p=>p.FirstOrDefault()).ToList();*/
+            var test1 = db.InfoDetails.Where(p1 => p1.Date.Year == 2015).GroupBy(p => p.Date.Month).Select(p => p.FirstOrDefault()).ToList();
+            var test2 = db.InfoDetails.Where(p => p.Date.Year == 2015&&p.Date.Month==12).ToList();
+            ViewBag.listYear = listYear;
+
+            return View();
+        }
+
         public ActionResult timeline(int id, int? pageNum, int? filterVal)
         {
 

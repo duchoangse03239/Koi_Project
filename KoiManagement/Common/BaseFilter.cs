@@ -39,7 +39,14 @@ namespace KoiManagement.Common
 
         public int ItemsPerPage { get; set; } = 6;
 
-        public long TotalPagesCount => TotalCount / ItemsPerPage +
-                                       ((TotalCount % ItemsPerPage > 0) ? 1 : 0);
+        public long TotalPagesCount
+        {
+            get
+            {
+                return TotalCount/ItemsPerPage +
+                       ((TotalCount%ItemsPerPage > 0) ? 1 : 0);
+            }
+            set { throw new NotImplementedException(); }
+        }
     }
 }
