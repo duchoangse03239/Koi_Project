@@ -152,6 +152,36 @@ namespace KoiManagement.Common
             return null;
         }
 
+        public static string GetTimeInterval(DateTimeOffset createdDate)
+        {
+            DateTime start = DateTime.Now;
+            // Do some work
+            TimeSpan timeDiff = DateTime.Now - createdDate;
+            string result;
+            if (timeDiff.TotalDays >= 30)
+            {
+                //Tailm :delete "Tu"
+                result = createdDate.Date.ToShortDateString();
+            }
+            else if (timeDiff.TotalHours >= 24)
+            {
+                result = Math.Round(timeDiff.TotalDays) + " ngày trước ";
+            }
+            else if (timeDiff.TotalMinutes >= 60)
+            {
+                result = Math.Round(timeDiff.TotalHours) + " giờ trước ";
+            }
+            else if (timeDiff.TotalSeconds >= 60)
+            {
+                result = Math.Round(timeDiff.TotalMinutes) + " phút trước";
+            }
+            else
+            {
+                result = " Vừa xong ";
+            }
+            return result;
+        }
+
 
     }
 }

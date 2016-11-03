@@ -36,7 +36,7 @@ namespace KoiManagement.Models
 
         public int DetailID { get; set; }
         public Nullable<int> KoiID { get; set; }
-        public Nullable<System.DateTime> Date { get; set; }
+        public System.DateTime Date { get; set; }
         public Nullable<decimal> Weight { get; set; }
         public Nullable<decimal> Size { get; set; }
         public string Image { get; set; }

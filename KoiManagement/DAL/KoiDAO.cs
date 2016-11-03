@@ -29,7 +29,7 @@ namespace KoiManagement.DAL
 
                 foreach (var item1 in Owner)
                 {
-                    var kois = db.Kois.Where(p => p.KoiID == item1.KoiID).ToList();
+                    var kois = db.Kois.Where(p => p.KoiID == item1.KoiID&&p.Status).ToList();
 
                     if (kois.Count > 0)
                     {
