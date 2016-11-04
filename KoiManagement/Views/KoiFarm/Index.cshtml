@@ -1,8 +1,52 @@
 ﻿
 @{
-    ViewBag.Title = "Index";
-    Layout = "~/Views/Layout/MemberAccountLayout.cshtml";
+    string content = "aa";
 }
+@{
+    ViewBag.Title = "CreateKoiFarm";
+    Layout = "~/Views/Layout/KoiLayout.cshtml";
+}
+<script src="~/Scripts/jquery-1.10.2.js"></script>
 
-<h2>Index</h2>
-<script src="~/Scripts/tinymce/tinymce.min.js"></script>
+<div class="form-group" style="padding-top: 80px;">
+    @Html.TextArea(content)
+</div>
+
+<link href="~/Content/Site.css" rel="stylesheet" />
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+<link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <script type="text/javascript" src="@Url.Content("~/Scripts/tinymce/tinymce.min.js")"></script>
+
+    <script type="text/javascript">
+        tinymce.init({
+            selector: "textarea",
+            width: '100%',
+            height: 600,
+            statusbar: false,
+            menubar: false,
+
+            setup: function (ed) {
+                ed.on('init', function () {
+                    this.getDoc().body.style.fontSize = '14px';
+                    this.getDoc().body.style.fontFamily = '"Helvetica Neue", Helvetica, Arial, sans-serif';
+                });
+            },
+
+            paste_data_images: true,
+
+            plugins: [
+                "advlist autolink lists link base64_image charmap hr anchor pagebreak",
+                "searchreplace wordcount visualblocks visualchars code",
+                "insertdatetime media nonbreaking save table contextmenu directionality",
+                "emoticons textcolor colorpicker textpattern "
+            ],
+            toolbar: "undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link base64_image media | forecolor backcolor"
+        });
+
+        // Prevent bootstrap dialog from blocking focusin
+        $(document).on('focusin', function (e) {
+            if ($(e.target).closest(".mce-window").length) {
+                e.stopImmediatePropagation();
+            }
+        });
+    </script>
