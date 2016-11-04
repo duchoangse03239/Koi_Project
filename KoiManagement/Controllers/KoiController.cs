@@ -62,7 +62,7 @@ namespace KoiManagement.Controllers
         {
             KoiDAO kDao = new KoiDAO();
             VarietyDAO varietyDao = new VarietyDAO();
-            if (id != null&& String.IsNullOrEmpty(variety))
+            if (id != null&& String.IsNullOrEmpty(variety) &&string.IsNullOrEmpty(orderby))
             {
                 variety = id.ToString();
             }
@@ -81,41 +81,11 @@ namespace KoiManagement.Controllers
             koi = kDao.KoiFilter(filter);
 
             // phân trang 6 item 1trang
-            int pageSize = 3;
+            int pageSize = 10;
             int pageNumber = (page ?? 1);
             ViewBag.Listkoi = koi.ToList().ToPagedList(pageNumber, pageSize);
             return View();
         }
-
-        //[HttpPost]
-        //[AllowAnonymous]
-        //public JsonResult ListKoiFilter(string nameKoi, string sizeFrom, string sizeTo)
-        //{
-        //    var listkoi = new List<Koi>();
-        //    var Koi = db.Kois.Where(p => p.VarietyID == 4 && p.Status == true).ToList();
-        //    foreach (var item in Koi)
-        //    {
-        //        if (!String.IsNullOrWhiteSpace(sizeTo) &&GetLastInfoDetail(item.KoiID).Size <= decimal.Parse(sizeTo))
-        //        {
-        //            listkoi.Add(item);
-        //        }
-        //    }
-        //    StatusObjForJsonResult obj = new StatusObjForJsonResult();
-        //    obj.JsonObject = Koi;
-        //    int pageSize = 6;
-        //    int pageNumber = 1;
-        //    ViewBag.Listkoi = listkoi.ToPagedList(pageNumber, pageSize);
-        //    return Json(obj);
-        //}
-
-        //public InfoDetail GetLastInfoDetail(int koiId)
-        //{
-        //    var infordetail = db.InfoDetails.Where(p =>p.KoiID== koiId && p.Date == db.InfoDetails.Max(j => j.Date).Value).ToList();
-        //    var infordetail1 = db.InfoDetails.Max(j => j.Date);
-        //    return infordetail.FirstOrDefault();
-        //}
-
-
 
         // GET: /Koi/ListKoi/5
         public ActionResult KoiUser(int id=0)

@@ -26,66 +26,72 @@
             <div class="col-md-3">
                 <!-- Form Search -->
                 <form class="searchForm" action="/Koi/ListKoi/4" method="get">
-                    <h3>Tìm kiếm</h3>
-                    <hr />
-                    <div>
-                        <label id="lbl-user-name" >Tên đăng nhập</label>
-                        <input class="input-search" name="username" id="username" type="text" value="@filter.Username" placeholder="">
-                    </div>
-                    <hr />
-                    <div>
-                        <label id="lbl-owner">Tên người sở hữu</label>
-                        <input class="input-search" type="text" name="owner" id="owner" value="@filter.Owner" placeholder="">
-                    </div>
-                    <hr />
-                    <div>
-                        <label id="lbl-koi-name">Tên cá Koi</label>
-                        <input class="input-search" name="nameKoi" id="nameKoi" type="text" value="@filter.KoiName" placeholder="">
-                    </div>
-                    <hr />
-                    <div>
-                        <label id="lbl-variety">Loại</label>
-                        <span>
-                            <select name="variety" id="variety">
-                                <option value="0">Tất cả</option>
-                                @foreach (var item in listVariety)
-                                {
-                                    <option value="@item.VarietyID">@item.VarietyName</option>
-                                }
-                            </select>
-                        </span>
+                    <div id="parent">
+                        <h3>Tìm kiếm</h3>
+                        <hr />
+                        <div>
+                            <label id="lbl-user-name">Tên đăng nhập</label>
+                            <input class="input-search" name="username" id="username" type="text" value="@filter.Username" placeholder="">
+                        </div>
+                        <hr />
+                        <div>
+                            <label id="lbl-owner">Tên người sở hữu</label>
+                            <input class="input-search" type="text" name="owner" id="owner" value="@filter.Owner" placeholder="">
+                        </div>
+                        <hr />
+                        <div>
+                            <label id="lbl-koi-name">Tên cá Koi</label>
+                            <input class="input-search" name="nameKoi" id="nameKoi" type="text" value="@filter.KoiName" placeholder="">
+                        </div>
+                        <hr />
+                        <div>
+                            <label id="lbl-variety">Loại</label>
+                            <span>
+                                <select name="variety" id="variety">
+                                    <option value="0">Tất cả</option>
+                                    @foreach (var item in listVariety)
+                                    {
+                                        <option value="@item.VarietyID">@item.VarietyName</option>
+                                    }
+                                </select>
+                            </span>
+                            <script type="text/javascript">
+                                var $opt = $('#variety').children(('option[value=' + @filter.VarietyId + ']'));
+                                $opt.attr('selected', 'selected');
+                            </script>
+                        </div>
+                        <hr>
+                        <div>
+                            <label id="lbl-size">Kích thước</label>
+                            <input class="koi-size" name="SizeFrom" id="sizeFrom" value="@filter.SizeFrom" type="text" placeholder="From"><label>-</label>
+                            <input class="koi-size" name="SizeTo" id="sizeTo" value="@filter.SizeTo" type="text" placeholder="To"><label>cm</label>
+                        </div>
+                        <hr>
+                        <div>
+                            <label id="lbl-gender">Giới tính</label>
+                            <span>
+                                <select name="gender" id="gender">
+                                    <option value="" selected>Tất cả</option>
+                                    <option value="M">Đực</option>
+                                    <option value="F">Cái</option>
+                                </select>
+                            </span>
+                        </div>
+                        <hr />
                         <script type="text/javascript">
-                            var $opt = $('#variety').children(('option[value=' + @filter.VarietyId +']')); $opt.attr('selected', 'selected');
+                            var $opt = $('#gender').children(('option[value=' + @filter.Gender + ']'));
+                            $opt.attr('selected', 'selected');
                         </script>
+                        <div>
+                            <label id="lbl-year-old">Tuổi</label>
+                            <input class="koi-year-old" type="text" placeholder="From"><label>-</label>
+                            <input class="koi-year-old" type="text" placeholder="To"><label>tháng</label>
+                        </div>
+                        <hr />
+                        <button class="btn btn-primary" type="submit" id="btnSearch" name="btnSearch">Tìm kiếm</button>
+                        <a class="btn btn-primary" href="/Koi/ListKoi/0"> <span>Xóa</span> </a>
                     </div>
-                    <hr>
-                    <div>
-                        <label id="lbl-size">Kích thước</label>
-                        <input class="koi-size" name="SizeFrom" id="sizeFrom" value="@filter.SizeFrom" type="text" placeholder="From"><label>-</label>
-                        <input class="koi-size" name="SizeTo" id="sizeTo" value="@filter.SizeTo" type="text" placeholder="To"><label>cm</label>
-                    </div>
-                    <hr>
-                    <div>
-                        <label id="lbl-gender">Giới tính</label>
-                        <span>
-                            <select name="gender" id="gender">
-                                <option value="" selected>Tất cả</option>
-                                <option value="M">Đực</option>
-                                <option value="F">Cái</option>
-                            </select>
-                        </span>
-                    </div>
-                    <hr />
-                    <script type="text/javascript">
-                        var $opt = $('#gender').children(('option[value=' + @filter.Gender +']')); $opt.attr('selected', 'selected');
-                    </script>
-                    <div>
-                        <label id="lbl-year-old">Tuổi</label>
-                        <input class="koi-year-old" type="text" placeholder="From"><label>-</label>
-                        <input class="koi-year-old" type="text" placeholder="To"><label>tháng</label>
-                    </div>
-                    <hr />
-                    <button class="btn btn-primary" type="submit" id="btnSearch" name="btnSearch">Tìm kiếm</button>
+
 
                 </form>
                     @*</form>*@
@@ -111,7 +117,7 @@
                                     <h4 class="">
                                         Chủ sở hữu: <a href="/Account/profile/@oDao.GetOwnerID(ViewBag.Listkoi[item].KoiID)">@oDao.GetOwnerName(ViewBag.Listkoi[item].KoiID)</a>
                                     </h4>
-                                    <p class=""><a style="border-bottom: solid 1px #3377ff; color: #3377ff;" href="/InfoDetail/KoiInfoDetail/@ViewBag.Listkoi[item].KoiID">Thông tin sinh trưởng </a>
+                                    <p class=""><a style="border-bottom: solid 1px #3377ff; color: #3377ff;" href="@Url.Action("Timeline/"+@ViewBag.Listkoi[item].KoiID, "InfoDetail")">Thông tin sinh trưởng </a>
                                     </p>
                                     <p><a class="btn btn-embossed btn-primary" href="/Koi/Details/@ViewBag.Listkoi[item].KoiID" role="button">Chi tiết</a>
                                     </p>
