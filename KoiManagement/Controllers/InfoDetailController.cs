@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using System.IO;
+using System.Runtime.Remoting.Metadata.W3cXsd2001;
 using KoiManagement.Common;
 using KoiManagement.DAL;
 using KoiManagement.Models;
@@ -59,19 +60,38 @@ namespace KoiManagement.Controllers
             return View();
         }
 
-        public ActionResult TimelineVertical()
+        public ActionResult TimelineVertical(int? id, int? year)
         {
-            var listYear = db.InfoDetails.Where(p => p.KoiID == 2).OrderBy(p => p.Date).ToList();/*GroupBy(p=>p.Date.Year).Select(p=>p.FirstOrDefault()).ToList();*/
-            var test1 = db.InfoDetails.Where(p1 => p1.Date.Year == 2015).GroupBy(p => p.Date.Month).Select(p => p.FirstOrDefault()).ToList();
-            var test2 = db.InfoDetails.Where(p => p.Date.Year == 2015&&p.Date.Month==12).ToList();
+            //check id null
+            List<InfoDetail> listYear = new List<InfoDetail>();
+            if (year == null)
+            {
+                //loc theo năm
+                listYear =
+                    db.InfoDetails.Where(p => p.KoiID == id)
+                        .OrderBy(p => p.Date)
+                        .GroupBy(p => p.Date.Year)
+                        .Select(p => p.FirstOrDefault())
+                        .ToList();
+            }
+            else
+            {
+                //lọc theo tháng và ngày
+                listYear = db.InfoDetails.Where(p => p.Date.Year == year).ToList();
+            }
+            //theo tháng
+            //var test1 = db.InfoDetails.Where(p1 => p1.Date.Year == 2015).GroupBy(p => p.Date.Month).Select(p => p.FirstOrDefault()).ToList();
+            //theo tung ngày
+            //var test2 = db.InfoDetails.Where(p => p.Date.Year == 2015&&p.Date.Month==12).ToList();
             ViewBag.listYear = listYear;
-
+            ViewBag.koiId = id;
+            ViewBag.year = year;
             return View();
         }
 
-        public ActionResult timeline(int id, int? pageNum, int? filterVal)
+        public ActionResult timeline(int? id, int? pageNum, int? filterVal)
         {
-
+            //check id null
             List<List<Medium>> myList = new List<List<Medium>>();
             string t = "";
             BaseFilter filter;
@@ -99,6 +119,7 @@ namespace KoiManagement.Controllers
             }
             ViewBag.ListInfo = ListInfo;
             ViewBag.ListAnh = ListImage;
+            ViewBag.koiId = id;
 
             return View();
         }

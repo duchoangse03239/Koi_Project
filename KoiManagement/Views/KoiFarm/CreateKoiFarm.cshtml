@@ -1,0 +1,107 @@
+﻿@model KoiManagement.Models.HtmlContent
+@{
+    ViewBag.Title = "CreateKoiFarm";
+    //Layout = "~/Views/Layout/KoiLayout.cshtml";
+}
+
+<script src="~/Scripts/modernizr-2.6.2.js"></script>
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script src="~/Scripts/bootstrap.js"></script>
+<script src="~/Scripts/modernizr-2.6.2.js"></script>
+@using (Html.BeginForm())
+{
+    <div class="container">
+        <form id="add-achievment">
+            <h2 id="form-title" class="align-center">Tạo trang trại</h2>
+            <div class="">
+                <div class="row">
+                    <div class="col-sm-6 col-sm-offset-1">
+                        <hr/>
+                        <label for="farmName">Tên trang trại</label>
+                        <input type="text" class="form-control" placeholder="Tên trang trại" id="farmName" name="farmName">
+                        <label id="lblMessage_farm_name_fail" class="label-error"></label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 col-sm-offset-1">
+                        <label for="address">Địa chỉ</label>
+                        <input type="text" class="form-control" placeholder="Địa chỉ trang trại" id="address" name="address">
+                        <label id="lblMessage_address_fail" class="label-error"></label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-10 col-sm-offset-1">
+                        @Html.TextAreaFor(model => model.Content)
+                        <label for="description">Mô tả</label>
+                        <textarea type="text" class="form-control" placeholder="Mô tả giải thưởng" name="description"></textarea>
+                        <label id="lblMessage_description_fail" class="label-error"></label>
+                    </div>
+                </div>
+                <br/>
+                <div class="row" id="add-achievement-btn">
+                    <div class="col-sm-6 col-sm-offset-3 align-right">
+                        <button class="btn btn-primary" id="btnCreateFarm">Tạo trang trại</button>
+                        <button class="btn btn-primary" id="btnCancel">Đóng</button>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+    </div>
+}
+    <script type="text/javascript" src="@Url.Content("~/Scripts/tinymce/tinymce.min.js")"></script>
+<script src="~/Scripts/respond.js"></script>
+    <script type="text/javascript">
+        tinymce.init({
+            selector: "textarea",
+            language: 'vi',
+            width: '100%',
+            height: 600,
+            statusbar: false,
+            menubar: false,
+
+            setup: function (ed) {
+                ed.on('init', function () {
+                    this.getDoc().body.style.fontSize = '14px';
+                    this.getDoc().body.style.fontFamily = '"Helvetica Neue", Helvetica, Arial, sans-serif';
+                });
+            },
+
+            paste_data_images: true,
+
+            plugins: [
+                "advlist autolink lists link base64_image charmap hr anchor pagebreak",
+                "searchreplace wordcount visualblocks visualchars code",
+                "insertdatetime media nonbreaking save table contextmenu directionality",
+                "emoticons textcolor colorpicker textpattern "
+            ],
+            toolbar: "undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link base64_image media | forecolor backcolor"
+        });
+
+        // Prevent bootstrap dialog from blocking focusin
+        $(document).on('focusin', function (e) {
+            if ($(e.target).closest(".mce-window").length) {
+                e.stopImmediatePropagation();
+            }
+        });
+
+
+        $("#btnChangePassword").click(function () {
+                ChangePassword();
+
+        });
+
+        function ChangePassword() {
+            var oldPassword = $('#content').val();
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("Index")",
+                data: {
+                    oldPassword: oldPassword,
+                },
+                dataType: "Json",
+                success: function (res) { }
+            })
+        }
+    </script>
+

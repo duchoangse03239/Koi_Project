@@ -10,7 +10,6 @@
     }
 }
 
-<h2>TimelineVertical</h2>
 
 <style type="text/css">
     ol {
@@ -21,29 +20,29 @@
         background: #31708F;
     }
 
-        ol::before,
-        ol::after {
-            content: "";
-            position: absolute;
-            top: -8px;
-            display: block;
-            width: 0;
-            height: 0;
-            border-radius: 10px;
-            border: 10px solid #31708F;
-        }
+    ol::before,
+    ol::after {
+        content: "";
+        position: absolute;
+        top: -8px;
+        display: block;
+        width: 0;
+        height: 0;
+        border-radius: 10px;
+        border: 10px solid #31708F;
+    }
 
-        ol::before {
-            left: -5px;
-        }
+    ol::before {
+        left: -5px;
+    }
 
-        ol::after {
-            right: -10px;
-            border: 10px solid transparent;
-            border-right: 0;
-            border-left: 20px solid #31708F;
-            border-radius: 3px;
-        }
+    ol::after {
+        right: -10px;
+        border: 10px solid transparent;
+        border-right: 0;
+        border-left: 20px solid #31708F;
+        border-radius: 3px;
+    }
 
     /* ---- Timeline elements ---- */
     li {
@@ -55,35 +54,35 @@
         height: 50px;
     }
 
-        li .diplome {
-            position: absolute;
-            top: -47px;
-            left: 36%;
-            color: #000000;
-        }
+    li .diplome {
+        position: absolute;
+        top: -47px;
+        left: 36%;
+        color: #000000;
+    }
 
-        li .point {
-            content: "";
-            top: -4px;
-            left: 43%;
-            display: block;
-            width: 12px;
-            height: 12px;
-            border: 4px solid #31708F;
-            border-radius: 10px;
-            background: #fff;
-            position: absolute;
-        }
+    li .point {
+        content: "";
+        top: -4px;
+        left: 43%;
+        display: block;
+        width: 12px;
+        height: 12px;
+        border: 4px solid #31708F;
+        border-radius: 10px;
+        background: #fff;
+        position: absolute;
+    }
 
-        li .description {
-            display: none;
-            background-color: #f4f4f4;
-            padding: 10px;
-            margin-top: 20px;
-            position: relative;
-            font-weight: normal;
-            z-index: 1;
-        }
+    li .description {
+        display: none;
+        background-color: #f4f4f4;
+        padding: 10px;
+        margin-top: 20px;
+        position: relative;
+        font-weight: normal;
+        z-index: 1;
+    }
 
     .description::before {
         content: '';
@@ -103,9 +102,9 @@
         color: #48A4D2;
     }
 
-        li:hover .description {
-            display: block;
-        }
+    li:hover .description {
+        display: block;
+    }
 
     /*TIMELINE horizontal*/
     .timeline-horizontal {
@@ -131,53 +130,53 @@
         max-width: 500px;
     }
 
-        .entry img {
-            display: block;
-            max-width:250px;
-            height: auto;
-            margin: 10px auto 10px auto;
-            align : middle;
-        }
+    .entry img {
+        display: block;
+        max-width:250px;
+        height: auto;
+        margin: 10px auto 10px auto;
+        align : middle;
+    }
 
-        .entry:after {
-            content: '';
-            display: block;
-            background: #eee;
-            width: 9px;
-            height: 9px;
-            border-radius: 6px;
-            border: 3px solid #dff0d8;
-            position: absolute;
-            left: 51%;
-            top: -28px;
-            margin-left: -7px;
-        }
+    .entry:after {
+        content: '';
+        display: block;
+        background: #eee;
+        width: 9px;
+        height: 9px;
+        border-radius: 6px;
+        border: 3px solid #dff0d8;
+        position: absolute;
+        left: 51%;
+        top: -28px;
+        margin-left: -7px;
+    }
 
-        .entry:before {
-            content: '';
-            display: block;
-            background: #06182E;
-            width: 5px;
-            height: 20px;
-            position: absolute;
-            left: 50%;
-            top: -20px;
-            margin-left: -2px;
-        }
+    .entry:before {
+        content: '';
+        display: block;
+        background: #06182E;
+        width: 5px;
+        height: 20px;
+        position: absolute;
+        left: 50%;
+        top: -20px;
+        margin-left: -2px;
+    }
 
-        .entry h1 {
-            color: #fff;
-            font-size: 18px;
-            font-family: Georgia, serif;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
+    .entry h1 {
+        color: #fff;
+        font-size: 18px;
+        font-family: Georgia, serif;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
 
-        .entry h2 {
-            letter-spacing: .2em;
-            margin-bottom: 10px;
-            font-size: 14px;
-        }
+    .entry h2 {
+        letter-spacing: .2em;
+        margin-bottom: 10px;
+        font-size: 14px;
+    }
 
     .bar {
         height: 4px;
@@ -200,57 +199,72 @@
         margin-top: -10px;
     }
 </style>
-<ol>
-    <li>
-        <p class="diplome">1990</p>
-        <span class="point"></span>
-        <p class="description">
-            Ceci est la description du bac S
-        </p>
-    </li>
-    <li>
-        <p class="diplome">1991</p>
-        <span class="point"></span>
-        <p class="description">En lien avec la biologie et/ou la zoologie</p>
-    </li>
-    <li>
-        <p class="diplome">1992</p>
-        <span class="point"></span>
-        <p class="description">En lien avec la biologie et/ou la zoologie</p>
-    </li>
-    <li>
-        <p class="diplome">1993</p>
-        <span class="point"></span>
-        <p class="description">TEST</p>
-    </li>
-    <li>
-        <p class="diplome">1994</p>
-        <span class="point"></span>
-        <p class="description">Souvent nécessaire pour pouvoir accéder aux concours d’embauche de centres de recherche tels que l’INRA ou le CNRS</p>
-    </li>
-    <li>
-        <p class="diplome">1995</p>
-        <span class="point"></span>
-        <p class="description">Souvent nécessaire pour pouvoir accéder aux concours d’embauche de centres de recherche tels que l’INRA ou le CNRS</p>
-    </li>
-    <li>
-        <p class="diplome">1996</p>
-        <span class="point"></span>
-        <p class="description">Souvent nécessaire pour pouvoir accéder aux concours d’embauche de centres de recherche tels que l’INRA ou le CNRS</p>
-    </li>
+<div class="container">
+    <div class="page-header ">
+        <select class="selectpicker" data-style="btn-primary" onchange="location = this.options[this.selectedIndex].value;">
+            <option value="@Url.Action("TimelineVertical/"+ViewBag.koiId, "InfoDetail")">Ảnh sinh trưởng</option>
+            <option value="@Url.Action("timeline/"+ViewBag.koiId, "InfoDetail")">Dòng thời gian</option>
+        </select>
+    </div>
+</div>
+    <ol>
+        <li>
+            <p class="diplome">1990</p>
+            <span class="point"></span>
+            <p class="description">
+                Ceci est la description du bac S
+            </p>
+        </li>
+        <li>
+            <p class="diplome">1991</p>
+            <span class="point"></span>
+            <p class="description">En lien avec la biologie et/ou la zoologie</p>
+        </li>
+        <li>
+            <p class="diplome">1992</p>
+            <span class="point"></span>
+            <p class="description">En lien avec la biologie et/ou la zoologie</p>
+        </li>
+        <li>
+            <p class="diplome">1993</p>
+            <span class="point"></span>
+            <p class="description">TEST</p>
+        </li>
+        <li>
+            <p class="diplome">1994</p>
+            <span class="point"></span>
+            <p class="description">Souvent nécessaire pour pouvoir accéder aux concours d’embauche de centres de recherche tels que l’INRA ou le CNRS</p>
+        </li>
+        <li>
+            <p class="diplome">1995</p>
+            <span class="point"></span>
+            <p class="description">Souvent nécessaire pour pouvoir accéder aux concours d’embauche de centres de recherche tels que l’INRA ou le CNRS</p>
+        </li>
+        <li>
+            <p class="diplome">1996</p>
+            <span class="point"></span>
+            <p class="description">Souvent nécessaire pour pouvoir accéder aux concours d’embauche de centres de recherche tels que l’INRA ou le CNRS</p>
+        </li>
 
-</ol>
+    </ol>
 
 <div class="container">
+    @if (ViewBag.year != null)
+            {
+        @Html.ActionLink("Quay lại", null, null, null, new { href = Request.UrlReferrer })
+    }
     <div class="bar"></div>
     <div class="timeline-horizontal">
-        @foreach(var item in listYear) { 
-        <div class="entry">
-            <h1>@item.Date.Year</h1>
-            <h1>@item.Date.ToString("dd/MM/yyyy") :  @item.Size cm</h1>
-            <img src="@Url.Content("~/Content/Image/Detail/" + item.Image)"/>
-            Here's the info about this date
-        </div>
+
+        @foreach (var item in listYear)
+        {
+            <div class="entry">
+                <h1><a href="@Url.Action("TimelineVertical/" + ViewBag.koiId, "InfoDetail", new {year = @item.Date.Year})" class="alert-warning" role="button">@item.Date.Year</a>
+                </h1>
+                <h1>@item.Date.ToString("dd/MM/yyyy") : @item.Size cm</h1>
+                <img src="@Url.Content("~/Content/Image/Detail/" + item.Image)"/>
+                Here's the info about this date
+            </div>
         }
     </div>
 </div>

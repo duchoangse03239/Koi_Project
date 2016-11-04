@@ -82,7 +82,7 @@
                                         <label><span class="fa fa-trophy"></span> Thành tích:</label> <a href="#">Chi tiết <span class="fa fa-angle-double-right"></span></a>
                                     </div>
                                     <div class="line">
-                                        <label><span class="fa fa-clock-o"></span> Thông tin sinh trưởng:</label> <a href="/InfoDetail/KoiInfoDetail/@Model.KoiID">Chi tiết <span class="fa fa-angle-double-right"></span></a>
+                                        <label><span class="fa fa-clock-o"></span> Thông tin sinh trưởng:</label> <a href="@Url.Action("timeline/"+@Model.KoiID, "InfoDetail")">Chi tiết <span class="fa fa-angle-double-right"></span></a>
                                     </div>
                                     <div class="line">
                                         <a href="#" class="btn btn-button btn-default">Báo cáo vi phạm</a>
