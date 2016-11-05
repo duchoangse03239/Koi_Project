@@ -550,7 +550,7 @@ body a {
     width: 100px;
 }
 /*manage account  */
-.box_left {
+/*.box_left {
     width: 250px;
     float: left;
 }
@@ -558,7 +558,7 @@ body a {
 .box_right {
     width: 850px;
     float: right;
-}
+}*/
 
 .profile_info {
     padding: 25px 0 15px 20px;
