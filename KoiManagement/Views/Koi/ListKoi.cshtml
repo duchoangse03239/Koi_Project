@@ -29,24 +29,38 @@
                     <div id="parent">
                         <h3>Tìm kiếm</h3>
                         <hr />
-                        <div>
-                            <label id="lbl-user-name">Tên đăng nhập</label>
-                            <input class="input-search" name="username" id="username" type="text" value="@filter.Username" placeholder="">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label id="lbl-user-name">Tên đăng nhập</label>
+                            </div>
+                            <div class="col-md-6">
+                                <input class="input-search" name="username" id="username" type="text" value="@filter.Username" placeholder="">
+                            </div>   
                         </div>
                         <hr />
-                        <div>
-                            <label id="lbl-owner">Tên người sở hữu</label>
-                            <input class="input-search" type="text" name="owner" id="owner" value="@filter.Owner" placeholder="">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label id="lbl-owner">Tên người sở hữu</label>
+                            </div>
+                            <div class="col-md-6">
+                                <input class="input-search" type="text" name="owner" id="owner" value="@filter.Owner" placeholder="">
+                            </div>
                         </div>
                         <hr />
-                        <div>
-                            <label id="lbl-koi-name">Tên cá Koi</label>
-                            <input class="input-search" name="nameKoi" id="nameKoi" type="text" value="@filter.KoiName" placeholder="">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label id="lbl-koi-name">Tên cá Koi</label>
+                            </div>
+                            <div class="col-md-6">
+                                <input class="input-search" name="nameKoi" id="nameKoi" type="text" value="@filter.KoiName" placeholder="">
+                            </div>
                         </div>
                         <hr />
-                        <div>
-                            <label id="lbl-variety">Loại</label>
-                            <span>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label id="lbl-variety">Loại</label>
+                            </div>
+                            <div class="col-md-8">
                                 <select name="variety" id="variety">
                                     <option value="0">Tất cả</option>
                                     @foreach (var item in listVariety)
@@ -54,42 +68,55 @@
                                         <option value="@item.VarietyID">@item.VarietyName</option>
                                     }
                                 </select>
-                            </span>
+                            </div>
                             <script type="text/javascript">
                                 var $opt = $('#variety').children(('option[value=' + @filter.VarietyId + ']'));
                                 $opt.attr('selected', 'selected');
                             </script>
                         </div>
                         <hr>
-                        <div>
-                            <label id="lbl-size">Kích thước</label>
-                            <input class="koi-size" name="SizeFrom" id="sizeFrom" value="@filter.SizeFrom" type="text" placeholder="From"><label>-</label>
-                            <input class="koi-size" name="SizeTo" id="sizeTo" value="@filter.SizeTo" type="text" placeholder="To"><label>cm</label>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label id="lbl-size">Kích thước</label>
+                            </div>
+                            <div class="col-md-8">
+                                <input class="koi-size" name="SizeFrom" id="sizeFrom" value="@filter.SizeFrom" type="text" placeholder="From"><span>-</span>
+                                <input class="koi-size" name="SizeTo" id="sizeTo" value="@filter.SizeTo" type="text" placeholder="To"><span> cm</span>
+                            </div>
+                            
                         </div>
                         <hr>
-                        <div>
-                            <label id="lbl-gender">Giới tính</label>
-                            <span>
+                        <div class="row">
+                            <div class="col-md-4"> 
+                                <label id="lbl-gender">Giới tính</label>
+                            </div>
+                            <div class="col-md-8">
                                 <select name="gender" id="gender">
                                     <option value="" selected>Tất cả</option>
                                     <option value="M">Đực</option>
                                     <option value="F">Cái</option>
                                 </select>
-                            </span>
+                            </div>
                         </div>
                         <hr />
                         <script type="text/javascript">
                             var $opt = $('#gender').children(('option[value=' + @filter.Gender + ']'));
                             $opt.attr('selected', 'selected');
                         </script>
-                        <div>
-                            <label id="lbl-year-old">Tuổi</label>
-                            <input class="koi-year-old" type="text" placeholder="From"><label>-</label>
-                            <input class="koi-year-old" type="text" placeholder="To"><label>tháng</label>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label id="lbl-year-old">Tuổi</label>
+                            </div>
+                            <div class="col-md-8">
+                                <input class="koi-year-old" type="text" placeholder="From"><span>-</span>
+                                <input class="koi-year-old" type="text" placeholder="To"><span>tháng</span>
+                            </div>
                         </div>
                         <hr />
-                        <button class="btn btn-primary" type="submit" id="btnSearch" name="btnSearch">Tìm kiếm</button>
-                        <a class="btn btn-primary" href="/Koi/ListKoi/0"> <span>Xóa</span> </a>
+                        <div class="align-center">
+                            <button class="btn btn-primary" type="submit" id="btnSearch" name="btnSearch">Tìm kiếm</button>
+                            <span><a class="btn btn-primary" href="/Koi/ListKoi/0"> <span>Xóa</span> </a></span>
+                        </div>
                     </div>
 
 
