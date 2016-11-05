@@ -502,19 +502,11 @@ body a{text-decoration: none; color:#113949;}
 .glyphicon-star {
     color: #F7FE2E;
 }
-#gender {
-    width:150px; 
-}
-#variety {
-    width:150px; 
-    margin-left:40px;
-}
 .koi-size {
-    width:55px;
-    margin-left:5px;
-    margin-right:5px;
+    width:45px;
 }
 .searchForm {
+    font-size: 14px;
 	padding-left: 10px;
 	padding-right: 5px;
 	padding-bottom: 5px;
@@ -523,34 +515,16 @@ body a{text-decoration: none; color:#113949;}
 
 }
 .koi-year-old {
-    width:50px;
+    width:45px;
     margin-left:3px;
     margin-right:3px;
 }
 .input-search {
-    width:100px;
-}
-#lbl-year-old {
-    margin-right: 48px;
-}
-#lbl-variety {
-    margin-right: 12px;
-}
-#lbl-gender {
-    margin-right: 12px;
+    width:100%;
 }
 #btnSearch{
-    margin-left: 35%;
+    margin: auto;
     text-align: center;
-}
-#lbl-koi-name {
-    margin-right: 62px;
-}
-#lbl-owner {
-    margin-right: 10px;
-}
-#lbl-user-name {
-    margin-right: 33px;
 }
 .btn-select-list-koi {
     margin-bottom: 13px;
