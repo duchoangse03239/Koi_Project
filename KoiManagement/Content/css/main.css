@@ -1321,7 +1321,7 @@ input[type="file"] {
         position: absolute;
         content: " ";
         width: 3px;
-        background-color: #eeeeee;
+        background-color: #5cb85c;
         left: 50%;
         margin-left: -1.5px;
     }
