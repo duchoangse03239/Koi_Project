@@ -867,7 +867,7 @@ body a {
 /*END LIST KOI*/
 /*KOI USER*/
 .setting-icon {
-    background: url("../Content/Image/Common/setting.png") no-repeat scroll 0 0 transparent;
+    background: url('../Content/Image/Common/setting.png') no-repeat scroll 0 0 transparent;
     color: #000000;
     border: 0px;
     cursor: pointer;
