@@ -226,6 +226,7 @@
     <Compile Include="DAL\ActiveCodeDAO.cs" />
     <Compile Include="DAL\InfoDetailDAO.cs" />
     <Compile Include="DAL\CommentDAO.cs" />
+    <Compile Include="DAL\KoiFarmDAO.cs" />
     <Compile Include="DAL\MediaDAO.cs" />
     <Compile Include="DAL\VarietyDAO.cs" />
     <Compile Include="DAL\OwnerDAO.cs" />
@@ -234,7 +235,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\Achivement.cs">
+    <Compile Include="Models\Achievement.cs">
       <DependentUpon>KoiContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ActiveCode.cs">
@@ -694,6 +695,7 @@
     <Content Include="Scripts\smoothproducts.js" />
     <Content Include="Scripts\smoothproducts.min.js" />
     <Content Include="Scripts\tinymce\jquery.tinymce.min.js" />
+    <Content Include="Scripts\tinymce\langs\vi_VN.js" />
     <Content Include="Scripts\tinymce\license.txt" />
     <Content Include="Scripts\tinymce\plugins\advlist\plugin.js" />
     <Content Include="Scripts\tinymce\plugins\advlist\plugin.min.js" />
@@ -929,6 +931,8 @@
     <Content Include="Views\InfoDetail\TimelineVertical.cshtml" />
     <Content Include="Views\KoiFarm\CreateKoiFarm.cshtml" />
     <Content Include="Views\KoiFarm\Index.cshtml" />
+    <Content Include="Views\KoiFarm\KoiFarm.cshtml" />
+    <Content Include="Views\KoiFarm\ListKoiFarm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

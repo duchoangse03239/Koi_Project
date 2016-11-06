@@ -15,11 +15,11 @@ namespace KoiManagement.DAL
             db = new KoiManagementEntities();
         }
 
-        public bool AddAchievemen(Achivement ac)
+        public bool AddAchievemen(Achievement ac)
         {
             try
             {
-                db.Achivements.Add(ac);
+                db.Achievements.Add(ac);
                 db.SaveChanges();
                 return true;
             }
@@ -29,11 +29,11 @@ namespace KoiManagement.DAL
             }
         }
 
-        public int EditAchievemen(Achivement ac)
+        public int EditAchievemen(Achievement ac)
         {
             try
             {
-                db.Achivements.Attach(ac);
+                db.Achievements.Attach(ac);
                 var entry = db.Entry(ac);
                 entry.State = EntityState.Modified;
                 // Set column not change

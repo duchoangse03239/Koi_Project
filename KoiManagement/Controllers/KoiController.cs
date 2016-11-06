@@ -99,8 +99,10 @@ namespace KoiManagement.Controllers
             {
                 // id = int.Parse(Session[SessionAccount.SessionUserId].ToString());
                 KoiDAO koiDao = new KoiDAO();
+                MemberDAO mDAO=  new MemberDAO();
                 ListKois = koiDao.GetListKoiByMember(id);
-                ViewBag.MemberId = id;
+                ViewBag.Member = mDAO.GetMemberbyID(id);
+                ViewBag.CountKoi = koiDao.CountKoibyOwnerId(id);
                 if (ListKois != null)
                 {
                     return View(ListKois);

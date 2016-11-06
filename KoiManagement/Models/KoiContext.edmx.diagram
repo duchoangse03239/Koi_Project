@@ -4,8 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="6c9f4fae143d4e6399bca43e63511938" Name="Diagram1">
-        <EntityTypeShape EntityType="KoiManagementModel.Achivement" Width="1.5" PointX="11.25" PointY="4.5" IsExpanded="true" />
+      <Diagram DiagramId="6c9f4fae143d4e6399bca43e63511938" Name="Diagram1" ZoomLevel="74">
         <EntityTypeShape EntityType="KoiManagementModel.ActiveCode" Width="1.5" PointX="3" PointY="13.625" IsExpanded="true" />
         <EntityTypeShape EntityType="KoiManagementModel.Answer" Width="1.5" PointX="3" PointY="16.875" IsExpanded="true" />
         <EntityTypeShape EntityType="KoiManagementModel.Article" Width="1.5" PointX="6" PointY="15.25" IsExpanded="true" />
@@ -24,7 +23,6 @@
         <EntityTypeShape EntityType="KoiManagementModel.sysdiagram" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="KoiManagementModel.Type" Width="1.5" PointX="3.75" PointY="10.625" IsExpanded="true" />
         <EntityTypeShape EntityType="KoiManagementModel.Variety" Width="1.5" PointX="6.75" PointY="5.75" IsExpanded="true" />
-        <AssociationConnector Association="KoiManagementModel.FK__Achivemen__KoiID__25869641" ManuallyRouted="false" />
         <AssociationConnector Association="KoiManagementModel.FK__Answer__AnswerDe__44FF419A" ManuallyRouted="false" />
         <AssociationConnector Association="KoiManagementModel.FK__Answer__Question__440B1D61" ManuallyRouted="false" />
         <AssociationConnector Association="KoiManagementModel.FK__Rate__AnswerID__4AB81AF0" ManuallyRouted="false" />
@@ -50,17 +48,19 @@
         <AssociationConnector Association="KoiManagementModel.FK__Rate__QuestionID__49C3F6B7" ManuallyRouted="false" />
         <AssociationConnector Association="KoiManagementModel.FK__Report__ModelId__5812160E" ManuallyRouted="false" />
         <AssociationConnector Association="KoiManagementModel.FK__Variety__Variety__108B795B" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="KoiManagementModel.Achievement" Width="1.5" PointX="11.25" PointY="1.125" />
+        <AssociationConnector Association="KoiManagementModel.FK__Achivemen__KoiID__24927208" />
         <EntityTypeShape EntityType="KoiManagementModel.Member" Width="1.5" PointX="0.75" PointY="18.875" />
-        <AssociationConnector Association="KoiManagementModel.FK__ActiveCod__Membe__1FCDBCEB" />
-        <AssociationConnector Association="KoiManagementModel.FK__Answer__MemberID__45F365D3" />
-        <AssociationConnector Association="KoiManagementModel.FK__Article__MemberI__3D5E1FD2" />
-        <AssociationConnector Association="KoiManagementModel.FK__Comment__MemberI__2E1BDC42" />
-        <AssociationConnector Association="KoiManagementModel.FK__KoiFarm__MemberI__22AA2996" />
-        <AssociationConnector Association="KoiManagementModel.FK__Owner__MemberID__29572725" />
-        <AssociationConnector Association="KoiManagementModel.FK__Question__Member__412EB0B6" />
-        <AssociationConnector Association="KoiManagementModel.FK__Rate__MemberID__48CFD27E" />
-        <AssociationConnector Association="KoiManagementModel.FK__Report__MemberID__5535A963" />
-        <AssociationConnector Association="KoiManagementModel.FK__Report__ModelId__59FA5E80" />
+        <AssociationConnector Association="KoiManagementModel.FK__ActiveCod__Membe__1ED998B2" />
+        <AssociationConnector Association="KoiManagementModel.FK__Answer__MemberID__44FF419A" />
+        <AssociationConnector Association="KoiManagementModel.FK__Article__MemberI__3C69FB99" />
+        <AssociationConnector Association="KoiManagementModel.FK__Comment__MemberI__2D27B809" />
+        <AssociationConnector Association="KoiManagementModel.FK__KoiFarm__MemberI__21B6055D" />
+        <AssociationConnector Association="KoiManagementModel.FK__Owner__MemberID__286302EC" />
+        <AssociationConnector Association="KoiManagementModel.FK__Question__Member__403A8C7D" />
+        <AssociationConnector Association="KoiManagementModel.FK__Rate__MemberID__47DBAE45" />
+        <AssociationConnector Association="KoiManagementModel.FK__Report__MemberID__5441852A" />
+        <AssociationConnector Association="KoiManagementModel.FK__Report__ModelId__59063A471" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

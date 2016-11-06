@@ -171,6 +171,8 @@ namespace KoiManagement.DAL
                             break;
                     }
                 }
+                // kiểm tra tồn tại koi
+                koi = koi.Where(p => p.Status);
             }
             else { return null;}
             return koi;

@@ -68,7 +68,7 @@ namespace KoiManagement.Controllers
             {
                 //loc theo năm
                 listYear =
-                    db.InfoDetails.Where(p => p.KoiID == id)
+                    db.InfoDetails.Where(p => p.KoiID == id&&p.Status)
                         .OrderBy(p => p.Date)
                         .GroupBy(p => p.Date.Year)
                         .Select(p => p.FirstOrDefault())
@@ -77,7 +77,7 @@ namespace KoiManagement.Controllers
             else
             {
                 //lọc theo tháng và ngày
-                listYear = db.InfoDetails.Where(p => p.Date.Year == year).ToList();
+                listYear = db.InfoDetails.Where(p => p.KoiID == id && p.Status&&p.Date.Year == year).OrderBy(p => p.Date).ToList();
             }
             //theo tháng
             //var test1 = db.InfoDetails.Where(p1 => p1.Date.Year == 2015).GroupBy(p => p.Date.Month).Select(p => p.FirstOrDefault()).ToList();

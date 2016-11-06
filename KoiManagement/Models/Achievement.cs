@@ -12,25 +12,15 @@ namespace KoiManagement.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Achivement
+    public partial class Achievement
     {
         public int AchievementID { get; set; }
         public Nullable<int> KoiID { get; set; }
         public string Image { get; set; }
-        public Nullable<System.DateTime> Date { get; set; }
+        public System.DateTime Date { get; set; }
         public string Description { get; set; }
         public bool Status { get; set; }
-
-        public Achivement() { }
-        public Achivement(int KoiID, string Image, DateTime Date, string Description, bool Status)
-        {
-            this.KoiID = KoiID;
-            this.Image = Image;
-            this.Date = Date;
-            this.Description = Description;
-            this.Status = Status;
-        }
-
+    
         public virtual Koi Koi { get; set; }
     }
 }
