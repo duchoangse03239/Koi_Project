@@ -40,5 +40,35 @@ namespace KoiManagement.DAL
             var koifarm = db.KoiFarms.Count(p => p.MemberID == id && p.Status);
             return koifarm;
         }
+        public bool AddKoiFarm(KoiFarm koiFarm)
+        {
+            try
+            {
+                db.KoiFarms.Add(koiFarm);
+                db.SaveChanges();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+        public int EditKoiFarm(KoiFarm koiFarm)
+        {
+            try
+            {
+                db.KoiFarms.Attach(koiFarm);
+                var entry = db.Entry(koiFarm);
+                entry.State = EntityState.Modified;
+                // Set column not change
+                entry.Property(e => e.Status).IsModified = false;
+                entry.Property(e => e.MemberID).IsModified = false;
+                return db.SaveChanges();
+            }
+            catch
+            {
+                return 0;
+            }
+        }
     }
 }
