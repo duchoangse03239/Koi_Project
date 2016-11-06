@@ -28,21 +28,21 @@
                     @{
                         if (@Model.Gender.Equals("M"))
                         {
-                            <label id="lblGender" class="radio-inline"><input type="radio" name="optradio" checked="true">Nam</label>
+                            <label id="lblGender" class="radio-inline"><input type="radio" name="optradio" checked="checked">Nam</label>
                             <label id="lblGender" class="radio-inline"><input type="radio" name="optradio">Nữ</label>
                             <label id="lblGender" class="radio-inline"><input type="radio" name="optradio">Không xác định</label>
                         }
                         else if (@Model.Gender.Equals("F"))
                         {
                             <label id="lblGender" class="radio-inline"><input type="radio" name="optradio">Nam</label>
-                            <label id="lblGender" class="radio-inline"><input type="radio" name="optradio" checked="true">Nữ</label>
+                            <label id="lblGender" class="radio-inline"><input type="radio" name="optradio" checked="checked">Nữ</label>
                             <label id="lblGender" class="radio-inline"><input type="radio" name="optradio">Không xác định</label>
                         }
                         else
                         {
                             <label id="lblGender" class="radio-inline"><input type="radio" name="optradio">Nam</label>
                             <label id="lblGender" class="radio-inline"><input type="radio" name="optradio">Nữ</label>
-                            <label id="lblGender" class="radio-inline"><input type="radio" name="optradio" checked="true">Không xác định</label>
+                            <label id="lblGender" class="radio-inline"><input type="radio" name="optradio" checked="checked">Không xác định</label>
                         }
                     }
 
@@ -77,9 +77,9 @@
                 </div>
                 <div class="form-group">
                     <label for="phone">Ảnh đại diện</label>
-                    <input id="uploadFile" type="file" accept="image/png, image/jpeg, image/gif" name="image" class="img" onchange="loadFile(event)" />
+                    <input type="file" accept="image/png, image/jpeg, image/gif" name="file" id="file" class="img" onchange="loadFile(event)" />
                     <br />
-                    <div><img id="imagePreview" src="images/blank.jpg" alt="" /></div>
+                    <div><img id="imagePreview" src="~/Content/Image/Avatar/@Model.Image" alt="" /></div>
                     <script>
                         var loadFile = function (event) {
                             var output = document.getElementById('imagePreview');
@@ -96,8 +96,7 @@
 </div>
 
 <script type="text/javascript">
-    $(document)
-        .ready(function () {
+    $(document).ready(function () {
             $(function () {
                 $("#phone").focus();
             });
@@ -124,7 +123,7 @@
     });
 
     function isSpecialCharacter(phone) {
-        var regex = /"^(\+[0-9])$"/;
+        var regex = /^(01[2689]|09)[0-9]{8}$/;
         return regex.test(phone);
     };
 
@@ -149,31 +148,42 @@
             $('#lblMessage_phone_fail').focus;
             return false;
         }
-        if (!isSpecialCharacter(phone)) {
-            $('#lblMessage_phone_fail').text("Số điện thoại không đúng định dạng");
-            $('#lblMessage_phone_fail').focus;
-            return false;
-        }
+        //if (!isSpecialCharacter(phone)) {
+        //    $('#lblMessage_phone_fail').text("Số điện thoại không đúng định dạng");
+        //    $('#lblMessage_phone_fail').focus;
+        //    return false;
+        //}
 
 
         return true;
     }
 
     function UpdateProfile() {
-        var name = $('#name').val();
-        var dob = $('#dob').val();
-        var address = $('#address').val();
-        var gender;
+        var fileUpload = $("#file").get(0);
+        var files = fileUpload.files;
+        // Looping over all files and add it to FormData object
+        var fileData = new FormData();
+
+        for (var i = 0; i < files.length; i++) {
+            fileData.append(files[i].name, files[i]);
+        }
+
         if ($('#gender'.toString == "Nam")) {
-            gender = 'M';
+            fileData.append('gender', M);
         }
         else if ($('#gender'.toString == "Nữ")) {
-            gender = 'F';
+            fileData.append('gender', F);
         }
         else {
-            gender = 'N';
+            fileData.append('gender', N);
         }
-        var phone = $('#phone').val();
+        
+
+        // Adding one more key to FormData object
+        fileData.append('name', $('#name').val());
+        fileData.append('dob', $('#dob').val());
+        fileData.append('address', $('#address').val());
+        fileData.append('phone', $('#phone').val());
 
         $('#lblMessage_name_fail').text("");
         $('#lblMessage_dob_fail').text("");
@@ -183,13 +193,9 @@
         $.ajax({
             type: "POST",
             url: "@Url.Action("UpdateProfile")",
-            data: {
-                name: name,
-                dob: dob,
-                gender: gender,
-                address: address,
-                phone: phone
-            },
+            contentType: false, // Not to set any content header
+            processData: false,
+            data: fileData,
             dataType: "Json",
             success: function (res) {
                 switch (res.Status) {
@@ -202,20 +208,12 @@
                         $('#dob').focus();
                         break;
                     case 3:
-                        $('#lblMessage_email_fail').text(res.Message);
-                        $('#email').focus();
                         break;
                     case 4:
-                        $('#lblMessage_username_fail').text(res.Message);
-                        $('#username').focus();
                         break;
                     case 5:
-                        $('#lblMessage_password_fail').text(res.Message);
-                        $('#password').focus();
                         break;
                     case 6:
-                        $('#lblMessage_rePassword_fail').text(res.Message);
-                        $('#rePassword').focus();
                         break;
                     case 7:
                         $('#lblMessage_phone_fail').text(res.Message);
@@ -233,4 +231,32 @@
             }
         });
     }
-</script>
+
+ 
+    $(document).ready(function () {
+        if (window.File && window.FileList && window.FileReader) {
+            $("#files").on("change", function (e) {
+                var files = e.target.files,
+                  filesLength = files.length;
+                for (var i = 0; i < filesLength; i++) {
+                    var f = files[i]
+                    var fileReader = new FileReader();
+                    fileReader.onload = (function (e) {
+                        var file = e.target;
+                        $("<span class=\"pip\">" +
+                          "<img class=\"imageThumb\" src=\"" + e.target.result + "\" title=\"" + file.name + "\"/>" +
+                          "<br/><span class=\"remove\">X</span>" +
+                          "</span>").insertAfter("#files");
+                        $(".remove").click(function () {
+                            $(this).parent(".pip").remove();
+                        });
+                    });
+                    fileReader.readAsDataURL(f);
+                }
+            });
+        } else {
+            alert("Your browser doesn't support to File API")
+        }
+    });
+    </script>
+@*<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>*@

@@ -21,7 +21,7 @@ namespace KoiManagement.Controllers
             return View();
         }
 
-        // GET: /Account/UpdateProfile
+        // GET: /Account/AddAchievement
         [HttpPost]
         public JsonResult AddAchievement(string KoiID, string time, string description)
         {
