@@ -70,8 +70,8 @@
                                 </select>
                             </div>
                             <script type="text/javascript">
-                                var $opt = $('#variety').children(('option[value=' + @filter.VarietyId + ']'));
-                                $opt.attr('selected', 'selected');
+                                var $opt1 = $('#variety').children(('option[value=' + @filter.VarietyId + ']'));
+                                $opt1.attr('selected', 'selected');
                             </script>
                         </div>
                         <hr>
@@ -100,7 +100,7 @@
                         </div>
                         <hr />
                         <script type="text/javascript">
-                            var $opt = $('#gender').children(('option[value=' + @filter.Gender + ']'));
+                            var $opt = $('#gender option[value="@filter.Gender"]');
                             $opt.attr('selected', 'selected');
                         </script>
                         <div class="row">
@@ -118,7 +118,6 @@
                             <span><a class="btn btn-primary" href="/Koi/ListKoi/0"> <span>Xóa</span> </a></span>
                         </div>
                     </div>
-
 
                 </form>
                     @*</form>*@

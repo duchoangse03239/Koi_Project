@@ -931,7 +931,7 @@
     <Content Include="Views\InfoDetail\TimelineVertical.cshtml" />
     <Content Include="Views\KoiFarm\CreateKoiFarm.cshtml" />
     <Content Include="Views\KoiFarm\Index.cshtml" />
-    <Content Include="Views\KoiFarm\KoiFarm.cshtml" />
+    <Content Include="Views\KoiFarm\KoiFarmDetail.cshtml" />
     <Content Include="Views\KoiFarm\ListKoiFarm.cshtml" />
   </ItemGroup>
   <ItemGroup>

@@ -4,8 +4,10 @@ using System.Data.Entity.Validation;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using KoiManagement.Common;
 using KoiManagement.DAL;
 using KoiManagement.Models;
+using PagedList;
 
 namespace KoiManagement.Controllers
 {
@@ -20,14 +22,14 @@ namespace KoiManagement.Controllers
             return View();
         }
 
-        public ActionResult KoiFarm(int? id)
+        public ActionResult KoiFarmDetail(int? id)
         {
             if (id == 0)
             {
                 return View();
             }
-            var listkoi = koiFarmDao.GetListKoiByKoiFarmID((int)id);
-            var koifarm = db.KoiFarms.Find(id);
+            var listkoi = koiFarmDao.GetListKoiByKoiFarmId((int)id);
+            var koifarm = koiFarmDao.GetKoiFarmDetail((int)id);
             ViewBag.koiFarm = koifarm;
             ViewBag.listKoi = listkoi;
             return View();
@@ -50,24 +52,24 @@ namespace KoiManagement.Controllers
             koiFarm.Status = true;
             db.KoiFarms.Add(koiFarm);
             db.SaveChanges();
-        }
-        catch (DbEntityValidationException ex)
-        {
-            foreach (var entityValidationErrors in ex.EntityValidationErrors)
+            }
+            catch (DbEntityValidationException ex)
             {
-                foreach (var validationError in entityValidationErrors.ValidationErrors)
+                foreach (var entityValidationErrors in ex.EntityValidationErrors)
                 {
-                    Response.Write("Property: " + validationError.PropertyName + " Error: " + validationError.ErrorMessage);
-                 }
-        }
-        }
+                    foreach (var validationError in entityValidationErrors.ValidationErrors)
+                    {
+                        Response.Write("Property: " + validationError.PropertyName + " Error: " + validationError.ErrorMessage);
+                     }
+            }
+            }
             return View();
         }
 
-        public ActionResult ListKoiFarm()
+        public ActionResult ListKoiFarm(int? page)
         {
             var ListKoiFarm = koiFarmDao.GetListKoiFarm();
-            ViewBag.ListKoiFarm = ListKoiFarm;
+           // ViewBag.ListKoiFarm = ListKoiFarm;
             Dictionary<int, string> dict = new Dictionary<int, string>();
             List<string> listVariety = new List<string>();
             string t = "";
@@ -82,11 +84,18 @@ namespace KoiManagement.Controllers
                         dict.Add(item.Variety.VarietyID, item.Variety.VarietyName);
                 }
                 foreach (var v in dict)
+                {
                     t += v.Value +", ";
+                }
+                    t = CommonFunction.Trim2LastCharacter(t);
                 listVariety.Add(t);
             }
+            int pageSize = 10;
+            int pageNumber = (page ?? 1);
             ViewBag.listVariety = listVariety;
-           return View();
+            ViewBag.ListKoiFarm = ListKoiFarm.ToList().ToPagedList(pageNumber, pageSize);
+
+            return View();
         }
 
     }

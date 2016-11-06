@@ -181,6 +181,17 @@ namespace KoiManagement.Common
             }
             return result;
         }
+        public static string Trim2LastCharacter(string str)
+        {
+            if (String.IsNullOrEmpty(str))
+            {
+                return str;
+            }
+            else
+            {
+                return str.TrimEnd().Substring(0, str.Length - 2);
+            }
+        }
 
 
     }

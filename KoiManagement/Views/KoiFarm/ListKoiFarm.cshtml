@@ -1,9 +1,10 @@
 ﻿@using KoiManagement.Models
+@using PagedList.Mvc
 
 @{
     ViewBag.Title = "ListKoiFarm";
     Layout = "~/Views/Layout/KoiLayout.cshtml";
-    List <KoiFarm> ListKoiFarm = ViewBag.ListKoiFarm;
+    PagedList.IPagedList ListKoiFarm = ViewBag.ListKoiFarm;
     if (ListKoiFarm == null)
     {
         throw new ArgumentNullException("ListKoiFarm");
@@ -27,22 +28,22 @@
     <div class="button-header text-right">
         <a class="btn btn-success" href="#">Tạo trang trại</a>
     </div>
-@for (int item = 0; item < ListKoiFarm.Count; item++)
+@for (int item = 0; item < ViewBag.ListKoiFarm.Count; item++)
 {
     <div class="content-section-a">
 
         <div class="row container">
             <div class="col-md-3">
-                <img class="img-farm-list" src="/Content/Image/Member/@ListKoiFarm.ElementAt(item).Member.Image" alt="">
+                <img class="img-farm-list" src="/Content/Image/Member/@ViewBag.ListKoiFarm[item].Member.Image" alt="">
             </div>
             <div class="col-md-6">
-                <a class="title-koi-name" href="@Url.Action("KoiFarm/"+ @ListKoiFarm.ElementAt(item).KoifarmID, "KoiFarm")">@ListKoiFarm.ElementAt(item).FarmName</a>
+                <a class="title-koi-name" href="@Url.Action("KoiFarmDetail/"+ @ViewBag.ListKoiFarm[item].KoifarmID, "KoiFarm")">@ViewBag.ListKoiFarm[item].FarmName</a>
                 <h4 class="">
-                    Chủ trang trại: <a href="/Account/profile/@ListKoiFarm.ElementAt(item).MemberID">@ListKoiFarm.ElementAt(item).Member.Name</a>
+                    Chủ trang trại: <a href="/Account/profile/@ViewBag.ListKoiFarm[item].MemberID">@ViewBag.ListKoiFarm[item].Member.Name</a>
                 </h4>
-                <h4>Địa chỉ:@ListKoiFarm.ElementAt(item).Address</h4>
+                <h4>Địa chỉ:@ViewBag.ListKoiFarm[item].Address</h4>
                 <h4>Chủng loại chính:@listVariety.ElementAt(item)</h4>
-                <a class="btn btn-embossed btn-primary" href="" role="button">Xem thêm</a>
+                <a class="btn btn-embossed btn-primary" href="@Url.Action("KoiFarmDetail/"+ @ViewBag.ListKoiFarm[item].KoifarmID, "KoiFarm")" role="button">Xem thêm</a>
             </div>
             <div class="col-md-3">
                 <div class="ratings align-right">
@@ -62,4 +63,7 @@
 
         </div>
         }
+    Page @(ListKoiFarm.PageCount < ListKoiFarm.PageNumber ? 0 : ListKoiFarm.PageNumber) of @ListKoiFarm.PageCount
+
+    @Html.PagedListPager(ListKoiFarm, page => Url.Action("ListKoiFarm" ,"KoiFarm", new { page}))
 </div>

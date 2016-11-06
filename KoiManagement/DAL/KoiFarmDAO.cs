@@ -19,11 +19,15 @@ namespace KoiManagement.DAL
             return db.KoiFarms.Where(f => f.Status).ToList();
         }
 
-        public List<Koi> GetListKoiByKoiFarmID(int koifarmId)
+        public List<Koi> GetListKoiByKoiFarmId(int koifarmId)
         {
             var listKoi = db.Kois.Where(cu => cu.Owners.Any(c => c.KoiFarmID == koifarmId)).ToList();
             return listKoi;
+        }
 
+        public KoiFarm GetKoiFarmDetail(int id)
+        {
+            return db.KoiFarms.Find(id);
         }
     }
 }
