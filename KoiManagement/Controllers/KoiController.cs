@@ -20,7 +20,7 @@ namespace KoiManagement.Controllers
     public class KoiController : Controller
     {
         private KoiManagementEntities db = new KoiManagementEntities();
-        
+        KoiFarmDAO koiFarmDao = new KoiFarmDAO();
         /// <summary>
         /// List Koi
         /// </summary>
@@ -103,6 +103,7 @@ namespace KoiManagement.Controllers
                 ListKois = koiDao.GetListKoiByMember(id);
                 ViewBag.Member = mDAO.GetMemberbyID(id);
                 ViewBag.CountKoi = koiDao.CountKoibyOwnerId(id);
+                ViewBag.CountKoiFarm = koiFarmDao.CountKoiFarmbyOwnerId(id);
                 if (ListKois != null)
                 {
                     return View(ListKois);

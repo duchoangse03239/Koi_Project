@@ -15,11 +15,20 @@ namespace KoiManagement.DAL
             db = new KoiManagementEntities();
         }
 
+        /// <summary>
+        /// Lấy id lớn nhất +1 của koi id
+        /// </summary>
+        /// <returns></returns>
         public int GetMaxKoiID()
         {
             return  db.Kois.Max(g => g.KoiID) + 1;
         }
 
+        /// <summary>
+        /// Lấy danh sách cá koi theo memberid
+        /// </summary>
+        /// <param name="memberID"></param>
+        /// <returns></returns>
         public List<Koi> GetListKoiByMember(int memberID)
         {
              var Owner = db.Owners.Where(p => p.MemberID == memberID).ToList();
@@ -41,7 +50,11 @@ namespace KoiManagement.DAL
             }
             return null;
         }
-
+        /// <summary>
+        /// lấy số lượng cá koi theo Member id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public int CountKoibyOwnerId(int id)
         {
             var ow = db.Owners.Where(p=>p.MemberID== id&& p.Status);

@@ -14,6 +14,8 @@ namespace KoiManagement.Controllers
     public class KoiFarmController : Controller
     {
         KoiManagementEntities db = new KoiManagementEntities();
+        KoiDAO koiDao = new KoiDAO();
+        MemberDAO memberDao = new MemberDAO();
         KoiFarmDAO koiFarmDao = new KoiFarmDAO();
 
         // GET: KoiFarm
@@ -37,6 +39,17 @@ namespace KoiManagement.Controllers
 
         public ActionResult CreateKoiFarm()
         {
+            //kiểm tra đăng nhập
+            if (Session[SessionAccount.SessionUserId] == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            // lấy id người đang đăng nhập
+            int id = int.Parse(Session[SessionAccount.SessionUserId].ToString());
+            //Viewbag cho patialView _Manager
+            ViewBag.Member = memberDao.GetMemberbyID(id);
+            ViewBag.CountKoi = koiDao.CountKoibyOwnerId(id);
+            ViewBag.CountKoiFarm = koiFarmDao.CountKoiFarmbyOwnerId(id);
             return View();
         }
 
@@ -44,14 +57,35 @@ namespace KoiManagement.Controllers
         [HttpPost, ValidateInput(false)]
         public ActionResult CreateKoiFarm(string farmName, string address,string description)
         {
-            try { 
+            ViewBag.Message = string.Empty;
+            //kiểm tra đăng nhập
+            if (Session[SessionAccount.SessionUserId] == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            // lấy id người đang đăng nhập
+            int id = int.Parse(Session[SessionAccount.SessionUserId].ToString());
+            //Viewbag cho patialView _Manager
+            ViewBag.Member = memberDao.GetMemberbyID(id);
+            ViewBag.CountKoi = koiDao.CountKoibyOwnerId(id);
+            ViewBag.CountKoiFarm = koiFarmDao.CountKoiFarmbyOwnerId(id);
+            if (string.IsNullOrWhiteSpace(farmName) || string.IsNullOrWhiteSpace(address) ||
+                string.IsNullOrWhiteSpace(description)|| farmName.Length>100)
+            {
+                return View();
+
+            }
+            try
+            { 
+
             KoiFarm  koiFarm = new KoiFarm();
             koiFarm.FarmName = farmName;
             koiFarm.Address = address;
             koiFarm.Description = description;
             koiFarm.Status = true;
             db.KoiFarms.Add(koiFarm);
-            db.SaveChanges();
+           // db.SaveChanges();
+                ViewBag.Message = "Bạn đã thêm thành công";
             }
             catch (DbEntityValidationException ex)
             {
@@ -63,6 +97,7 @@ namespace KoiManagement.Controllers
                      }
             }
             }
+
             return View();
         }
 
@@ -96,6 +131,39 @@ namespace KoiManagement.Controllers
             ViewBag.ListKoiFarm = ListKoiFarm.ToList().ToPagedList(pageNumber, pageSize);
 
             return View();
+        }
+
+        public ActionResult EditKoiFarm()
+        {
+            //kiểm tra đăng nhập
+            if (Session[SessionAccount.SessionUserId] == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            // lấy id người đang đăng nhập
+            int id = int.Parse(Session[SessionAccount.SessionUserId].ToString());
+            //Viewbag cho patialView _Manager
+            ViewBag.Member = memberDao.GetMemberbyID(id);
+            ViewBag.CountKoi = koiDao.CountKoibyOwnerId(id);
+            ViewBag.CountKoiFarm = koiFarmDao.CountKoiFarmbyOwnerId(id);
+            return View();
+        }
+
+        public ActionResult KoifarmOwner()
+        {
+            //kiểm tra đăng nhập
+            if (Session[SessionAccount.SessionUserId] == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            // lấy id người đang đăng nhập
+            int id = int.Parse(Session[SessionAccount.SessionUserId].ToString());
+            var koifarm = koiFarmDao.GetListKoiFarmByMemberId(id);
+            //Viewbag cho patialView _Manager
+            ViewBag.Member = memberDao.GetMemberbyID(id);
+            ViewBag.CountKoi = koiDao.CountKoibyOwnerId(id);
+            ViewBag.CountKoiFarm = koiFarmDao.CountKoiFarmbyOwnerId(id);
+            return View(koifarm);
         }
 
     }
