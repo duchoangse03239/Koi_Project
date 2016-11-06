@@ -6,81 +6,82 @@
 
 <div class="section site-main">
     <div class="container">
-        <div class="box_left">
-            <div class="profile_info">
-                <div class="profile_left">
-                    <a href="#">
-                        <img src="~/Content/Image/Member/@Model.Image" id="avatar" class="profile_img" alt="">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="box_left">
+                    <div class="profile_info">
+                        <div class="profile_left">
+                            <a href="#">
+                                <img src="~/Content/Image/Member/@Model.Image" id="avatar" class="profile_img" alt="">
+                            </a>
+                            <h4><a href="#" class="profile_name">Người dùng</a></h4>
+                        </div>
+                    </div>
+                    <div class="line"></div>
+                    <a href="@Url.Action("Profile/"+@Model.MemberID, "Account")" class="profile_link">
+                        <h3 class="profile_item">Thông tin cá nhân</h3>
                     </a>
-                    <!-- <a href="#" class="profile_edit">Đổi mật khẩu</a> -->
-                    <!-- <a href="http://sharecode.vn/thanh-vien/thangnc-80839.htm" id="ContentPlaceHolder1_ContentPlaceHolder1_uscprofile1_LinkPageUser" class="profile_page">Trang cá nhân</a> -->
+                    <div class="line"></div>
+                    <a href="@Url.Action("KoiUser/"+@Model.MemberID, "Koi")" class="profile_link">
+                        <h3 class="profile_item">Cá Koi của @Model.UserName [<span id="my_koi_count">@ViewBag.CountKoi</span>]</h3>
+                    </a>
+                    <div class="line"></div>
+                    <a href="#" class="profile_link">
+                        <h3 class="profile_item">Trang trại của @Model.UserName [<span id="my_farm_count">0</span>]</h3>
+                    </a>
                 </div>
             </div>
-            <div class="line"></div>
-            <a href="@Url.Action("Profile/"+@Model.MemberID, "Account")" class="profile_link">
-                <h3 class="profile_item">Thông tin cá nhân</h3>
-            </a>
-
-            <div class="line"></div>
-            <a href="@Url.Action("KoiUser/"+@Model.MemberID, "Koi")" class="profile_link">
-                <h3 class="profile_item">Cá Koi của @Model.UserName [<span id="my_koi_count">@ViewBag.CountKoi</span>]</h3>
-            </a>
-            <div class="line"></div>
-            <a href="#" class="profile_link">
-                <h3 class="profile_item">Trang trại của @Model.UserName [<span id="my_farm_count">0</span>]</h3>
-            </a>
-        </div>
-        <div class="box_right">
-            <div class="section site-main">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-8 col-md-offset-0">
-                            <h1>Thông tin cá nhân</h1>
-                            <div class="form-group">
-                                <label for="email">Email*</label>
-                                <input type="email" class="form-control" id="email" name="email" value="@Model.Email" placeholder="Email" disabled>
+            <div class="col-md-9">
+                <div class="box_right">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-6 col-md-offset-0">
+                                <h1>Thông tin cá nhân</h1>
+                                <div class="form-group">
+                                    <label for="email">Email*</label>
+                                    <input type="email" class="form-control" id="email" name="email" value="@Model.Email" placeholder="Email" disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label for="username">Tên đăng nhập*</label>
+                                    <input type="text" class="form-control" id="username" name="username" value="@Model.UserName" placeholder="Tên đăng nhập" disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label for="name">Họ và tên</label>
+                                    <input type="text" class="form-control" id="name" name="name" value="@Model.Name" placeholder="Họ và tên" disabled>
+                                    <label id="lblMessage_name_fail" class="label-error"></label>
+                                </div>
+                                <div class="form-group">
+                                    <label id="lblGender" for="gender">Giới tính:</label>
+                                    <input type="text" class="form-control" id="name" name="name" value="@Model.Gender" placeholder="Họ và tên" disabled>
+                                </div>
+                                <div class="form-group">
+                                    <!-- <label>Ngày sinh</label>
+                                    <div>
+                                        <select>
+                                            <option>Ngày</option>
+                                        </select>
+                                        <select>
+                                            <option>Tháng</option>
+                                        </select>
+                                        <select>
+                                            <option>Năm</option>
+                                        </select>
+                                    </div> -->
+                                    <label for="dob">Ngày Sinh</label>
+                                    <input type="date" class="form-control" id="dob" name="dob" placeholder="Ngày Sinh" disabled>
+                                    <label id="lblMessage_dob_fail" class="label-error"></label>
+                                </div>
+                                <div class="form-group">
+                                    <label for="address">Địa chỉ</label>
+                                    <input type="text" class="form-control" id="address" name="address" placeholder="Địa chỉ" disabled>
+                                    <label id="lblMessage_address_fail" class="label-error"></label>
+                                </div>
+                                <div class="form-group">
+                                    <label for="phone">Số điện thoại</label>
+                                    <input type="text" class="form-control" id="phone" name="phone" placeholder="Số điện thoại" disabled>
+                                    <label id="lblMessage_phone_fail" class="label-error"></label>
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <label for="username">Tên đăng nhập*</label>
-                                <input type="text" class="form-control" id="username" name="username" value="@Model.UserName" placeholder="Tên đăng nhập" disabled>
-                            </div>
-                            <div class="form-group">
-                                <label for="name">Họ và tên</label>
-                                <input type="text" class="form-control" id="name" name="name" value="@Model.Name" placeholder="Họ và tên" disabled>
-                                <label id="lblMessage_name_fail" class="label-error"></label>
-                            </div>
-                            <div class="form-group">
-                                <label id="lblGender" for="gender">Giới tính:</label>
-                                <input type="text" class="form-control" id="name" name="name" value="@Model.Gender" placeholder="Họ và tên" disabled>
-                            </div>
-                            <div class="form-group">
-                                <!-- <label>Ngày sinh</label>
-                                <div>
-                                    <select>
-                                        <option>Ngày</option>
-                                    </select>
-                                    <select>
-                                        <option>Tháng</option>
-                                    </select>
-                                    <select>
-                                        <option>Năm</option>
-                                    </select>
-                                </div> -->
-                                <label for="dob">Ngày Sinh</label>
-                                <input type="date" class="form-control" id="dob" name="dob" placeholder="Ngày Sinh" disabled>
-                                <label id="lblMessage_dob_fail" class="label-error"></label>
-                            </div>
-                            <div class="form-group">
-                                <label for="address">Địa chỉ</label>
-                                <input type="text" class="form-control" id="address" name="address" placeholder="Địa chỉ" disabled>
-                                <label id="lblMessage_address_fail" class="label-error"></label>
-                            </div>
-                            <div class="form-group">
-                                <label for="phone">Số điện thoại</label>
-                                <input type="text" class="form-control" id="phone" name="phone" placeholder="Số điện thoại" disabled>
-                                <label id="lblMessage_phone_fail" class="label-error"></label>
-                            </div>
-
                         </div>
                     </div>
                 </div>

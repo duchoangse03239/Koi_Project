@@ -18,13 +18,15 @@
 
 <div class="container">
     
-    <div class="page-header ">
+    <div class="page-header" style="padding-bottom: 20px;">
         <select class="selectpicker" data-style="btn-primary"  onchange="location = this.options[this.selectedIndex].value;">
             <option   value="@Url.Action("timeline/"+ViewBag.koiId, "InfoDetail")" >Dòng thời gian</option>
             <option value="@Url.Action("TimelineVertical/"+ViewBag.koiId , "InfoDetail")" >Ảnh sinh trưởng</option>
         </select>
-        <a class="btn btn-success " href="#" left>Thêm trạng thái </a>
-        <a class="btn btn-success " href="#">Thêm giải thưởng </a>
+        <span style="float:right;">
+            <a class="btn btn-success" href="#">Thêm trạng thái </a>
+            <a class="btn btn-success" href="#">Thêm giải thưởng </a>
+        </span>
     </div>
     <ul class="timeline">
         @for (int item = 0; item < listInfo.Count; item++)

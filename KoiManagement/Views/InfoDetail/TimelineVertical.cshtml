@@ -45,7 +45,7 @@
     }
 
     /* ---- Timeline elements ---- */
-    li {
+    .li-year {
         position: relative;
         display: inline-block;
         float: left;
@@ -54,14 +54,14 @@
         height: 50px;
     }
 
-    li .diplome {
+    .li-year .diplome {
         position: absolute;
         top: -47px;
         left: 36%;
         color: #000000;
     }
 
-    li .point {
+    .li-year .point {
         content: "";
         top: -4px;
         left: 43%;
@@ -74,7 +74,7 @@
         position: absolute;
     }
 
-    li .description {
+    .li-year .description {
         display: none;
         background-color: #f4f4f4;
         padding: 10px;
@@ -97,12 +97,12 @@
     }
 
     /* ---- Hover effects ---- */
-    li:hover {
+    .li-year:hover {
         cursor: pointer;
         color: #48A4D2;
     }
 
-    li:hover .description {
+    .li-year:hover .description {
         display: block;
     }
 
@@ -208,39 +208,39 @@
     </div>
 </div>
     <ol>
-        <li>
+        <li class="li-year">
             <p class="diplome">1990</p>
             <span class="point"></span>
             <p class="description">
                 Ceci est la description du bac S
             </p>
         </li>
-        <li>
+        <li class="li-year">
             <p class="diplome">1991</p>
             <span class="point"></span>
             <p class="description">En lien avec la biologie et/ou la zoologie</p>
         </li>
-        <li>
+        <li class="li-year">
             <p class="diplome">1992</p>
             <span class="point"></span>
             <p class="description">En lien avec la biologie et/ou la zoologie</p>
         </li>
-        <li>
+        <li class="li-year">
             <p class="diplome">1993</p>
             <span class="point"></span>
             <p class="description">TEST</p>
         </li>
-        <li>
+        <li class="li-year">
             <p class="diplome">1994</p>
             <span class="point"></span>
             <p class="description">Souvent nécessaire pour pouvoir accéder aux concours d’embauche de centres de recherche tels que l’INRA ou le CNRS</p>
         </li>
-        <li>
+        <li class="li-year">
             <p class="diplome">1995</p>
             <span class="point"></span>
             <p class="description">Souvent nécessaire pour pouvoir accéder aux concours d’embauche de centres de recherche tels que l’INRA ou le CNRS</p>
         </li>
-        <li>
+        <li class="li-year">
             <p class="diplome">1996</p>
             <span class="point"></span>
             <p class="description">Souvent nécessaire pour pouvoir accéder aux concours d’embauche de centres de recherche tels que l’INRA ou le CNRS</p>

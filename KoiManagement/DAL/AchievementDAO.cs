@@ -15,7 +15,7 @@ namespace KoiManagement.DAL
             db = new KoiManagementEntities();
         }
 
-        public bool AddAchievemen(Achievement ac)
+        public bool AddAchievement(Achievement ac)
         {
             try
             {
@@ -29,7 +29,7 @@ namespace KoiManagement.DAL
             }
         }
 
-        public int EditAchievemen(Achievement ac)
+        public int EditAchievement(Achievement ac)
         {
             try
             {
