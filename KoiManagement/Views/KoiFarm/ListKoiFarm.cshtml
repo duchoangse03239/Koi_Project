@@ -9,6 +9,10 @@
     {
         throw new ArgumentNullException("ListKoiFarm");
     }
+    if (ViewBag.ListKoiFarm == null)
+    {
+        throw new ArgumentNullException("ListKoiFarm");
+    }
     List<string> listVariety = ViewBag.listVariety;
 }
 
