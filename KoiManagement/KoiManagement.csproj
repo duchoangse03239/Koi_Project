@@ -937,6 +937,7 @@
     <Content Include="Views\KoiFarm\ListKoiFarm.cshtml" />
     <Content Include="Views\KoiFarm\EditKoiFarm.cshtml" />
     <Content Include="Views\KoiFarm\KoiFarmOwner.cshtml" />
+    <Content Include="Views\KoiFarm\AddKoiToKoiFarm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

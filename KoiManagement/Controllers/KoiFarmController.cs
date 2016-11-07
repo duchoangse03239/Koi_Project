@@ -30,8 +30,8 @@ namespace KoiManagement.Controllers
             {
                 return View();
             }
-            var listkoi = koiFarmDao.GetListKoiByKoiFarmId((int)id);
-            var koifarm = koiFarmDao.GetKoiFarmDetail((int)id);
+            var listkoi = koiFarmDao.GetListKoiByKoiFarmId((int) id);
+            var koifarm = koiFarmDao.GetKoiFarmDetail((int) id);
             ViewBag.koiFarm = koifarm;
             ViewBag.listKoi = listkoi;
             return View();
@@ -55,7 +55,7 @@ namespace KoiManagement.Controllers
 
 
         [HttpPost, ValidateInput(false)]
-        public ActionResult CreateKoiFarm(string farmName, string address,string description)
+        public ActionResult CreateKoiFarm(string farmName, string address, string description)
         {
             ViewBag.Message = string.Empty;
             //kiểm tra đăng nhập
@@ -70,22 +70,27 @@ namespace KoiManagement.Controllers
             ViewBag.CountKoi = koiDao.CountKoibyOwnerId(id);
             ViewBag.CountKoiFarm = koiFarmDao.CountKoiFarmbyOwnerId(id);
             if (string.IsNullOrWhiteSpace(farmName) || string.IsNullOrWhiteSpace(address) ||
-                string.IsNullOrWhiteSpace(description)|| farmName.Length>100)
+                string.IsNullOrWhiteSpace(description) || farmName.Length > 100)
             {
                 return View();
 
             }
             try
-            { 
-
-            KoiFarm  koiFarm = new KoiFarm();
-            koiFarm.FarmName = farmName;
-            koiFarm.Address = address;
-            koiFarm.Description = description;
-            koiFarm.Status = true;
-            db.KoiFarms.Add(koiFarm);
-           // db.SaveChanges();
-                ViewBag.Message = "Bạn đã thêm thành công";
+            {
+                KoiFarm koiFarm = new KoiFarm();
+                koiFarm.FarmName = farmName;
+                koiFarm.Address = address;
+                koiFarm.Description = description;
+                koiFarm.MemberID = id;
+                koiFarm.Status = true;
+                if (koiFarmDao.AddKoiFarm(koiFarm))
+                {
+                    ViewBag.Message = "Bạn đã thêm thành công, vui long chờ người quản trị xác nhận thông tin";
+                }
+                else
+                {
+                    ViewBag.Message = "Có lỗi xảy ra xin hãy thử lại";
+                }
             }
             catch (DbEntityValidationException ex)
             {
@@ -93,9 +98,10 @@ namespace KoiManagement.Controllers
                 {
                     foreach (var validationError in entityValidationErrors.ValidationErrors)
                     {
-                        Response.Write("Property: " + validationError.PropertyName + " Error: " + validationError.ErrorMessage);
-                     }
-            }
+                        Response.Write("Property: " + validationError.PropertyName + " Error: " +
+                                       validationError.ErrorMessage);
+                    }
+                }
             }
 
             return View();
@@ -104,7 +110,7 @@ namespace KoiManagement.Controllers
         public ActionResult ListKoiFarm(int? page)
         {
             var ListKoiFarm = koiFarmDao.GetListKoiFarm();
-           // ViewBag.ListKoiFarm = ListKoiFarm;
+            // ViewBag.ListKoiFarm = ListKoiFarm;
             Dictionary<int, string> dict = new Dictionary<int, string>();
             List<string> listVariety = new List<string>();
             string t = "";
@@ -112,7 +118,8 @@ namespace KoiManagement.Controllers
             {
                 t = "";
                 dict.Clear();
-                var db1 = db.Kois.Where(p => p.Owners.Where(o => o.Status).FirstOrDefault().KoiFarmID == koifarm.KoifarmID);
+                var db1 =
+                    db.Kois.Where(p => p.Owners.Where(o => o.Status).FirstOrDefault().KoiFarmID == koifarm.KoifarmID);
                 foreach (var item in db1)
                 {
                     if (!dict.ContainsKey(item.Variety.VarietyID) && !item.Variety.VarietyName.Equals("Chưa rõ"))
@@ -120,9 +127,9 @@ namespace KoiManagement.Controllers
                 }
                 foreach (var v in dict)
                 {
-                    t += v.Value +", ";
+                    t += v.Value + ", ";
                 }
-                    t = CommonFunction.Trim2LastCharacter(t);
+                t = CommonFunction.Trim2LastCharacter(t);
                 listVariety.Add(t);
             }
             int pageSize = 10;
@@ -133,8 +140,34 @@ namespace KoiManagement.Controllers
             return View();
         }
 
-        public ActionResult EditKoiFarm()
+        public ActionResult EditKoiFarm(int? id)
         {
+            //kiểm tra đăng nhập
+            if (Session[SessionAccount.SessionUserId] == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            //check tồn tại id
+            if (id == null)
+            {
+                return RedirectToAction("ListKoiFarm", "KoiFarm");
+            }
+
+            // lấy id người đang đăng nhập
+            int Mid = int.Parse(Session[SessionAccount.SessionUserId].ToString());
+            //Viewbag cho patialView _Manager
+            ViewBag.Member = memberDao.GetMemberbyID(Mid);
+            ViewBag.CountKoi = koiDao.CountKoibyOwnerId(Mid);
+            ViewBag.CountKoiFarm = koiFarmDao.CountKoiFarmbyOwnerId(Mid);
+
+            ViewBag.Koifarm = koiFarmDao.GetKoiFarmDetail((int) id);
+            return View();
+        }
+
+        [HttpPost, ValidateInput(false)]
+        public ActionResult EditKoiFarm(string farmName, string address, string description, string KoifarmID)
+        {
+            ViewBag.Message = string.Empty;
             //kiểm tra đăng nhập
             if (Session[SessionAccount.SessionUserId] == null)
             {
@@ -146,6 +179,43 @@ namespace KoiManagement.Controllers
             ViewBag.Member = memberDao.GetMemberbyID(id);
             ViewBag.CountKoi = koiDao.CountKoibyOwnerId(id);
             ViewBag.CountKoiFarm = koiFarmDao.CountKoiFarmbyOwnerId(id);
+            if (string.IsNullOrWhiteSpace(farmName) || string.IsNullOrWhiteSpace(address) ||
+                string.IsNullOrWhiteSpace(description) || farmName.Length > 100)
+            {
+                return View();
+
+            }
+            try
+            {
+                KoiFarm koiFarm = new KoiFarm();
+                koiFarm.FarmName = farmName;
+                koiFarm.Address = address;
+                koiFarm.Description = description;
+                koiFarm.Status = true;
+                koiFarm.KoifarmID = int.Parse(KoifarmID);
+                if (koiFarmDao.EditKoiFarm(koiFarm) > 0)
+                {
+                    ViewBag.Message = "Bạn đã sửa thông tin thành công, vui long chờ người quản trị xác nhận thông tin";
+                    ViewBag.Koifarm = koiFarmDao.GetKoiFarmDetail(int.Parse(KoifarmID));
+                }
+                else
+                {
+                    ViewBag.Koifarm = koiFarmDao.GetKoiFarmDetail(int.Parse(KoifarmID));
+                    ViewBag.Message = "Có lỗi xảy ra xin hãy thử lại";
+                }
+            }
+            catch (DbEntityValidationException ex)
+            {
+                foreach (var entityValidationErrors in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationErrors.ValidationErrors)
+                    {
+                        Response.Write("Property: " + validationError.PropertyName + " Error: " +
+                                       validationError.ErrorMessage);
+                    }
+                }
+            }
+
             return View();
         }
 
@@ -166,5 +236,15 @@ namespace KoiManagement.Controllers
             return View(koifarm);
         }
 
+        public ActionResult AddKoiToKoiFarm(int? id)
+        {
+            //kiểm tra đăng nhập
+            if (Session[SessionAccount.SessionUserId] == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            var ad= db.Kois.Where(cu => cu.Owners.Any(c => c.MemberID == id));
+            return View(ad);
+        }
     }
 }
