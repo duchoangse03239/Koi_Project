@@ -1,6 +1,6 @@
 ﻿@{
     Layout = null;
-    ViewBag.Title = "Error";
+    Layout = "~/Views/Layout/KoiLayout.cshtml";
 }
 <!DOCTYPE html>
 <html>
@@ -20,7 +20,7 @@
                         Oops!
                     </h1>
                     <div class="error-details">
-                        Xin lỗi, đã có lỗi xảy ra trong quá trình thực hiện yêu cầu của bạn.
+                        <p>Đã có lỗi xảy ra trong quá trình thực hiện yêu cầu của bạn! Chúng tôi sẽ khắc phục trong thời gian sớm nhất có thể. Chúng tôi rất tiếc vì sự cố này.</p>
                     </div>
                     <div class="media">
                         <a href="@Url.Action("Index", "Home")" class="btn btn-primary btn-lg">

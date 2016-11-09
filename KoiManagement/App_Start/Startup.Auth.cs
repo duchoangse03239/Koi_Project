@@ -41,8 +41,8 @@ namespace KoiManagement
 
             var facebookOptions = new Microsoft.Owin.Security.Facebook.FacebookAuthenticationOptions
             {
-                AppId = "1786200161668518",
-                AppSecret = "53f9d82d3cc002fe8d042db0a36e082d",
+                AppId = "216790255407823",
+                AppSecret = "fd230a5737cc01dae0c6587062abbc11",
                 UserInformationEndpoint = "https://graph.facebook.com/v2.4/me?fields=id,name,email,first_name,last_name",
                 BackchannelHttpHandler = new FacebookBackChannelHandler(),
                 Provider = new Microsoft.Owin.Security.Facebook.FacebookAuthenticationProvider
@@ -55,8 +55,8 @@ namespace KoiManagement
                 }
             };
             facebookOptions.Scope.Add("email");
-            facebookOptions.Scope.Add("phone");
-            facebookOptions.Scope.Add("public_profile");
+            //facebookOptions.Scope.Add("phone");
+            //facebookOptions.Scope.Add("public_profile");
             app.UseFacebookAuthentication(facebookOptions);
 
             var googleOptions = new GoogleOAuth2AuthenticationOptions()

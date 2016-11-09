@@ -132,7 +132,7 @@ namespace KoiManagement.Controllers
                 t = CommonFunction.Trim2LastCharacter(t);
                 listVariety.Add(t);
             }
-            int pageSize = 10;
+            int pageSize = 7;
             int pageNumber = (page ?? 1);
             ViewBag.listVariety = listVariety;
             ViewBag.ListKoiFarm = ListKoiFarm.ToList().ToPagedList(pageNumber, pageSize);
