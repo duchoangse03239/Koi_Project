@@ -16,9 +16,9 @@ namespace KoiManagement.Controllers
         }
         //
         // GET: /Error
-        public ActionResult Error404()
+        public ViewResult PageNotFound()
         {
-          //  return RedirectToAction(ConstantsForCommon.ErrorParam.SystemErrors);
+            Response.StatusCode = 404;  //you may want to set this to 200
             return View();
         }
 

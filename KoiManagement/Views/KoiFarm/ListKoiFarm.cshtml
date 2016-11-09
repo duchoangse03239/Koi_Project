@@ -29,13 +29,9 @@
 </style>
 
 <div class="container">
-    <div class="button-header text-right">
-        <a class="btn btn-success" href="#">Tạo trang trại</a>
-    </div>
 @for (int item = 0; item < ViewBag.ListKoiFarm.Count; item++)
 {
     <div class="content-section-a">
-
         <div class="row container">
             <div class="col-md-3">
                 <img class="img-farm-list" src="/Content/Image/Member/@ViewBag.ListKoiFarm[item].Member.Image" alt="">
@@ -46,7 +42,7 @@
                     Chủ trang trại: <a href="/Account/profile/@ViewBag.ListKoiFarm[item].MemberID">@ViewBag.ListKoiFarm[item].Member.Name</a>
                 </h4>
                 <h4>Địa chỉ:@ViewBag.ListKoiFarm[item].Address</h4>
-                <h4>Chủng loại chính:@listVariety.ElementAt(item)</h4>
+                <h4>Chủng loại chính:@listVariety.ElementAt(item+ ListKoiFarm.FirstItemOnPage-1)</h4>
                 <a class="btn btn-embossed btn-primary" href="@Url.Action("KoiFarmDetail/"+ @ViewBag.ListKoiFarm[item].KoifarmID, "KoiFarm")" role="button">Xem thêm</a>
             </div>
             <div class="col-md-3">
@@ -64,7 +60,6 @@
                 </div>
             </div>
         </div>
-
         </div>
         }
     Page @(ListKoiFarm.PageCount < ListKoiFarm.PageNumber ? 0 : ListKoiFarm.PageNumber) of @ListKoiFarm.PageCount
