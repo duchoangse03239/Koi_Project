@@ -7,7 +7,7 @@ using Microsoft.Owin.Security.Cookies;
 using Owin;
 using Microsoft.Owin.Security.Facebook;
 using Microsoft.Owin.Security.Google;
-
+[assembly: OwinStartup(typeof(KoiManagement.Startup))]
 namespace KoiManagement
 {
     public partial class Startup
@@ -75,6 +75,7 @@ namespace KoiManagement
             };
 
             app.UseGoogleAuthentication(googleOptions);
+            app.MapSignalR();
         }
         public class FacebookBackChannelHandler : HttpClientHandler
         {
@@ -88,5 +89,7 @@ namespace KoiManagement
                 return base.SendAsync(request, cancellationToken);
             }
         }
+
+
     }
 }
