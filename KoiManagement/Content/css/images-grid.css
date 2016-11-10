@@ -39,7 +39,7 @@
   left: 1px;
   right: 1px;
   bottom: 1px;
-  background-color: #f0f0f0;
+  /* background-color: #f0f0f0; */
 }
 .imgs-grid .imgs-grid-image:hover {
   cursor: pointer;
