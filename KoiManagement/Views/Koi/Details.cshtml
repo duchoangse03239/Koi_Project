@@ -7,8 +7,8 @@
 }
 
 <body>
-    <!-- Modal -->
-    <div id="myModal" class="modal fade" role="dialog">
+    <!-- Modal Add Parent-->
+    <div id="addParent" class="modal fade" role="dialog">
         <div class="modal-dialog">
 
             <!-- Modal content-->
@@ -60,6 +60,30 @@
 
         </div>
     </div>
+
+    <!-- Modal Trade-->
+    <div id="trade" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Chuyển chủ sở hữu</h4>
+                </div>
+                <div class="modal-body">
+                    <label>Chủ sở hữu mới</label>
+                    <input type="text" placeholder="Nhập tên tài khoản"/>
+                    <a href="#" class="btn btn-primary btn-sm">Lưu</a>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
 <div class="section site-main">
     <div class="container">
         <div class="koi-detail">
@@ -129,10 +153,12 @@
                             </div>
                             <div class="line">
                                 <label><span class="fa fa-user"></span> Bố - Mẹ:</label>
-                                 <span><a style="text-decoration:underline;" href="#" data-toggle="modal" data-target="#myModal">Thêm bố - mẹ</a></span>
+                                 <span><a href="#" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#addParent">Thêm bố - mẹ</a></span>
                             </div>
                             <div class="line">
-                                <label><span class="fa fa-home"></span> Chủ sở hữu:</label> <span>@ViewBag.Owner</span>
+                                <label><span class="fa fa-home"></span> Chủ sở hữu:</label> 
+                                <span>@ViewBag.Owner</span>
+                                <span style="float:right;"><a href="#" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#trade">Đổi chủ</a></span>
                             </div>
                             <div class="line">
                                 <label><span class="fa fa-trophy"></span> Thành tích:</label> <a href="#">Chi tiết <span class="fa fa-angle-double-right"></span></a>
