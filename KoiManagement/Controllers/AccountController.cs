@@ -20,6 +20,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin.Security;
 using WebGrease;
 using Member = KoiManagement.Models.Member;
+using System.IO;
 
 
 namespace KoiManagement.Controllers
@@ -583,7 +584,7 @@ namespace KoiManagement.Controllers
         // GET: /Account/UpdateProfile
         public ActionResult UpdateProfile()
         {
-  
+
             MemberDAO MDao = new MemberDAO();
             var mem = MDao.GetMemberbyID(int.Parse(Session[SessionAccount.SessionUserId].ToString()));
             return View(mem);
@@ -592,11 +593,9 @@ namespace KoiManagement.Controllers
 
         // GET: /Account/UpdateProfile
         [HttpPost]
-        public JsonResult UpdateProfile(string name, string dob, string email, string username, string password,
-            string rePassword, string address, string phone)
+        public JsonResult UpdateProfile(string name, string image, string gender, string dob, string address, string phone)
         {
             StatusObjForJsonResult obj = new StatusObjForJsonResult();
-            MemberDAO dao = new MemberDAO();
             //Khởi tạo giá trị cho trường không bắt buộc
             DateTime? dateOfBirth = new DateTime();
             try
@@ -641,12 +640,48 @@ namespace KoiManagement.Controllers
                     return Json(obj);
                 }
 
-                Member me = new Member(name, "", "", dateOfBirth, "", "N", phone, "", address, true);
-                obj.Status = 9;
+                string filename;
+                //Lấy file ảnh
+                HttpFileCollectionBase files = Request.Files;
+                HttpPostedFileBase file = null;
+                //Trường hợp chỉ  có 1 file
+                for (int i = 0; i < files.Count; i++)
+                {
+                    //string filename = Path.GetFileName(Request.Files[i].FileName);  
+                    file = files[i];
+                }
+
+                MemberDAO dao = new MemberDAO();
+                Member me = new Member(name, "", "", dateOfBirth, "", gender, phone, "", address, true);
+                me.Image = image;
+
+                //Edit file to local
+                if (file != null)
+                {
+                    if (me.Image == null)
+                    {
+                        filename = Path.GetFileName("Avatar" + me.Name + file.FileName.Substring(file.FileName.LastIndexOf('.')));
+                        me.Image = filename;
+                    }
+                    else
+                    {
+                        filename = me.Image;
+                    }
+                    var fullpath = Server.MapPath("~/Content/Image/Avatar/" + filename);
+                    var path = Path.Combine(Server.MapPath("~/Content/Image/Avatar"), filename);
+                    if (System.IO.File.Exists(fullpath))
+                    {
+                        System.IO.File.Delete(fullpath);
+                    }
+                    file.SaveAs(path);
+                }
+
                 if (dao.UpdateProfile(me, int.Parse(Session[SessionAccount.SessionUserId].ToString())) == 1)
                 {
+                    obj.Status = 9;
                     obj.Message = "Cập nhật thành công";
                     obj.RedirectTo = Url.Action("UpdateProfile", "Account");
+                    return Json(obj);
                 }
                 else
                 {
