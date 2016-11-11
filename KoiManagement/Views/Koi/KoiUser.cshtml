@@ -35,6 +35,30 @@
     }
 </script>
 
+<!-- Modal Death-->
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Khai tử cá</h4>
+            </div>
+            <div class="modal-body form-group">
+                <label>Nhập lý do khai tử:</label>
+                <br />
+                <textarea class="form-control" rows="5" placeholder="Vui lòng nhập nguyên nhân"></textarea>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary ">Lưu</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
 <div class="section site-main">
     <div class="container">
         <div class="row">
@@ -133,6 +157,7 @@
                                                     <ul class="dropdown-menu dropdown-menu-right">
                                                         <li><a href="/Koi/editKoi/@Model.ElementAt(item).KoiID">Sửa</a></li>
                                                         <li><a onclick="GetInfo(@Model.ElementAt(item).KoiID)">Xóa</a></li>
+                                                        <li><a href="" data-toggle="modal" data-target="#myModal">Khai tử</a></li>
                                                     </ul>
                                                 </div>}
                                             <input type="hidden" id="koiID" name="koiID" value="@Model.ElementAt(item).KoiID">
