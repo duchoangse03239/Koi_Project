@@ -24,10 +24,11 @@
             <option value="@Url.Action("TimelineVertical/"+ViewBag.koiId , "InfoDetail")" >Ảnh sinh trưởng</option>
         </select>
         <span style="float:right;">
-            <a class="btn btn-success" href="#">Thêm trạng thái </a>
-            <a class="btn btn-success" href="#">Thêm giải thưởng </a>
+            <a class="btn btn-success" href="@Url.Action("AddDetail/"+ViewBag.koiId, "InfoDetail")">Thêm trạng thái </a>
+            <a class="btn btn-success" href="@Url.Action("AddAchievement/" + ViewBag.koiId, "Achievement")">Thêm giải thưởng </a>
         </span>
     </div>
+
     <ul class="timeline">
         @for (int item = 0; item < listInfo.Count; item++)
         {
