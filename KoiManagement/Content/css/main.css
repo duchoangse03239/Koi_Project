@@ -747,7 +747,7 @@ body a {
 /*VARIETY*/
 .content-section-a {
     background-color: #f8f8f8;
-    padding: 30px 0;
+    padding: 10px 0;
     margin-top: 20px;
 }
 
@@ -832,7 +832,9 @@ body a {
 }
 
 .koi-size {
-    width: 45px;
+    width: 80px;
+    margin-left: 3px;
+    margin-right: 3px;
 }
 
 .searchForm {
@@ -845,7 +847,7 @@ body a {
 }
 
 .koi-year-old {
-    width: 45px;
+    width: 80px;
     margin-left: 3px;
     margin-right: 3px;
 }
