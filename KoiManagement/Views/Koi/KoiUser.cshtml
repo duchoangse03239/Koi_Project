@@ -135,7 +135,18 @@
                                                     <ul class="dropdown-menu dropdown-menu-right">
                                                         <li><a href="/Koi/editKoi/@Model.ElementAt(item).KoiID">Sửa</a></li>
                                                         <li><a onclick="GetInfo(@Model.ElementAt(item).KoiID)">Xóa</a></li>
+                                                        <li><a onclick="myFunction()">Khai tử</a></li>
                                                     </ul>
+                                                    <script>
+                                                        function myFunction() {
+                                                            var person = prompt("Bạn vui lòng nhập lý do khai tử");
+
+                                                            //if (person != null) {
+                                                            //    document.getElementById("demo").innerHTML =
+                                                            //    "Hello " + person + "! How are you today?";
+                                                            //}
+                                                        }
+                                                    </script>
                                                 </div>}
                                             <input type="hidden" id="koiID" name="koiID" value="@Model.ElementAt(item).KoiID">
                                             <div class="row container">
