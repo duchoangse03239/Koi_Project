@@ -124,7 +124,7 @@
                     <!-- END form Search -->
         </div>
             <div class="col-md-9">
-                <div class="container btn-select-list-koi">
+                <div class="btn-select-list-koi">
                     <a class="btn" href="@Url.Action("ListKoi", "Koi", new {orderby ="newest",username =filter.Username, nameKoi= filter.KoiName  , variety= filter.VarietyId , sizeFrom= filter.SizeFrom , sizeTo= filter.SizeTo ,gender= filter.Gender ,owner=  filter.Owner } )">Mới nhất</a>|
                     <a class="btn" href="@Url.Action("ListKoi", "Koi", new {orderby ="review",username =filter.Username, nameKoi= filter.KoiName  , variety= filter.VarietyId , sizeFrom= filter.SizeFrom , sizeTo= filter.SizeTo ,gender= filter.Gender ,owner=  filter.Owner } )">Nhiều đánh giá</a>
 
@@ -134,22 +134,13 @@
                     {
                         <div class="content-section-a">
                             <input type="hidden" id="koiID" name="koiID" value="@ViewBag.Listkoi[item].KoiID">
-                            <div class="row container">
-                                <div class="col-md-2">
+                            <div class="row">
+                                <div class="col-md-3">
                                     <img class="img-koi-list " src="/Content/Image/Koi/@ViewBag.Listkoi[item].Image" alt="">
                                 </div>
-                                <div class="col-md-5">
-                                    <a class="title-koi-name" href="/Koi/Details/@ViewBag.Listkoi[item].KoiID">@ViewBag.Listkoi[item].KoiName</a>
-                                    <h4 class="">
-                                        Chủ sở hữu: <a href="/Account/profile/@oDao.GetOwnerID(ViewBag.Listkoi[item].KoiID)">@oDao.GetOwnerName(ViewBag.Listkoi[item].KoiID)</a>
-                                    </h4>
-                                    <p class=""><a style="border-bottom: solid 1px #3377ff; color: #3377ff;" href="@Url.Action("Timeline/"+@ViewBag.Listkoi[item].KoiID, "InfoDetail")">Thông tin sinh trưởng </a>
-                                    </p>
-                                    <p><a class="btn btn-embossed btn-primary" href="/Koi/Details/@ViewBag.Listkoi[item].KoiID" role="button">Chi tiết</a>
-                                    </p>
-                                </div>
-                                <div class="col-md-2">
-                                    <div class="ratings align-right">
+                                <div class="col-md-6">
+                                    <p class="title-koi-name" href="/Koi/Details/@ViewBag.Listkoi[item].KoiID">@ViewBag.Listkoi[item].KoiName</p>
+                                    <div class="ratings">
                                         <a style="text-decoration: none;" href="#">
                                             <span class="glyphicon glyphicon-star"></span>
                                             <span class="glyphicon glyphicon-star"></span>
@@ -157,10 +148,15 @@
                                             <span class="glyphicon glyphicon-star"></span>
                                             <span class="glyphicon glyphicon-star"></span>
                                         </a>
-                                        <br/>
-                                        <br/>
-                                        <a href="">@cmDao.CountCommentByKoiID(ViewBag.Listkoi[item].KoiID) đánh giá</a>
                                     </div>
+                                    <a href="">@cmDao.CountCommentByKoiID(ViewBag.Listkoi[item].KoiID) đánh giá</a>
+                                    <h4 style="margin-top:25px;" class="">
+                                        Chủ sở hữu: <a href="/Account/profile/@oDao.GetOwnerID(ViewBag.Listkoi[item].KoiID)">@oDao.GetOwnerName(ViewBag.Listkoi[item].KoiID)</a>
+                                    </h4>
+                                    <p class=""><a style="color: #3377ff;" href="@Url.Action("Timeline/"+@ViewBag.Listkoi[item].KoiID, "InfoDetail")">Thông tin sinh trưởng </a>
+                                    </p>
+                                    <p><a class="btn btn-embossed btn-primary" href="/Koi/Details/@ViewBag.Listkoi[item].KoiID" role="button">Chi tiết</a>
+                                    </p>
                                 </div>
                             </div>
                         </div>
