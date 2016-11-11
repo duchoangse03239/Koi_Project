@@ -34,9 +34,11 @@
                 </select>
             </div>
             <div class="col-sm-6">
-                <input type="text" class="form-control" placeholder="Ngày Sinh" id="DoB" name="DoB" onfocus="(this.type='date')">
+                <input type="text" class="form-control" placeholder="Ngày Sinh" id="DoB" name="DoB" />
+
                 <label id="lblmessage_dob_fail" class="label-error"></label>
             </div>
+
         </div>
         <div class="row">
             <div class="col-sm-6">
@@ -59,6 +61,7 @@
         <div class="row">
             <div class="col-sm-12">
                 <input type="file" id="files" name="files[]" multiple />
+                <label id="lblMessage_file_fail" class="label-error"></label>
                 @*<script>
                         var loadFile = function (event) {
                             var output = document.getElementById('imagePreview');
@@ -78,119 +81,159 @@
 
 <script type="text/javascript">
 
-        $(document).ready(function () {
-            $(function () {
-                $("#KoiName").focus();
-            });
+    $(document).ready(function () {
+        $(function () {
+            $("#KoiName").focus();
         });
+    });
 
-        $(document).keypress(function (event) {
-            var keycode = (event.keyCode ? event.keyCode : event.which);
-            if (keycode == "13") {
-                if (Validate()) {
-                    AddKoi();
-                } else {
-                    return false;
-                }
-            }
-        });
-
-
-        $("#btnAddKoi").click(function () {
+    $(document).keypress(function (event) {
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        if (keycode == "13") {
             if (Validate()) {
                 AddKoi();
             } else {
-
                 return false;
+            }
+        }
+    });
+
+
+    $("#btnAddKoi").click(function () {
+        if (Validate()) {
+            AddKoi();
+        } else {
+
+            return false;
+        }
+    });
+    function Validate() {
+        var KoiName = $('#KoiName').val();
+        var VarietyID = $('#VarietyID').val();
+        var Size = $('#Size').val();
+        var Gender = $('#Gender').val();
+        var DoB = $('#DoB').val();
+        var Temperament = $('#Temperament').val();
+        var Origin = $('#Origin').val();
+        var files = $('#files').val();
+        $('#lblMessage_koi_name_fail').text("");
+        $('#lblMessage_koi_size_fail').text("");
+        $('#lblmessage_dob_fail').text("");
+        $('#lblMessage_file_fail').text("");
+        
+        function isPositiveNumber(Size) {
+            var regex = /^[0-9 \.\,\+]+$/;
+            return regex.test(Size);
+        };
+
+        if (KoiName.length > 100 || KoiName.length < 0) {
+            $('#lblMessage_koi_name_fail').text("Tên Koi quá dài! Vui lòng không nhập quá 100 ký tự!");
+            return false;
+        }
+        if (Size == "") {
+            $('#lblMessage_koi_size_fail').text("Vui lòng nhập kích thước");
+            return false;
+        }
+        else if (!isPositiveNumber(Size)) {
+            $('#lblMessage_koi_size_fail').text("Vui lòng không nhập số âm cho kích thước của Koi!");
+            return false;
+        }
+        if (DoB != ""){
+        if (!validateDate(DoB)) {
+            $('#lblmessage_dob_fail').text('Xin hãy nhập định dạng DD/MM/YYYY');
+            return false;
+        } else {
+            if (!validateDateRangeMax(DoB)) {
+                $('#lblmessage_dob_fail').text('Ngày sinh nhỏ hơn ngày hiện tại!');
+                return false;
+            } else if (!validateDateRangeMin(DoB)) {
+                $('#lblmessage_dob_fail').text('Tuổi phải nhỏ hơn 127');
+                return false;
+            } 
+        }
+        }
+        if (files == "") {
+            $('#lblMessage_file_fail').text("xin hãy nhập ảnh");
+            return false;
+        }
+        return true;
+    }
+
+    function validateDate(date) {
+        return (/^\d{2}-\d{2}-\d{4}$/).test(date);
+    }
+
+    function validateDateRangeMax(inputDate) {
+        var now = new Date(),
+         
+        date = new Date(inputDate);
+        return date < now;
+    }
+    //nho hon 126 tuoi;
+    function validateDateRangeMin(inputDate) {
+        var now = new Date(),
+            after30Days = new Date().setDate(now.getDate() - 126 * 365);
+        date = new Date(inputDate);
+        return  date > after30Days;
+    }
+
+    function AddKoi() {
+        var fileUpload = $("#files").get(0);
+        var files = fileUpload.files;
+        // Looping over all files and add it to FormData object
+        var fileData = new FormData();
+
+        for (var i = 0; i < files.length; i++) {
+            fileData.append(files[i].name, files[i]);
+        }
+
+        // Adding one more key to FormData object
+        fileData.append('KoiName', $('#KoiName').val());
+        fileData.append('VarietyID', $('#VarietyID').val());
+        fileData.append('Size', $('#Size').val());
+        fileData.append('Gender', $('#Gender').val());
+        fileData.append('DoB', $('#DoB').val());
+        fileData.append('Temperament', $('#Temperament').val());
+        fileData.append('Origin', $('#Origin').val());
+
+        $('#lblMessage_koi_name_fail').text("");
+        $('#lblMessage_koi_variety_fail').text("");
+        $('#lblMessage_koi_size_fail').text("");
+        $('#lblmessage_dob_fail').text("");
+        $('#lblMessage_temperament_fail').text("");
+        $('#lblMessage_origin_fail').text("");
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("AddKoi")",
+            contentType: false, // Not to set any content header
+            processData: false,
+            data: fileData,
+            dataType: "Json",
+            success: function(res) {
+                switch (res.Status) {
+                case 2:
+                    $('#KoiName').focus();
+                    $('#lblMessage_koi_name_fail').text(res.Message);
+                    break;
+                case 3:
+                    $('#lblMessage_koi_size_fail').text(res.Message);
+                    $('#Size').focus();
+                    break;
+                case 4:
+                    $('#lblmessage_dob_fail').text(res.Message);
+                    $('#DoB').focus();
+                    break;
+                case 1:
+                    alert(res.Message);
+                    window.location.href = res.RedirectTo;
+                    break;
+                case 0:
+                    window.location.href = res.RedirectTo;
+                    break;
+                }
             }
         });
-        function Validate() {
-            var KoiName = $('#KoiName').val();
-            var VarietyID = $('#VarietyID').val();
-            var Size = $('#Size').val();
-            var Gender = $('#Gender').val();
-            var DoB = $('#DoB').val();
-            var Temperament = $('#Temperament').val();
-            var Origin = $('#Origin').val();
-
-            function isPositiveNumber(Size) {
-                var regex = /^[0-9 \.\,\+]+$/;
-                return regex.test(Size);
-            };
-
-            if (KoiName.length > 100 || KoiName.length < 0) {
-                $('#lblMessage_koi_name_fail').text("Tên Koi quá dài! Vui lòng không nhập quá 100 ký tự!");
-                return false;
-            }
-            if (Size == "") {
-                $('#lblMessage_koi_size_fail').text("Vui lòng nhập kích thước");
-                return false;
-            }
-            else if (!isPositiveNumber(Size)) {
-                $('#lblMessage_koi_size_fail').text("Vui lòng không nhập số âm cho kích thước của Koi!");
-                return false;
-            }
-
-            return true;
-        }
-
-        function AddKoi() {
-            var fileUpload = $("#files").get(0);
-            var files = fileUpload.files;
-            // Looping over all files and add it to FormData object
-            var fileData = new FormData();
-
-            for (var i = 0; i < files.length; i++) {
-                fileData.append(files[i].name, files[i]);
-            }
-
-            // Adding one more key to FormData object
-            fileData.append('KoiName', $('#KoiName').val());
-            fileData.append('VarietyID', $('#VarietyID').val());
-            fileData.append('Size', $('#Size').val());
-            fileData.append('Gender', $('#Gender').val());
-            fileData.append('DoB', $('#DoB').val());
-            fileData.append('Temperament', $('#Temperament').val());
-            fileData.append('Origin', $('#Origin').val());
-
-            $('#lblMessage_koi_name_fail').text("");
-            $('#lblMessage_koi_variety_fail').text("");
-            $('#lblMessage_koi_size_fail').text("");
-            $('#lblmessage_dob_fail').text("");
-            $('#lblMessage_temperament_fail').text("");
-            $('#lblMessage_origin_fail').text("");
-            $.ajax({
-                type: "POST",
-                url: "@Url.Action("AddKoi")",
-                contentType: false, // Not to set any content header
-                processData: false,
-                data: fileData,
-                dataType: "Json",
-                success: function(res) {
-                    switch (res.Status) {
-                    case 2:
-                        $('#KoiName').focus();
-                        $('#lblMessage_koi_name_fail').text(res.Message);
-                        break;
-                    case 3:
-                        $('#lblMessage_koi_size_fail').text(res.Message);
-                        $('#Size').focus();
-                        break;
-                   case 4:
-                        $('#lblmessage_dob_fail').text(res.Message);
-                         $('#DoB').focus();
-                        break;
-                    case 1:
-                        alert(res.Message);
-                        window.location.href = res.RedirectTo;
-                        break;
-                    case 0:
-                        window.location.href = res.RedirectTo;
-                        break;
-                    }
-                }
-            });
-        }
+    }
 
     //$(document).ready(function () {
     //    $("#fileUpload").on('change', function () {
@@ -227,16 +270,16 @@
         if (window.File && window.FileList && window.FileReader) {
             $("#files").on("change", function (e) {
                 var files = e.target.files,
-                  filesLength = files.length;
+                    filesLength = files.length;
                 for (var i = 0; i < filesLength; i++) {
                     var f = files[i]
                     var fileReader = new FileReader();
                     fileReader.onload = (function (e) {
                         var file = e.target;
                         $("<span class=\"pip\">" +
-                          "<img class=\"imageThumb\" src=\"" + e.target.result + "\" title=\"" + file.name + "\"/>" +
-                          "<br/><span class=\"remove\">X</span>" +
-                          "</span>").insertAfter("#files");
+                            "<img class=\"imageThumb\" src=\"" + e.target.result + "\" title=\"" + file.name + "\"/>" +
+                            "<br/><span class=\"remove\">X</span>" +
+                            "</span>").insertAfter("#files");
                         $(".remove").click(function () {
                             $(this).parent(".pip").remove();
                         });

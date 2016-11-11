@@ -138,44 +138,12 @@ namespace KoiManagement.Controllers
         // POST: InfoDetail/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult AddDetail(HttpPostedFileBase file, [Bind(Include = "KoiId,Weight,Size,HeathyStatus,Description,Image")] InfoDetail infoDetail)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        // lấy id max đặt tên file ảnh
-        //        var MaxID = db.InfoDetails.Max(g => g.DetailID) + 1;
-
-        //        //set default value
-        //        infoDetail.Date = DateTime.Now;
-
-        //        //Save file to local
-        //        if (file != null)
-        //        {
-        //            //String id = db.Kois.SqlQuery(@"SELECT IDENT_CURRENT ('Koi') AS AnimalID").First().ToString();
-        //            var filename = Path.GetFileName("Detail" + MaxID + file.FileName.Substring(file.FileName.LastIndexOf('.')));
-        //            infoDetail.Image = filename;
-        //            var path = Path.Combine(Server.MapPath("~/Content/Image/Detail"), filename);
-        //            file.SaveAs(path);
-        //        }
-
-
-        //        db.InfoDetails.Add(infoDetail);
-        //        db.SaveChanges();
-        //        return RedirectToAction("KoiInfoDetail/"+infoDetail.KoiID);
-        //    }
-            
-        //    ViewBag.KoiID = new SelectList(db.Kois, "KoiID", "KoiName", infoDetail.KoiID);
-        //    return View(infoDetail);
-        //}
-
-
         [HttpPost]
-        public JsonResult AddDetail(string KoiID, string Weight, string Size, string HeathyStatus, string Description)
+        public JsonResult AddDetail(string KoiID,  string Size, string HeathyStatus, string Description)
         {
             StatusObjForJsonResult obj = new StatusObjForJsonResult();
             var fullpath = new List<string>();
+            var lishMedia = new List<Medium>();
             if (Session[SessionAccount.SessionUserId] == null)
             {
                 obj.Status = 0;
@@ -184,27 +152,47 @@ namespace KoiManagement.Controllers
             }
             try
             {
+                if (String.IsNullOrWhiteSpace(Size))
+                {
+                    obj.Status = 2;
+                    obj.Message = "Vui lòng nhập kích thước!";
+                    return Json(obj);
+                }
+                if (!Validate.CheckIsDouble(Size))
+                {
+                    obj.Status = 2;
+                    obj.Message = "Vui lòng nhập kiểu số cho kích thước!";
+                    return Json(obj);
+                }
+                if (double.Parse(Size)<0)
+                {
+                    obj.Status = 2;
+                    obj.Message = "Vui lòng nhập số cho kích thước của Koi!";
+                    return Json(obj);
+                }
+
                 InfoDetailDAO infoDetailDao = new InfoDetailDAO();
                 MediaDAO mediaDao = new MediaDAO();
                 var infoDetail = new InfoDetail();
-                infoDetail.Weight = decimal.Parse(Weight);
+                
                 infoDetail.Size = decimal.Parse(Size);
                 infoDetail.HeathyStatus = HeathyStatus;
                 infoDetail.Description = Description;
                 infoDetail.KoiID = int.Parse(KoiID);
                 infoDetail.Status = true;
                 // lấy id max đặt tên file ảnh
-                var MaxID = db.InfoDetails.Max(g => g.DetailID) + 1;
+                var MaxID = infoDetailDao.GetMaxDetailID();
 
                 //Lấy file ảnh
                 HttpFileCollectionBase files = Request.Files;
                 HttpPostedFileBase file = null;
-                //Trường hợp chỉ  có 1 file
+                //Trường hợp chỉ  có nhiều file ảnh
                 for (int i = 0; i < files.Count; i++)
                 {
                     //string filename = Path.GetFileName(Request.Files[i].FileName);  
                     file = files[i];
                     //Save file to local
+                    //file đầu tiên làm avartar
                     if (file != null && i==0)
                     {
                         var filename = Path.GetFileName("Detail" + MaxID + i + file.FileName.Substring(file.FileName.LastIndexOf('.')) );
@@ -223,8 +211,7 @@ namespace KoiManagement.Controllers
                         Medium a =  new Medium();
                         a.ModelTypeID = "InfoDetail";
                         a.LinkImage = filename;
-                        a.ModelId = infoDetail.DetailID;
-                        mediaDao.addMedia(a);
+                        lishMedia.Add(a);
                     }
                 }
                 //set default value
@@ -233,7 +220,7 @@ namespace KoiManagement.Controllers
                 // return RedirectToAction("KoiInfoDetail/"+infoDetail.KoiID);
 
                 ViewBag.KoiID = new SelectList(db.Kois, "KoiID", "KoiName", infoDetail.KoiID);
-                 if (infoDetailDao.AddInfoDetail(infoDetail))
+                 if (infoDetailDao.AddInfoDetail(infoDetail, lishMedia))
                 {
                     //success
                     obj.Status = 1;
@@ -271,8 +258,7 @@ namespace KoiManagement.Controllers
             return Json(obj);
         }
 
-        // GET: InfoDetail/Edit/5
-        public ActionResult Edit(int? id)
+        public ActionResult EditDetail(int? id)
         {
             if (id == null)
             {
@@ -286,12 +272,11 @@ namespace KoiManagement.Controllers
             return View(infoDetail);
         }
 
-        // POST: InfoDetail/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(HttpPostedFileBase file, [Bind(Include = "DetailID,KoiID,Weight,Image,Size,HeavyStatus,Description")] InfoDetail infoDetail)
+        public ActionResult EditDetail(HttpPostedFileBase file, [Bind(Include = "DetailID,KoiID,Weight,Image,Size,HeavyStatus,Description")] InfoDetail infoDetail)
         {
             if (ModelState.IsValid)
             {

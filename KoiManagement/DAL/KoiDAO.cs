@@ -75,29 +75,40 @@ namespace KoiManagement.DAL
             }
         }
 
-        public bool AddKoi(Koi koi,int memberID, string image,decimal size)
+        public bool AddKoi(Koi koi,int memberID, string image,decimal size,List<Medium> media )
         {
             // Transaction
             using (var dbContextTransaction = db.Database.BeginTransaction())
             {
                 try
                 {
+                    //thêm koi
                     db.Kois.Add(koi);
                     db.SaveChanges();
                     var koinewID = koi.KoiID;
-
+                    //thêm ownew
                     db.Owners.Add(new Owner(memberID, koinewID, null, DateTime.Now, null, true));
                     db.SaveChanges();
-
-                    db.InfoDetails.Add(new InfoDetail(koinewID, DateTime.Now, 0, size, String.Empty, String.Empty, image,true));
+                    //thêm infodetail
+                    var Detail = new InfoDetail(koinewID, DateTime.Now, 0, size, String.Empty, String.Empty, image, true);
+                    db.InfoDetails.Add(Detail);
                     db.SaveChanges();
+                    var DetailID = Detail.DetailID;
+                    //thêm media
 
+                    foreach (var item in media)
+                    {
+                        item.ModelId = DetailID;
+                        db.Media.Add(item);
+                        db.SaveChanges();
+                    }
                     dbContextTransaction.Commit();
                 }
                 catch (Exception)
                 {
                     dbContextTransaction.Rollback(); //Required according to MSDN article 
-                    throw; //Not in MSDN article, but recommended so the exception still bubbles up
+                    //throw; //Not in MSDN article, but recommended so the exception still bubbles up
+                    return false;
                 }
             }
             return true;

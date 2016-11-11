@@ -10,12 +10,6 @@
         <div class="">
             <div class="row">
                 <div class="col-sm-6 col-sm-offset-3">
-                    <input type="text" class="form-control" placeholder="Cân Nặng" name="Weight" id="Weight">
-                    <label id="lblMessage_koi_weight_fail" class="label-error"></label>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-6 col-sm-offset-3">
                     <input type="text" class="form-control" placeholder="Kích Thước" name="Size" id="Size">
                     <label id="lblMessage_koi_size_fail" class="label-error"></label>
                 </div>
@@ -71,11 +65,23 @@
             if (Validate()) {
                 AddKoi();
             } else {
-
                 return false;
             }
         });
         function Validate() {
+            var Size = $('#Size').val();
+            function isPositiveNumber(Size) {
+                var regex = /^[0-9 \.\,\+]+$/;
+                return regex.test(Size);
+            };
+            if (Size == "") {
+                $('#lblMessage_koi_size_fail').text("Vui lòng nhập kích thước");
+                return false;
+            }
+            else if (!isPositiveNumber(Size)) {
+                $('#lblMessage_koi_size_fail').text("Vui lòng nhập số cho kích thước của Koi!");
+                return false;
+            }
             return true;
         }
 
@@ -90,19 +96,14 @@
             }  
               
             // Adding one more key to FormData object  
-            fileData.append('Weight', $('#Weight').val());
             fileData.append('Size', $('#Size').val());
             fileData.append('HeathyStatus', $('#HeathyStatus').val());
             fileData.append('Description', $('#Description').val());
             fileData.append('KoiID', @ViewBag.KoiID);
 
 
-            $('#lblMessage_koi_name_fail').text("");
-            $('#lblMessage_koi_variety_fail').text("");
             $('#lblMessage_koi_size_fail').text("");
-            $('#lblmessage_dob_fail').text("");
-            $('#lblMessage_temperament_fail').text("");
-            $('#lblMessage_origin_fail').text("");
+
             $.ajax({
                 type: "POST",
                 url: "@Url.Action("AddDetail")",
@@ -113,6 +114,7 @@
             success: function(res) {
                 switch (res.Status) {
                     case 2:
+                        $('#lblMessage_koi_size_fail').text(res.Message);
                         break;
                     case 3:
                         $('#..').text(res.Message);

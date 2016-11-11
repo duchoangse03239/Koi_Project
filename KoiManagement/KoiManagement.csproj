@@ -920,7 +920,7 @@
     <Content Include="Views\Koi\EditKoi.cshtml" />
     <Content Include="Views\InfoDetail\Delete.cshtml" />
     <Content Include="Views\InfoDetail\Details.cshtml" />
-    <Content Include="Views\InfoDetail\Edit.cshtml" />
+    <Content Include="Views\InfoDetail\EditDetail.cshtml" />
     <Content Include="Views\InfoDetail\Index.cshtml" />
     <Content Include="Views\InfoDetail\KoiInfoDetail.cshtml" />
     <Content Include="Views\InfoDetail\AddDetail.cshtml" />
@@ -961,7 +961,7 @@
     <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Areas\Admin\Views\Shared\" />
     <Folder Include="Content\Image\Avatar\" />
-    <Folder Include="Content\Image\NewFolder1\" />
+    <Folder Include="Content\Image\Media\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

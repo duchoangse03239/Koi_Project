@@ -23,13 +23,11 @@
                     koiID: parameter1
                 },
                 success: function (res) {
-                    switch (res.Status) {
+                    if (res) {
 
-                        case 1:
                             window.location.reload();
                             // $('#test').html();
                             alert("Xóa thành công");
-                            break;
                     }
                 }
             }); // end ajax
