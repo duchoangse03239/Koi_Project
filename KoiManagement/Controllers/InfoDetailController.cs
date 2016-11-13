@@ -55,10 +55,7 @@ namespace KoiManagement.Controllers
             return View(infoDetail);
         }
 
-        public ActionResult test()
-        {
-            return View();
-        }
+ 
 
         public ActionResult TimelineVertical(int? id, int? year)
         {
@@ -88,7 +85,42 @@ namespace KoiManagement.Controllers
             ViewBag.year = year;
             return View();
         }
+        public ActionResult UpdateTimeLine(int? id, int? pageNum, int? filterVa)
+        {
+            List<List<Medium>> myList = new List<List<Medium>>();
+            string t = "";
+            BaseFilter filter;
+            pageNum = pageNum ?? 1;
+            filter = new BaseFilter { CurrentPage = pageNum.Value };
 
+
+
+            var ListInfo = db.InfoDetails.Where(p => p.KoiID == id).OrderByDescending(p => p.Date).Skip(filter.Skip).Take(filter.ItemsPerPage).ToList();
+            // if (ListInfo.Count < filter.ItemsPerPage) ViewBag.IsEndOfRecords = true;
+
+            List<String> ListImage = new List<string>();
+            foreach (var item in ListInfo)
+            {
+                var ListImage1 = db.Media.Where(p => p.ModelTypeID == "infodetail" && p.ModelId == item.DetailID).ToList();
+                ListImage1.Add(new Medium(item.Image, "", item.DetailID, "infodetail"));
+                myList.Add(ListImage1);
+            }
+            foreach (List<Medium> subList in myList)
+            {
+                t = string.Empty;
+                foreach (var item in subList)
+                {
+                    t = t + "\'" + @Url.Content("~/Content/Image/Detail/" + item.LinkImage) + "\',\n";
+                }
+                ListImage.Add(t);
+            }
+            ViewBag.ListInfo1 = ListInfo;
+            ViewBag.ListAnh1 = ListImage;
+            ViewBag.koiId = id;
+            ViewBag.Skip = filter.Skip;
+
+            return View();
+        }
         public ActionResult timeline(int? id, int? pageNum, int? filterVal)
         {
             //check id null
@@ -97,6 +129,8 @@ namespace KoiManagement.Controllers
             BaseFilter filter;
             pageNum = pageNum ?? 1;
             filter = new BaseFilter { CurrentPage = pageNum.Value };
+
+
 
             var ListInfo = db.InfoDetails.Where(p => p.KoiID == id).OrderByDescending(p => p.Date).Skip(filter.Skip).Take(filter.ItemsPerPage).ToList();
             if (ListInfo.Count < filter.ItemsPerPage) ViewBag.IsEndOfRecords = true;

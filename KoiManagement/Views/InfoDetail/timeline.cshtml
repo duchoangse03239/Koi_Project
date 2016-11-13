@@ -3,19 +3,13 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Layout/KoiLayout.cshtml";
     List<InfoDetail> listInfo = ViewBag.ListInfo;
-    if (listInfo == null)
-    {
-        throw new ArgumentNullException("listInfo");
-    }
+
     List<string> listanh= ViewBag.ListAnh;
 }
-
-
 
     <!-- Timeline1 Css -->
 <script src="~/Scripts/images-grid.js"></script>
 <link href="~/Content/css/images-grid.css" rel="stylesheet" />
-
 <div class="container">
     
     <div class="page-header" style="padding-bottom: 20px;">
@@ -28,7 +22,6 @@
             <a class="btn btn-success" href="@Url.Action("AddAchievement/" + ViewBag.koiId, "Achievement")">Thêm giải thưởng </a>
         </span>
     </div>
-
     <ul class="timeline">
         @for (int item = 0; item < listInfo.Count; item++)
         {
@@ -197,7 +190,6 @@
                 $(hello1)
                     .imagesGrid({
                         images: [
-                            @*'@Url.Content("~/Content/Image/Detail/"+ @listInfo.ElementAt(item).Image)',*@
                             @Html.Raw(listanh.ElementAt(item))
                         ],
 
@@ -207,17 +199,88 @@
 
         <li class="clearfix" style="float: none;"></li>
     </ul>
-
-</div>
-
-<div class="grids" id="loading">
-    <div class="grid-sizer"></div>
-    <div class="gutter-sizer"></div>
+    
+    
+<div class="grids">
+        <div class="grid-sizer"></div>
+        <div class="gutter-sizer"></div>
     <div class="ui link cards" id="postScroll">
-     
         <div class="container infinite-scroll" id="gohere"></div>
     </div>
-</div>
+    <div id="forAdminPost"></div>
+    </div>
+
+
+
+<script src="~/Scripts/infiniteScroll.js"></script>
+@*<script>
+    $(document).ready(function () {
+
+        // Each time the user scrolls
+
+        window.onscroll = function (ev) {
+            if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight){
+                $('#loading').show();
+                $('#posts').append("dfd");
+                $.ajax({
+                    url: 'get-post.php',
+                    dataType: 'html',
+                    success: function (partialResult) {
+                        $("#forAdminPost").html(partialResult);
+                    }
+                });
+            }
+
+            $(function () {
+                $("div#loading").hide();
+            });
+            var moreRowsUrl = '@Url.Action("test","InfoDetail")';
+            var forLoad = $(".ui.link.cards");
+            var grid = $(".grids");
+            var filterValue = -1;
+            $(window).scroll(scrollHandler);
+            loadMoreToInfiniteScrollTable(moreRowsUrl, forLoad);
+        };
+
+    });
+
+    function loadMoreToInfiniteScrollTable(loadMoreRowsUrl, forLoad) {
+        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight){
+        if (page > -1 && !inCallback) {
+            inCallback = true;
+            page++;
+            if (typeof filterValue === 'undefined') filterValue = -1;
+            $.ajax({
+                type: 'GET',
+                url: loadMoreRowsUrl,
+                data: {id:@ViewBag.koiId, pageNum: page, filterVal: filterValue },
+                success: function (data, textstatus) {
+                    if (data !== "") {
+                        var $items = $(data);
+                        $(forLoad).append($items);
+                        grid.isotope('appended', $items);
+                        grid.isotope('layout');
+                        grid.imagesLoaded().progress(function () {
+                            grid.isotope('layout');
+                        });
+
+                    }
+                    else {
+                        page = -1;
+                    }
+                    inCallback = false;
+                },
+                async: false,
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    console.log("Can not load more data infiniteScroll");
+                }
+            });
+        }
+    }
+    }
+</script>*@
+    
+    
 
 <script type="text/javascript">
     <!--
@@ -228,72 +291,75 @@
     google_ad_height = 90;
     //-->
 </script>
-<script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
-<script type="text/javascript">
-
-    var _gaq = _gaq || [];
-    _gaq.push(['_setAccount', 'UA-36251023-1']);
-    _gaq.push(['_setDomainName', 'jqueryscript.net']);
-    _gaq.push(['_trackPageview']);
-
-    (function() {
-        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-    })();
-
-</script>
-@*<script src="~/Scripts/imagesloaded.pkgd.min.js"></script>
-<script src="~/Scripts/infiniteScroll.js"></script>
+    <script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
     <script type="text/javascript">
-       $(".grids").imagesLoaded().progress(function () {
-            $(".grids").isotope('layout');
-        });
 
-        var forLoad = $(".ui.link.cards");
-        var grid = $(".grids");
-        var filterValue = -1;
-        $(function () {
-            $("div#loading").hide();
-        });
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-36251023-1']);
+        _gaq.push(['_setDomainName', 'jqueryscript.net']);
+        _gaq.push(['_trackPageview']);
 
-        var moreRowsUrl = '@Url.Action("timeline", "InfoDetail")';
-       $(window)
-           .scroll(function() {
-               if (($(window).height()-$(document).height()  >= $(window).scrollTop()-1000)) {
-                   loadMoreToInfiniteScrollTable(moreRowsUrl);
-               }
-           });
-        function loadMoreToInfiniteScrollTable(loadMoreRowsUrl) {
-            if (page > -1 && !inCallback) {
-                inCallback = true;
-                page++;
-                if (typeof filterValue === 'undefined') filterValue = -1;
-                $.ajax({
-                    type: 'GET',
-                    url: loadMoreRowsUrl,
-                    data: { pageNum: page, filterVal: filterValue },
-                    success: function (data, textstatus) {
-                        if (data !== "") {
-                            var $items = $(data);
-                            $(forLoad).append($items);
-                            grid.isotope('appended', $items);
-                            grid.isotope('layout');
-                            grid.imagesLoaded().progress(function () {
-                                grid.isotope('layout');
-                            });
+        (function () {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
 
-                        }
-                        else {
-                            page = -1;
-                        }
-                        inCallback = false;
-                    },
-                    async: false,
-                    error: function (XMLHttpRequest, textStatus, errorThrown) {
-                        console.log("Can not load more data infiniteScroll");
-                    }
-                });
+    </script>
+    <script src="~/Scripts/imagesloaded.pkgd.min.js"></script>
+<script src="~/Scripts/infiniteScroll.js"></script>
+    <script src="~/Scripts/isotope.pkgd.min.js"></script>
+<script type="text/javascript">
+    var page = 1,
+    inCallback = false,
+    hasReachedEndOfInfiniteScroll = false;
+    $(".grids").imagesLoaded().progress(function () {
+        $(".grids").isotope('layout');
+    });
+    var forLoad = $(".ui.link.cards");
+    var grid = $(".grids");
+    var filterValue = -1;
+    $(function () {
+        $("div#loading").hide();
+    });
+
+    $(window)
+        .scroll(function() {
+            if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+                var moreRowsUrl = '@Url.Action("UpdateTimeLine/" + @ViewBag.koiId, "InfoDetail")';
+                loadMoreToInfiniteScrollTable(moreRowsUrl);
             }
+        });
+    function loadMoreToInfiniteScrollTable(loadMoreRowsUrl) {
+        if (page > -1 && !inCallback) {
+            inCallback = true;
+            page++;
+            if (typeof filterValue === 'undefined') filterValue = -1;
+            $.ajax({
+                type: 'GET',
+                url: loadMoreRowsUrl,
+                data: { pageNum: page, filterVal: filterValue },
+                success: function (data, textstatus) {
+                    if (data !== "") {
+                        var $items = $(data);
+                        $(forLoad).append($items);
+                        grid.isotope('appended', $items);
+                        grid.isotope('layout');
+                        grid.imagesLoaded().progress(function () {
+                            grid.isotope('layout');
+                        });
+
+                    }
+                    else {
+                        page = -1;
+                    }
+                    inCallback = false;
+                },
+                async: false,
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    console.log("Can not load more data infiniteScroll");
+                }
+            });
         }
-    </script>*@
+    }
+</script>

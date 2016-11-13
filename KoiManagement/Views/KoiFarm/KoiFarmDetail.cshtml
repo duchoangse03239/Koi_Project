@@ -7,10 +7,7 @@
     KoiFarm koifarm = ViewBag.koiFarm;
     Layout = "~/Views/Layout/KoiLayout.cshtml";
     List<Koi> listKoi=ViewBag.listKoi;
-    if (listKoi == null)
-    {
-        throw new ArgumentNullException("listKoi");
-    }
+
 }
 
 <div class="container">
