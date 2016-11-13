@@ -22,7 +22,8 @@ namespace KoiManagement.Controllers
         private KoiManagementEntities db = new KoiManagementEntities();
         KoiFarmDAO koiFarmDao = new KoiFarmDAO();
         KoiDAO koiDao = new KoiDAO();
-        InfoDetailDAO DetailDao = new InfoDetailDAO();
+         InfoDetailDAO DetailDao = new InfoDetailDAO();
+        MemberDAO memberDao = new MemberDAO();
         /// <summary>
         /// List Koi
         /// </summary>
@@ -135,7 +136,7 @@ namespace KoiManagement.Controllers
             OwnerDAO ownDao= new OwnerDAO();
             Koi koi = db.Kois.Find(id);
                 // return name of owner
-            ViewBag.Owner = ownDao.GetOwnerName(id);
+            ViewBag.Owner = ownDao.GetOwner(id);
             // Lấy giá trị deatail cuối cùng
             var KoiDeatail = db.InfoDetails.Where(p => p.KoiID == id).OrderBy(p => p.Date);
             if (KoiDeatail.Any())
@@ -440,6 +441,43 @@ namespace KoiManagement.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+        
+        [HttpPost]
+        public JsonResult ChangeOwner(string koiId,string username)
+        {
+            StatusObjForJsonResult obj = new StatusObjForJsonResult();
+
+            try
+            {
+                OwnerDAO ownerDao = new OwnerDAO();
+            if (string.IsNullOrWhiteSpace(username))
+            {
+                obj.Status = 2;
+                obj.Message = "Xin hãy nhập tên đăng nhập";
+                return Json(obj);
+            }
+            if (memberDao.CheckExistUserName(username))
+            {
+                obj.Status = 3;
+                obj.Message = "Tên đăng nhập không tồn tại";
+                return Json(obj);
+            }
+            if (ownerDao.ChangeOwner(username, int.Parse(koiId)))
+            {
+                obj.Status = 1;
+                obj.Message = "Bạn đã đổi sang chủ "+ username+" thành công";
+                return Json(obj);
+            }
+
+            }catch (Exception ex)
+            {
+                Common.Logger.LogException(ex);
+                obj.Status = 0;
+                obj.RedirectTo = this.Url.Action("SystemError", "Error");
+                return Json(obj);
+            }
+            return Json(obj);
         }
     }
 }
