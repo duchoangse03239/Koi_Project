@@ -679,7 +679,8 @@ body a {
     margin-top: 15px;
     background-color: #CEF6EC;
     border-radius: 3px;
-    height: 45px;
+    height: auto;
+    padding: 5px 10px;
 }
 
 .title2 {
