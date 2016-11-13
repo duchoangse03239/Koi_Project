@@ -1,9 +1,12 @@
 ﻿@using KoiManagement.Common
+@using KoiManagement.Models
 @model KoiManagement.Models.Koi
 
 @{
     ViewBag.Title = "Details";
     Layout = "~/Views/Layout/KoiLayout.cshtml";
+    Owner owner = ViewBag.Owner;
+    List<Medium> listImage = ViewBag.listImage;
 }
 
 <body>
@@ -73,8 +76,9 @@
                 </div>
                 <div class="modal-body">
                     <label>Chủ sở hữu mới</label>
-                    <input type="text" placeholder="Nhập tên tài khoản"/>
-                    <a href="#" class="btn btn-primary btn-sm">Lưu</a>
+                    <input type="text" id="username" name="username"placeholder="Nhập tên tài khoản"/>
+                    <a onclick="ChangeOwner(@Model.KoiID)" class="btn btn-primary btn-sm">Lưu</a>
+                    <label id="lbl_username_fail" class="label-error"></label>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -102,11 +106,19 @@
                                     <img data-u="image" src="~/Content/Image/Koi/@Model.Image"/>
                                     <img data-u="thumb" src="~/Content/Image/Koi/@Model.Image"/>
                                 </div>
-                                <div data-p="144.50" style="display: none;">
-                                    <img data-u="image" src="~/Content/Image/Koi/koi02.jpg"/>
-                                    <img data-u="thumb" src="~/Content/Image/Koi/koi02.jpg"/>
-                                </div>
+                                @{
+                                    if (listImage.Count > 0)
+                                    {
+                                        foreach (var image in listImage)
+                                        {
+                                            <div data-p="144.50" style="display: none;">
+                                                <img data-u="image" src="~/Content/Image/Detail/@image.LinkImage" />
+                                                <img data-u="thumb" src="~/Content/Image/Detail/@image.LinkImage" />
+                                            </div>
+                                        }
+                                    }
 
+                                }
                             </div>
                             <!-- Thumbnail Navigator -->
                             <div data-u="thumbnavigator" class="jssort01" style="position: absolute; left: 0px; bottom: 0px; width: 300px; height: 80px;" data-autocenter="1">
@@ -156,9 +168,12 @@
                                  <span><a href="#" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#addParent">Thêm bố - mẹ</a></span>
                             </div>
                             <div class="line">
-                                <label><span class="fa fa-home"></span> Chủ sở hữu:</label> 
-                                <span>@ViewBag.Owner</span>
-                                <span style="float:right;"><a href="#" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#trade">Đổi chủ</a></span>
+                                <label><span class="fa fa-home"></span> Chủ sở hữu:</label>
+                                @if(owner!=null) { 
+                                    <span>@owner.Member.Name</span>
+                                    if(Session[SessionAccount.SessionUserId]!=null&& @owner.Member.MemberID.ToString().Equals(Session[SessionAccount.SessionUserId].ToString())){
+                                    <span style="float:right;"><a  class="btn btn-primary btn-sm" data-toggle="modal" data-target="#trade">Đổi chủ</a></span>}
+                                }
                             </div>
                             <div class="line">
                                 <label><span class="fa fa-trophy"></span> Thành tích:</label> <a href="#">Chi tiết <span class="fa fa-angle-double-right"></span></a>
@@ -181,3 +196,40 @@
 
 <script src="~/Scripts/slider.js"></script>
 <script src="~/Scripts/jssor.slider-21.1.6.mini.js"></script>
+
+
+<script type="text/javascript">
+
+    function ChangeOwner(parameter1) {
+        var username = $('#username').val();
+        $('#lbl_username_fail').text("");
+        if (confirm("Bạn có chắc chắn muốn đổi chủ?")) {
+
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("ChangeOwner")",
+                datatype: "JSON",
+                data: {
+                    koiId: parameter1,
+                    username : username
+                },
+                success: function(res) {
+                    switch (res.Status) {
+                        case 2:
+                            $('#lbl_username_fail').text(res.Message);
+                            $('#username').focus();
+                            break;
+                        case 3:
+                            $('#lbl_username_fail').text(res.Message);
+                            $('#username').focus();
+                            break;
+                        case 1:
+                            alert(res.Message);
+                            window.location.reload();
+                            break;
+                    }
+                    }
+            }); // end ajax
+        }
+    }
+</script>

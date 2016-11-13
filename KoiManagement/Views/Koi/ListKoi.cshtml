@@ -141,7 +141,7 @@
                                 <div class="col-md-5">
                                     <p class="title-koi-name" href="/Koi/Details/@ViewBag.Listkoi[item].KoiID">@ViewBag.Listkoi[item].KoiName</p>
                                     <h4 style="margin-top:25px;">
-                                        Chủ sở hữu: <a href="/Account/profile/@oDao.GetOwnerID(ViewBag.Listkoi[item].KoiID)">@oDao.GetOwnerName(ViewBag.Listkoi[item].KoiID)</a>
+                                        Chủ sở hữu: <a href="/Account/profile/@oDao.GetOwnerID(ViewBag.Listkoi[item].KoiID)">@oDao.GetOwner(ViewBag.Listkoi[item].KoiID).Member.Name</a>
                                     </h4>
                                     <h4>Kích thước: </h4>
                                     <p class=""><a style="color: #3377ff;" href="@Url.Action("Timeline/"+@ViewBag.Listkoi[item].KoiID, "InfoDetail")">Thông tin sinh trưởng </a>
