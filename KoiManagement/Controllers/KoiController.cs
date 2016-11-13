@@ -139,6 +139,7 @@ namespace KoiManagement.Controllers
             ViewBag.Owner = ownDao.GetOwner(id);
             // Lấy giá trị deatail cuối cùng
             var KoiDeatail = db.InfoDetails.Where(p => p.KoiID == id).OrderBy(p => p.Date);
+            ViewBag.listImage =  db.Media.Where(p => p.ModelTypeID == "infodetail" && p.ModelId == KoiDeatail.FirstOrDefault().DetailID).ToList();
             if (KoiDeatail.Any())
             {
                 KoiDeatail.First();

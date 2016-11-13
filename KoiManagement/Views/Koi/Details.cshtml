@@ -6,6 +6,7 @@
     ViewBag.Title = "Details";
     Layout = "~/Views/Layout/KoiLayout.cshtml";
     Owner owner = ViewBag.Owner;
+    List<Medium> listImage = ViewBag.listImage;
 }
 
 <body>
@@ -105,11 +106,19 @@
                                     <img data-u="image" src="~/Content/Image/Koi/@Model.Image"/>
                                     <img data-u="thumb" src="~/Content/Image/Koi/@Model.Image"/>
                                 </div>
-                                <div data-p="144.50" style="display: none;">
-                                    <img data-u="image" src="~/Content/Image/Koi/koi02.jpg"/>
-                                    <img data-u="thumb" src="~/Content/Image/Koi/koi02.jpg"/>
-                                </div>
+                                @{
+                                    if (listImage.Count > 0)
+                                    {
+                                        foreach (var image in listImage)
+                                        {
+                                            <div data-p="144.50" style="display: none;">
+                                                <img data-u="image" src="~/Content/Image/Detail/@image.LinkImage" />
+                                                <img data-u="thumb" src="~/Content/Image/Detail/@image.LinkImage" />
+                                            </div>
+                                        }
+                                    }
 
+                                }
                             </div>
                             <!-- Thumbnail Navigator -->
                             <div data-u="thumbnavigator" class="jssort01" style="position: absolute; left: 0px; bottom: 0px; width: 300px; height: 80px;" data-autocenter="1">
