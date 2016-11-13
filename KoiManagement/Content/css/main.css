@@ -675,6 +675,13 @@ body a {
         width: 125px;
     }
 
+.div-filter {
+    margin-top: 15px;
+    background-color: #CEF6EC;
+    border-radius: 3px;
+    height: auto;
+    padding: 5px 10px;
+}
 .title_box {
     margin-top: 15px;
     background-color: #CEF6EC;
@@ -688,7 +695,6 @@ body a {
     font-size: 18px;
     margin: 12px 0 0 20px;
     text-decoration: none;
-    /*    text-transform: uppercase;*/
     font-weight: normal;
 }
 
@@ -787,6 +793,7 @@ body a {
 
 .list-variety {
     padding-bottom: 30px;
+    margin-top:20px;
 }
 
     .list-variety .list-box {

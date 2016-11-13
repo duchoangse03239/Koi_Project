@@ -124,10 +124,9 @@
                     <!-- END form Search -->
         </div>
             <div class="col-md-8">
-                <div class="btn-select-list-koi">
+                <div class="div-filter">
                     <a class="btn btn-default" href="@Url.Action("ListKoi", "Koi", new {orderby ="newest",username =filter.Username, nameKoi= filter.KoiName  , variety= filter.VarietyId , sizeFrom= filter.SizeFrom , sizeTo= filter.SizeTo ,gender= filter.Gender ,owner=  filter.Owner } )">Mới nhất</a>
                     <a class="btn btn-default" href="@Url.Action("ListKoi", "Koi", new {orderby ="review",username =filter.Username, nameKoi= filter.KoiName  , variety= filter.VarietyId , sizeFrom= filter.SizeFrom , sizeTo= filter.SizeTo ,gender= filter.Gender ,owner=  filter.Owner } )">Nhiều đánh giá</a>
-
                 </div>
                 <div id="Main-ListKoi">
                     @for (var item = 0; item < ViewBag.Listkoi.Count; item++)
