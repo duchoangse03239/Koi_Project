@@ -202,6 +202,30 @@ namespace KoiManagement.DAL
             return koi;
         }
 
+        public int ToDead(int koiId,string deadReason)
+        {
+            var koi = db.Kois.Find(koiId);
+            try
+            {
+                koi.IsDead = true;
+                koi.Status = false;
+                koi.DeadReason = deadReason;
+                db.Kois.Attach(koi);
+                var entry = db.Entry(koi);
+                entry.State = EntityState.Modified;
+                // Set column not change
+                entry.Property(e => e.IsDead).IsModified = true;
+                entry.Property(e => e.DeadReason).IsModified = true;
+                entry.Property(e => e.Status).IsModified = true;
+
+                return db.SaveChanges();
+            }
+            catch
+            {
+                return 0;
+            }
+        }
+
 
     }
 }

@@ -424,7 +424,6 @@ namespace KoiManagement.Controllers
             if (result==1)
             {
                 return Json(new { result = true });
-                return View();
             }
             else
             {
@@ -480,5 +479,38 @@ namespace KoiManagement.Controllers
             }
             return Json(obj);
         }
+
+        [HttpPost]
+        public JsonResult ToDead(string KoiId, string DeadReason)
+        {
+            StatusObjForJsonResult obj = new StatusObjForJsonResult();
+
+            try
+            {
+                if (string.IsNullOrWhiteSpace(DeadReason))
+                {
+                    obj.Status = 2;
+                    obj.Message = "Xin hãy nhập tên lý do khai tử";
+                    return Json(obj);
+                }
+
+                if (koiDao.ToDead(int.Parse(KoiId), DeadReason)>0)
+                {
+                    obj.Status = 1;
+                    obj.Message = "Bạn đã khai tử thành công";
+                    return Json(obj);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Common.Logger.LogException(ex);
+                obj.Status = 0;
+                obj.RedirectTo = this.Url.Action("SystemError", "Error");
+                return Json(obj);
+            }
+            return Json(obj);
+        }
+
     }
 }
