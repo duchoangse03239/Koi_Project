@@ -701,16 +701,16 @@ namespace KoiManagement.Controllers
         }
 
         // GET: /Account/Change Password
-        public ActionResult ManageAccount()
-        {
-            if (Session[SessionAccount.SessionUserId] == null)
-            {
-                return RedirectToAction("Login", "Account");
-            }
-            MemberDAO MDao = new MemberDAO();
-            var mem = MDao.GetMemberbyID(int.Parse(Session[SessionAccount.SessionUserId].ToString()));
-            return View(mem);
-        }
+        //public ActionResult ManageAccount()
+        //{
+        //    if (Session[SessionAccount.SessionUserId] == null)
+        //    {
+        //        return RedirectToAction("Login", "Account");
+        //    }
+        //    MemberDAO MDao = new MemberDAO();
+        //    var mem = MDao.GetMemberbyID(int.Parse(Session[SessionAccount.SessionUserId].ToString()));
+        //    return View(mem);
+        //}
 
         //
         // POST: /Account/ExternalLogin

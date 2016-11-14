@@ -111,9 +111,15 @@ namespace KoiManagement.Controllers
             return View();
         }
 
-        public ActionResult ListKoiFarm(int? page)
+        public ActionResult ListKoiFarm(int? page,string orderby,string farmname,string owner, string address)
         {
-            var ListKoiFarm = koiFarmDao.GetListKoiFarm();
+            //lấy trường lọc
+            KoiFarmFilterModel koiFarmFilter = new KoiFarmFilterModel(orderby,farmname, owner, address);
+            ViewBag.Filter = koiFarmFilter;
+            //Lấy list koifarm
+            var ListKoiFarm = db.KoiFarms.AsQueryable();
+            ListKoiFarm = koiFarmDao.KoiFarmFilter(koiFarmFilter);
+            // var ListKoiFarm = koiFarmDao.GetListKoiFarm();
             // ViewBag.ListKoiFarm = ListKoiFarm;
             Dictionary<int, string> dict = new Dictionary<int, string>();
             List<string> listVariety = new List<string>();

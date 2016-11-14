@@ -278,7 +278,6 @@
     <Compile Include="Models\Comment.cs">
       <DependentUpon>KoiContext.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\HtmlContent.cs" />
     <Compile Include="Models\InfoDetail.cs">
       <DependentUpon>KoiContext.tt</DependentUpon>
     </Compile>
@@ -303,6 +302,7 @@
     <Compile Include="Models\KoiFarm.cs">
       <DependentUpon>KoiContext.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\KoiFarmFilterModel.cs" />
     <Compile Include="Models\KoiFilterModel.cs" />
     <Compile Include="Models\KoiParent.cs">
       <DependentUpon>KoiContext.tt</DependentUpon>

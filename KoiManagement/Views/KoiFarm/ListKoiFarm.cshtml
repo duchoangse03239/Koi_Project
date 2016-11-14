@@ -5,14 +5,7 @@
     ViewBag.Title = "ListKoiFarm";
     Layout = "~/Views/Layout/KoiLayout.cshtml";
     PagedList.IPagedList ListKoiFarm = ViewBag.ListKoiFarm;
-    if (ListKoiFarm == null)
-    {
-        throw new ArgumentNullException("ListKoiFarm");
-    }
-    if (ViewBag.ListKoiFarm == null)
-    {
-        throw new ArgumentNullException("ListKoiFarm");
-    }
+    KoiFarmFilterModel filter = ViewBag.Filter;
     List<string> listVariety = ViewBag.listVariety;
 }
 
@@ -41,7 +34,7 @@
                             <label id="lbl-farm-name">Tên trang trại</label>
                         </div>
                         <div class="col-md-7">
-                            <input class="input-search" name="farmname" id="farmname" type="text" value="" placeholder="">
+                            <input class="input-search" name="farmname" id="farmname" type="text" value="@filter.farmname" placeholder="">
                         </div>
                     </div>
                     <hr />
@@ -50,7 +43,7 @@
                             <label id="lbl-owner">Chủ trang trại</label>
                         </div>
                         <div class="col-md-7">
-                            <input class="input-search" type="text" name="owner" id="owner" value="" placeholder="">
+                            <input class="input-search" type="text" name="owner" id="owner" value="@filter.owner" placeholder="">
                         </div>
                     </div>
                     <hr />
@@ -59,13 +52,13 @@
                             <label id="lbl-koi-name">Địa chỉ</label>
                         </div>
                         <div class="col-md-7">
-                            <input class="input-search" name="address" id="address" type="text" value="" placeholder="">
+                            <input class="input-search" name="address" id="address" type="text" value="@filter.address" placeholder="">
                         </div>
                     </div>
                     <hr />
                     <div class="align-center">
                         <button class="btn btn-primary" type="submit" id="btnSearch" name="btnSearch">Tìm kiếm</button>
-                        <span><a class="btn btn-primary" href="/Koi/ListKoi/0"> <span>Xóa</span> </a></span>
+                        <span><a class="btn btn-primary" href="@Url.Action("ListKoiFarm","koifarm")"> <span>Xóa</span> </a></span>
                     </div>
                 </div>
             </form>

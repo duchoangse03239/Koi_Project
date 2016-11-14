@@ -914,10 +914,10 @@ input[type="file"] {
     display: block;
     cursor: pointer;
     position: absolute;
-    top: 32px;
+    bottom: 140px;
     height: 20px;
     width: 20px;
-    background-image: url("../Content/Image/Common/x-icon.png") no-repeat scroll 0 0 transparent;
+    background: url("/Content/Image/Common/x-icon.png") no-repeat scroll 0 0 transparent;
 }
 
     .remove:hover {

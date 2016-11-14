@@ -296,7 +296,16 @@ namespace KoiManagement.Controllers
                 Common.Logger.LogException(ex);
                 obj.Status = 0;
                 obj.RedirectTo = this.Url.Action("SystemError", "Error");
+                //Nếu fail xoa anh da them
+                foreach (var image in fullpath)
+                {
+                    if (System.IO.File.Exists(image))
+                    {
+                        System.IO.File.Delete(image);
+                    }
+                }
                 return Json(obj);
+
             }
             return Json(obj);
         }
