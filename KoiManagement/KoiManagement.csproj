@@ -375,6 +375,7 @@
     <Content Include="Content\css\jquery.filer.css" />
     <Content Include="Content\css\main.css" />
     <Content Include="Content\Image\Achievement\Achievement0.jpg" />
+    <Content Include="Content\Image\FrontEnd\logo.png" />
     <Content Include="Content\Site.css" />
     <Content Include="Content\Email\ConfirmEmailWhenForgotPassword.html" />
     <Content Include="Content\Image\Certificate\cer01.jpg.jpg" />
