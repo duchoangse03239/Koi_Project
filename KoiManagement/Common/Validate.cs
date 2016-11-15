@@ -98,7 +98,7 @@ namespace KoiManagement.Common
             try
             {
                 CultureInfo cultureInfoDateCulture = new CultureInfo("en-US");
-                DateTime d = DateTime.ParseExact(stringDateValue, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+                DateTime d = DateTime.ParseExact(stringDateValue, "dd-MM-yyyy", CultureInfo.InvariantCulture);
                 return true;
             }
             catch
@@ -138,7 +138,7 @@ namespace KoiManagement.Common
 
         public static DateTime? ConverDateTime(string dateTime)
         {
-            string[] formats = { "yyyy-MM-dd" };
+            string[] formats = { "yyyy-MM-dd","dd-MM-yyyy" };
             DateTime? dt = new DateTime();
             DateTime parsedDateTime;
             if (DateTime.TryParseExact(dateTime, formats, new CultureInfo("en-US"), DateTimeStyles.None,
