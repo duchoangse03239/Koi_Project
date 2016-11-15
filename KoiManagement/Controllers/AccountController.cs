@@ -611,10 +611,10 @@ namespace KoiManagement.Controllers
                     obj.Message = "Họ tên phải chứa từ 6 đến 50 ký tự";
                     return Json(obj);
                 }
-                if (Validate.ValidateDate(dob))
+                if (string.IsNullOrWhiteSpace(dob)&&Validate.ValidateDate(dob))
                 {
                     obj.Status = 2;
-                    obj.Message = "Date of birt";
+                    obj.Message = "Ngày sinh không đúng định dạng";
                     return Json(obj);
                 }
                 else
@@ -660,15 +660,15 @@ namespace KoiManagement.Controllers
                 {
                     if (me.Image == null)
                     {
-                        filename = Path.GetFileName("Avatar" + me.Name + file.FileName.Substring(file.FileName.LastIndexOf('.')));
+                        filename = Path.GetFileName("mem" + me.MemberID + file.FileName.Substring(file.FileName.LastIndexOf('.')));
                         me.Image = filename;
                     }
                     else
                     {
                         filename = me.Image;
                     }
-                    var fullpath = Server.MapPath("~/Content/Image/Avatar/" + filename);
-                    var path = Path.Combine(Server.MapPath("~/Content/Image/Avatar"), filename);
+                    var fullpath = Server.MapPath("~/Content/Image/Member/" + filename);
+                    var path = Path.Combine(Server.MapPath("~/Content/Image/Member"), filename);
                     if (System.IO.File.Exists(fullpath))
                     {
                         System.IO.File.Delete(fullpath);

@@ -915,6 +915,7 @@
     <Content Include="Views\Article\Index.cshtml" />
     <Content Include="Views\Article\AddArticle.cshtml" />
     <Content Include="Views\Article\EditArticle.cshtml" />
+    <Content Include="Views\InfoDetail\AddParent.cshtml" />
     <None Include="Views\InfoDetail\timeline.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -942,10 +943,7 @@
     <Content Include="Views\Account\Index.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Koi\EditKoi.cshtml" />
-    <Content Include="Views\InfoDetail\Delete.cshtml" />
-    <Content Include="Views\InfoDetail\Details.cshtml" />
     <Content Include="Views\InfoDetail\EditDetail.cshtml" />
-    <Content Include="Views\InfoDetail\Index.cshtml" />
     <Content Include="Views\InfoDetail\KoiInfoDetail.cshtml" />
     <Content Include="Views\InfoDetail\AddDetail.cshtml" />
     <Content Include="Views\Koi\TestAddd.cshtml" />

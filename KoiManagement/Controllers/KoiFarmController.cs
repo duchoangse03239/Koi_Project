@@ -266,8 +266,8 @@ namespace KoiManagement.Controllers
         /// <returns>file</returns>  
         public FileResult DownloadExcel()
         {
-            string path = "~/Content/FileImport/Users.xlsx";
-            return File(path, "application/vnd.ms-excel", "Users.xlsx");
+            string path = "~/Content/FileImport/KoiImport.xlsb";
+            return File(path, "application/vnd.ms-excel", "KoiImport.xlsb");
         }
 
         public ActionResult Upload()

@@ -58,7 +58,7 @@ namespace KoiManagement.DAL
         public int CountKoibyOwnerId(int id)
         {
             var ow = db.Owners.Where(p=>p.MemberID== id&& p.Status);
-            return ow.Include(p => p.Koi).Count(); 
+            return ow.Include(p => p.Koi).Where(p=>p.Koi.Status).Count(); 
         }
 
         public bool AddKoi(Koi koi)
@@ -174,10 +174,15 @@ namespace KoiManagement.DAL
                    // koi = koi.Where(p => p.KoiName.Contains(searchModel.KoiName));
                     koi = koi.Where(p => p.Owners.Where(o => o.Status).FirstOrDefault().Member.Name.Contains(searchModel.Owner)) ;
                 }
-                if (!string.IsNullOrEmpty(searchModel.Age))
+                if (!string.IsNullOrEmpty(searchModel.AgeFrom))
                 {
                     //@@
                    // koi = koi.Where(p => p.KoiName.Contains(searchModel.KoiName));
+                }
+                if (!string.IsNullOrEmpty(searchModel.AgeTo))
+                {
+                    //@@
+                    // koi = koi.Where(p => p.KoiName.Contains(searchModel.KoiName));
                 }
                 if (!string.IsNullOrEmpty(searchModel.orderby))
                 {

@@ -61,8 +61,8 @@
                         </select>
                     </div> -->
                     <label for="dob">Ngày Sinh</label>
-                    @{ date = Model.Dob != null ? Model.Dob.Value.ToString("dd/MM/yyyy") : string.Empty;}
-                    <input type="text" class="form-control" id="dob" name="dob" value="@date" onfocus="(this.type='date')" placeholder=" ngày sinh">
+                    @{ date = Model.Dob != null ? Model.Dob.Value.ToString("dd-MM-yyyy") : string.Empty;}
+                    <input type="text" class="form-control" id="dob" name="dob" value="@date" placeholder=" ngày sinh">
                     <label id="lblMessage_dob_fail" class="label-error"></label>
                 </div>
                 <div class="form-group">
@@ -79,7 +79,7 @@
                     <label for="phone">Ảnh đại diện</label>
                     <input type="file" accept="image/png, image/jpeg, image/gif" name="file" id="file" class="img" onchange="loadFile(event)" />
                     <br />
-                    <div><img id="imagePreview" src="~/Content/Image/Avatar/@Model.Image" alt="" /></div>
+                    <div><img id="imagePreview" src="~/Content/Image/Member/@Model.Image" alt="" /></div>
                     <script>
                         var loadFile = function (event) {
                             var output = document.getElementById('imagePreview');
@@ -143,7 +143,7 @@
             $('#name').focus;
             return false;
         }
-        if (phone.length < 10 || name.length > 11) {
+        if (phone.length < 10 || phone.length > 11) {
             $('#lblMessage_phone_fail').text("Số điện thoại phải từ 10 đến 11 số");
             $('#lblMessage_phone_fail').focus;
             return false;
@@ -154,109 +154,130 @@
         //    return false;
         //}
 
-
-        return true;
-    }
-
-    function UpdateProfile() {
-        var fileUpload = $("#file").get(0);
-        var files = fileUpload.files;
-        // Looping over all files and add it to FormData object
-        var fileData = new FormData();
-
-        for (var i = 0; i < files.length; i++) {
-            fileData.append(files[i].name, files[i]);
-        }
-
-        if ($('#gender'.toString == "Nam")) {
-            fileData.append('gender', M);
-        }
-        else if ($('#gender'.toString == "Nữ")) {
-            fileData.append('gender', F);
-        }
-        else {
-            fileData.append('gender', N);
-        }
-        
-
-        // Adding one more key to FormData object
-        fileData.append('name', $('#name').val());
-        fileData.append('dob', $('#dob').val());
-        fileData.append('address', $('#address').val());
-        fileData.append('phone', $('#phone').val());
-
-        $('#lblMessage_name_fail').text("");
-        $('#lblMessage_dob_fail').text("");
-        $('#lblMessage_address_fail').text("");
-        $('#lblMessage_phone_fail').text("");
-        $('#errorMessage').text("");
-        $.ajax({
-            type: "POST",
-            url: "@Url.Action("UpdateProfile")",
-            contentType: false, // Not to set any content header
-            processData: false,
-            data: fileData,
-            dataType: "Json",
-            success: function (res) {
-                switch (res.Status) {
-                    case 1:
-                        $('#lblMessage_name_fail').text(res.Message);
-                        $('#name').focus();
-                        break;
-                    case 2:
-                        $('#lblMessage_dob_fail').text(res.Message);
-                        $('#dob').focus();
-                        break;
-                    case 3:
-                        break;
-                    case 4:
-                        break;
-                    case 5:
-                        break;
-                    case 6:
-                        break;
-                    case 7:
-                        $('#lblMessage_phone_fail').text(res.Message);
-                        $('#phone').focus();
-                        break;
-                    case 8:
-                        $('#errorMessage').text(res.Message);
-                        $('#name').focus();
-                        break;
-                    case 9:
-                        alert("Lưu Thông Tin Thành Công!");
-                        window.location.href = res.RedirectTo;
-                        break;
-                }
+        if (dob != "") {
+            if (!validateDate(dob)) {
+                $('#lblmessage_dob_fail').text('Xin hãy nhập định dạng DD-MM-YYYY');
+                return false;
+            } else if (!validateDateRangeMax(dob)) {
+                $('#lblmessage_dob_fail').text('Ngày sinh nhỏ hơn ngày hiện tại!');
+                return false;
             }
-        });
-    }
+        }
+        return true;
+        }
 
- 
-    $(document).ready(function () {
-        if (window.File && window.FileList && window.FileReader) {
-            $("#files").on("change", function (e) {
-                var files = e.target.files,
-                  filesLength = files.length;
-                for (var i = 0; i < filesLength; i++) {
-                    var f = files[i]
-                    var fileReader = new FileReader();
-                    fileReader.onload = (function (e) {
-                        var file = e.target;
-                        $("<span class=\"pip\">" +
-                          "<img class=\"imageThumb\" src=\"" + e.target.result + "\" title=\"" + file.name + "\"/>" +
-                          "<br/><span class=\"remove\">X</span>" +
-                          "</span>").insertAfter("#files");
-                        $(".remove").click(function () {
-                            $(this).parent(".pip").remove();
-                        });
-                    });
-                    fileReader.readAsDataURL(f);
+
+        function validateDate(date) {
+            return (/^\d{2}-\d{2}-\d{4}$/).test(date);
+        }
+
+        function validateDateRangeMax(inputDate) {
+            var now = new Date(),
+
+            date = new Date(inputDate);
+            return date < now;
+        }
+
+        function UpdateProfile() {
+            var fileUpload = $("#file").get(0);
+            var files = fileUpload.files;
+            // Looping over all files and add it to FormData object
+            var fileData = new FormData();
+
+            for (var i = 0; i < files.length; i++) {
+                fileData.append(files[i].name, files[i]);
+            }
+
+            if ($('#gender'.toString == "Nam")) {
+                fileData.append('gender', 'M');
+            }
+            else if ($('#gender'.toString == "Nữ")) {
+                fileData.append('gender', 'F');
+            }
+            else {
+                fileData.append('gender', 'N');
+            }
+
+
+            // Adding one more key to FormData object
+            fileData.append('name', $('#name').val());
+            fileData.append('dob', $('#dob').val());
+            fileData.append('address', $('#address').val());
+            fileData.append('phone', $('#phone').val());
+
+            $('#lblMessage_name_fail').text("");
+            $('#lblMessage_dob_fail').text("");
+            $('#lblMessage_address_fail').text("");
+            $('#lblMessage_phone_fail').text("");
+            $('#errorMessage').text("");
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("UpdateProfile")",
+                contentType: false, // Not to set any content header
+                processData: false,
+                data: fileData,
+                dataType: "Json",
+                success: function (res) {
+                    switch (res.Status) {
+                        case 1:
+                            $('#lblMessage_name_fail').text(res.Message);
+                            $('#name').focus();
+                            break;
+                        case 2:
+                            $('#lblMessage_dob_fail').text(res.Message);
+                            $('#dob').focus();
+                            break;
+                        case 3:
+                            break;
+                        case 4:
+                            break;
+                        case 5:
+                            break;
+                        case 6:
+                            break;
+                        case 7:
+                            $('#lblMessage_phone_fail').text(res.Message);
+                            $('#phone').focus();
+                            break;
+                        case 8:
+                            $('#errorMessage').text(res.Message);
+                            $('#name').focus();
+                            break;
+                        case 9:
+                            alert("Lưu Thông Tin Thành Công!");
+                            window.location.href = res.RedirectTo;
+                            break;
+                    }
                 }
             });
-        } else {
-            alert("Your browser doesn't support to File API")
         }
-    });
-    </script>
+
+
+        $(document).ready(function () {
+            if (window.File && window.FileList && window.FileReader) {
+                $("#files").on("change", function (e) {
+                    var files = e.target.files,
+                      filesLength = files.length;
+                    for (var i = 0; i < filesLength; i++) {
+                        var f = files[i]
+                        var fileReader = new FileReader();
+                        fileReader.onload = (function (e) {
+                            var file = e.target;
+                            $("<span class=\"pip\">" +
+                              "<img class=\"imageThumb\" src=\"" + e.target.result + "\" title=\"" + file.name + "\"/>" +
+                              "<br/><span class=\"remove\">X</span>" +
+                              "</span>").insertAfter("#files");
+                            $(".remove").click(function () {
+                                $(this).parent(".pip").remove();
+                            });
+                        });
+                        fileReader.readAsDataURL(f);
+                    }
+                });
+            } else {
+                alert("Your browser doesn't support to File API")
+            }
+        });
+    
+</script>
 @*<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>*@
