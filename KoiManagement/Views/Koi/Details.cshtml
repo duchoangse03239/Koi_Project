@@ -1,19 +1,100 @@
 ﻿@using KoiManagement.Common
+@using KoiManagement.Models
 @model KoiManagement.Models.Koi
 
 @{
     ViewBag.Title = "Details";
     Layout = "~/Views/Layout/KoiLayout.cshtml";
+    Owner owner = ViewBag.Owner;
+    List<Medium> listImage = ViewBag.listImage;
 }
 
 <body>
+    <!-- Modal Add Parent-->
+    <div id="addParent" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Thêm bố - mẹ cho cá</h4>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        <label>Cá Koi: <span style="color:red;">Koi0000001</span></label>
+                    </div>
+                    <div>
+                        <label>Cá Mẹ: </label>
+                        <input style="width:auto;" type="text" placeholder="Nhập ID cá mẹ" name="koi_parent"/>
+                        <a href="#" class="btn btn-primary btn-sm">Tìm kiếm</a>
+                    </div>
+                </div>
+                <div class="modal-result">
+                    <div class="content-section-a">
+                        <input type="hidden" id="koiID" name="koiID" value="#">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <img class="img-koi-list " src="/Content/Image/Koi/Asagi1.jpg" alt="">
+                            </div>
+                            <div class="col-md-5">
+                                <p class="title-koi-name">Asagi1</p>
+                                <div class="ratings">
+                                    <a style="text-decoration: none;" href="#">
+                                        <span class="glyphicon glyphicon-star"></span>
+                                        <span class="glyphicon glyphicon-star"></span>
+                                        <span class="glyphicon glyphicon-star"></span>
+                                        <span class="glyphicon glyphicon-star"></span>
+                                        <span class="glyphicon glyphicon-star"></span>
+                                    </a>
+                                </div>
+                                <h4 style="margin-top:25px;" class="">
+                                    Chủ sở hữu: Ruby Koi
+                                </h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary ">Lưu</button>
+                    <button type="button" class="btn btn-primary " data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Modal Trade-->
+    <div id="trade" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Chuyển chủ sở hữu</h4>
+                </div>
+                <div class="modal-body">
+                    <label>Chủ sở hữu mới</label>
+                    <input type="text" id="username" name="username"placeholder="Nhập tên tài khoản"/>
+                    <a onclick="ChangeOwner(@Model.KoiID)" class="btn btn-primary btn-sm">Lưu</a>
+                    <label id="lbl_username_fail" class="label-error"></label>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
 <div class="section site-main">
     <div class="container">
         <div class="koi-detail">
             <div class="row">
                 <div class="col-md-5 col-md-offset-1">
                     <div class="image-slider">
-                        <div class="fb-like" data-href="https://localhost:44304/Koi/Details/2/" data-layout="standard" data-action="like" data-size="small" data-show-faces="true" data-share="true"></div>
+                        
                         <div id="jssor_1" style="position: relative; margin: 0 auto; top: 0px; left: 0px; width: 300px; height: 456px; overflow: hidden; visibility: hidden; background-color: #24262e;">
                             <!-- Loading Screen -->
                             <div data-u="loading" style="position: absolute; top: 0px; left: 0px;">
@@ -25,11 +106,19 @@
                                     <img data-u="image" src="~/Content/Image/Koi/@Model.Image"/>
                                     <img data-u="thumb" src="~/Content/Image/Koi/@Model.Image"/>
                                 </div>
-                                <div data-p="144.50" style="display: none;">
-                                    <img data-u="image" src="~/Content/Image/Koi/koi02.jpg"/>
-                                    <img data-u="thumb" src="~/Content/Image/Koi/koi02.jpg"/>
-                                </div>
+                                @{
+                                    if (listImage.Count > 0)
+                                    {
+                                        foreach (var image in listImage)
+                                        {
+                                            <div data-p="144.50" style="display: none;">
+                                                <img data-u="image" src="~/Content/Image/Detail/@image.LinkImage" />
+                                                <img data-u="thumb" src="~/Content/Image/Detail/@image.LinkImage" />
+                                            </div>
+                                        }
+                                    }
 
+                                }
                             </div>
                             <!-- Thumbnail Navigator -->
                             <div data-u="thumbnavigator" class="jssort01" style="position: absolute; left: 0px; bottom: 0px; width: 300px; height: 80px;" data-autocenter="1">
@@ -50,6 +139,7 @@
                         </div>
                         <!-- #endregion Jssor Slider End -->
                     </div>
+                    <div class="fb-like" data-href="https://localhost:44304/Koi/Details/2/" data-layout="standard" data-action="like" data-size="small" data-show-faces="true" data-share="true"></div>
                     <div class="fb-comments" data-href="https://localhost:44304/Koi/Details/@Model.KoiID" data-numposts="5"></div>
                 </div>
                 <div class="col-md-5">
@@ -74,10 +164,16 @@
                                 <label><span class="fa fa-hand-rock-o"></span> Tính cách:</label> <span>@Model.Temperament</span>
                             </div>
                             <div class="line">
-                                <label><span class="fa fa-user"></span> Bố - Mẹ:</label> <span></span>
+                                <label><span class="fa fa-user"></span> Bố - Mẹ:</label>
+                                 <span><a href="#" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#addParent">Thêm bố - mẹ</a></span>
                             </div>
                             <div class="line">
-                                <label><span class="fa fa-home"></span> Chủ sở hữu:</label> <span>@ViewBag.Owner</span>
+                                <label><span class="fa fa-home"></span> Chủ sở hữu:</label>
+                                @if(owner!=null) { 
+                                    <span>@owner.Member.Name</span>
+                                    if(Session[SessionAccount.SessionUserId]!=null&& @owner.Member.MemberID.ToString().Equals(Session[SessionAccount.SessionUserId].ToString())){
+                                    <span style="float:right;"><a  class="btn btn-primary btn-sm" data-toggle="modal" data-target="#trade">Đổi chủ</a></span>}
+                                }
                             </div>
                             <div class="line">
                                 <label><span class="fa fa-trophy"></span> Thành tích:</label> <a href="#">Chi tiết <span class="fa fa-angle-double-right"></span></a>
@@ -86,7 +182,7 @@
                                 <label><span class="fa fa-clock-o"></span> Thông tin sinh trưởng:</label> <a href="@Url.Action("timeline/"+@Model.KoiID, "InfoDetail")">Chi tiết <span class="fa fa-angle-double-right"></span></a>
                             </div>
                             <div class="line">
-                                <a href="#" class="btn btn-button btn-default">Báo cáo vi phạm</a>
+                                <a href="#" class="btn btn-embossed btn-primary">Báo cáo vi phạm</a>
                             </div>
                         </div>
                     </div>
@@ -100,3 +196,40 @@
 
 <script src="~/Scripts/slider.js"></script>
 <script src="~/Scripts/jssor.slider-21.1.6.mini.js"></script>
+
+
+<script type="text/javascript">
+
+    function ChangeOwner(parameter1) {
+        var username = $('#username').val();
+        $('#lbl_username_fail').text("");
+        if (confirm("Bạn có chắc chắn muốn đổi chủ?")) {
+
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("ChangeOwner")",
+                datatype: "JSON",
+                data: {
+                    koiId: parameter1,
+                    username : username
+                },
+                success: function(res) {
+                    switch (res.Status) {
+                        case 2:
+                            $('#lbl_username_fail').text(res.Message);
+                            $('#username').focus();
+                            break;
+                        case 3:
+                            $('#lbl_username_fail').text(res.Message);
+                            $('#username').focus();
+                            break;
+                        case 1:
+                            alert(res.Message);
+                            window.location.reload();
+                            break;
+                    }
+                    }
+            }); // end ajax
+        }
+    }
+</script>

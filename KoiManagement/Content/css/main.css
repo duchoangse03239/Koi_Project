@@ -675,6 +675,13 @@ body a {
         width: 125px;
     }
 
+.div-filter {
+    margin-top: 15px;
+    background-color: #CEF6EC;
+    border-radius: 3px;
+    height: auto;
+    padding: 5px 10px;
+}
 .title_box {
     margin-top: 15px;
     background-color: #CEF6EC;
@@ -688,7 +695,6 @@ body a {
     font-size: 18px;
     margin: 12px 0 0 20px;
     text-decoration: none;
-    /*    text-transform: uppercase;*/
     font-weight: normal;
 }
 
@@ -747,14 +753,14 @@ body a {
 /*VARIETY*/
 .content-section-a {
     background-color: #f8f8f8;
-    padding: 30px 0;
-    margin-top: 20px;
+    padding: 10px 0;
+    margin-top: 10px;
 }
 
 .content-section-b {
     border-top: 1px solid #e7e7e7;
     border-bottom: 1px solid #e7e7e7;
-    padding: 30px 0;
+    padding: 10px 0;
 }
 
 .img-koi-variety {
@@ -769,6 +775,7 @@ body a {
     width: 150px;
     overflow: hidden;
     display: block;
+    margin: auto 15px auto 15px;
 }
 
 .section-heading {
@@ -786,6 +793,7 @@ body a {
 
 .list-variety {
     padding-bottom: 30px;
+    margin-top:20px;
 }
 
     .list-variety .list-box {
@@ -814,8 +822,6 @@ body a {
 }
 
 .title-koi-name {
-    margin-bottom: 20px;
-    margin-top: 25px;
     color: red;
     font-size: 200%;
 }
@@ -833,7 +839,9 @@ body a {
 }
 
 .koi-size {
-    width: 45px;
+    width: 80px;
+    margin-left: 3px;
+    margin-right: 3px;
 }
 
 .searchForm {
@@ -846,7 +854,7 @@ body a {
 }
 
 .koi-year-old {
-    width: 45px;
+    width: 80px;
     margin-left: 3px;
     margin-right: 3px;
 }
@@ -867,15 +875,15 @@ body a {
 /*END LIST KOI*/
 /*KOI USER*/
 .setting-icon {
-    background: url('../Content/Image/Common/setting.png') no-repeat scroll 0 0 transparent;
+    background: url("/Content/Common/setting.png") no-repeat scroll 0 0 transparent;
     color: #000000;
     border: 0px;
     cursor: pointer;
     height: 20px;
     width: 20px;
     float: right;
-    margin-right: 10px;
-    margin-top: -5px;
+    margin-right: 8px;
+    margin-top: 5px;
 }
 /*END KOI USER*/
 .thumb-image {
@@ -906,10 +914,10 @@ input[type="file"] {
     display: block;
     cursor: pointer;
     position: absolute;
-    top: 32px;
+    bottom: 140px;
     height: 20px;
     width: 20px;
-    background-image: url("../Content/Image/Common/x-icon.png") no-repeat scroll 0 0 transparent;
+    background: url("/Content/Image/Common/x-icon.png") no-repeat scroll 0 0 transparent;
 }
 
     .remove:hover {
@@ -938,10 +946,10 @@ input[type="file"] {
 
     .koi-detail .line label {
         width: 50%;
-        padding-left: 20px;
+        padding-left: 30px;
         position: relative;
-        font-size: 13px;
-        color: #666;
+        font-size: 16px;
+        color: black;
     }
 
         .koi-detail .line label .fa {
@@ -950,7 +958,7 @@ input[type="file"] {
             left: 0;
         }
 
-    .koi-detail .line:hover {
+    /*.koi-detail .line:hover {
         background: #e5e5e5;
         cursor: pointer;
         color: #fff;
@@ -958,44 +966,44 @@ input[type="file"] {
 
         .koi-detail .line:hover label {
             color: #fff;
-        }
+        }*/
 
 .koi-detail a {
     -webkit-transition: all 0.4s ease 0s;
     transition: all 0.4s ease 0s;
 }
 
-.koi-detail .line:hover a {
-    color: #fff;
+/*.koi-detail .line:hover a {
+    color: #337ab7;
     padding-left: 10px;
-}
+}*/
 
 .koi-detail .line a:hover {
     text-decoration: none;
 }
 
 .koi-detail .line.item-name {
-    background: #1fadc5;
+    background: #ffffff;
 }
 
     .koi-detail .line.item-name h1 {
-        color: #fff;
+        color: red;
         margin: 10px;
         text-align: center;
         font-family: 'Roboto';
-        font-size: 22px;
+        font-size: 200%;
     }
 
-.btn-button {
+/*.btn-button {
     background: #1fadc5;
     color: #fff;
     text-transform: uppercase;
-}
+}*/
 
-    .btn-button:hover {
+    /*.btn-button:hover {
         background: #FF8000;
         color: #1fadc5;
-    }
+    }*/
 
 .image-slider {
     width: 90%;
@@ -1132,7 +1140,10 @@ input[type="file"] {
 }
 
 .fb-comments {
-    margin-top: 70px;
+    margin-top: 40px;
+}
+.fb-like {
+    margin-top:15px;
 }
 /*END KOI INFO*/
 
@@ -1397,7 +1408,7 @@ input[type="file"] {
             font-size: 1.4em;
             text-align: center;
             position: absolute;
-            top: 16px;
+            top: 30px;
             right: -12px;
             /*background-color: #999999;*/
             z-index: 100;
@@ -1428,7 +1439,7 @@ input[type="file"] {
             }
 
 .timeline-badge > a {
-    color: #C5C7C5 !important;
+    color: #3e9a3e !important;
 }
 
 .timeline-badge a:hover {

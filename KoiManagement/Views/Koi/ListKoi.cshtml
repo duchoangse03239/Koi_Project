@@ -23,44 +23,44 @@
     </section>
     <section class="container" id="list-koi">
         <div class="row">
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <!-- Form Search -->
                 <form class="searchForm" action="/Koi/ListKoi/4" method="get">
                     <div id="parent">
                         <h3>Tìm kiếm</h3>
                         <hr />
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-5">
                                 <label id="lbl-user-name">Tên đăng nhập</label>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-7">
                                 <input class="input-search" name="username" id="username" type="text" value="@filter.Username" placeholder="">
                             </div>   
                         </div>
                         <hr />
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-5">
                                 <label id="lbl-owner">Tên người sở hữu</label>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-7">
                                 <input class="input-search" type="text" name="owner" id="owner" value="@filter.Owner" placeholder="">
                             </div>
                         </div>
                         <hr />
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-5">
                                 <label id="lbl-koi-name">Tên cá Koi</label>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-7">
                                 <input class="input-search" name="nameKoi" id="nameKoi" type="text" value="@filter.KoiName" placeholder="">
                             </div>
                         </div>
                         <hr />
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-5">
                                 <label id="lbl-variety">Loại</label>
                             </div>
-                            <div class="col-md-8">
+                            <div class="col-md-7">
                                 <select name="variety" id="variety">
                                     <option value="0">Tất cả</option>
                                     @foreach (var item in listVariety)
@@ -76,21 +76,21 @@
                         </div>
                         <hr>
                         <div class="row">
-                            <div class="col-md-4">
-                                <label id="lbl-size">Kích thước</label>
+                            <div class="col-md-5">
+                                <label id="lbl-size">Kích thước (cm)</label>
                             </div>
-                            <div class="col-md-8">
-                                <input class="koi-size" name="SizeFrom" id="sizeFrom" value="@filter.SizeFrom" type="text" placeholder="From"><span>-</span>
-                                <input class="koi-size" name="SizeTo" id="sizeTo" value="@filter.SizeTo" type="text" placeholder="To"><span> cm</span>
+                            <div class="col-md-7">
+                                <input class="koi-size" name="SizeFrom" id="sizeFrom" value="@filter.SizeFrom" type="text" placeholder="From"><span> - </span>
+                                <input class="koi-size" name="SizeTo" id="sizeTo" value="@filter.SizeTo" type="text" placeholder="To">
                             </div>
                             
                         </div>
                         <hr>
                         <div class="row">
-                            <div class="col-md-4"> 
+                            <div class="col-md-5"> 
                                 <label id="lbl-gender">Giới tính</label>
                             </div>
-                            <div class="col-md-8">
+                            <div class="col-md-7">
                                 <select name="gender" id="gender">
                                     <option value="" selected>Tất cả</option>
                                     <option value="M">Đực</option>
@@ -104,12 +104,12 @@
                             $opt.attr('selected', 'selected');
                         </script>
                         <div class="row">
-                            <div class="col-md-4">
-                                <label id="lbl-year-old">Tuổi</label>
+                            <div class="col-md-5">
+                                <label id="lbl-year-old">Tuổi (tháng)</label>
                             </div>
-                            <div class="col-md-8">
-                                <input class="koi-year-old" type="text" placeholder="From"><span>-</span>
-                                <input class="koi-year-old" type="text" placeholder="To"><span>tháng</span>
+                            <div class="col-md-7">
+                                <input class="koi-year-old" type="text" placeholder="From"><span> - </span>
+                                <input class="koi-year-old" type="text" placeholder="To">
                             </div>
                         </div>
                         <hr />
@@ -123,27 +123,27 @@
                     @*</form>*@
                     <!-- END form Search -->
         </div>
-            <div class="col-md-9">
-                <div class="container btn-select-list-koi">
-                    <a class="btn" href="@Url.Action("ListKoi", "Koi", new {orderby ="newest",username =filter.Username, nameKoi= filter.KoiName  , variety= filter.VarietyId , sizeFrom= filter.SizeFrom , sizeTo= filter.SizeTo ,gender= filter.Gender ,owner=  filter.Owner } )">Mới nhất</a>|
-                    <a class="btn" href="@Url.Action("ListKoi", "Koi", new {orderby ="review",username =filter.Username, nameKoi= filter.KoiName  , variety= filter.VarietyId , sizeFrom= filter.SizeFrom , sizeTo= filter.SizeTo ,gender= filter.Gender ,owner=  filter.Owner } )">Nhiều đánh giá</a>
-
+            <div class="col-md-8">
+                <div class="div-filter">
+                    <a class="btn btn-default" href="@Url.Action("ListKoi", "Koi", new {orderby ="newest",username =filter.Username, nameKoi= filter.KoiName  , variety= filter.VarietyId , sizeFrom= filter.SizeFrom , sizeTo= filter.SizeTo ,gender= filter.Gender ,owner=  filter.Owner } )">Mới nhất</a>
+                    <a class="btn btn-default" href="@Url.Action("ListKoi", "Koi", new {orderby ="review",username =filter.Username, nameKoi= filter.KoiName  , variety= filter.VarietyId , sizeFrom= filter.SizeFrom , sizeTo= filter.SizeTo ,gender= filter.Gender ,owner=  filter.Owner } )">Nhiều đánh giá</a>
                 </div>
                 <div id="Main-ListKoi">
                     @for (var item = 0; item < ViewBag.Listkoi.Count; item++)
                     {
                         <div class="content-section-a">
                             <input type="hidden" id="koiID" name="koiID" value="@ViewBag.Listkoi[item].KoiID">
-                            <div class="row container">
-                                <div class="col-md-2">
+                            <div class="row">
+                                <div class="col-md-4">
                                     <img class="img-koi-list " src="/Content/Image/Koi/@ViewBag.Listkoi[item].Image" alt="">
                                 </div>
                                 <div class="col-md-5">
-                                    <a class="title-koi-name" href="/Koi/Details/@ViewBag.Listkoi[item].KoiID">@ViewBag.Listkoi[item].KoiName</a>
-                                    <h4 class="">
-                                        Chủ sở hữu: <a href="/Account/profile/@oDao.GetOwnerID(ViewBag.Listkoi[item].KoiID)">@oDao.GetOwnerName(ViewBag.Listkoi[item].KoiID)</a>
+                                    <p class="title-koi-name" href="/Koi/Details/@ViewBag.Listkoi[item].KoiID">@ViewBag.Listkoi[item].KoiName</p>
+                                    <h4 style="margin-top:25px;">
+                                        Chủ sở hữu: <a href="/Account/profile/@oDao.GetOwnerID(ViewBag.Listkoi[item].KoiID)">@oDao.GetOwner(ViewBag.Listkoi[item].KoiID).Member.Name</a>
                                     </h4>
-                                    <p class=""><a style="border-bottom: solid 1px #3377ff; color: #3377ff;" href="@Url.Action("Timeline/"+@ViewBag.Listkoi[item].KoiID, "InfoDetail")">Thông tin sinh trưởng </a>
+                                    <h4>Kích thước: </h4>
+                                    <p class=""><a style="color: #3377ff;" href="@Url.Action("Timeline/"+@ViewBag.Listkoi[item].KoiID, "InfoDetail")">Thông tin sinh trưởng </a>
                                     </p>
                                     <p><a class="btn btn-embossed btn-primary" href="/Koi/Details/@ViewBag.Listkoi[item].KoiID" role="button">Chi tiết</a>
                                     </p>
@@ -157,8 +157,8 @@
                                             <span class="glyphicon glyphicon-star"></span>
                                             <span class="glyphicon glyphicon-star"></span>
                                         </a>
-                                        <br/>
-                                        <br/>
+                                        <br />
+                                        <br />
                                         <a href="">@cmDao.CountCommentByKoiID(ViewBag.Listkoi[item].KoiID) đánh giá</a>
                                     </div>
                                 </div>

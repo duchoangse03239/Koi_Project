@@ -6,10 +6,6 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Layout/KoiLayout.cshtml";
     Member member = ViewBag.Member;
-    if (member == null)
-    {
-        throw new ArgumentNullException("member");
-    }
 }
 <script type="text/javascript">
 
@@ -23,19 +19,75 @@
                     koiID: parameter1
                 },
                 success: function (res) {
-                    switch (res.Status) {
+                    if (res) {
 
-                        case 1:
                             window.location.reload();
                             // $('#test').html();
                             alert("Xóa thành công");
-                            break;
                     }
                 }
             }); // end ajax
         }
     }
+
+    function Dead(KoiID) {
+        $("#KoiId").val(KoiID);
+        $('#DeadReason').focus();
+    }
+    function ToDead(sd) {
+        var KoiId = $('#KoiId').val();
+        var DeadReason = $('#DeadReason').val();
+        if (confirm("Bạn có chắc chắn muốn khai tử?")) {
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("ToDead")",
+                datatype: "JSON",
+            data: {
+                koiId: KoiId,
+                DeadReason: DeadReason
+            },
+            success: function(res) {
+                switch (res.Status) {
+                    case 2:
+                        $('#lbl_Deadreasonn_fail').text(res.Message);
+                        $('#DeadReason').focus();
+                        break;
+                    case 1:
+                        alert(res.Message);
+                        window.location.reload();
+                        break;
+                }
+            }
+        }); // end ajax
+    }
+    }
 </script>
+
+<!-- Modal Death-->
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Khai tử cá</h4>
+            </div>
+            <div class="modal-body form-group">
+                <label>Nhập lý do khai tử:</label>
+                <br/>
+                <input type="hidden" name="KoiId" id="KoiId" >
+                <textarea class="form-control" name="DeadReason" id="DeadReason" rows="5" placeholder="Vui lòng nhập nguyên nhân"></textarea>
+                <label id="lbl_Deadreasonn_fail" class="label-error"></label>
+            </div>
+            <div class="modal-footer">
+                <a onclick="ToDead('23')" class="btn btn-primary ">Lưu</a>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
 
 <div class="section site-main">
     <div class="container">
@@ -135,6 +187,7 @@
                                                     <ul class="dropdown-menu dropdown-menu-right">
                                                         <li><a href="/Koi/editKoi/@Model.ElementAt(item).KoiID">Sửa</a></li>
                                                         <li><a onclick="GetInfo(@Model.ElementAt(item).KoiID)">Xóa</a></li>
+                                                        <li><a onclick="Dead(@Model.ElementAt(item).KoiID)" data-toggle="modal" data-target="#myModal">Khai tử</a></li>
                                                     </ul>
                                                 </div>}
                                             <input type="hidden" id="koiID" name="koiID" value="@Model.ElementAt(item).KoiID">
@@ -167,9 +220,6 @@
                                                         <br/>
                                                         <a href="">@Model.ElementAt(item).Comments.Count() đánh giá</a>
                                                     </div>
-                                                    <p>
-                                                        <a class="btn btn-embossed btn-primary" href="/Koi/editKoi/@Model.ElementAt(item).KoiID" role="button">Chỉnh sửa</a>
-                                                    </p>
                                                 </div>
                                             </div>
                                         </div>

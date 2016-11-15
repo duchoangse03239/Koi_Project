@@ -193,6 +193,22 @@ namespace KoiManagement.Common
             }
         }
 
+        public static string ConvertGender(string gender)
+        {
+            if (String.IsNullOrEmpty(gender))
+            {
+                return "N";
+            }
 
+            if (gender.Equals("1"))
+            {
+                return "M";
+            }
+            else if (gender.Equals("1"))
+            {
+                return "F";
+            }
+            return "N";
+        }
     }
 }

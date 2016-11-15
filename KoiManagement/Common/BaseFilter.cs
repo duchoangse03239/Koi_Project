@@ -12,6 +12,8 @@ namespace KoiManagement.Common
         public BaseFilter()
         {
             IsNeedPaging = true;
+            ItemsPerPage = 4;
+            CurrentPage = 1;
         }
 
         public int Skip
@@ -35,9 +37,9 @@ namespace KoiManagement.Common
 
         public long TotalCount { get; set; }
 
-        public int CurrentPage { get; set; } = 1;
+        public int CurrentPage { get; set; }
 
-        public int ItemsPerPage { get; set; } = 6;
+        public int ItemsPerPage { get; set; }
 
         public long TotalPagesCount
         {

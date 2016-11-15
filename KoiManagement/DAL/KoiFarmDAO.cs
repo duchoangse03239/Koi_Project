@@ -10,10 +10,12 @@ namespace KoiManagement.DAL
     public class KoiFarmDAO
     {
         KoiManagementEntities db = null;
+
         public KoiFarmDAO()
         {
             db = new KoiManagementEntities();
         }
+
         public List<KoiFarm> GetListKoiFarm()
         {
             return db.KoiFarms.Where(f => f.Status).ToList();
@@ -21,7 +23,7 @@ namespace KoiManagement.DAL
 
         public List<KoiFarm> GetListKoiFarmByMemberId(int id)
         {
-            return db.KoiFarms.Where(f =>f.MemberID==id&& f.Status).ToList();
+            return db.KoiFarms.Where(f => f.MemberID == id && f.Status).ToList();
         }
 
         public List<Koi> GetListKoiByKoiFarmId(int koifarmId)
@@ -40,6 +42,7 @@ namespace KoiManagement.DAL
             var koifarm = db.KoiFarms.Count(p => p.MemberID == id && p.Status);
             return koifarm;
         }
+
         public bool AddKoiFarm(KoiFarm koiFarm)
         {
             try
@@ -53,6 +56,7 @@ namespace KoiManagement.DAL
                 return false;
             }
         }
+
         public int EditKoiFarm(KoiFarm koiFarm)
         {
             try
@@ -69,6 +73,49 @@ namespace KoiManagement.DAL
             {
                 return 0;
             }
+        }
+
+        public IQueryable<KoiFarm> KoiFarmFilter(KoiFarmFilterModel searchModel)
+        {
+            var koiFarm = db.KoiFarms.AsQueryable();
+            if (searchModel != null)
+            {
+                if (!string.IsNullOrEmpty(searchModel.farmname))
+                {
+                    koiFarm = koiFarm.Where(p => p.FarmName.Contains(searchModel.farmname));
+                }
+                if (!string.IsNullOrEmpty(searchModel.address))
+                {
+                    koiFarm = koiFarm.Where(p => p.Address.Contains(searchModel.address));
+                }
+                if (!string.IsNullOrEmpty(searchModel.owner))
+                {
+                    koiFarm = koiFarm.Where(p => p.Member.Name.Contains(searchModel.owner));
+                }
+                if (!string.IsNullOrEmpty(searchModel.orderby))
+                {
+                    switch (searchModel.orderby)
+                    {
+                        case "newest":
+                            //koiFarm =koiFarm.OrderBy(p => p.InfoDetails.OrderBy(v => v.Date).Select(v => v.DetailID).FirstOrDefault());
+                            break;
+                        case "review":
+                          //  koiFarm = koiFarm.Include(p => p.Comments).OrderByDescending(p => p.Comments.Count);
+                            break;
+                        case "date_desc":
+                            break;
+                        default: // Name ascending 
+                            break;
+                    }
+                }
+                // kiểm tra tồn tại koi
+                koiFarm = koiFarm.Where(p => p.Status);
+            }
+            else
+            {
+                return null;
+            }
+            return koiFarm;
         }
     }
 }

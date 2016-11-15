@@ -6,15 +6,12 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Layout/KoiLayout.cshtml";
     Member member = ViewBag.Member;
-    if (member == null)
-    {
-        throw new ArgumentNullException("member");
-    }
+
 }
 <script type="text/javascript">
 
-    function GetInfo(parameter1) {
-        if (confirm("Bạn có chắc chắn muốn xóa?")) {
+    function DeleteKoiFarm(parameter1) {
+        if (confirm("Khi xóa bạn sẽ mất hêt dữ liệu của trang trại, bạn có chắc chắn muốn xóa?")) {
             $.ajax({
                 type: "POST",
                 url: "@Url.Action("DeleteConfirmed")",
@@ -86,7 +83,7 @@
                                                     </button>
                                                     <ul class="dropdown-menu dropdown-menu-right">
                                                         <li><a href="@Url.Action("EditKoiFarm/"+Model.ElementAt(item).KoifarmID, "KoiFarm")">Sửa</a></li>
-                                                        <li><a onclick="GetInfo(@Model.ElementAt(item))">Xóa</a></li>
+                                                        <li><a onclick="DeleteKoiFarm(@Model.ElementAt(item))">Xóa</a></li>
                                                     </ul>
                                                 </div>}
                                             <div class="row container">

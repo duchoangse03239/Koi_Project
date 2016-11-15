@@ -7,10 +7,7 @@
     KoiFarm koifarm = ViewBag.koiFarm;
     Layout = "~/Views/Layout/KoiLayout.cshtml";
     List<Koi> listKoi=ViewBag.listKoi;
-    if (listKoi == null)
-    {
-        throw new ArgumentNullException("listKoi");
-    }
+
 }
 
 <div class="container">
@@ -55,44 +52,110 @@
             @Html.Raw(@koifarm.Description)
         </div>
         <div id="menu1" class="tab-pane fade">
-            <h3>Danh sách cá của trang trại</h3>
-            @foreach (var item in listKoi)
-            {
-                <div class="content-section-b">
-                    <input type="hidden" id="koiID" name="koiID" value="@item.KoiID">
-                    <div class="row container">
-                        <div class="col-md-3">
-                            <img class="img-koi-list " src="/Content/Image/Koi/@item.Image" alt="">
-                        </div>
-                        <div class="col-md-6">
-                            <a class="title-koi-name" href="/Koi/Details/@item.KoiID">@item.KoiName</a>
-                            <h4 class="">
-                                @*Chủ sở hữu: <a href="/Account/profile/@oDao.GetOwnerID(ViewBag.Listkoi[item].KoiID)">Tên chủ sở hữu</a>*@
-                            </h4>
-                            <p class="">
-                                <a style="border-bottom: solid 1px #3377ff; color: #3377ff;"href="@Url.Action("Timeline/"+@item.KoiID, "InfoDetail")">Thông tin sinh trưởng </a>
-                            </p>
-                            <p>
-                                <a class="btn btn-embossed btn-primary" href="/Koi/Details/@item.KoiID" role="button">Chi tiết</a>
-                            </p>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="ratings align-right">
-                                <a>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                </a>
-                                <br/>
-                                <br/>
-                                @*<a href=""> @cmDao.CountCommentByKoiID(ViewBag.Listkoi[item].KoiID)  đánh giá</a>*@
+            <div class="row">
+                <div class="col-md-4">
+                    <form style="margin-top:15px;" class="searchForm" action="/Koi/ListKoi/4" method="get">
+                        <div id="parent">
+                            <h3>Tìm kiếm</h3>
+                            <hr />
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <label id="lbl-variety">Loại</label>
+                                </div>
+                                <div class="col-md-7">
+                                    <select name="variety" id="variety">
+                                        <option value="0">Tất cả</option>
+                                        @*@foreach (var item in listVariety)
+                            {
+                                <option value="@item.VarietyID">@item.VarietyName</option>
+                            }*@
+                                    </select>
+                                </div>
+                                <script type="text/javascript">
+                                    var $opt1 = $('#variety').children(('option[value=' + @*@filter.VarietyId*@ + ']'));
+                                    $opt1.attr('selected', 'selected');
+                                </script>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <label id="lbl-size">Kích thước (cm)</label>
+                                </div>
+                                <div class="col-md-7">
+                                    <input class="koi-size" name="SizeFrom" id="sizeFrom" value="" type="text" placeholder="From"><span> - </span>
+                                    <input class="koi-size" name="SizeTo" id="sizeTo" value="" type="text" placeholder="To">
+                                </div>
+
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <label id="lbl-year-old">Tuổi (tháng)</label>
+                                </div>
+                                <div class="col-md-7">
+                                    <input class="koi-year-old" type="text" placeholder="From"><span> - </span>
+                                    <input class="koi-year-old" type="text" placeholder="To">
+                                </div>
+                            </div>
+                            <hr />
+                            <div class="align-center">
+                                <button class="btn btn-primary" type="submit" id="btnSearch" name="btnSearch">Tìm kiếm</button>
+                                <span><a class="btn btn-primary" href="#"> <span>Xóa</span> </a></span>
                             </div>
                         </div>
-                    </div>
+                    </form>
                 </div>
-            }
+                <div class="col-md-8">
+                    <div class="div-filter">
+                        <div>
+                            <a class="btn btn-default btnFilter" href="#">Mới nhất</a>
+                            <a class="btn btn-default btnFilter" href="#">Nhiều đánh giá</a>
+                        </div>
+                    </div>
+                    <div>
+                        @foreach (var item in listKoi)
+                        {
+                            <div style="margin-top:10px;" class="content-section-a">
+                                <input type="hidden" id="koiID" name="koiID" value="@item.KoiID">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <img class="img-koi-list " src="/Content/Image/Koi/@item.Image" alt="">
+                                    </div>
+                                    <div class="col-md-5">
+                                        <a class="title-koi-name" href="/Koi/Details/@item.KoiID">@item.KoiName</a>
+                                        <h4 class="">
+                                            @*Chủ sở hữu: <a href="/Account/profile/@oDao.GetOwnerID(ViewBag.Listkoi[item].KoiID)">Tên chủ sở hữu</a>*@
+                                        </h4>
+                                        <p class="">
+                                            <a style="border-bottom: solid 1px #3377ff; color: #3377ff;" href="@Url.Action("Timeline/"+@item.KoiID, "InfoDetail")">Thông tin sinh trưởng </a>
+                                        </p>
+                                        <p>
+                                            <a class="btn btn-embossed btn-primary" href="/Koi/Details/@item.KoiID" role="button">Chi tiết</a>
+                                        </p>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="ratings">
+                                            <a style="text-decoration:none;">
+                                                <span class="glyphicon glyphicon-star"></span>
+                                                <span class="glyphicon glyphicon-star"></span>
+                                                <span class="glyphicon glyphicon-star"></span>
+                                                <span class="glyphicon glyphicon-star"></span>
+                                                <span class="glyphicon glyphicon-star"></span>
+                                            </a>
+                                            <br />
+                                            <br />
+                                            @*<a href=""> @cmDao.CountCommentByKoiID(ViewBag.Listkoi[item].KoiID)  đánh giá</a>*@
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                    
+                </div>
+
+            </div>
+            
         </div>
     </div>
 </div>
@@ -102,13 +165,18 @@
         margin: 40px auto 50px auto;
         border-bottom: 2px solid #ddd;
     }
-
+        .nav-tabs li a {
+            background: #a5cae4;
+        }
         .nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
             color: #333;
-            background-color: #dff0d8;
+            background-color: #fff;
             border: 1px solid #ddd;
             border-radius: 3px;
             border-bottom-color: transparent;
             cursor: default;
         }
+    .btnFilter:active {
+        background-color: #dff0d8;
+    }
 </style>
