@@ -172,6 +172,8 @@ namespace KoiManagement.Controllers
         public JsonResult AddKoi(string KoiName, string Size, string VarietyID, string Gender, string DoB, string Temperament, string Origin)
         {
             StatusObjForJsonResult obj = new StatusObjForJsonResult();
+            DateTime? dateOfBirth = new DateTime();
+
             // check login
             if (Session[SessionAccount.SessionUserId] == null)
             {
@@ -219,6 +221,16 @@ namespace KoiManagement.Controllers
                     obj.Message = "Vui lòng không nhập số âm cho kích thước của Koi";
                     return Json(obj);
                 }
+                if (Validate.ValidateDate(DoB))
+                {
+                    obj.Status = 4;
+                    obj.Message = "Date of birt";
+                    return Json(obj);
+                }
+                else
+                {
+                    dateOfBirth = Validate.ConverDateTime(DoB);
+                }
 
                 //Lấy file ảnh
                 HttpFileCollectionBase files = Request.Files;
@@ -226,7 +238,7 @@ namespace KoiManagement.Controllers
 
                 decimal size;
                 size = decimal.Parse(Size);
-                DateTime? dateOfBirth = Validate.ConverDateTime(DoB);
+                DateTime? dateOfBirth1 = Validate.ConverDateTime(DoB);
                 // lấy id max đặt tên file ảnh
                 var MaxKoiID = koiDao.GetMaxKoiID();
                 var MaxDetailID = DetailDao.GetMaxDetailID();
