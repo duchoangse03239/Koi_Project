@@ -1,8 +1,95 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "AddArticle";
     Layout = "~/Views/Layout/KoiLayout.cshtml";
 }
 
-<h2>AddArticle</h2>
+<script src="~/Scripts/modernizr-2.6.2.js"></script>
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script src="~/Scripts/bootstrap.js"></script>
+<script src="~/Scripts/modernizr-2.6.2.js"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/tinymce/tinymce.min.js")"></script>
+
+<div class="section site-main">
+    <div class="container">
+        <div class="row">
+            <h2 id="form-title" class="align-center">Tạo bài viết mới</h2>
+            <div class="col-md-9">
+                <div class="box_right">
+                    <div class="container">
+                        <form id="add-article">
+                            <div>
+                                <div class="row">
+                                    <div class="col-md-12" style="margin-top: 15px;">
+                                        <hr />
+                                        <label>Tiêu đề</label>
+                                        <input type="text" class="form-control" placeholder="Tiêu đề" id="title" name="title">
+                                        <label id="lblMessage_title_fail" class="label-error"></label>
+                                    </div>
+                                    <br /> 
+                                    <div class="col-md-12" style="margin-top: 15px;">
+                                        <label style="margin-right:20px;">Chọn loại</label>
+                                        <span>
+                                            <select style="min-width: 150px;" name="type" id="type">
+                                                <option value="0">Tin tức</option>
+                                                @*@foreach (var item in listVariety)
+                                                    {
+                                                        <option value="@item.VarietyID">@item.VarietyName</option>
+                                                    }*@
+                                            </select>
+                                        </span>
+                                    </div>
+                                    <br /> 
+                                    <div class="col-md-12" style="margin-top: 15px;">
+                                        <label>Nội dung</label>
+                                        <textarea type="text" class="form-control" placeholder="" name="content"></textarea>
+                                        <label id="lblMessage_content_fail" class="label-error"></label>
+                                    </div>
+                                    <div class="col-md-12 align-right">
+                                        <button class="btn btn-primary" id="btnCreateArticle">Tạo bài viết</button>
+                                        <button class="btn btn-primary" id="btnCancel">Đóng</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    tinymce.init({
+        selector: "textarea",
+        width: '100%',
+        language: 'vi_VN',
+        height: 350,
+        statusbar: false,
+        menubar: false,
+
+        setup: function (ed) {
+            ed.on('init', function () {
+                this.getDoc().body.style.fontSize = '14px';
+                this.getDoc().body.style.fontFamily = '"Helvetica Neue", Helvetica, Arial, sans-serif';
+            });
+        },
+
+        paste_data_images: true,
+
+        plugins: [
+            "advlist autolink lists link base64_image charmap hr anchor pagebreak",
+            "searchreplace wordcount visualblocks visualchars code",
+            "insertdatetime media nonbreaking save table contextmenu directionality",
+            "emoticons textcolor colorpicker textpattern "
+        ],
+        toolbar: "undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link base64_image media | forecolor backcolor"
+    });
+
+    // Prevent bootstrap dialog from blocking focusin
+    $(document).on('focusin', function (e) {
+        if ($(e.target).closest(".mce-window").length) {
+            e.stopImmediatePropagation();
+        }
+    });
+</script>
 
