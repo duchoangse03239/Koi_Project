@@ -56,9 +56,9 @@
             $.connection.hub.start().done(function () {
 
                 $('#sendmessage').click(function () {
-                    var connectionId = $.connection.hub.id;
                     // Call the Send method on the hub.
-                    notifications.server.sendNotification(@ViewBag.userid, $('#messageAuthor').val(), $('#message').val());
+                    //notifications.server.sendNotification(@ViewBag.userid, $('#messageAuthor').val(), $('#message').val());
+                    notifications.server.sendNotification(1, $('#messageAuthor').val(), $('#message').val());
                     // Clear text box and reset focus for next comment.
                     $('#message').val('').focus();
                 });

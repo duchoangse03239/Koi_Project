@@ -27,16 +27,6 @@ namespace KoiManagement.Hub
         public void SendNotification(string userid, string author, string message)
         {
              Clients.All.broadcastNotification(userid, author, message);
-            var t = Context.ConnectionId; // Send the current clients connection id to your external service
-           //// var user = Constants._uList.Where(o => o.UserName == id);
-           // if (user.Any())
-           // {
-           //     Clients.Client(user.First().ConnectionID).broadcastNotification(author, message);
-           // }
-
-           // Clients.Client(t).broadcastNotification(author, message);
-
-           // Clients.Client(id).broadcastMessage(author, message);
         }
         public void JoinGroup(string groupName)
         {

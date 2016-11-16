@@ -50,6 +50,7 @@
         <AssociationConnector Association="KoiManagementModel.FK__Report__MemberID__5441852A" />
         <AssociationConnector Association="KoiManagementModel.FK__Report__ModelId__59063A471" />
         <EntityTypeShape EntityType="KoiManagementModel.Koi" Width="1.5" PointX="9" PointY="4.5" />
+        <EntityTypeShape EntityType="KoiManagementModel.Notification" Width="1.5" PointX="3" PointY="33.125" />
         <AssociationConnector Association="KoiManagementModel.FK__Achivemen__KoiID__24927208" />
         <AssociationConnector Association="KoiManagementModel.FK__Comment__KoiID__2C3393D0" />
         <AssociationConnector Association="KoiManagementModel.FK__InfoDetai__KoiID__164452B1" />
@@ -57,7 +58,9 @@
         <AssociationConnector Association="KoiManagementModel.FK__Owner__KoiID__276EDEB3" />
         <AssociationConnector Association="KoiManagementModel.FK__Report__ModelId__5535A963" />
         <AssociationConnector Association="KoiManagementModel.FK_Koi_KoiMomID" />
-      </Diagram>
+        <AssociationConnector Association="KoiManagementModel.FK__Notificat__Membe__41B8C09B" />
+        <AssociationConnector Association="KoiManagementModel.FK__Notificat__Sende__42ACE4D4" />
+        </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
 </edmx:Edmx>

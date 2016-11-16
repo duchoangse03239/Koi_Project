@@ -94,7 +94,7 @@
           <Property Name="IsDead" Type="bit" />
           <Property Name="DeadReason" Type="nvarchar" MaxLength="4000" />
           <Property Name="KoiMom" Type="int" />
-          <Property Name="Status" Type="bit" Nullable="false" />
+          <Property Name="Status" Type="int" Nullable="false" />
           <Property Name="Privacy" Type="bit" />
         </EntityType>
         <EntityType Name="KoiFarm">
@@ -140,6 +140,19 @@
           </Key>
           <Property Name="ModelTypeID" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="Description" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Notification">
+          <Key>
+            <PropertyRef Name="NoID" />
+          </Key>
+          <Property Name="NoID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MemberID" Type="int" />
+          <Property Name="SenderID" Type="int" />
+          <Property Name="Datetime" Type="datetime" />
+          <Property Name="url" Type="varchar" MaxLength="2048" />
+          <Property Name="Content" Type="nvarchar" MaxLength="2000" />
+          <Property Name="isRead" Type="bit" />
+          <Property Name="status" Type="bit" />
         </EntityType>
         <EntityType Name="Owner">
           <Key>
@@ -420,6 +433,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK__Notificat__Membe__41B8C09B">
+          <End Role="Member" Type="Self.Member" Multiplicity="0..1" />
+          <End Role="Notification" Type="Self.Notification" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="MemberID" />
+            </Principal>
+            <Dependent Role="Notification">
+              <PropertyRef Name="MemberID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Notificat__Sende__42ACE4D4">
+          <End Role="Member" Type="Self.Member" Multiplicity="0..1" />
+          <End Role="Notification" Type="Self.Notification" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="MemberID" />
+            </Principal>
+            <Dependent Role="Notification">
+              <PropertyRef Name="SenderID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__Owner__KoiFarmID__29572725">
           <End Role="KoiFarm" Type="Self.KoiFarm" Multiplicity="0..1" />
           <End Role="Owner" Type="Self.Owner" Multiplicity="*" />
@@ -667,6 +704,7 @@
           <EntitySet Name="Media" EntityType="Self.Media" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Member" EntityType="Self.Member" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ModelType" EntityType="Self.ModelType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Notification" EntityType="Self.Notification" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Owner" EntityType="Self.Owner" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Question" EntityType="Self.Question" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Rate" EntityType="Self.Rate" Schema="dbo" store:Type="Tables" />
@@ -741,6 +779,14 @@
           <AssociationSet Name="FK__Media__ModelType__4E88ABD4" Association="Self.FK__Media__ModelType__4E88ABD4">
             <End Role="ModelType" EntitySet="ModelType" />
             <End Role="Media" EntitySet="Media" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Notificat__Membe__41B8C09B" Association="Self.FK__Notificat__Membe__41B8C09B">
+            <End Role="Member" EntitySet="Member" />
+            <End Role="Notification" EntitySet="Notification" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Notificat__Sende__42ACE4D4" Association="Self.FK__Notificat__Sende__42ACE4D4">
+            <End Role="Member" EntitySet="Member" />
+            <End Role="Notification" EntitySet="Notification" />
           </AssociationSet>
           <AssociationSet Name="FK__Owner__KoiFarmID__29572725" Association="Self.FK__Owner__KoiFarmID__29572725">
             <End Role="KoiFarm" EntitySet="KoiFarm" />
@@ -1390,6 +1436,7 @@
             <End Role="Report" EntitySet="Reports" />
           </AssociationSet>
           <EntitySet Name="Kois" EntityType="KoiManagementModel.Koi" />
+          <EntitySet Name="Notifications" EntityType="KoiManagementModel.Notification" />
           <AssociationSet Name="FK__Achivemen__KoiID__24927208" Association="KoiManagementModel.FK__Achivemen__KoiID__24927208">
             <End Role="Koi" EntitySet="Kois" />
             <End Role="Achievement" EntitySet="Achievements" />
@@ -1418,7 +1465,15 @@
             <End Role="Koi" EntitySet="Kois" />
             <End Role="Koi1" EntitySet="Kois" />
           </AssociationSet>
-        </EntityContainer>
+          <AssociationSet Name="FK__Notificat__Membe__41B8C09B" Association="KoiManagementModel.FK__Notificat__Membe__41B8C09B">
+            <End Role="Member" EntitySet="Members" />
+            <End Role="Notification" EntitySet="Notifications" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Notificat__Sende__42ACE4D4" Association="KoiManagementModel.FK__Notificat__Sende__42ACE4D4">
+            <End Role="Member" EntitySet="Members" />
+            <End Role="Notification" EntitySet="Notifications" />
+          </AssociationSet>
+          </EntityContainer>
         <ComplexType Name="sp_helpdiagramdefinition_Result">
           <Property Type="Int32" Name="version" Nullable="true" />
           <Property Type="Binary" Name="definition" Nullable="true" />
@@ -1467,6 +1522,8 @@
           <NavigationProperty Name="Rates" Relationship="KoiManagementModel.FK__Rate__MemberID__47DBAE45" FromRole="Member" ToRole="Rate" />
           <NavigationProperty Name="Reports" Relationship="KoiManagementModel.FK__Report__MemberID__5441852A" FromRole="Member" ToRole="Report" />
           <NavigationProperty Name="Reports1" Relationship="KoiManagementModel.FK__Report__ModelId__59063A471" FromRole="Member" ToRole="Report" />
+          <NavigationProperty Name="Notifications" Relationship="KoiManagementModel.FK__Notificat__Membe__41B8C09B" FromRole="Member" ToRole="Notification" />
+          <NavigationProperty Name="Notifications1" Relationship="KoiManagementModel.FK__Notificat__Sende__42ACE4D4" FromRole="Member" ToRole="Notification" />
         </EntityType>
         <Association Name="FK__ActiveCod__Membe__1ED998B2">
           <End Type="KoiManagementModel.Member" Role="Member" Multiplicity="0..1" />
@@ -1604,7 +1661,7 @@
           <Property Name="IsDead" Type="Boolean" />
           <Property Name="DeadReason" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
           <Property Name="KoiMom" Type="Int32" />
-          <Property Name="Status" Type="Boolean" Nullable="false" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
           <Property Name="Privacy" Type="Boolean" />
           <NavigationProperty Name="Achievements" Relationship="KoiManagementModel.FK__Achivemen__KoiID__24927208" FromRole="Koi" ToRole="Achievement" />
           <NavigationProperty Name="Comments" Relationship="KoiManagementModel.FK__Comment__KoiID__2C3393D0" FromRole="Koi" ToRole="Comment" />
@@ -1614,6 +1671,21 @@
           <NavigationProperty Name="Reports" Relationship="KoiManagementModel.FK__Report__ModelId__5535A963" FromRole="Koi" ToRole="Report" />
           <NavigationProperty Name="Koi1" Relationship="KoiManagementModel.FK_Koi_KoiMomID" FromRole="Koi" ToRole="Koi1" />
           <NavigationProperty Name="Koi2" Relationship="KoiManagementModel.FK_Koi_KoiMomID" FromRole="Koi1" ToRole="Koi" />
+        </EntityType>
+        <EntityType Name="Notification">
+          <Key>
+            <PropertyRef Name="NoID" />
+          </Key>
+          <Property Name="NoID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MemberID" Type="Int32" />
+          <Property Name="SenderID" Type="Int32" />
+          <Property Name="Datetime" Type="DateTime" Precision="3" />
+          <Property Name="url" Type="String" MaxLength="2048" FixedLength="false" Unicode="false" />
+          <Property Name="Content" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="isRead" Type="Boolean" />
+          <Property Name="status" Type="Boolean" />
+          <NavigationProperty Name="Member" Relationship="KoiManagementModel.FK__Notificat__Membe__41B8C09B" FromRole="Notification" ToRole="Member" />
+          <NavigationProperty Name="Member1" Relationship="KoiManagementModel.FK__Notificat__Sende__42ACE4D4" FromRole="Notification" ToRole="Member" />
         </EntityType>
         <Association Name="FK__Achivemen__KoiID__24927208">
           <End Type="KoiManagementModel.Koi" Role="Koi" Multiplicity="0..1" />
@@ -1699,7 +1771,31 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
+        <Association Name="FK__Notificat__Membe__41B8C09B">
+          <End Type="KoiManagementModel.Member" Role="Member" Multiplicity="0..1" />
+          <End Type="KoiManagementModel.Notification" Role="Notification" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="MemberID" />
+            </Principal>
+            <Dependent Role="Notification">
+              <PropertyRef Name="MemberID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Notificat__Sende__42ACE4D4">
+          <End Type="KoiManagementModel.Member" Role="Member" Multiplicity="0..1" />
+          <End Type="KoiManagementModel.Notification" Role="Notification" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="MemberID" />
+            </Principal>
+            <Dependent Role="Notification">
+              <PropertyRef Name="SenderID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -1955,6 +2051,20 @@
                 <ScalarProperty Name="KoiName" ColumnName="KoiName" />
                 <ScalarProperty Name="VarietyID" ColumnName="VarietyID" />
                 <ScalarProperty Name="KoiID" ColumnName="KoiID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Notifications">
+            <EntityTypeMapping TypeName="KoiManagementModel.Notification">
+              <MappingFragment StoreEntitySet="Notification">
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="isRead" ColumnName="isRead" />
+                <ScalarProperty Name="Content" ColumnName="Content" />
+                <ScalarProperty Name="url" ColumnName="url" />
+                <ScalarProperty Name="Datetime" ColumnName="Datetime" />
+                <ScalarProperty Name="SenderID" ColumnName="SenderID" />
+                <ScalarProperty Name="MemberID" ColumnName="MemberID" />
+                <ScalarProperty Name="NoID" ColumnName="NoID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

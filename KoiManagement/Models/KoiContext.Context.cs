@@ -45,6 +45,7 @@ namespace KoiManagement.Models
         public virtual DbSet<Achievement> Achievements { get; set; }
         public virtual DbSet<Member> Members { get; set; }
         public virtual DbSet<Koi> Kois { get; set; }
+        public virtual DbSet<Notification> Notifications { get; set; }
     
         public virtual int sp_alterdiagram(string diagramname, Nullable<int> owner_id, Nullable<int> version, byte[] definition)
         {
