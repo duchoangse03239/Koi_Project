@@ -147,16 +147,50 @@
                             <br>
                             <form>
                                 <div class="form-group">
-                                    <label for="name">Tên cá (<span style="color:red;">*</span>)</label>
+                                    <label>Chủng loại</label>
+                                    <select class="form-control" id="VarietyID" name="VarietyID">
+                                            <option value="0">Chưa rõ</option>
+                                            @foreach (var item in listVariety)
+                                            {
+                                                <option value="@item.VarietyID">@item.VarietyName</option>
+                                            }
+                                        </select>
+                                    <label id="lblMessage_koi_variety_fail" class="label-error"></label>
+                                </div>
+                                <div class="form-group">
+                                    <label for="name">Tên cá (<span style="color: red;">*</span>)</label>
                                     <input type="text" class="form-control" id="name" name="name" placeholder="Tên cá Koi">
                                     <label id="lblMessage_name_fail" class="label-error"></label>
                                 </div>
                                 <div class="form-group">
-                                    <label for="name">Ảnh cá</label>
-                                    <input type="file" id="files" name="files[]" multiple />
+                                    <label>Giới tính</label>
+                                    <select class="form-control" id="Gender" name="Gender">
+                                        <option value="N">Giới Tính</option>
+                                        <option value="M">Đực</option>
+                                        <option value="F">Cái</option>
+                                    </select>
                                 </div>
                                 <div class="form-group">
-                                    <button type="submit" class="btn btn-primary btn-block">Lưu</button>
+                                    <label>Xuất xứ</label>
+                                    <input type="text" class="form-control" placeholder="Xuất xứ" id="Origin" name="Origin">
+                                    <label id="lblMessage_origin_fail" class="label-error"></label>
+                                </div>
+                                <div class="form-group">
+                                    <label for="name">Ảnh cá</label>
+                                    <input type="file" accept="image/png, image/jpeg, image/gif" name="file" id="file" class="img" onchange="loadFile(event)"/>
+                                    <br/>
+                                    <div><img id="imagePreview" alt=""/>
+                                    </div>
+                                    <script>
+                                        var loadFile = function(event) {
+                                            var output = document.getElementById('imagePreview');
+                                            imagePreview.src = URL.createObjectURL(event.target.files[0]);
+                                        };
+                                    </script>
+                                    <label id="lblMessage_image_fail" class="label-error"></label>
+                                </div>
+                                <div class="form-group">
+                                    <a class="btn btn-primary btn-block" onclick="AddNewParent(@ViewBag.KoiSonID)" role="button">Lưu</a>
                                 </div>
                             </form>
                         </div>
@@ -179,25 +213,95 @@
                 datatype: "JSON",
                 data: {
                     koiSonId: koiSonId,
-                    koMomId:koMomId
+                    koMomId: koMomId
+
                 },
                 success: function(res) {
                     switch (res.Status) {
-                        case 2:
-                            $('#lbl_username_fail').text(res.Message);
-                            $('#username').focus();
-                            break;
-                        case 3:
-                            $('#lbl_username_fail').text(res.Message);
-                            $('#username').focus();
-                            break;
-                        case 1:
-                            alert(res.Message);
-                            window.location.href = res.RedirectTo;
-                            break;
+                    case 2:
+                        $('#lbl_username_fail').text(res.Message);
+                        $('#username').focus();
+                        break;
+                    case 3:
+                        $('#lbl_username_fail').text(res.Message);
+                        $('#username').focus();
+                        break;
+                    case 1:
+                        alert(res.Message);
+                        window.location.href = res.RedirectTo;
+                        break;
                     }
-                    }
+                }
             }); // end ajax
         }
+    }
+
+
+    $(document)
+        .ready(function() {
+            $(function() {
+                $("#name").focus();
+            });
+        });
+
+    function Validate() {
+        var name = $('#name').val();
+        if (name.length < 5 || name.length > 50) {
+            $('#lblMessage_name_fail').text("Tên koi phải chứa từ 5 đến 50 ký tự");
+            $('#name').focus();
+            return false;
+        }
+        if (file == "") {
+            $('#lblMessage_image_fail').text("Xin hãy nhập ảnh");
+            return false;
+        }
+        return true;
+    }
+
+    function AddNewParent(koiSonId) {
+        $('#lbl_username_fail').text("");
+        $('#lblMessage_image_fail').text("");
+        var name = $('#name').val();
+        var VarietyId = $('#VarietyID').val();
+
+        var Origin = $('#Origin').val();
+        var fileUpload = $("#file").get(0);
+        var files = fileUpload.files;
+
+        if (Validate()) {
+            var fileData = new FormData();
+            fileData.append('koiSonId', koiSonId);
+            fileData.append('koiname', $('#name').val());
+            fileData.append('VarietyId', $('#VarietyID').val());
+            fileData.append('Gender', $('#Gender').val());
+            fileData.append('Origin', $('#Origin').val());
+            for (var i = 0; i < files.length; i++) {
+                fileData.append(files[i].name, files[i]);
+            }
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("AddNewParent")",
+                contentType: false, // Not to set any content header
+                processData: false,
+                data: fileData,
+                dataType: "Json",
+                success: function (res) {
+                switch (res.Status) {
+                    case 2:
+                        $('#lblMessage_name_fail').text(res.Message);
+                        $('#username').focus();
+                        break;
+                    case 3:
+                        $('#lblMessage_image_fail').text(res.Message);
+                        $('#username').focus();
+                        break;
+                    case 1:
+                        alert(res.Message);
+                        window.location.href = res.RedirectTo;
+                        break;
+                }
+            }
+        }); // end ajax
+    }
     }
 </script>

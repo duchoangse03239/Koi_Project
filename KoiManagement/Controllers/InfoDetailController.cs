@@ -398,6 +398,7 @@ namespace KoiManagement.Controllers
             int pageSize = 10;
             int pageNumber = (page ?? 1);
             ViewBag.Listkoi = koi.ToList().ToPagedList(pageNumber, pageSize);
+
             return View();
         }
         [HttpPost]
@@ -411,7 +412,7 @@ namespace KoiManagement.Controllers
                 {
                     obj.Status = 1;
                     obj.Message = "Bạn đã thêm mẹ thành công";
-                    obj.RedirectTo = Url.Action("KoiInfoDetail/"+ koiSonId, "InfoDetail");
+                    obj.RedirectTo = Url.Action("Details/" + koiSonId, "Koi");
                     return Json(obj);
                 }
 
@@ -425,7 +426,69 @@ namespace KoiManagement.Controllers
             }
             return Json(obj);
         }
+        [HttpPost]
+        public ActionResult AddNewParent(int koiSonId, string koiname,string Gender, string VarietyId, string Origin)
+        {
+            StatusObjForJsonResult obj = new StatusObjForJsonResult();
+            KoiDAO koiDao = new KoiDAO();
+            try
+            {
+                if (String.IsNullOrWhiteSpace(koiname))
+                {
+                    obj.Status = 2;
+                    obj.Message = "Vui lòng nhập tên koi";
+                    return Json(obj);
+                }
+                //Lấy file ảnh
+                HttpFileCollectionBase files = Request.Files;
+                HttpPostedFileBase file = null;
+                //Trường hợp chỉ  có 1 file
+                for (int i = 0; i < files.Count; i++)
+                {
+                    //string filename = Path.GetFileName(Request.Files[i].FileName);  
+                    file = files[i];
+                }
+                string fullpath="";
+                string ImageKoiname;
+                var MaxKoiID = koiDao.GetMaxKoiID();
+                var koi = new Koi(int.Parse(VarietyId), koiname, null, Gender, "", "", "",
+                     Origin, true, true);
 
+                if (file != null)
+                {
+                    ImageKoiname = Path.GetFileName("Koi" + MaxKoiID + file.FileName.Substring(file.FileName.LastIndexOf('.')));
+                    koi.Image = ImageKoiname;
+                    fullpath = Server.MapPath("~/Content/Image/Koi/" + ImageKoiname);
+                    var pathKoi = Path.Combine(Server.MapPath("~/Content/Image/Koi"), ImageKoiname);
+                    file.SaveAs(pathKoi);
+                }
+                if ( koiDao.AddNewParent(koi,koiSonId))
+                {
+                    obj.Status = 1;
+                    obj.Message = "Bạn đã thêm mẹ thành công";
+                    obj.RedirectTo = Url.Action("Details/" + koiSonId, "Koi");
+                    return Json(obj);
+                }
+                else
+                {
+                    if (System.IO.File.Exists(fullpath))
+                    {
+                        System.IO.File.Delete(fullpath);
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Common.Logger.LogException(ex);
+                obj.Status = 0;
+                obj.RedirectTo = this.Url.Action("SystemError", "Error");
+
+                return Json(obj);
+            }
+            return Json(obj);
+        }
+        
 
         protected override void Dispose(bool disposing)
         {

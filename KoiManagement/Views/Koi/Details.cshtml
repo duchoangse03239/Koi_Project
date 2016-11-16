@@ -155,7 +155,7 @@
                                 <label><span class="fa fa-bell"></span> Ngày sinh:</label> <span>@(Model.DoB != null ? Model.DoB.Value.ToString("dd/MM/yyyy") : "Chưa biết")</span>
                             </div>
                             <div class="line">
-                                <label><span class="fa fa-adjust"></span> Giới tính:</label> <span>@Model.Gender</span>
+                                <label><span class="fa fa-adjust"></span> Giới tính:</label> <span>@CommonFunction.ReturnGenderKoi(@Model.Gender)</span>
                             </div>
                             <div class="line">
                                 <label><span class="fa fa-bullseye"></span> Nguồn gốc:</label> <span>@Model.Origin</span>
@@ -177,13 +177,14 @@
                                         }
                                     }
                                 }
-    
                             </div>
                             <div class="line">
                                 <label><span class="fa fa-home"></span> Chủ sở hữu:</label>
-                                <span>@owner.Member.Name</span>
-                                @if (owner!=null) {
-                                    if(Session[SessionAccount.SessionUserId]!=null&& @owner.Member.MemberID.ToString().Equals(Session[SessionAccount.SessionUserId].ToString())){
+                                @if (owner != null)
+                                {
+                                    <span>@owner.Member.Name</span>
+                                    if (Session[SessionAccount.SessionUserId] != null && @owner.Member.MemberID.ToString().Equals(Session[SessionAccount.SessionUserId].ToString()))
+                                    {
                                     <span style="float:right;"><a  class="btn btn-primary btn-sm" data-toggle="modal" data-target="#trade">Đổi chủ</a></span>}
                                 }
                             </div>

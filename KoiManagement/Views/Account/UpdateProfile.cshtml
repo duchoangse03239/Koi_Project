@@ -140,12 +140,12 @@
 
         if (name.length < 6 || name.length > 50) {
             $('#lblMessage_name_fail').text("Họ tên phải chứa từ 6 đến 50 ký tự");
-            $('#name').focus;
+            $('#name').focus();
             return false;
         }
         if (phone.length < 10 || phone.length > 11) {
             $('#lblMessage_phone_fail').text("Số điện thoại phải từ 10 đến 11 số");
-            $('#lblMessage_phone_fail').focus;
+            $('#phone').focus();
             return false;
         }
         //if (!isSpecialCharacter(phone)) {
