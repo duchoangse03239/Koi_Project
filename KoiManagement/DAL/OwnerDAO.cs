@@ -32,16 +32,6 @@ namespace KoiManagement.DAL
             return Owner;
         }
 
-        public String GetOwnerID(int KoiId)
-        {
-            String OwnerName = String.Empty;
-            var Owner = db.Owners.Where(p => p.KoiID == KoiId && p.Status).Select(p => p.Member. MemberID).ToList();
-            if (Owner != null && Owner.Count > 0)
-            {
-                OwnerName = Owner.ElementAt(0).ToString();
-            }
-            return OwnerName;
-        }
 
         public bool ChangeOwner(string username,int koiID)
         {

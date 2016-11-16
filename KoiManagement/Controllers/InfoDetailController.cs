@@ -260,7 +260,7 @@ namespace KoiManagement.Controllers
                     //success
                     obj.Status = 1;
                     obj.Message = "Bạn đã thêm";
-                    obj.RedirectTo = Url.Action("KoiInfoDetail/" + KoiID, "InfoDetail");
+                    obj.RedirectTo = Url.Action("timeline", "InfoDetail");
                     return Json(obj);
                 }
                 else
@@ -378,20 +378,52 @@ namespace KoiManagement.Controllers
         public ActionResult AddParent(int id, int? page, string nameKoi, string variety, string owner)
         {
             KoiDAO kDao = new KoiDAO();
-            KoiFilterModel filter = new KoiFilterModel("",nameKoi,"" , variety,"","","",  owner,"","");
+            if (String.IsNullOrEmpty(variety))
+            {
+                variety = "0";
+            }
+            KoiFilterModel filter = new KoiFilterModel("", nameKoi, "", variety, "", "", "", owner, "", "");
             ViewBag.Filter = filter;
             var koi = db.Kois.AsQueryable();
+
 
             koi = kDao.KoiFilter(filter);
             VarietyDAO varietyDao= new VarietyDAO();
             ViewBag.listVariety = varietyDao.getListMainVariety();
+
             koi = kDao.KoiFilter(filter);
 
+            ViewBag.KoiSonID = id;
             // phân trang 6 item 1trang
             int pageSize = 10;
             int pageNumber = (page ?? 1);
             ViewBag.Listkoi = koi.ToList().ToPagedList(pageNumber, pageSize);
             return View();
+        }
+        [HttpPost]
+        public ActionResult AddToParent(int koiSonId, int koMomId)
+        {
+            StatusObjForJsonResult obj = new StatusObjForJsonResult();
+            KoiDAO kDao = new KoiDAO();
+            try
+            {
+                if (kDao.AddParent(koiSonId, koMomId) >0)
+                {
+                    obj.Status = 1;
+                    obj.Message = "Bạn đã thêm mẹ thành công";
+                    obj.RedirectTo = Url.Action("KoiInfoDetail/"+ koiSonId, "InfoDetail");
+                    return Json(obj);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Common.Logger.LogException(ex);
+                obj.Status = 0;
+                obj.RedirectTo = this.Url.Action("SystemError", "Error");
+                return Json(obj);
+            }
+            return Json(obj);
         }
 
 

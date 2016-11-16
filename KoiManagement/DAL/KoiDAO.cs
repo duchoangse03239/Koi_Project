@@ -230,7 +230,24 @@ namespace KoiManagement.DAL
                 return 0;
             }
         }
-
+        public int AddParent(int koiSonId, int koMomId)
+        {
+            var koi = db.Kois.Find(koiSonId);
+            try
+            {
+                koi.KoiMom = koMomId;
+                db.Kois.Attach(koi);
+                var entry = db.Entry(koi);
+                entry.State = EntityState.Modified;
+                // Set column not change
+                entry.Property(e => e.KoiMom).IsModified = true;
+                return db.SaveChanges();
+            }
+            catch
+            {
+                return 0;
+            }
+        }
 
     }
 }

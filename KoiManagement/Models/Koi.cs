@@ -20,19 +20,14 @@ namespace KoiManagement.Models
             this.Achievements = new HashSet<Achievement>();
             this.Comments = new HashSet<Comment>();
             this.InfoDetails = new HashSet<InfoDetail>();
-            this.KoiParents = new HashSet<KoiParent>();
-            this.OffSpringOfs = new HashSet<OffSpringOf>();
             this.Owners = new HashSet<Owner>();
             this.Reports = new HashSet<Report>();
         }
-
         public Koi(int VarietyID, string KoiName, DateTime? DoB, string Gender, string Temperament, string Certificate, string Image, string Origin, bool Status, bool Privacy)
         {
             this.Achievements = new HashSet<Achievement>();
             this.Comments = new HashSet<Comment>();
             this.InfoDetails = new HashSet<InfoDetail>();
-            this.KoiParents = new HashSet<KoiParent>();
-            this.OffSpringOfs = new HashSet<OffSpringOf>();
             this.Owners = new HashSet<Owner>();
             this.Reports = new HashSet<Report>();
             this.VarietyID = VarietyID;
@@ -58,6 +53,7 @@ namespace KoiManagement.Models
         public string Origin { get; set; }
         public Nullable<bool> IsDead { get; set; }
         public string DeadReason { get; set; }
+        public Nullable<int> KoiMom { get; set; }
         public bool Status { get; set; }
         public Nullable<bool> Privacy { get; set; }
     
@@ -69,12 +65,10 @@ namespace KoiManagement.Models
         public virtual ICollection<InfoDetail> InfoDetails { get; set; }
         public virtual Variety Variety { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<KoiParent> KoiParents { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<OffSpringOf> OffSpringOfs { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Owner> Owners { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Report> Reports { get; set; }
+        public virtual Koi Koi1 { get; set; }
+        public virtual Koi Koi2 { get; set; }
     }
 }

@@ -164,13 +164,25 @@
                                 <label><span class="fa fa-hand-rock-o"></span> Tính cách:</label> <span>@Model.Temperament</span>
                             </div>
                             <div class="line">
-                                <label><span class="fa fa-user"></span> Bố - Mẹ:</label>
-                                 <span><a href="@Url.Action("AddParent/"+ Model.KoiID, "InfoDetail")" class="btn btn-primary btn-sm" >Thêm bố - mẹ</a></span>
+                                <label><span class="fa fa-user"></span>  Bố - Mẹ:</label> @{
+                                    if (ViewBag.KoiMomName != null)
+                                    {
+                                        <a href="/Koi/Details/@Model.KoiMom">@ViewBag.KoiMomName <span class="fa fa-angle-double-right"></span></a>
+                                    }
+                                    else if (@owner != null)
+                                    {
+                                        if (Session[SessionAccount.SessionUserId] != null && @owner.Member.MemberID.ToString().Equals(Session[SessionAccount.SessionUserId].ToString()))
+                                        {
+                                            <span><a href="@Url.Action("AddParent/"+ Model.KoiID, "InfoDetail")" class="btn btn-primary btn-sm">Thêm bố - mẹ</a></span>
+                                        }
+                                    }
+                                }
+    
                             </div>
                             <div class="line">
                                 <label><span class="fa fa-home"></span> Chủ sở hữu:</label>
-                                @if(owner!=null) { 
-                                    <span>@owner.Member.Name</span>
+                                <span>@owner.Member.Name</span>
+                                @if (owner!=null) {
                                     if(Session[SessionAccount.SessionUserId]!=null&& @owner.Member.MemberID.ToString().Equals(Session[SessionAccount.SessionUserId].ToString())){
                                     <span style="float:right;"><a  class="btn btn-primary btn-sm" data-toggle="modal" data-target="#trade">Đổi chủ</a></span>}
                                 }

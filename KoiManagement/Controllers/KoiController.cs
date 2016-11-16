@@ -69,16 +69,16 @@ namespace KoiManagement.Controllers
             {
                 variety = id.ToString();
             }
-            KoiFilterModel filter = new KoiFilterModel(orderby, nameKoi, username, variety, sizeFrom, sizeTo, gender, owner, AgeFrom, AgeTo);
-            ViewBag.Filter = filter;
-            ViewBag.listVariety = varietyDao.getListMainVariety();
+
             if (!String.IsNullOrEmpty(variety)&&variety.Equals("0"))
             {
                 variety ="";
             }
             variety = variety;
             //ViewBag.VarietyId = id;
-
+            KoiFilterModel filter = new KoiFilterModel(orderby, nameKoi, username, variety, sizeFrom, sizeTo, gender, owner, AgeFrom, AgeTo);
+            ViewBag.Filter = filter;
+            ViewBag.listVariety = varietyDao.getListMainVariety();
 
             var koi = db.Kois.AsQueryable();
 
@@ -145,7 +145,10 @@ namespace KoiManagement.Controllers
             {
                 KoiDeatail.First();
             }
-            
+            if (koi.KoiMom != null)
+            {
+            ViewBag.KoiMomName = db.Kois.Find(koi.KoiMom).KoiName;
+            }
 
             if (koi == null)
             {
