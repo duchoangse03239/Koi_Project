@@ -3,7 +3,6 @@
     ViewBag.Title = "AddAchievement";
     Layout = "~/Views/Layout/KoiLayout.cshtml";
 }
-
 <div class="container" id="add-achievment">
     <form>
         <h2 id="form-title" class="align-center">THÊM GIẢI THƯỞNG</h2>
@@ -26,7 +25,16 @@
             <br />
             <div class="row">
                 <div class="col-sm-6 col-sm-offset-3" id="wrapper">
-                    <input type="file" id="files" name="files[]" multiple />
+                    <label>Ảnh bài viết</label>
+                    <input type="file" accept="image/png, image/jpeg, image/gif" name="file" id="file" class="img" onchange="loadFile(event)" />
+                    <br />
+                    <div><img id="imagePreview" src="~/Content/Image/Common/blank.jpg" alt="" /></div>
+                    <script>
+                        var loadFile = function (event) {
+                            var output = document.getElementById('imagePreview');
+                            imagePreview.src = URL.createObjectURL(event.target.files[0]);
+                        };
+                    </script>
                 </div>
             </div>
             <div class="row" id="add-Achievement-btn">
@@ -35,11 +43,9 @@
                     <button class="btn btn-primary" id="btnCancel">Đóng</button>
                 </div>
             </div>
-
         </div>
     </form>
 </div>
-
 <script type="text/javascript">
 
     $(document).ready(function () {
@@ -72,7 +78,7 @@
     function Validate() {
         var Time = $('#Time').val();
         var Description = $('#Description').val();
-        
+
         //Validate date
 
         return true;
@@ -101,65 +107,28 @@
             processData: false,
             data: fileData,
             dataType: "Json",
-        success: function(res) {
-            switch (res.Status) {
-                case 2:
-                    break;
-                case 3:
-                    break;
-                case 4:
-                    break;
-                case 1:
-                    alert(res.Message);
-                    window.location.href = res.RedirectTo;
-                    break;
-                case 0:
-                    window.location.href = res.RedirectTo;
-                    break;
+            success: function (res) {
+                switch (res.Status) {
+                    case 2:
+                        break;
+                    case 3:
+                        break;
+                    case 4:
+                        break;
+                    case 1:
+                        alert(res.Message);
+                        window.location.href = res.RedirectTo;
+                        break;
+                    case 0:
+                        window.location.href = res.RedirectTo;
+                        break;
+                }
             }
-        }
-    });
+        });
     }
 
-
-
-
-
-
-
-
-
-
-    $(document).ready(function () {
-        if (window.File && window.FileList && window.FileReader) {
-            $("#files").on("change", function (e) {
-                var files = e.target.files,
-                  filesLength = files.length;
-                for (var i = 0; i < filesLength; i++) {
-                    var f = files[i]
-                    var fileReader = new FileReader();
-                    fileReader.onload = (function (e) {
-                        var file = e.target;
-                        $("<span class=\"pip\">" +
-                          "<img class=\"imageThumb\" src=\"" + e.target.result + "\" title=\"" + file.name + "\"/>" +
-                          "<br/><span class=\"remove\">X</span>" +
-                          "</span>").insertAfter("#files");
-                        $(".remove").click(function () {
-                            $(this).parent(".pip").remove();
-                        });
-                    });
-                    fileReader.readAsDataURL(f);
-                }
-            });
-        } else {
-            alert("Your browser doesn't support to File API")
-        }
-    });
 </script>
 @*<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>*@
 
 
-
-
-  
 
