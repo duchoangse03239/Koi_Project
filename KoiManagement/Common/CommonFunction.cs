@@ -210,5 +210,21 @@ namespace KoiManagement.Common
             }
             return "N";
         }
+
+        public static string ReturnGenderKoi(string gender)
+        {
+            if (gender.Equals("M"))
+            {
+                return "Đực";
+            }
+            else if (gender.Equals("F"))
+            {
+                return "Cái";
+            }
+            else 
+            {
+                return "Chưa rõ";
+            }
+        }
     }
 }

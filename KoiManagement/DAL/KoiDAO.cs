@@ -230,7 +230,57 @@ namespace KoiManagement.DAL
                 return 0;
             }
         }
+        public int AddParent(int koiSonId, int koMomId)
+        {
+            var koi = db.Kois.Find(koiSonId);
+            try
+            {
+                koi.KoiMom = koMomId;
+                db.Kois.Attach(koi);
+                var entry = db.Entry(koi);
+                entry.State = EntityState.Modified;
+                // Set column not change
+                entry.Property(e => e.KoiMom).IsModified = true;
+                return db.SaveChanges();
+            }
+            catch
+            {
+                return 0;
+            }
+        }
 
-
+        public bool AddNewParent(Koi koi, int koiSonId)
+        {
+            using (var dbContextTransaction = db.Database.BeginTransaction())
+            {
+                try
+                {
+                    //thêm koi mẹ
+                    db.Kois.Add(koi);
+                    db.SaveChanges();
+                    //lấy id koi mẹ
+                    var koiMomID = koi.KoiID;
+                   // thêm koi con
+                    var koiSon = db.Kois.Find(koiSonId);
+                    if (koiSon == null)
+                        return false;
+                    koiSon.KoiMom = koiMomID;
+                    db.Kois.Attach(koiSon);
+                    var entry = db.Entry(koiSon);
+                    entry.State = EntityState.Modified;
+                    // Set column not change
+                    entry.Property(e => e.KoiMom).IsModified = true;
+                    db.SaveChanges();
+                    dbContextTransaction.Commit();
+                    return true;
+                }
+                catch (Exception)
+                {
+                    dbContextTransaction.Rollback(); //Required according to MSDN article 
+                    //throw; //Not in MSDN article, but recommended so the exception still bubbles up
+                    return false;
+                }
+            }
+        }
     }
 }

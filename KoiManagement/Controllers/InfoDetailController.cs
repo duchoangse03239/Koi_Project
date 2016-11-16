@@ -260,7 +260,7 @@ namespace KoiManagement.Controllers
                     //success
                     obj.Status = 1;
                     obj.Message = "Bạn đã thêm";
-                    obj.RedirectTo = Url.Action("KoiInfoDetail/" + KoiID, "InfoDetail");
+                    obj.RedirectTo = Url.Action("timeline", "InfoDetail");
                     return Json(obj);
                 }
                 else
@@ -378,22 +378,117 @@ namespace KoiManagement.Controllers
         public ActionResult AddParent(int id, int? page, string nameKoi, string variety, string owner)
         {
             KoiDAO kDao = new KoiDAO();
-            KoiFilterModel filter = new KoiFilterModel("",nameKoi,"" , variety,"","","",  owner,"","");
+            if (String.IsNullOrEmpty(variety))
+            {
+                variety = "0";
+            }
+            KoiFilterModel filter = new KoiFilterModel("", nameKoi, "", variety, "", "", "", owner, "", "");
             ViewBag.Filter = filter;
             var koi = db.Kois.AsQueryable();
+
 
             koi = kDao.KoiFilter(filter);
             VarietyDAO varietyDao= new VarietyDAO();
             ViewBag.listVariety = varietyDao.getListMainVariety();
+
             koi = kDao.KoiFilter(filter);
 
+            ViewBag.KoiSonID = id;
             // phân trang 6 item 1trang
             int pageSize = 10;
             int pageNumber = (page ?? 1);
             ViewBag.Listkoi = koi.ToList().ToPagedList(pageNumber, pageSize);
+
             return View();
         }
+        [HttpPost]
+        public ActionResult AddToParent(int koiSonId, int koMomId)
+        {
+            StatusObjForJsonResult obj = new StatusObjForJsonResult();
+            KoiDAO kDao = new KoiDAO();
+            try
+            {
+                if (kDao.AddParent(koiSonId, koMomId) >0)
+                {
+                    obj.Status = 1;
+                    obj.Message = "Bạn đã thêm mẹ thành công";
+                    obj.RedirectTo = Url.Action("Details/" + koiSonId, "Koi");
+                    return Json(obj);
+                }
 
+            }
+            catch (Exception ex)
+            {
+                Common.Logger.LogException(ex);
+                obj.Status = 0;
+                obj.RedirectTo = this.Url.Action("SystemError", "Error");
+                return Json(obj);
+            }
+            return Json(obj);
+        }
+        [HttpPost]
+        public ActionResult AddNewParent(int koiSonId, string koiname,string Gender, string VarietyId, string Origin)
+        {
+            StatusObjForJsonResult obj = new StatusObjForJsonResult();
+            KoiDAO koiDao = new KoiDAO();
+            try
+            {
+                if (String.IsNullOrWhiteSpace(koiname))
+                {
+                    obj.Status = 2;
+                    obj.Message = "Vui lòng nhập tên koi";
+                    return Json(obj);
+                }
+                //Lấy file ảnh
+                HttpFileCollectionBase files = Request.Files;
+                HttpPostedFileBase file = null;
+                //Trường hợp chỉ  có 1 file
+                for (int i = 0; i < files.Count; i++)
+                {
+                    //string filename = Path.GetFileName(Request.Files[i].FileName);  
+                    file = files[i];
+                }
+                string fullpath="";
+                string ImageKoiname;
+                var MaxKoiID = koiDao.GetMaxKoiID();
+                var koi = new Koi(int.Parse(VarietyId), koiname, null, Gender, "", "", "",
+                     Origin, true, true);
+
+                if (file != null)
+                {
+                    ImageKoiname = Path.GetFileName("Koi" + MaxKoiID + file.FileName.Substring(file.FileName.LastIndexOf('.')));
+                    koi.Image = ImageKoiname;
+                    fullpath = Server.MapPath("~/Content/Image/Koi/" + ImageKoiname);
+                    var pathKoi = Path.Combine(Server.MapPath("~/Content/Image/Koi"), ImageKoiname);
+                    file.SaveAs(pathKoi);
+                }
+                if ( koiDao.AddNewParent(koi,koiSonId))
+                {
+                    obj.Status = 1;
+                    obj.Message = "Bạn đã thêm mẹ thành công";
+                    obj.RedirectTo = Url.Action("Details/" + koiSonId, "Koi");
+                    return Json(obj);
+                }
+                else
+                {
+                    if (System.IO.File.Exists(fullpath))
+                    {
+                        System.IO.File.Delete(fullpath);
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Common.Logger.LogException(ex);
+                obj.Status = 0;
+                obj.RedirectTo = this.Url.Action("SystemError", "Error");
+
+                return Json(obj);
+            }
+            return Json(obj);
+        }
+        
 
         protected override void Dispose(bool disposing)
         {

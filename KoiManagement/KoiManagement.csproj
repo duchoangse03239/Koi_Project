@@ -305,9 +305,6 @@
     </Compile>
     <Compile Include="Models\KoiFarmFilterModel.cs" />
     <Compile Include="Models\KoiFilterModel.cs" />
-    <Compile Include="Models\KoiParent.cs">
-      <DependentUpon>KoiContext.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\Medium.cs">
       <DependentUpon>KoiContext.tt</DependentUpon>
     </Compile>
@@ -315,9 +312,6 @@
       <DependentUpon>KoiContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ModelType.cs">
-      <DependentUpon>KoiContext.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\OffSpringOf.cs">
       <DependentUpon>KoiContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Owner.cs">

@@ -127,32 +127,38 @@
 
         if (KoiName.length > 100 || KoiName.length < 0) {
             $('#lblMessage_koi_name_fail').text("Tên Koi quá dài! Vui lòng không nhập quá 100 ký tự!");
+            $('#KoiName').focus();
             return false;
         }
         if (Size == "") {
             $('#lblMessage_koi_size_fail').text("Vui lòng nhập kích thước");
+            $('#Size').focus();
             return false;
         }
         else if (!isPositiveNumber(Size)) {
             $('#lblMessage_koi_size_fail').text("Vui lòng không nhập số âm cho kích thước của Koi!");
+            $('#Size').focus();
             return false;
         }
         if (DoB != ""){
         if (!validateDate(DoB)) {
-            $('#lblmessage_dob_fail').text('Xin hãy nhập định dạng DD/MM/YYYY');
+            $('#lblmessage_dob_fail').text('Xin hãy nhập định dạng DD-MM-YYYY');
+            $('#DoB').focus();
             return false;
         } else {
             if (!validateDateRangeMax(DoB)) {
                 $('#lblmessage_dob_fail').text('Ngày sinh nhỏ hơn ngày hiện tại!');
+                $('#DoB').focus();
                 return false;
             } else if (!validateDateRangeMin(DoB)) {
                 $('#lblmessage_dob_fail').text('Tuổi phải nhỏ hơn 127');
+                $('#DoB').focus();
                 return false;
             } 
         }
         }
         if (files == "") {
-            $('#lblMessage_file_fail').text("xin hãy nhập ảnh");
+            $('#lblMessage_file_fail').text("Xin hãy nhập ảnh");
             return false;
         }
         return true;

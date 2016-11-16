@@ -69,16 +69,16 @@ namespace KoiManagement.Controllers
             {
                 variety = id.ToString();
             }
-            KoiFilterModel filter = new KoiFilterModel(orderby, nameKoi, username, variety, sizeFrom, sizeTo, gender, owner, AgeFrom, AgeTo);
-            ViewBag.Filter = filter;
-            ViewBag.listVariety = varietyDao.getListMainVariety();
+
             if (!String.IsNullOrEmpty(variety)&&variety.Equals("0"))
             {
                 variety ="";
             }
             variety = variety;
             //ViewBag.VarietyId = id;
-
+            KoiFilterModel filter = new KoiFilterModel(orderby, nameKoi, username, variety, sizeFrom, sizeTo, gender, owner, AgeFrom, AgeTo);
+            ViewBag.Filter = filter;
+            ViewBag.listVariety = varietyDao.getListMainVariety();
 
             var koi = db.Kois.AsQueryable();
 
@@ -145,7 +145,10 @@ namespace KoiManagement.Controllers
             {
                 KoiDeatail.First();
             }
-            
+            if (koi.KoiMom != null)
+            {
+            ViewBag.KoiMomName = db.Kois.Find(koi.KoiMom).KoiName;
+            }
 
             if (koi == null)
             {
@@ -222,10 +225,10 @@ namespace KoiManagement.Controllers
                     obj.Message = "Vui lòng không nhập số âm cho kích thước của Koi";
                     return Json(obj);
                 }
-                if (Validate.ValidateDate(DoB))
+                if (!Validate.ValidateDate(DoB))
                 {
                     obj.Status = 4;
-                    obj.Message = "Date of birt";
+                    obj.Message = "Xin hãy nhập đúng định dạng ngày sinh";
                     return Json(obj);
                 }
                 else
