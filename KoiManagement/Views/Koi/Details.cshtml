@@ -100,13 +100,13 @@
                                 <label><span class="fa fa-cubes"></span> Chủng loại:</label> <span>@Model.Variety.VarietyName</span>
                             </div>
                             <div class="line">
-                                <label><span class="fa fa-bell"></span> Ngày sinh:</label> <span>@(Model.DoB != null ? Model.DoB.Value.ToString("dd/MM/yyyy") : "Chưa biết")</span>
+                                <label><span class="fa fa-calendar"></span> Ngày sinh:</label> <span>@(Model.DoB != null ? Model.DoB.Value.ToString("dd/MM/yyyy") : "Chưa biết")</span>
                             </div>
                             <div class="line">
                                 <label><span class="fa fa-adjust"></span> Giới tính:</label> <span>@CommonFunction.ReturnGenderKoi(@Model.Gender)</span>
                             </div>
                             <div class="line">
-                                <label><span class="fa fa-bullseye"></span> Nguồn gốc:</label> <span>@Model.Origin</span>
+                                <label><span class="fa fa-bullseye"></span> Xuất xứ:</label> <span>@Model.Origin</span>
                             </div>
                             <div class="line">
                                 <label><span class="fa fa-hand-rock-o"></span> Tính cách:</label> <span>@Model.Temperament</span>

@@ -87,10 +87,10 @@
                                                     </ul>
                                                 </div>}
                                             <div class="row container">
-                                                <div class="col-md-2">
+                                                <div class="col-md-3">
                                                     <img class="img-farm-list" src="/Content/Image/Member/@Model.ElementAt(item).Member.Image" alt="">
                                                 </div>
-                                                <div class="col-md-5">
+                                                <div class="col-md-6">
                                                     <a class="title-koi-name" href="@Url.Action("KoiFarmDetail/"+ @Model.ElementAt(item).KoifarmID, "KoiFarm")">@Model.ElementAt(item).FarmName</a>
                                                     <h4>
                                                         Chủ trang trại: <a href="/Account/profile/@Model.ElementAt(item).MemberID">@Model.ElementAt(item).Member.Name</a>
@@ -99,7 +99,7 @@
                                                     @*<h4>Chủng loại chính:@listVariety.ElementAt(item)</h4>*@
                                                     <a class="btn btn-embossed btn-primary" href="@Url.Action("KoiFarmDetail/"+ @Model.ElementAt(item).KoifarmID, "KoiFarm")" role="button">Xem thêm</a>
                                                 </div>
-                                                <div class="col-md-2">
+                                                <div class="col-md-3">
                                                     <div class="ratings">
                                                         <a style="text-decoration: none;" href="#">
                                                             <span class="glyphicon glyphicon-star"></span>

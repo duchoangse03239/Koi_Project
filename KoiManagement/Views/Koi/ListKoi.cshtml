@@ -124,9 +124,16 @@
                     <!-- END form Search -->
         </div>
             <div class="col-md-8">
-                <div>
+                <div class="btn-group">
                     <a class="btn btn-filter" href="@Url.Action("ListKoi", "Koi", new {orderby ="newest",username =filter.Username, nameKoi= filter.KoiName  , variety= filter.VarietyId , sizeFrom= filter.SizeFrom , sizeTo= filter.SizeTo ,gender= filter.Gender ,owner=  filter.Owner } )">Mới nhất</a>
                     <a class="btn btn-filter" href="@Url.Action("ListKoi", "Koi", new {orderby ="review",username =filter.Username, nameKoi= filter.KoiName  , variety= filter.VarietyId , sizeFrom= filter.SizeFrom , sizeTo= filter.SizeTo ,gender= filter.Gender ,owner=  filter.Owner } )">Nhiều đánh giá</a>
+                    <script>
+                        $(".btn-group > .btn").click(function () {
+                            //$(this).addClass("active").siblings().removeClass("active");
+                            $(".btn-group > .btn").removeClass("active");
+                            $(this).addClass("active");
+                        });
+                    </script>
                 </div>
                 <div id="Main-ListKoi">
                     @for (var item = 0; item < ViewBag.Listkoi.Count; item++)
@@ -165,7 +172,7 @@
                                         </a>
                                         <br />
                                         <br />
-                                        <a style="margin-right:10px" href="">@cmDao.CountCommentByKoiID(ViewBag.Listkoi[item].KoiID) đánh giá</a>
+                                        <a style="margin-left:5px;" href="">@cmDao.CountCommentByKoiID(ViewBag.Listkoi[item].KoiID) đánh giá</a>
                                     </div>
                                 </div>
                             </div>
