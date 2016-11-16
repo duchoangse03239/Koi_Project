@@ -222,10 +222,10 @@ namespace KoiManagement.Controllers
                     obj.Message = "Vui lòng không nhập số âm cho kích thước của Koi";
                     return Json(obj);
                 }
-                if (Validate.ValidateDate(DoB))
+                if (!Validate.ValidateDate(DoB))
                 {
                     obj.Status = 4;
-                    obj.Message = "Date of birt";
+                    obj.Message = "Xin hãy nhập đúng định dạng ngày sinh";
                     return Json(obj);
                 }
                 else
