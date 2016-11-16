@@ -124,7 +124,7 @@
                     <!-- END form Search -->
         </div>
             <div class="col-md-8">
-                <div class="">
+                <div>
                     <a class="btn btn-filter" href="@Url.Action("ListKoi", "Koi", new {orderby ="newest",username =filter.Username, nameKoi= filter.KoiName  , variety= filter.VarietyId , sizeFrom= filter.SizeFrom , sizeTo= filter.SizeTo ,gender= filter.Gender ,owner=  filter.Owner } )">Mới nhất</a>
                     <a class="btn btn-filter" href="@Url.Action("ListKoi", "Koi", new {orderby ="review",username =filter.Username, nameKoi= filter.KoiName  , variety= filter.VarietyId , sizeFrom= filter.SizeFrom , sizeTo= filter.SizeTo ,gender= filter.Gender ,owner=  filter.Owner } )">Nhiều đánh giá</a>
                 </div>

@@ -51,10 +51,10 @@
   vertical-align: middle;
 }
 .imgs-grid .imgs-grid-image .image-wrap img {
-  position: relative;
-  width: 80%;
-  height: auto;
-  margin: 0;
+    position: relative;
+    width: 100%;
+    height: 284px;
+    margin: 5px;
 }
 .imgs-grid .imgs-grid-image .view-all {
   position: absolute;
