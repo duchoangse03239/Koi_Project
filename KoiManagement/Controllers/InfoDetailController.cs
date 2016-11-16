@@ -11,6 +11,7 @@ using System.Runtime.Remoting.Metadata.W3cXsd2001;
 using KoiManagement.Common;
 using KoiManagement.DAL;
 using KoiManagement.Models;
+using PagedList;
 
 namespace KoiManagement.Controllers
 {
@@ -374,6 +375,25 @@ namespace KoiManagement.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
+        public ActionResult AddParent(int id, int? page, string nameKoi, string variety, string owner)
+        {
+            KoiDAO kDao = new KoiDAO();
+            KoiFilterModel filter = new KoiFilterModel("",nameKoi,"" , variety,"","","",  owner,"","");
+            ViewBag.Filter = filter;
+            var koi = db.Kois.AsQueryable();
+
+            koi = kDao.KoiFilter(filter);
+            VarietyDAO varietyDao= new VarietyDAO();
+            ViewBag.listVariety = varietyDao.getListMainVariety();
+            koi = kDao.KoiFilter(filter);
+
+            // phân trang 6 item 1trang
+            int pageSize = 10;
+            int pageNumber = (page ?? 1);
+            ViewBag.Listkoi = koi.ToList().ToPagedList(pageNumber, pageSize);
+            return View();
+        }
+
 
         protected override void Dispose(bool disposing)
         {

@@ -174,10 +174,15 @@ namespace KoiManagement.DAL
                    // koi = koi.Where(p => p.KoiName.Contains(searchModel.KoiName));
                     koi = koi.Where(p => p.Owners.Where(o => o.Status).FirstOrDefault().Member.Name.Contains(searchModel.Owner)) ;
                 }
-                if (!string.IsNullOrEmpty(searchModel.Age))
+                if (!string.IsNullOrEmpty(searchModel.AgeFrom))
                 {
                     //@@
                    // koi = koi.Where(p => p.KoiName.Contains(searchModel.KoiName));
+                }
+                if (!string.IsNullOrEmpty(searchModel.AgeTo))
+                {
+                    //@@
+                    // koi = koi.Where(p => p.KoiName.Contains(searchModel.KoiName));
                 }
                 if (!string.IsNullOrEmpty(searchModel.orderby))
                 {

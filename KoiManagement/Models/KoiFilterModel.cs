@@ -15,10 +15,11 @@ namespace KoiManagement.Models
         public string SizeTo { get; set; }
         public string Gender { get; set; }
         public string Owner { get; set; }
-        public string Age { get; set; }
+        public string AgeFrom { get; set; }
+        public string AgeTo { get; set; }
         public KoiFilterModel() { }
 
-        public KoiFilterModel(string orderby ,string koiName, string username, string varietyId, string sizeFrom, string sizeTo,string gender,string owner, string Age)
+        public KoiFilterModel(string orderby ,string koiName, string username, string varietyId, string sizeFrom, string sizeTo,string gender,string owner, string AgeFrom, string AgeTo)
         {
             this.orderby= orderby;
             this.KoiName = koiName;
@@ -28,7 +29,8 @@ namespace KoiManagement.Models
             this.SizeTo = sizeTo;
             this.Gender = gender;
             this.Owner = owner;
-            this.Age = Age;
+            this.AgeFrom = AgeFrom;
+            this.AgeTo = AgeTo;
         }
     }
 }

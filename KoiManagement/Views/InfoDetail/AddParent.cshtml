@@ -1,0 +1,167 @@
+﻿@using KoiManagement.DAL
+@using KoiManagement.Models
+@using PagedList.Mvc
+
+@{
+    ViewBag.Title = "AddParent";
+    Layout = "~/Views/Layout/KoiLayout.cshtml";
+    PagedList.IPagedList ListKoi = ViewBag.Listkoi;
+    KoiFilterModel filter = ViewBag.Filter;
+    List<Variety> listVariety = ViewBag.listVariety;
+    CommentDAO cmDao = new CommentDAO();
+    OwnerDAO oDao = new OwnerDAO();
+}
+
+<div class="section site-main">
+    <div class="container">
+        <ul class="nav nav-tabs">
+            <li class="active"><a data-toggle="tab" href="#menu1">Tìm trong hệ thống</a></li>
+            <li><a data-toggle="tab" href="#menu2">Thêm mới</a></li>
+        </ul>
+
+        <div class="tab-content">
+            <div id="menu1" class="tab-pane fade">
+                <div class="row" style="margin-top: 20px;">
+                    <div class="col-md-4">
+                        <!-- Form Search -->
+                        <form class="searchForm" action="" method="get">
+                            <div id="parent">
+                                <h3>Tìm kiếm</h3>
+                                <hr />
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        <label id="lbl-koi-name">Tên cá Koi</label>
+                                    </div>
+                                    <div class="col-md-7">
+                                        <input class="input-search" name="nameKoi" id="nameKoi" type="text" value="@filter.KoiName" placeholder="">
+                                    </div>
+                                </div>
+                                <hr />
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        <label id="lbl-owner">Tên người sở hữu</label>
+                                    </div>
+                                    <div class="col-md-7">
+                                        <input class="input-search" type="text" name="owner" id="owner" value="@filter.Owner" placeholder="">
+                                    </div>
+                                </div>
+                                <hr />
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        <label id="lbl-variety">Loại</label>
+                                    </div>
+                                    <div class="col-md-7">
+                                        <select name="variety" id="list-variety">
+                                            <option value="0">Tất cả</option>
+                                            @foreach (var item in listVariety)
+                                            {
+                                                <option value="@item.VarietyID">@item.VarietyName</option>
+                                            }
+                                        </select>
+                                    </div>
+                                    <script type="text/javascript">
+                                        var $opt1 = $('#list-variety').children(('option[value=' + @filter.VarietyId + ']'));
+                                $opt1.attr('selected', 'selected');
+                                    </script>
+                                </div>
+                                <hr>
+                                <div class="align-center">
+                                    <button class="btn btn-primary" type="submit" id="btnSearch" name="btnSearch">Tìm kiếm</button>
+                                    <span><a class="btn btn-primary" href="/Koi/ListKoi/0"> <span>Xóa</span> </a></span>
+                                </div>
+                            </div>
+
+                        </form>
+                        <!-- END form Search -->
+                    </div>
+                    <div class="col-md-8">
+                        <div id="Main-ListKoi">
+                            <a href="#" onclick="myFunction()">
+                                <script>
+                            function myFunction() {
+                                var person = prompt("Hãy nhập 'Ok' nếu bạn chắc chắn muốn thêm");
+                            }
+                                </script>
+                                <div id="Main-ListKoi">
+                                    @if (ViewBag.Listkoi != null)
+                                    {
+                                        for (var item = 0; item < ViewBag.Listkoi.Count; item++)
+                                         {
+                                             <div class="content-section-a">
+                                                 <input type="hidden" id="koiID" name="koiID" value="@ViewBag.Listkoi[item].KoiID">
+                                                 <div class="row">
+                                                     <div class="col-md-4">
+                                                         <img class="img-koi-list " src="/Content/Image/Koi/@ViewBag.Listkoi[item].Image" alt="">
+                                                     </div>
+                                                     <div class="col-md-5">
+                                                         <p class="title-koi-name" href="/Koi/Details/@ViewBag.Listkoi[item].KoiID">@ViewBag.Listkoi[item].KoiName</p>
+                                                         <h4 style="margin-top: 25px;">
+                                                             Chủ sở hữu: <a href="/Account/profile/@oDao.GetOwnerID(ViewBag.Listkoi[item].KoiID)">@oDao.GetOwner(ViewBag.Listkoi[item].KoiID).Member.Name</a>
+                                                         </h4>
+                                                         <h4>Kích thước: </h4>
+                                                         <p class="">
+                                                             <a style="color: #3377ff;" href="@Url.Action("Timeline/" + @ViewBag.Listkoi[item].KoiID, "InfoDetail")">Thông tin sinh trưởng </a>
+                                                         </p>
+                                                         <p>
+                                                             <a class="btn btn-embossed btn-primary" href="/Koi/Details/@ViewBag.Listkoi[item].KoiID" role="button">Chi tiết</a>
+                                                         </p>
+                                                     </div>
+                                                     <div class="col-md-2">
+                                                         <div class="ratings align-right">
+                                                             <a style="text-decoration: none;" href="#">
+                                                                 <span class="glyphicon glyphicon-star"></span>
+                                                                 <span class="glyphicon glyphicon-star"></span>
+                                                                 <span class="glyphicon glyphicon-star"></span>
+                                                                 <span class="glyphicon glyphicon-star"></span>
+                                                                 <span class="glyphicon glyphicon-star"></span>
+                                                             </a>
+                                                             <br/>
+                                                             <br/>
+                                                             <a href="">@cmDao.CountCommentByKoiID(ViewBag.Listkoi[item].KoiID) đánh giá</a>
+                                                         </div>
+                                                     </div>
+                                                 </div>
+                                             </div>
+                                         }
+                                    }
+                                    Page @(ListKoi.PageCount < ListKoi.PageNumber ? 0 : ListKoi.PageNumber) of @ListKoi.PageCount
+
+                                    @Html.PagedListPager(ListKoi, page => Url.Action("AddParent" + @ViewBag.VarietyId,
+                                        new {page, orderby = filter.orderby, nameKoi = filter.KoiName, variety = filter.VarietyId, sizeFrom = filter.SizeFrom, sizeTo = filter.SizeTo, gender = filter.Gender, owner = filter.Owner}))
+                                </div>
+                            </a>
+                        </div>
+                        <br />
+                    </div>
+                </div>
+            </div>
+            <div id="menu2" class="tab-pane fade">
+                <div class="row">
+                    <div class="col-md-4 col-md-offset-4">
+                        <div class="">
+                            <h2>Thêm cá bố - mẹ mới</h2>
+                            <hr>
+                            <br>
+                            <form>
+                                <div class="form-group">
+                                    <label for="name">Tên cá (<span style="color:red;">*</span>)</label>
+                                    <input type="text" class="form-control" id="name" name="name" placeholder="Tên cá Koi">
+                                    <label id="lblMessage_name_fail" class="label-error"></label>
+                                </div>
+                                <div class="form-group">
+                                    <label for="name">Ảnh cá</label>
+                                    <input type="file" id="files" name="files[]" multiple />
+                                </div>
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-primary btn-block">Lưu</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
