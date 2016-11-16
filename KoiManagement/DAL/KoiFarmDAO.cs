@@ -18,12 +18,12 @@ namespace KoiManagement.DAL
 
         public List<KoiFarm> GetListKoiFarm()
         {
-            return db.KoiFarms.Where(f => f.Status).ToList();
+            return db.KoiFarms.Where(f => f.Status==1).ToList();
         }
 
         public List<KoiFarm> GetListKoiFarmByMemberId(int id)
         {
-            return db.KoiFarms.Where(f => f.MemberID == id && f.Status).ToList();
+            return db.KoiFarms.Where(f => f.MemberID == id && f.Status==1).ToList();
         }
 
         public List<Koi> GetListKoiByKoiFarmId(int koifarmId)
@@ -39,7 +39,7 @@ namespace KoiManagement.DAL
 
         public int CountKoiFarmbyOwnerId(int id)
         {
-            var koifarm = db.KoiFarms.Count(p => p.MemberID == id && p.Status);
+            var koifarm = db.KoiFarms.Count(p => p.MemberID == id && p.Status==1);
             return koifarm;
         }
 
@@ -109,7 +109,7 @@ namespace KoiManagement.DAL
                     }
                 }
                 // kiểm tra tồn tại koi
-                koiFarm = koiFarm.Where(p => p.Status);
+                koiFarm = koiFarm.Where(p => p.Status==1);
             }
             else
             {
