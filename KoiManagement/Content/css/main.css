@@ -774,11 +774,11 @@ body a {
 }
 
 .img-koi-list {
-    height: 200px;
-    width: 150px;
+    height: 195px;
+    width: 130px;
     overflow: hidden;
     display: block;
-    margin: auto 15px auto 15px;
+    margin: auto 15px auto 10px;
 }
 
 .section-heading {
@@ -864,6 +864,13 @@ body a {
 
 .input-search {
     width: 100%;
+}
+.btn-filter {
+    border: 1px solid #01A9DB;
+}
+.btn-filter.active {
+    background-color: #01A9DB;
+    color: #fff;
 }
 /*#lbl-owner {
     font-size: 13px;
