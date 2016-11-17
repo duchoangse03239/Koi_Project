@@ -1648,18 +1648,19 @@ input[type="file"] {
 .thumb{width:130px; height:159px;}
 .thumb{width:130px; height:159px;border: 1px solid #000;
     margin-right: 20px;}
-.deleteIcon{width:30px; height:30px;}
+.deleteIcon {
+    width:30px; 
+    height:30px;
+    background: url("/Content/deleteImage.png");
+}
 .setAvatar {
     width:30px; 
     height:30px;
     position: absolute;
-    top: 34px;
-    right: 47px;
+    top: 99px;
+    right: 0px;
 }
 
-.thumb:hover .deteteIcon{
-    display : block;
-}
 #add-btn {
     margin-top:20px;
     margin-bottom:20px;
