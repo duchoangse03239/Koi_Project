@@ -16,7 +16,6 @@
             <div class="col-md-9">
                 <div class="box_right">
                     <div class="container">
-                        <form id="add-article">
                             <div>
                                 <div class="row">
                                     <div class="col-md-12">
@@ -61,7 +60,6 @@
                                     </div>
                                 </div>
                             </div>
-                        </form>
                     </div>
                 </div>
             </div>
@@ -101,20 +99,19 @@
     function Validate() {
         var title = $('#title').val();
         var typeid = $('#typeid').val();
-        var file = $('#file').val();
         var content = $('#content').val();
 
         return true;
     }
 
     function AddArticle() {
-        var fileUpload = $("#files").get(0);
-        var files = fileUpload.files;
+        var fileUpload = $("#file").get(0);
+        var file = fileUpload.file;
         // Looping over all files and add it to FormData object
         var fileData = new FormData();
 
-        for (var i = 0; i < files.length; i++) {
-            fileData.append(files[i].name, files[i]);
+        for (var i = 0; i < file.length; i++) {
+            fileData.append(file[i].name, file[i]);
         }
 
         // Adding one more key to FormData object

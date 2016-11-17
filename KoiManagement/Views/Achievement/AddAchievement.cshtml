@@ -10,21 +10,20 @@
         <div class="">
             <div class="row">
                 <div class="col-sm-6 col-sm-offset-3">
-                    <hr />
-                    <label for="time">Thời gian</label>
-                    <input type="text" class="form-control" placeholder="Thời gian đoạt giải" id="Time" name="time" onfocus="(this.type='date')">
-                    <label id="lblMessage_time_fail" class="label-error"></label>
+                    <label>Thời gian</label>
+                    <input type="text" class="form-control" placeholder="DD-MM-YYYY" id="Time" name="Time" />
+                    <label id="lblmessage_time_fail" class="label-error"></label>
                 </div>
             </div>
             <div class="row">
                 <div class="col-sm-6 col-sm-offset-3">
                     <label for="description">Mô tả</label>
-                    <textarea type="text" class="form-control" placeholder="Mô tả giải thưởng" id="Description" name="description"></textarea>
+                    <textarea class="form-control" placeholder="Mô tả giải thưởng" id="Description" name="description"></textarea>
                     <label id="lblMessage_description_fail" class="label-error"></label>
                 </div>
             </div>
             <br />
-            <div class="col-md-12" style="margin-top: 15px;">
+            <div class="col-sm-6 col-sm-offset-3" style="margin-top: 15px;">
                 <label>Ảnh mô tả</label>
                 <input type="file" accept="image/png, image/jpeg, image/gif" name="file" id="file" class="img" onchange="loadFile(event)" />
                 <br />
@@ -81,13 +80,51 @@
         var Time = $('#Time').val();
         var Description = $('#Description').val();
         
-        //Validate date
+        $('#lblmessage_time_fail').text("");
+        $('#lblMessage_description_fail').text("");
+
+        if (Time != "") {
+            if (!validateDate(Time)) {
+                $('#lblmessage_time_fail').text("Xin hãy nhập định dạng DD-MM-YYYY!");
+                $('#Time').focus();
+                return false;
+            }
+            if (!validateDateRangeMax(Time)) {
+                $('#lblmessage_time_fail').text("Ngày đoạt giải không thể vượt quá ngày hiện tại!");
+                $('#Time').focus();
+                return false;
+            }
+        }
+
+        if (Description.length > 1000) {
+            $('#lblMessage_description_fail').text("Bạn đã nhập quá 1000 ký tự!");
+            $('#Description').focus();
+            return false;
+        }
+        if (Description == "") {
+            $('#lblMessage_description_fail').text("Bạn hãy nhập mô tả cho giải thưởng này!");
+            $('#Description').focus();
+            return false;
+        }
+
+        function validateDate(date) {
+            return (/^\d{2}-\d{2}-\d{4}$/).test(date);
+        }
+
+        function validateDateRangeMax(inputDate) {
+            var now = new Date(),
+
+            date = new Date(inputDate);
+            return date < now;
+        }
+
+
 
         return true;
     }
 
     function AddAchievement() {
-        var fileUpload = $("#files").get(0);
+        var fileUpload = $("#file").get(0);
         var files = fileUpload.files;
         // Looping over all files and add it to FormData object
         var fileData = new FormData();
