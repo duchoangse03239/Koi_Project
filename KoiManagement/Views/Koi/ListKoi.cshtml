@@ -31,33 +31,6 @@
                         <hr />
                         <div class="row">
                             <div class="col-md-5">
-                                <label id="lbl-user-name">Tên đăng nhập</label>
-                            </div>
-                            <div class="col-md-7">
-                                <input class="input-search" name="username" id="username" type="text" value="@filter.Username" placeholder="">
-                            </div>   
-                        </div>
-                        <hr />
-                        <div class="row">
-                            <div class="col-md-5">
-                                <label id="lbl-owner">Tên người sở hữu</label>
-                            </div>
-                            <div class="col-md-7">
-                                <input class="input-search" type="text" name="owner" id="owner" value="@filter.Owner" placeholder="">
-                            </div>
-                        </div>
-                        <hr />
-                        <div class="row">
-                            <div class="col-md-5">
-                                <label id="lbl-koi-name">Tên cá Koi</label>
-                            </div>
-                            <div class="col-md-7">
-                                <input class="input-search" name="nameKoi" id="nameKoi" type="text" value="@filter.KoiName" placeholder="">
-                            </div>
-                        </div>
-                        <hr />
-                        <div class="row">
-                            <div class="col-md-5">
                                 <label id="lbl-variety">Loại</label>
                             </div>
                             <div class="col-md-7">
@@ -83,11 +56,21 @@
                                 <input class="koi-size" name="SizeFrom" id="sizeFrom" value="@filter.SizeFrom" type="text" placeholder="From"><span> - </span>
                                 <input class="koi-size" name="SizeTo" id="sizeTo" value="@filter.SizeTo" type="text" placeholder="To">
                             </div>
-                            
+
                         </div>
                         <hr>
                         <div class="row">
-                            <div class="col-md-5"> 
+                            <div class="col-md-5">
+                                <label id="lbl-year-old">Tuổi (tháng)</label>
+                            </div>
+                            <div class="col-md-7">
+                                <input class="koi-year-old" type="text" name="AgeFrom" id="AgeFrom" value="@filter.AgeFrom" placeholder="From"><span> - </span>
+                                <input class="koi-year-old" type="text" name="AgeTo" id="AgeTo" value="@filter.AgeTo" placeholder="To">
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="row">
+                            <div class="col-md-5">
                                 <label id="lbl-gender">Giới tính</label>
                             </div>
                             <div class="col-md-7">
@@ -105,11 +88,28 @@
                         </script>
                         <div class="row">
                             <div class="col-md-5">
-                                <label id="lbl-year-old">Tuổi (tháng)</label>
+                                <label id="lbl-koi-name">Tên cá Koi</label>
                             </div>
                             <div class="col-md-7">
-                                <input class="koi-year-old" type="text" name="AgeFrom" id="AgeFrom" value="@filter.AgeFrom" placeholder="From"><span> - </span>
-                                <input class="koi-year-old" type="text" name="AgeTo" id="AgeTo" value="@filter.AgeTo" placeholder="To">
+                                <input class="input-search" name="nameKoi" id="nameKoi" type="text" value="@filter.KoiName" placeholder="">
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="row">
+                            <div class="col-md-5">
+                                <label id="lbl-owner">Người sở hữu</label>
+                            </div>
+                            <div class="col-md-7">
+                                <input class="input-search" type="text" name="owner" id="owner" value="@filter.Owner" placeholder="">
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="row">
+                            <div class="col-md-5">
+                                <label id="lbl-user-name">Tên đăng nhập</label>
+                            </div>
+                            <div class="col-md-7">
+                                <input class="input-search" name="username" id="username" type="text" value="@filter.Username" placeholder="">
                             </div>
                         </div>
                         <hr />
@@ -124,9 +124,9 @@
                     <!-- END form Search -->
         </div>
             <div class="col-md-8">
-                <div class="div-filter">
-                    <a class="btn btn-default" href="@Url.Action("ListKoi", "Koi", new {orderby ="newest",username =filter.Username, nameKoi= filter.KoiName  , variety= filter.VarietyId , sizeFrom= filter.SizeFrom , sizeTo= filter.SizeTo ,gender= filter.Gender ,owner=  filter.Owner } )">Mới nhất</a>
-                    <a class="btn btn-default" href="@Url.Action("ListKoi", "Koi", new {orderby ="review",username =filter.Username, nameKoi= filter.KoiName  , variety= filter.VarietyId , sizeFrom= filter.SizeFrom , sizeTo= filter.SizeTo ,gender= filter.Gender ,owner=  filter.Owner } )">Nhiều đánh giá</a>
+                <div>
+                    <a class="btn btn-filter" href="@Url.Action("ListKoi", "Koi", new {orderby ="newest",username =filter.Username, nameKoi= filter.KoiName  , variety= filter.VarietyId , sizeFrom= filter.SizeFrom , sizeTo= filter.SizeTo ,gender= filter.Gender ,owner=  filter.Owner } )">Mới nhất</a>
+                    <a class="btn btn-filter" href="@Url.Action("ListKoi", "Koi", new {orderby ="review",username =filter.Username, nameKoi= filter.KoiName  , variety= filter.VarietyId , sizeFrom= filter.SizeFrom , sizeTo= filter.SizeTo ,gender= filter.Gender ,owner=  filter.Owner } )">Nhiều đánh giá</a>
                 </div>
                 <div id="Main-ListKoi">
                     @for (var item = 0; item < ViewBag.Listkoi.Count; item++)
@@ -134,10 +134,10 @@
                         <div class="content-section-a">
                             <input type="hidden" id="koiID" name="koiID" value="@ViewBag.Listkoi[item].KoiID">
                             <div class="row">
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <img class="img-koi-list " src="/Content/Image/Koi/@ViewBag.Listkoi[item].Image" alt="">
                                 </div>
-                                <div class="col-md-5">
+                                <div class="col-md-6">
                                     <p class="title-koi-name" href="/Koi/Details/@ViewBag.Listkoi[item].KoiID">@ViewBag.Listkoi[item].KoiName</p>
                                     <h4 style="margin-top:25px;">
                                         Chủ sở hữu:@{
@@ -154,8 +154,8 @@
                                     <p><a class="btn btn-embossed btn-primary" href="/Koi/Details/@ViewBag.Listkoi[item].KoiID" role="button">Chi tiết</a>
                                     </p>
                                 </div>
-                                <div class="col-md-2">
-                                    <div class="ratings align-right">
+                                <div class="col-md-3">
+                                    <div class="ratings" style="margin-top: 13px;">
                                         <a style="text-decoration: none;" href="#">
                                             <span class="glyphicon glyphicon-star"></span>
                                             <span class="glyphicon glyphicon-star"></span>
@@ -165,7 +165,7 @@
                                         </a>
                                         <br />
                                         <br />
-                                        <a href="">@cmDao.CountCommentByKoiID(ViewBag.Listkoi[item].KoiID) đánh giá</a>
+                                        <a style="margin-right:10px" href="">@cmDao.CountCommentByKoiID(ViewBag.Listkoi[item].KoiID) đánh giá</a>
                                     </div>
                                 </div>
                             </div>

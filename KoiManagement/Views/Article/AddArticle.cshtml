@@ -25,7 +25,7 @@
                                         <input type="text" class="form-control" placeholder="Tiêu đề" id="title" name="title">
                                         <label id="lblMessage_title_fail" class="label-error"></label>
                                     </div>
-                                    <br /> 
+                                    <br />
                                     <div class="col-md-12" style="margin-top: 15px;">
                                         <label style="margin-right:20px;">Chọn loại</label>
                                         <span>
@@ -39,11 +39,23 @@
                                         </span>
                                     </div>
                                     <div class="col-md-12" style="margin-top: 15px;">
+                                        <label>Ảnh bài viết</label>
+                                        <input type="file" accept="image/png, image/jpeg, image/gif" name="file" id="file" class="img" onchange="loadFile(event)" />
+                                        <br />
+                                        <div><img id="imagePreview" src="~/Content/Image/Common/blank.jpg" alt="" /></div>
+                                        <script>
+                                            var loadFile = function (event) {
+                                                var output = document.getElementById('imagePreview');
+                                                imagePreview.src = URL.createObjectURL(event.target.files[0]);
+                                            };
+                                        </script>
+                                    </div>
+                                    <div class="col-md-12" style="margin-top: 20px;">
                                         <label>Nội dung</label>
                                         <textarea type="text" class="form-control" placeholder="" name="content"></textarea>
                                         <label id="lblMessage_content_fail" class="label-error"></label>
                                     </div>
-                                    <div class="col-md-12 align-right">
+                                    <div class="col-md-12 align-right" style="margin-top:15px;">
                                         <button class="btn btn-primary" id="btnCreateArticle">Tạo bài viết</button>
                                         <button class="btn btn-primary" id="btnCancel">Đóng</button>
                                     </div>
@@ -62,7 +74,7 @@
         selector: "textarea",
         width: '100%',
         language: 'vi_VN',
-        height: 350,
+        height: 400,
         statusbar: false,
         menubar: false,
 

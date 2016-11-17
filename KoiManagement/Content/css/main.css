@@ -389,7 +389,7 @@ body a {
         border: 1px dotted #d9d9d9;
         color: #fff;
         font-size: 12px;
-        text-transform: uppercase;
+        /*text-transform: uppercase;*/
     }
 
         .site-top-12 .footer-item .fa {
@@ -398,11 +398,14 @@ body a {
 
         .site-top-12 .footer-item p {
             margin: 0;
+            font-size:10px;
+            color:#fff;
         }
 
         .site-top-12 .footer-item:hover {
             background: rgba(255,255,255,0.1);
         }
+
 
     .site-top-12 a:hover {
         text-decoration: none;
@@ -534,8 +537,8 @@ body a {
     }
 
 #imagePreview {
-    height: 250px;
-    width: 250px;
+    height: 200px;
+    width: 200px;
 }
 
 #lblGender {
@@ -771,11 +774,11 @@ body a {
 }
 
 .img-koi-list {
-    height: 200px;
-    width: 150px;
+    height: 195px;
+    width: 130px;
     overflow: hidden;
     display: block;
-    margin: auto 15px auto 15px;
+    margin: auto 15px auto 10px;
 }
 
 .section-heading {
@@ -839,9 +842,9 @@ body a {
 }
 
 .koi-size {
-    width: 80px;
-    margin-left: 3px;
-    margin-right: 3px;
+    width: 64px;
+    margin-left: 2px;
+    margin-right: 2px;
 }
 
 .searchForm {
@@ -854,14 +857,24 @@ body a {
 }
 
 .koi-year-old {
-    width: 80px;
-    margin-left: 3px;
-    margin-right: 3px;
+    width: 64px;
+    margin-left: 2px;
+    margin-right: 2px;
 }
 
 .input-search {
     width: 100%;
 }
+.btn-filter {
+    border: 1px solid #01A9DB;
+}
+.btn-filter.active {
+    background-color: #01A9DB;
+    color: #fff;
+}
+/*#lbl-owner {
+    font-size: 13px;
+}*/
 
 #btnSearch {
     margin: auto;
@@ -1627,3 +1640,28 @@ input[type="file"] {
         }
 }
 /*END TIMELINE1*/
+/*ADD FORM*/
+.fileUpload { position: relative; overflow: hidden; margin-bottom: 5px; margin-top:5px; }
+.fileUpload input.upload { position: absolute; top: 0; right: 0; margin: 0; padding: 0; font-size: 20px; cursor: pointer; opacity: 0; filter: alpha(opacity=0); }
+.deleteDiv{ position:relative; top:-160px; left:99px; width:30px;height:30px;}
+.imageBlock{display: inline-block;}
+.thumb{width:130px; height:159px;}
+.thumb{width:130px; height:159px;border: 1px solid #000;
+    margin-right: 20px;}
+.deleteIcon{width:30px; height:30px;}
+.setAvatar {
+    width:30px; 
+    height:30px;
+    position: absolute;
+    top: 34px;
+    right: 47px;
+}
+
+.thumb:hover .deteteIcon{
+    display : block;
+}
+#add-btn {
+    margin-top:20px;
+    margin-bottom:20px;
+}
+/*END ADD FORM*/
