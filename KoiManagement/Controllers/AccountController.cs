@@ -699,18 +699,19 @@ namespace KoiManagement.Controllers
             }
             return Json(obj);
         }
+        [ChildActionOnly]
+        public ActionResult Manager(int id)
+        {
 
-        // GET: /Account/Change Password
-        //public ActionResult ManageAccount()
-        //{
-        //    if (Session[SessionAccount.SessionUserId] == null)
-        //    {
-        //        return RedirectToAction("Login", "Account");
-        //    }
-        //    MemberDAO MDao = new MemberDAO();
-        //    var mem = MDao.GetMemberbyID(int.Parse(Session[SessionAccount.SessionUserId].ToString()));
-        //    return View(mem);
-        //}
+            // id = int.Parse(Session[SessionAccount.SessionUserId].ToString());
+            KoiDAO koiDao = new KoiDAO();
+            MemberDAO mDAO = new MemberDAO();
+            KoiFarmDAO koiFarmDao = new KoiFarmDAO();
+            ViewBag.Member = mDAO.GetMemberbyID(id);
+            ViewBag.CountKoi = koiDao.CountKoibyOwnerId(id);
+            ViewBag.CountKoiFarm = koiFarmDao.CountKoiFarmbyOwnerId(id);
+            return View("~/Views/Account/_Manager.cshtml");
+        }
 
         //
         // POST: /Account/ExternalLogin
