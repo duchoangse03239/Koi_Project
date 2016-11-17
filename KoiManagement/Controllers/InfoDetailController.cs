@@ -456,7 +456,7 @@ namespace KoiManagement.Controllers
                 string ImageKoiname;
                 var MaxKoiID = koiDao.GetMaxKoiID();
                 var koi = new Koi(int.Parse(VarietyId), koiname, null, Gender, "", "", "",
-                     Origin, true, true);
+                     Origin, 1, true);
 
                 if (file != null)
                 {

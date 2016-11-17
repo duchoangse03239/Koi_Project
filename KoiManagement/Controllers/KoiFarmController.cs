@@ -86,7 +86,7 @@ namespace KoiManagement.Controllers
                 koiFarm.Address = address;
                 koiFarm.Description = description;
                 koiFarm.MemberID = id;
-                koiFarm.Status = true;
+                koiFarm.Status = 1;
                 if (koiFarmDao.AddKoiFarm(koiFarm))
                 {
                     ViewBag.Message = "Bạn đã thêm thành công, vui long chờ người quản trị xác nhận thông tin";
@@ -201,7 +201,7 @@ namespace KoiManagement.Controllers
                 koiFarm.FarmName = farmName;
                 koiFarm.Address = address;
                 koiFarm.Description = description;
-                koiFarm.Status = true;
+                koiFarm.Status = 1;
                 koiFarm.KoifarmID = int.Parse(KoifarmID);
                 if (koiFarmDao.EditKoiFarm(koiFarm) > 0)
                 {

@@ -247,7 +247,7 @@ namespace KoiManagement.Controllers
                 var MaxKoiID = koiDao.GetMaxKoiID();
                 var MaxDetailID = DetailDao.GetMaxDetailID();
                 var koi = new Koi(int.Parse(VarietyID), KoiName, dateOfBirth, Gender, Temperament, DoB, "certificate",
-                    Origin, true, true);
+                    Origin, 1, true);
 
                 //Trường hợp chỉ  có nhiều file ảnh
                 for (int i = 0; i < files.Count; i++)
@@ -378,7 +378,7 @@ namespace KoiManagement.Controllers
                     file = files[i];
                 }
                 DateTime? dateOfBirth = Validate.ConverDateTime(DoB);
-                Koi koi = new Koi(int.Parse(VarietyID),KoiName, dateOfBirth, Gender,Temperament,DoB,"",Origin,true,true);
+                Koi koi = new Koi(int.Parse(VarietyID),KoiName, dateOfBirth, Gender,Temperament,DoB,"",Origin,1,true);
                 koi.KoiID = int.Parse(KoiId);
                 koi.Image = Image;
                 //Edit file to local
@@ -441,7 +441,7 @@ namespace KoiManagement.Controllers
         public ActionResult DeleteConfirmed(string koiID)
         {
             Koi koi = db.Kois.Find(int.Parse(koiID));
-            koi.Status = false;
+            koi.Status = -1;
             db.Kois.Attach(koi);
             db.Entry(koi).Property(x => x.Status).IsModified = true;
             int result= db.SaveChanges();
@@ -472,7 +472,7 @@ namespace KoiManagement.Controllers
         public JsonResult ChangeOwner(string koiId,string username)
         {
             StatusObjForJsonResult obj = new StatusObjForJsonResult();
-
+            int UserID = int.Parse(Session[SessionAccount.SessionUserId].ToString());
             try
             {
                 OwnerDAO ownerDao = new OwnerDAO();
@@ -488,10 +488,20 @@ namespace KoiManagement.Controllers
                 obj.Message = "Tên đăng nhập không tồn tại";
                 return Json(obj);
             }
-            if (ownerDao.ChangeOwner(username, int.Parse(koiId)))
+                var koiID = int.Parse(koiId);
+                var NewMemberID = memberDao.getExistUserName(username);
+                var koiName = db.Kois.Find(koiID).KoiName;
+
+                Notification notification = new Notification(NewMemberID.MemberID,UserID , koiID, DateTime.Now
+                    , NewMemberID.Name +"muốn chuyển nhượng"+ koiName+"cho bạn", false,true);
+
+                NotificationDAO noDao = new NotificationDAO();
+            if (noDao.AddNotification(notification))
             {
                 obj.Status = 1;
-                obj.Message = "Bạn đã đổi sang chủ "+ username+" thành công";
+                ViewBag.NewMemberID = NewMemberID;
+                obj.Message = "Bạn đã đổi sang chủ "+ username+" thành công vui lòng chờ xác nhận";
+                   // ownerDao.ChangeOwner(username, int.Parse(koiId))
                 return Json(obj);
             }
 
@@ -500,6 +510,22 @@ namespace KoiManagement.Controllers
                 Common.Logger.LogException(ex);
                 obj.Status = 0;
                 obj.RedirectTo = this.Url.Action("SystemError", "Error");
+                return Json(obj);
+            }
+            return Json(obj);
+        }
+
+        [HttpPost]
+        public JsonResult ChangeOwnerConfirm(int userid, string koiId)
+        {
+            StatusObjForJsonResult obj = new StatusObjForJsonResult();
+            OwnerDAO ownerDao = new OwnerDAO();
+
+            if (ownerDao.ChangeOwner(userid, int.Parse(koiId)))
+            {
+                obj.Status = 1;
+                obj.Message = "Bạn đã nhận thành công";
+                // ownerDao.ChangeOwner(username, int.Parse(koiId))
                 return Json(obj);
             }
             return Json(obj);

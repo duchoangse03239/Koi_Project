@@ -49,7 +49,15 @@ namespace KoiManagement.DAL
         {
             return db.InfoDetails.Max(g => g.DetailID) + 1;
         }
-       
+        public string GetLastSize(int KoiID)
+        {
+            var koiDeatail = db.InfoDetails.Where(p => p.KoiID == KoiID).OrderBy(p => p.Date).FirstOrDefault();
+            if (koiDeatail == null)
+            {
+                return string.Empty;
+            }
+            return koiDeatail.Size.ToString();
+        }
 
     }
 }

@@ -1,5 +1,4 @@
 ﻿@using KoiManagement.Models
-@model KoiManagement.Models.HtmlContent
 @{
     ViewBag.Title = "CreateKoiFarm";
     Layout = "~/Views/Layout/KoiLayout.cshtml";
@@ -9,7 +8,7 @@
         
     }
 }
-
+@model IEnumerable<KoiManagement.Models.Notification>
 <script src="~/Scripts/modernizr-2.6.2.js"></script>
 <script src="~/Scripts/jquery-1.10.2.js"></script>
 <script src="~/Scripts/bootstrap.js"></script>

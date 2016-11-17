@@ -1,0 +1,196 @@
+﻿@using KoiManagement.Common
+
+<style type="text/css">
+    /* Define how each icon button should look like */
+    .button-notification {
+        color: white;
+        display: inline-block; /* Inline elements with width and height. TL;DR they make the icon buttons stack from left-to-right instead of top-to-bottom */
+        position: relative; /* All 'absolute'ly positioned elements are relative to this one */
+        padding: 2px 5px; /* Add some padding so it looks nice */
+    }
+
+    /* Make the badge float in the top right corner of the button */
+    .button__badge {
+        background-color: #fa3e3e;
+        border-radius: 2px;
+        color: white;
+        padding: 1px 3px;
+        font-size: 10px;
+        position: absolute; /* Position the badge within the relatively positioned button */
+        top: 0;
+        right: 9px;
+    }
+</style>
+<div class="hidden-xs hidden-sm">
+    <div class="top-menu">
+        <div class="container">
+            <div class="top-menu-logo">
+                <a class="menu-item" data-href="#top" href="/">
+                    <img alt="Cá Koi" class="erp-logo" src="~/Content/Image/FrontEnd/logo.png" style="">
+                </a>
+            </div>
+            <div class="top-left-menu top-block">
+                <ul class="homemenu nav navbar-nav">
+                    <li class="active">
+                        <a href="#">
+                            <span>Tin tức</span>
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                            <li><a href="#">Cuộc thi</a></li>
+                            <li><a href="#">Hướng dẫn</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="/Variety/ListVariety">
+                            <span>Chủng loại</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("ListKoi/0", "Koi")">
+                            <span>Cá Koi</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("ListKoiFarm", "KoiFarm")">
+                            <span>Trang trại</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <span>Hỏi đáp</span>
+                        </a>
+                    </li>
+                    @if (Session[SessionAccount.SessionUserId] == null)
+                    {
+                        <li><a href="/Account/login">Đăng Nhập</a></li>
+                    }
+                    else
+                    {
+                        <li>
+                            <ul id="discussion"></ul>
+                            <a class="btn btn-secondary dropdown-toggle" href="" data-toggle="dropdown" id="dropdownMenuLink">
+                                Chào @Session[SessionAccount.SessionUserName]
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                <li><a href="@Url.Action("UpdateProfile", "Account")">Thông tin cá nhân</a></li>
+                                <li><a href="/Koi/KoiUser/@Session[SessionAccount.SessionUserId].ToString()">Cá của tôi</a></li>
+                                <li><a href="/Account/logout">Đăng xuất</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#" class="button-notification">
+                                <i class="fa fa-bell fa-lg"></i>
+                                <span class="button__badge" id="Notfication">@ViewBag.NotiCount</span>
+                            </a>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row" style="margin-left: -45px; text-align: center">
+        <div class=" visible-xs visible-sm">
+            <nav class="navbar navbar-default">
+                <div class="container">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="#" style="padding: 1px 20px"><img src="~/Content/Image/FrontEnd/logo.png" class="erp-logo-small" alt="Cá Koi"></a>
+                    </div>
+                    <div id="navbar" style="margin-right: -45px !important;!important" class=" navbar-collapse collapse">
+                        <ul class="nav navbar-nav">
+                            <li>
+                                <a href="#">
+                                    <span>Tin tức</span>
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                    <li><a href="#">Cuộc thi</a></li>
+                                    <li><a href="#">Hướng dẫn</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a class="menu-item" href="#">Chủng loại</a>
+                            </li>
+                            <li>
+                                <a class="menu-item" href="#">Cá Koi</a>
+                            </li>
+                            <li>
+                                <a class="menu-item" href="#">Trang trại</a>
+                            </li>
+                            <li>
+                                <a class="menu-item" href="#">Hỏi đáp</a>
+                            </li>
+                            @if (Session[SessionAccount.SessionUserId] == null)
+                            {
+                                <li><a href="/Account/login">Đăng Nhập</a></li>
+                            }
+                            else
+                            {
+                                <li>
+                                    <a class="btn btn-secondary dropdown-toggle" href="" data-toggle="dropdown" id="dropdownMenuLink">
+                                        Chào @Session[SessionAccount.SessionUserName]
+                                    </a>
+                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                        <li><a href="@Url.Action("UpdateProfile", "Account")">Thông tin cá nhân</a></li>
+                                        <li><a href="/Koi/KoiUser/@Session[SessionAccount.SessionUserId].ToString()">Cá của tôi</a></li>
+                                        <li><a href="/Account/logout">Đăng xuất</a></li>
+                                    </ul>
+                                </li>
+                            }
+                        </ul>
+                    </div><!--/.nav-collapse -->
+                </div><!--/.container-fluid -->
+            </nav>
+        </div>
+    </div>
+</div>
+
+
+
+<!--Script references. -->
+<!--Reference the jQuery library. -->
+<script src="/Scripts/jquery-2.0.3.min.js"></script>
+<!--Reference the SignalR library. -->
+<script src="~/Scripts/jquery.signalR-2.2.1.js"></script>
+<!--Reference the autogenerated SignalR hub script. -->
+<script src="/signalr/hubs"></script>
+<!--Add script to update the page and send messages.-->
+@if (Session[SessionAccount.SessionUserId] != null)
+{
+    <script type="text/javascript">
+        $(function() {
+
+
+            // Declare a proxy to reference the hub.
+            var notifications = $.connection.notificationsHub;
+
+            notifications.client.signalConnectionId = function(data) {
+                var signalConnectionId = data;
+            }
+
+            var i = 0;
+            var Userid =  @Session[SessionAccount.SessionUserId].ToString();
+            notifications.client.broadcastNotification = function(userid, name, message) {
+
+                if (userid == Userid) {
+                    // Add the message to the page.
+                    $('#Notfication').text("");
+                    $('#Notfication').append("2");
+                    i++;
+                };
+            }
+    
+
+            // Start the connection.
+            $.connection.hub.start()
+                .done(function() {
+                });
+        });
+    </script>
+}

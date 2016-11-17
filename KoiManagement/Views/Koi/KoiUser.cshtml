@@ -92,7 +92,8 @@
 <div class="section site-main">
     <div class="container">
         <div class="row">
-            @Html.Partial("~/Views/Account/_Manager.cshtml")
+            @*@Html.Partial("~/Views/Account/_Manager.cshtml")*@
+            @{ Html.RenderAction("Manager", "Account");}
             @*<div class="col-md-3">
                 <div class="box_left">
                     <div class="profile_info">

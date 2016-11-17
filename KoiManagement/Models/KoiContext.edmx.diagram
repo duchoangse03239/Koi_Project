@@ -10,7 +10,6 @@
         <EntityTypeShape EntityType="KoiManagementModel.Article" Width="1.5" PointX="6" PointY="15.25" IsExpanded="true" />
         <EntityTypeShape EntityType="KoiManagementModel.Comment" Width="1.5" PointX="5.25" PointY="21.125" IsExpanded="true" />
         <EntityTypeShape EntityType="KoiManagementModel.InfoDetail" Width="1.5" PointX="3" PointY="24.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="KoiManagementModel.KoiFarm" Width="1.5" PointX="3" PointY="28.75" IsExpanded="true" />
         <EntityTypeShape EntityType="KoiManagementModel.Medium" Width="1.5" PointX="5.25" PointY="29.125" IsExpanded="true" />
         <EntityTypeShape EntityType="KoiManagementModel.ModelType" Width="1.5" PointX="9" PointY="25.375" IsExpanded="true" />
         <EntityTypeShape EntityType="KoiManagementModel.Owner" Width="1.5" PointX="8.25" PointY="21.5" IsExpanded="true" />
@@ -26,11 +25,7 @@
         <AssociationConnector Association="KoiManagementModel.FK__Report__ModelId__59063A47" ManuallyRouted="false" />
         <AssociationConnector Association="KoiManagementModel.FK__Article__TypeID__3C69FB99" ManuallyRouted="false" />
         <AssociationConnector Association="KoiManagementModel.FK__Comment__Comment__300424B4" ManuallyRouted="false" />
-        <AssociationConnector Association="KoiManagementModel.FK__Comment__KoiFarm__2F10007B" ManuallyRouted="false" />
         <AssociationConnector Association="KoiManagementModel.FK__Media__ModelId__5070F446" ManuallyRouted="false" />
-        <AssociationConnector Association="KoiManagementModel.FK__Media__ModelId__5165187F" ManuallyRouted="false" />
-        <AssociationConnector Association="KoiManagementModel.FK__Owner__KoiFarmID__2A4B4B5E" ManuallyRouted="false" />
-        <AssociationConnector Association="KoiManagementModel.FK__Report__ModelId__571DF1D5" ManuallyRouted="false" />
         <AssociationConnector Association="KoiManagementModel.FK__Media__ModelType__4F7CD00D" ManuallyRouted="false" />
         <AssociationConnector Association="KoiManagementModel.FK__Report__ModelTyp__5441852A" ManuallyRouted="false" />
         <AssociationConnector Association="KoiManagementModel.FK__Question__TypeID__403A8C7D" ManuallyRouted="false" />
@@ -38,17 +33,6 @@
         <AssociationConnector Association="KoiManagementModel.FK__Report__ModelId__5812160E" ManuallyRouted="false" />
         <AssociationConnector Association="KoiManagementModel.FK__Variety__Variety__108B795B" ManuallyRouted="false" />
         <EntityTypeShape EntityType="KoiManagementModel.Achievement" Width="1.5" PointX="11.25" PointY="1.125" />
-        <EntityTypeShape EntityType="KoiManagementModel.Member" Width="1.5" PointX="0.75" PointY="18.875" />
-        <AssociationConnector Association="KoiManagementModel.FK__ActiveCod__Membe__1ED998B2" />
-        <AssociationConnector Association="KoiManagementModel.FK__Answer__MemberID__44FF419A" />
-        <AssociationConnector Association="KoiManagementModel.FK__Article__MemberI__3C69FB99" />
-        <AssociationConnector Association="KoiManagementModel.FK__Comment__MemberI__2D27B809" />
-        <AssociationConnector Association="KoiManagementModel.FK__KoiFarm__MemberI__21B6055D" />
-        <AssociationConnector Association="KoiManagementModel.FK__Owner__MemberID__286302EC" />
-        <AssociationConnector Association="KoiManagementModel.FK__Question__Member__403A8C7D" />
-        <AssociationConnector Association="KoiManagementModel.FK__Rate__MemberID__47DBAE45" />
-        <AssociationConnector Association="KoiManagementModel.FK__Report__MemberID__5441852A" />
-        <AssociationConnector Association="KoiManagementModel.FK__Report__ModelId__59063A471" />
         <EntityTypeShape EntityType="KoiManagementModel.Koi" Width="1.5" PointX="9" PointY="4.5" />
         <AssociationConnector Association="KoiManagementModel.FK__Achivemen__KoiID__24927208" />
         <AssociationConnector Association="KoiManagementModel.FK__Comment__KoiID__2C3393D0" />
@@ -57,7 +41,26 @@
         <AssociationConnector Association="KoiManagementModel.FK__Owner__KoiID__276EDEB3" />
         <AssociationConnector Association="KoiManagementModel.FK__Report__ModelId__5535A963" />
         <AssociationConnector Association="KoiManagementModel.FK_Koi_KoiMomID" />
-      </Diagram>
+        <EntityTypeShape EntityType="KoiManagementModel.KoiFarm" Width="1.5" PointX="3" PointY="29" />
+        <AssociationConnector Association="KoiManagementModel.FK__Comment__KoiFarm__2E1BDC42" />
+        <AssociationConnector Association="KoiManagementModel.FK__Media__ModelId__5070F4461" />
+        <AssociationConnector Association="KoiManagementModel.FK__Owner__KoiFarmID__29572725" />
+        <AssociationConnector Association="KoiManagementModel.FK__Report__ModelId__5629CD9C" />
+        <EntityTypeShape EntityType="KoiManagementModel.Member" Width="1.5" PointX="0.75" PointY="18.75" />
+        <EntityTypeShape EntityType="KoiManagementModel.Notification" Width="1.5" PointX="3" PointY="33" />
+        <AssociationConnector Association="KoiManagementModel.FK__ActiveCod__Membe__1ED998B2" />
+        <AssociationConnector Association="KoiManagementModel.FK__Answer__MemberID__44FF419A" />
+        <AssociationConnector Association="KoiManagementModel.FK__Article__MemberI__3C69FB99" />
+        <AssociationConnector Association="KoiManagementModel.FK__Comment__MemberI__2D27B809" />
+        <AssociationConnector Association="KoiManagementModel.FK__KoiFarm__MemberI__21B6055D" />
+        <AssociationConnector Association="KoiManagementModel.FK__Notificat__Membe__41B8C09B" />
+        <AssociationConnector Association="KoiManagementModel.FK__Notificat__Sende__42ACE4D4" />
+        <AssociationConnector Association="KoiManagementModel.FK__Owner__MemberID__286302EC" />
+        <AssociationConnector Association="KoiManagementModel.FK__Question__Member__403A8C7D" />
+        <AssociationConnector Association="KoiManagementModel.FK__Rate__MemberID__47DBAE45" />
+        <AssociationConnector Association="KoiManagementModel.FK__Report__MemberID__5441852A" />
+        <AssociationConnector Association="KoiManagementModel.FK__Report__ModelId__59063A471" />
+        </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
 </edmx:Edmx>

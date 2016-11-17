@@ -23,7 +23,7 @@ namespace KoiManagement.Models
             this.Owners = new HashSet<Owner>();
             this.Reports = new HashSet<Report>();
         }
-        public Koi(int VarietyID, string KoiName, DateTime? DoB, string Gender, string Temperament, string Certificate, string Image, string Origin, bool Status, bool Privacy)
+        public Koi(int VarietyID, string KoiName, DateTime? DoB, string Gender, string Temperament, string Certificate, string Image, string Origin, int Status, bool Privacy)
         {
             this.Achievements = new HashSet<Achievement>();
             this.Comments = new HashSet<Comment>();
@@ -41,7 +41,6 @@ namespace KoiManagement.Models
             this.Status = Status;
             this.Privacy = Privacy;
         }
-
         public int KoiID { get; set; }
         public int VarietyID { get; set; }
         public string KoiName { get; set; }
@@ -54,7 +53,7 @@ namespace KoiManagement.Models
         public Nullable<bool> IsDead { get; set; }
         public string DeadReason { get; set; }
         public Nullable<int> KoiMom { get; set; }
-        public bool Status { get; set; }
+        public int Status { get; set; }
         public Nullable<bool> Privacy { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

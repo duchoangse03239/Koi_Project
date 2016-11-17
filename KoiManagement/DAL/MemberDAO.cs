@@ -47,6 +47,12 @@ namespace KoiManagement.DAL
             return null;
         }
 
+        public Member getExistUserName(string username)
+        {
+            var member = db.Members.FirstOrDefault(p => p.UserName == username);
+            return member;
+        }
+
         public bool AddMember(Member mem)
         {
             try { 

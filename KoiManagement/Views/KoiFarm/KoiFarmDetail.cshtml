@@ -54,7 +54,7 @@
         <div id="menu1" class="tab-pane fade">
             <div class="row">
                 <div class="col-md-4">
-                    <form style="margin-top:15px;" class="searchForm" action="/Koi/ListKoi/4" method="get">
+                    <form class="searchForm" action="/Koi/ListKoi/4" method="get">
                         <div id="parent">
                             <h3>Tìm kiếm</h3>
                             <hr />
@@ -106,10 +106,10 @@
                     </form>
                 </div>
                 <div class="col-md-8">
-                    <div class="div-filter">
+                    <div>
                         <div>
-                            <a class="btn btn-default btnFilter" href="#">Mới nhất</a>
-                            <a class="btn btn-default btnFilter" href="#">Nhiều đánh giá</a>
+                            <a class="btn btn-filter" href="#">Mới nhất</a>
+                            <a class="btn btn-filter" href="#">Nhiều đánh giá</a>
                         </div>
                     </div>
                     <div>
@@ -118,10 +118,10 @@
                             <div style="margin-top:10px;" class="content-section-a">
                                 <input type="hidden" id="koiID" name="koiID" value="@item.KoiID">
                                 <div class="row">
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
                                         <img class="img-koi-list " src="/Content/Image/Koi/@item.Image" alt="">
                                     </div>
-                                    <div class="col-md-5">
+                                    <div class="col-md-6">
                                         <a class="title-koi-name" href="/Koi/Details/@item.KoiID">@item.KoiName</a>
                                         <h4 class="">
                                             @*Chủ sở hữu: <a href="/Account/profile/@oDao.GetOwnerID(ViewBag.Listkoi[item].KoiID)">Tên chủ sở hữu</a>*@
@@ -133,8 +133,8 @@
                                             <a class="btn btn-embossed btn-primary" href="/Koi/Details/@item.KoiID" role="button">Chi tiết</a>
                                         </p>
                                     </div>
-                                    <div class="col-md-2">
-                                        <div class="ratings">
+                                    <div class="col-md-3">
+                                        <div class="ratings" style="margin-top: 13px;">
                                             <a style="text-decoration:none;">
                                                 <span class="glyphicon glyphicon-star"></span>
                                                 <span class="glyphicon glyphicon-star"></span>
@@ -163,20 +163,8 @@
 <style type="text/css">
     .nav-tabs {
         margin: 40px auto 50px auto;
-        border-bottom: 2px solid #ddd;
     }
-        .nav-tabs li a {
-            background: #a5cae4;
-        }
-        .nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
-            color: #333;
-            background-color: #fff;
-            border: 1px solid #ddd;
-            border-radius: 3px;
-            border-bottom-color: transparent;
-            cursor: default;
-        }
     .btnFilter:active {
-        background-color: #dff0d8;
+        background-color: #fff;
     }
 </style>

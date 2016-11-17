@@ -248,6 +248,7 @@
     <Compile Include="Controllers\InfoDetailController.cs" />
     <Compile Include="Controllers\KoiController.cs" />
     <Compile Include="Controllers\KoiFarmController.cs" />
+    <Compile Include="Controllers\LayoutController.cs" />
     <Compile Include="Controllers\NotificationController.cs" />
     <Compile Include="Controllers\VarietyController.cs" />
     <Compile Include="DAL\AchievementDAO.cs" />
@@ -257,6 +258,7 @@
     <Compile Include="DAL\ArticleDAO.cs" />
     <Compile Include="DAL\KoiFarmDAO.cs" />
     <Compile Include="DAL\MediaDAO.cs" />
+    <Compile Include="DAL\NotificationDAO.cs" />
     <Compile Include="DAL\VarietyDAO.cs" />
     <Compile Include="DAL\OwnerDAO.cs" />
     <Compile Include="DAL\KoiDAO.cs" />
@@ -313,6 +315,9 @@
       <DependentUpon>KoiContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ModelType.cs">
+      <DependentUpon>KoiContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Notification.cs">
       <DependentUpon>KoiContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Owner.cs">
@@ -914,6 +919,7 @@
     <Content Include="Views\Article\AddArticle.cshtml" />
     <Content Include="Views\Article\EditArticle.cshtml" />
     <Content Include="Views\InfoDetail\AddParent.cshtml" />
+    <Content Include="Views\Article\Details.cshtml" />
     <None Include="Views\InfoDetail\timeline.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -975,6 +981,9 @@
     <Content Include="Views\Notification\Admin.cshtml" />
     <Content Include="Views\Notification\Client.cshtml" />
     <Content Include="Views\KoiFarm\upload.cshtml" />
+    <Content Include="Views\Shared\_Header.cshtml" />
+    <Content Include="Views\Notification\ListNotification.cshtml" />
+    <Content Include="Views\Notification\View.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
