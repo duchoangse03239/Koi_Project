@@ -247,7 +247,7 @@ namespace KoiManagement.Controllers
                 var MaxKoiID = koiDao.GetMaxKoiID();
                 var MaxDetailID = DetailDao.GetMaxDetailID();
                 var koi = new Koi(int.Parse(VarietyID), KoiName, dateOfBirth, Gender, Temperament, DoB, "certificate",
-                    Origin, true, true);
+                    Origin, 1, true);
 
                 //Trường hợp chỉ  có nhiều file ảnh
                 for (int i = 0; i < files.Count; i++)
@@ -378,7 +378,7 @@ namespace KoiManagement.Controllers
                     file = files[i];
                 }
                 DateTime? dateOfBirth = Validate.ConverDateTime(DoB);
-                Koi koi = new Koi(int.Parse(VarietyID),KoiName, dateOfBirth, Gender,Temperament,DoB,"",Origin,true,true);
+                Koi koi = new Koi(int.Parse(VarietyID),KoiName, dateOfBirth, Gender,Temperament,DoB,"",Origin,1,true);
                 koi.KoiID = int.Parse(KoiId);
                 koi.Image = Image;
                 //Edit file to local
@@ -441,7 +441,7 @@ namespace KoiManagement.Controllers
         public ActionResult DeleteConfirmed(string koiID)
         {
             Koi koi = db.Kois.Find(int.Parse(koiID));
-            koi.Status = false;
+            koi.Status = -1;
             db.Kois.Attach(koi);
             db.Entry(koi).Property(x => x.Status).IsModified = true;
             int result= db.SaveChanges();
@@ -492,6 +492,8 @@ namespace KoiManagement.Controllers
             {
                 obj.Status = 1;
                 obj.Message = "Bạn đã đổi sang chủ "+ username+" thành công";
+                ViewBag.NewMemberID = memberDao.getExistUserName(username);
+
                 return Json(obj);
             }
 

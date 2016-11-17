@@ -38,7 +38,7 @@ namespace KoiManagement.DAL
 
                 foreach (var item1 in Owner)
                 {
-                    var kois = db.Kois.Where(p => p.KoiID == item1.KoiID&&p.Status).ToList();
+                    var kois = db.Kois.Where(p => p.KoiID == item1.KoiID&&p.Status==1).ToList();
 
                     if (kois.Count > 0)
                     {
@@ -58,7 +58,7 @@ namespace KoiManagement.DAL
         public int CountKoibyOwnerId(int id)
         {
             var ow = db.Owners.Where(p=>p.MemberID== id&& p.Status);
-            return ow.Include(p => p.Koi).Where(p=>p.Koi.Status).Count(); 
+            return ow.Include(p => p.Koi).Where(p=>p.Koi.Status==1).Count(); 
         }
 
         public bool AddKoi(Koi koi)
@@ -201,7 +201,7 @@ namespace KoiManagement.DAL
                     }
                 }
                 // kiểm tra tồn tại koi
-                koi = koi.Where(p => p.Status);
+                koi = koi.Where(p => p.Status==1);
             }
             else { return null;}
             return koi;
@@ -213,7 +213,7 @@ namespace KoiManagement.DAL
             try
             {
                 koi.IsDead = true;
-                koi.Status = false;
+                koi.Status = 1;
                 koi.DeadReason = deadReason;
                 db.Kois.Attach(koi);
                 var entry = db.Entry(koi);

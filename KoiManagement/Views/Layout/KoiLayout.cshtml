@@ -61,66 +61,8 @@
     <div id="wrapper">
         <div class="section site-header">
             <div class="hidden-xs hidden-sm">
-                <div class="top-menu">
-                    <div class="container">
-                        <div class="top-menu-logo">
-                            <a class="menu-item" data-href="#top" href="/">
-                                <img alt="Cá Koi" class="erp-logo" src="~/Content/Image/FrontEnd/logo.png" style="">
-                            </a>
-                        </div>
-                        <div class="top-left-menu top-block">
-                            <ul class="homemenu nav navbar-nav">
-                                <li class="active">
-                                    <a href="#">
-                                        <span>Tin tức</span>
-                                    </a>
-                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                        <li><a href="#">Cuộc thi</a></li>
-                                        <li><a href="#">Hướng dẫn</a></li>
-                                    </ul>
-                                </li>
-                                <li>
-                                    <a href="/Variety/ListVariety">
-                                        <span>Chủng loại</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="@Url.Action("ListKoi/0", "Koi")">
-                                        <span>Cá Koi</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="@Url.Action("ListKoiFarm", "KoiFarm")">
-                                        <span>Trang trại</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <span>Hỏi đáp</span>
-                                    </a>
-                                </li>
-                                @if (Session[SessionAccount.SessionUserId] == null)
-                                {
-                                    <li><a href="/Account/login">Đăng Nhập</a></li>
-                                }
-                                else
-                                {
-                                    <li>
-                                        <a class="btn btn-secondary dropdown-toggle" href="" data-toggle="dropdown" id="dropdownMenuLink">
-                                            Chào @Session[SessionAccount.SessionUserName]
-                                        </a>
-                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                            <li><a href="@Url.Action("UpdateProfile", "Account")">Thông tin cá nhân</a></li>
-                                            <li><a href="/Koi/KoiUser/@Session[SessionAccount.SessionUserId].ToString()">Cá của tôi</a></li>
-                                            <li><a href="/Account/logout">Đăng xuất</a></li>
-                                        </ul>
-                                    </li>
-                                }
-                            </ul>
-                        </div>
-                    </div>
-                </div>
             </div>
+            @{ Html.RenderAction("Header", "Layout"); }
             <div class="container">
                 <div class="row" style="margin-left: -45px; text-align: center">
                     <div class=" visible-xs visible-sm">
