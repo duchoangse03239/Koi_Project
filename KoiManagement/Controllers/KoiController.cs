@@ -472,7 +472,7 @@ namespace KoiManagement.Controllers
         public JsonResult ChangeOwner(string koiId,string username)
         {
             StatusObjForJsonResult obj = new StatusObjForJsonResult();
-
+            int UserID = int.Parse(Session[SessionAccount.SessionUserId].ToString());
             try
             {
                 OwnerDAO ownerDao = new OwnerDAO();
@@ -488,12 +488,20 @@ namespace KoiManagement.Controllers
                 obj.Message = "Tên đăng nhập không tồn tại";
                 return Json(obj);
             }
-            if (ownerDao.ChangeOwner(username, int.Parse(koiId)))
+                var koiID = int.Parse(koiId);
+                var NewMemberID = memberDao.getExistUserName(username);
+                var koiName = db.Kois.Find(koiID).KoiName;
+
+                Notification notification = new Notification(NewMemberID.MemberID,UserID , koiID, DateTime.Now
+                    , NewMemberID.Name +"muốn chuyển nhượng"+ koiName+"cho bạn", false,true);
+
+                NotificationDAO noDao = new NotificationDAO();
+            if (noDao.AddNotification(notification))
             {
                 obj.Status = 1;
-                obj.Message = "Bạn đã đổi sang chủ "+ username+" thành công";
-                ViewBag.NewMemberID = memberDao.getExistUserName(username);
-
+                ViewBag.NewMemberID = NewMemberID;
+                obj.Message = "Bạn đã đổi sang chủ "+ username+" thành công vui lòng chờ xác nhận";
+                   // ownerDao.ChangeOwner(username, int.Parse(koiId))
                 return Json(obj);
             }
 
@@ -502,6 +510,22 @@ namespace KoiManagement.Controllers
                 Common.Logger.LogException(ex);
                 obj.Status = 0;
                 obj.RedirectTo = this.Url.Action("SystemError", "Error");
+                return Json(obj);
+            }
+            return Json(obj);
+        }
+
+        [HttpPost]
+        public JsonResult ChangeOwnerConfirm(int userid, string koiId)
+        {
+            StatusObjForJsonResult obj = new StatusObjForJsonResult();
+            OwnerDAO ownerDao = new OwnerDAO();
+
+            if (ownerDao.ChangeOwner(userid, int.Parse(koiId)))
+            {
+                obj.Status = 1;
+                obj.Message = "Bạn đã nhận thành công";
+                // ownerDao.ChangeOwner(username, int.Parse(koiId))
                 return Json(obj);
             }
             return Json(obj);

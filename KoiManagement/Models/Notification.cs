@@ -17,12 +17,25 @@ namespace KoiManagement.Models
         public int NoID { get; set; }
         public Nullable<int> MemberID { get; set; }
         public Nullable<int> SenderID { get; set; }
+        public Nullable<int> ModelID { get; set; }
         public Nullable<System.DateTime> Datetime { get; set; }
         public string url { get; set; }
         public string Content { get; set; }
         public Nullable<bool> isRead { get; set; }
-        public Nullable<bool> status { get; set; }
-    
+        public bool status { get; set; }
+        public Notification()
+        {
+        }
+        public Notification(int MemberID, int SenderID, int ModelID, DateTime Datetime, string Content, bool isRead, bool Status)
+        {
+            this.MemberID = MemberID;
+            this.SenderID = SenderID;
+            this.ModelID = ModelID;
+            this.Datetime = Datetime;
+            this.Content = Content;
+            this.isRead = isRead;
+            this.status = Status;
+        }
         public virtual Member Member { get; set; }
         public virtual Member Member1 { get; set; }
     }

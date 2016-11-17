@@ -257,6 +257,7 @@
     <Compile Include="DAL\CommentDAO.cs" />
     <Compile Include="DAL\KoiFarmDAO.cs" />
     <Compile Include="DAL\MediaDAO.cs" />
+    <Compile Include="DAL\NotificationDAO.cs" />
     <Compile Include="DAL\VarietyDAO.cs" />
     <Compile Include="DAL\OwnerDAO.cs" />
     <Compile Include="DAL\KoiDAO.cs" />
@@ -980,6 +981,8 @@
     <Content Include="Views\Notification\Client.cshtml" />
     <Content Include="Views\KoiFarm\upload.cshtml" />
     <Content Include="Views\Shared\_Header.cshtml" />
+    <Content Include="Views\Notification\ListNotification.cshtml" />
+    <Content Include="Views\Notification\View.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
