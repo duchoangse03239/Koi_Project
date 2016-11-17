@@ -22,13 +22,14 @@ namespace KoiManagement.Models
             this.Articles = new HashSet<Article>();
             this.Comments = new HashSet<Comment>();
             this.KoiFarms = new HashSet<KoiFarm>();
+            this.Notifications = new HashSet<Notification>();
+            this.Notifications1 = new HashSet<Notification>();
             this.Owners = new HashSet<Owner>();
             this.Questions = new HashSet<Question>();
             this.Rates = new HashSet<Rate>();
             this.Reports = new HashSet<Report>();
             this.Reports1 = new HashSet<Report>();
         }
-
         public Member(string name, string Username, string password, DateTime? Dob, string Image, string Gender, string Phone, string email, string Address, bool Status)
         {
             this.ActiveCodes = new HashSet<ActiveCode>();
@@ -36,6 +37,8 @@ namespace KoiManagement.Models
             this.Articles = new HashSet<Article>();
             this.Comments = new HashSet<Comment>();
             this.KoiFarms = new HashSet<KoiFarm>();
+            this.Notifications = new HashSet<Notification>();
+            this.Notifications1 = new HashSet<Notification>();
             this.Owners = new HashSet<Owner>();
             this.Questions = new HashSet<Question>();
             this.Rates = new HashSet<Rate>();
@@ -52,7 +55,6 @@ namespace KoiManagement.Models
             this.Address = Address;
             this.Status = Status;
         }
-
         public int MemberID { get; set; }
         public string Name { get; set; }
         public string UserName { get; set; }
@@ -63,6 +65,7 @@ namespace KoiManagement.Models
         public string Phone { get; set; }
         public string Email { get; set; }
         public string Address { get; set; }
+        public Nullable<int> Role { get; set; }
         public bool Status { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -75,6 +78,10 @@ namespace KoiManagement.Models
         public virtual ICollection<Comment> Comments { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<KoiFarm> KoiFarms { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Notification> Notifications { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Notification> Notifications1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Owner> Owners { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
