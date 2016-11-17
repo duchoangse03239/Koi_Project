@@ -378,7 +378,11 @@ namespace KoiManagement.Controllers
         public ActionResult AddParent(int id, int? page, string nameKoi, string variety, string owner)
         {
             KoiDAO kDao = new KoiDAO();
-            if (String.IsNullOrEmpty(variety))
+            if (!String.IsNullOrEmpty(variety) &&variety.Equals("0"))
+            {
+                variety = "";
+            }
+            else if (String.IsNullOrEmpty(variety))
             {
                 variety = "0";
             }
