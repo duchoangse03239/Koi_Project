@@ -15,6 +15,22 @@ namespace KoiManagement.DAL
             db = new KoiManagementEntities();
         }
 
+        /// <summary>
+        /// Lấy id lớn nhất +1 của achievement
+        /// </summary>
+        /// <returns></returns>
+        public int GetMaxAchiID()
+        {
+            var count = db.Achievements.Count();
+                
+                if (count==0)
+            {
+                return count = 1;
+            }
+            return db.Achievements.Max(g => g.AchievementID)+1; ;
+        }
+
+
         public bool AddAchievement(Achievement ac)
         {
             try

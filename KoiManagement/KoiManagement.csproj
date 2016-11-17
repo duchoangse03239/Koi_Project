@@ -255,6 +255,7 @@
     <Compile Include="DAL\ActiveCodeDAO.cs" />
     <Compile Include="DAL\InfoDetailDAO.cs" />
     <Compile Include="DAL\CommentDAO.cs" />
+    <Compile Include="DAL\ArticleDAO.cs" />
     <Compile Include="DAL\KoiFarmDAO.cs" />
     <Compile Include="DAL\MediaDAO.cs" />
     <Compile Include="DAL\NotificationDAO.cs" />
@@ -992,6 +993,7 @@
     <Folder Include="Content\FileImport\" />
     <Folder Include="Content\Image\Avatar\" />
     <Folder Include="Content\Image\Media\" />
+    <Folder Include="Views\ArticleDAO\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
