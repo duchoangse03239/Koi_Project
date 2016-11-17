@@ -24,11 +24,19 @@
                 </div>
             </div>
             <br />
-            <div class="row">
-                <div class="col-sm-6 col-sm-offset-3" id="wrapper">
-                    <input type="file" id="files" name="files[]" multiple />
-                </div>
+            <div class="col-md-12" style="margin-top: 15px;">
+                <label>Ảnh mô tả</label>
+                <input type="file" accept="image/png, image/jpeg, image/gif" name="file" id="file" class="img" onchange="loadFile(event)" />
+                <br />
+                <div><img id="imagePreview" src="~/Content/Image/Common/blank.jpg" alt="" /></div>
+                <script>
+                    var loadFile = function (event) {
+                        var output = document.getElementById('imagePreview');
+                        imagePreview.src = URL.createObjectURL(event.target.files[0]);
+                    };
+                </script>
             </div>
+
             <div class="row" id="add-Achievement-btn">
                 <div class="col-sm-6 col-sm-offset-3 align-right">
                     <button class="btn btn-primary" id="btnAddAchievement">Thêm mới</button>
@@ -120,15 +128,6 @@
         }
     });
     }
-
-
-
-
-
-
-
-
-
 
     $(document).ready(function () {
         if (window.File && window.FileList && window.FileReader) {
