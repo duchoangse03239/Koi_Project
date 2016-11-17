@@ -34,6 +34,10 @@
                         <a href="@Url.Action("KoifarmOwner/"+@ViewBag.Member.MemberID, "KoiFarm")" class="profile_link">
                             <h3 class="profile_item">Trang trại của tôi [<span id="my_farm_count">@ViewBag.CountKoiFarm</span>]</h3>
                         </a>
+                        <div class="line"></div>
+                        <a href="@Url.Action("ListNotification","Notification")" class="profile_link">
+                            <h3 class="profile_item">Thông bao [<span id="my_farm_count">2</span>]</h3>
+                        </a>
         }
         else
         {

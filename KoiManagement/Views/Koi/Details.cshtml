@@ -7,6 +7,7 @@
     Layout = "~/Views/Layout/KoiLayout.cshtml";
     Owner owner = ViewBag.Owner;
     List<Medium> listImage = ViewBag.listImage;
+    if(ViewBag.NewMemberID==null) { ViewBag.NewMemberID=0;}
 }
 
 <body>
@@ -164,6 +165,7 @@
     function ChangeOwner(parameter1) {
         var username = $('#username').val();
         $('#lbl_username_fail').text("");
+
         if (confirm("Bạn có chắc chắn muốn đổi chủ?")) {
 
             $.ajax({
@@ -186,7 +188,12 @@
                         break;
                     case 1:
                         alert(res.Message);
-                        notifications.server.sendNotification(@ViewBag.NewMemberID,"test", "test");
+                        // Declare a proxy to reference the hub.
+                        var notifications = $.connection.notificationsHub;
+                        // Create a function that the hub can call to broadcast messages.
+                        $.connection.hub.start().done(function () {
+                            notifications.server.sendNotification(1, "test", "test");
+                        });
                         window.location.reload();
                         break;
                     }

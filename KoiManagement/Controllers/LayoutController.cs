@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using KoiManagement.Common;
+using KoiManagement.Models;
 
 namespace KoiManagement.Controllers
 {
     public class LayoutController : Controller
     {
+        private KoiManagementEntities db = new KoiManagementEntities();
         // GET: Layout
         public ActionResult Index()
         {
@@ -16,10 +19,14 @@ namespace KoiManagement.Controllers
         [ChildActionOnly]
         public ActionResult Header()
         {
-           // var model = "duc";
+            // var model = "duc";
             //return View();
-            ViewBag.NotiCount = 9;
-        return View("~/Views/Shared/_Header.cshtml");
+            if (Session[SessionAccount.SessionUserId] != null)
+            {
+                int userid = int.Parse(Session[SessionAccount.SessionUserId].ToString());
+                ViewBag.NotiCount = db.Notifications.Count(p => p.MemberID == userid&&p.status);
+            }
+            return View("~/Views/Shared/_Header.cshtml");
         }
     }
 }

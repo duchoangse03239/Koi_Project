@@ -149,11 +149,12 @@
           <Property Name="NoID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="MemberID" Type="int" />
           <Property Name="SenderID" Type="int" />
+          <Property Name="ModelID" Type="int" />
           <Property Name="Datetime" Type="datetime" />
           <Property Name="url" Type="varchar" MaxLength="2048" />
           <Property Name="Content" Type="nvarchar" MaxLength="2000" />
           <Property Name="isRead" Type="bit" />
-          <Property Name="status" Type="bit" />
+          <Property Name="status" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Owner">
           <Key>
@@ -1315,7 +1316,6 @@
           <FunctionImport Name="sp_upgraddiagrams" />
           <EntitySet Name="Achievements" EntityType="KoiManagementModel.Achievement" />
           <EntitySet Name="Kois" EntityType="KoiManagementModel.Koi" />
-          <EntitySet Name="Notifications" EntityType="KoiManagementModel.Notification" />
           <AssociationSet Name="FK__Achivemen__KoiID__24927208" Association="KoiManagementModel.FK__Achivemen__KoiID__24927208">
             <End Role="Koi" EntitySet="Kois" />
             <End Role="Achievement" EntitySet="Achievements" />
@@ -1362,6 +1362,7 @@
             <End Role="Report" EntitySet="Reports" />
           </AssociationSet>
           <EntitySet Name="Members" EntityType="KoiManagementModel.Member" />
+          <EntitySet Name="Notifications" EntityType="KoiManagementModel.Notification" />
           <AssociationSet Name="FK__ActiveCod__Membe__1ED998B2" Association="KoiManagementModel.FK__ActiveCod__Membe__1ED998B2">
             <End Role="Member" EntitySet="Members" />
             <End Role="ActiveCode" EntitySet="ActiveCodes" />
@@ -1460,21 +1461,6 @@
           <NavigationProperty Name="Reports" Relationship="KoiManagementModel.FK__Report__ModelId__5535A963" FromRole="Koi" ToRole="Report" />
           <NavigationProperty Name="Koi1" Relationship="KoiManagementModel.FK_Koi_KoiMomID" FromRole="Koi" ToRole="Koi1" />
           <NavigationProperty Name="Koi2" Relationship="KoiManagementModel.FK_Koi_KoiMomID" FromRole="Koi1" ToRole="Koi" />
-        </EntityType>
-        <EntityType Name="Notification">
-          <Key>
-            <PropertyRef Name="NoID" />
-          </Key>
-          <Property Name="NoID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="MemberID" Type="Int32" />
-          <Property Name="SenderID" Type="Int32" />
-          <Property Name="Datetime" Type="DateTime" Precision="3" />
-          <Property Name="url" Type="String" MaxLength="2048" FixedLength="false" Unicode="false" />
-          <Property Name="Content" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
-          <Property Name="isRead" Type="Boolean" />
-          <Property Name="status" Type="Boolean" />
-          <NavigationProperty Name="Member" Relationship="KoiManagementModel.FK__Notificat__Membe__41B8C09B" FromRole="Notification" ToRole="Member" />
-          <NavigationProperty Name="Member1" Relationship="KoiManagementModel.FK__Notificat__Sende__42ACE4D4" FromRole="Notification" ToRole="Member" />
         </EntityType>
         <Association Name="FK__Achivemen__KoiID__24927208">
           <End Type="KoiManagementModel.Koi" Role="Koi" Multiplicity="0..1" />
@@ -1652,6 +1638,22 @@
           <NavigationProperty Name="Rates" Relationship="KoiManagementModel.FK__Rate__MemberID__47DBAE45" FromRole="Member" ToRole="Rate" />
           <NavigationProperty Name="Reports" Relationship="KoiManagementModel.FK__Report__MemberID__5441852A" FromRole="Member" ToRole="Report" />
           <NavigationProperty Name="Reports1" Relationship="KoiManagementModel.FK__Report__ModelId__59063A471" FromRole="Member" ToRole="Report" />
+        </EntityType>
+        <EntityType Name="Notification">
+          <Key>
+            <PropertyRef Name="NoID" />
+          </Key>
+          <Property Name="NoID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MemberID" Type="Int32" />
+          <Property Name="SenderID" Type="Int32" />
+          <Property Name="ModelID" Type="Int32" />
+          <Property Name="Datetime" Type="DateTime" Precision="3" />
+          <Property Name="url" Type="String" MaxLength="2048" FixedLength="false" Unicode="false" />
+          <Property Name="Content" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="isRead" Type="Boolean" />
+          <Property Name="status" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Member" Relationship="KoiManagementModel.FK__Notificat__Membe__41B8C09B" FromRole="Notification" ToRole="Member" />
+          <NavigationProperty Name="Member1" Relationship="KoiManagementModel.FK__Notificat__Sende__42ACE4D4" FromRole="Notification" ToRole="Member" />
         </EntityType>
         <Association Name="FK__ActiveCod__Membe__1ED998B2">
           <End Type="KoiManagementModel.Member" Role="Member" Multiplicity="0..1" />
@@ -2027,20 +2029,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Notifications">
-            <EntityTypeMapping TypeName="KoiManagementModel.Notification">
-              <MappingFragment StoreEntitySet="Notification">
-                <ScalarProperty Name="status" ColumnName="status" />
-                <ScalarProperty Name="isRead" ColumnName="isRead" />
-                <ScalarProperty Name="Content" ColumnName="Content" />
-                <ScalarProperty Name="url" ColumnName="url" />
-                <ScalarProperty Name="Datetime" ColumnName="Datetime" />
-                <ScalarProperty Name="SenderID" ColumnName="SenderID" />
-                <ScalarProperty Name="MemberID" ColumnName="MemberID" />
-                <ScalarProperty Name="NoID" ColumnName="NoID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="KoiFarms">
             <EntityTypeMapping TypeName="KoiManagementModel.KoiFarm">
               <MappingFragment StoreEntitySet="KoiFarm">
@@ -2068,6 +2056,21 @@
                 <ScalarProperty Name="UserName" ColumnName="UserName" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="MemberID" ColumnName="MemberID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Notifications">
+            <EntityTypeMapping TypeName="KoiManagementModel.Notification">
+              <MappingFragment StoreEntitySet="Notification">
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="isRead" ColumnName="isRead" />
+                <ScalarProperty Name="Content" ColumnName="Content" />
+                <ScalarProperty Name="url" ColumnName="url" />
+                <ScalarProperty Name="Datetime" ColumnName="Datetime" />
+                <ScalarProperty Name="ModelID" ColumnName="ModelID" />
+                <ScalarProperty Name="SenderID" ColumnName="SenderID" />
+                <ScalarProperty Name="MemberID" ColumnName="MemberID" />
+                <ScalarProperty Name="NoID" ColumnName="NoID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

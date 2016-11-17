@@ -8,6 +8,7 @@
     KoiFilterModel filter = ViewBag.Filter;
     CommentDAO cmDao = new CommentDAO();
     OwnerDAO oDao = new OwnerDAO();
+    InfoDetailDAO infoDao = new InfoDetailDAO();
     List<Variety> listVariety = ViewBag.listVariety;
     //filter.VarietyId = ViewBag.VarietyId.ToString();
 
@@ -148,7 +149,7 @@
                                             }
                                                    } 
                                     </h4>
-                                    <h4>Kích thước: </h4>
+                                    <h4>Kích thước: @infoDao.GetLastSize(ViewBag.Listkoi[item].KoiID) (cm) </h4>
                                     <p class=""><a style="color: #3377ff;" href="@Url.Action("Timeline/"+@ViewBag.Listkoi[item].KoiID, "InfoDetail")">Thông tin sinh trưởng </a>
                                     </p>
                                     <p><a class="btn btn-embossed btn-primary" href="/Koi/Details/@ViewBag.Listkoi[item].KoiID" role="button">Chi tiết</a>

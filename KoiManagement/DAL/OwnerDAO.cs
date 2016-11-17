@@ -33,28 +33,25 @@ namespace KoiManagement.DAL
         }
 
 
-        public bool ChangeOwner(string username,int koiID)
+        public bool ChangeOwner(int memberid, int koiID)
         {
             using (var dbContextTransaction = db.Database.BeginTransaction())
             {
                 try
                 {
-                    var memberid =db.Members.Where(k => k.UserName == username).Select(p => p.MemberID).FirstOrDefault();
-                //   update status
-                var updateOwner = db.Owners.FirstOrDefault(p => p.KoiID == koiID&&p.Status);
-                updateOwner.DateOwerTo = DateTime.Now;
-                updateOwner.Status = false;
+                    //  update status cho chủ sở hữu cũ
+                    var updateOwner = db.Owners.FirstOrDefault(p => p.KoiID == koiID&&p.Status);
+                    updateOwner.DateOwerTo = DateTime.Now;
+                    updateOwner.Status = false;
 
-                db.Owners.Attach(updateOwner);
-                var entry = db.Entry(updateOwner);
-                entry.State = EntityState.Modified;
+                    db.Owners.Attach(updateOwner);
+                    var entry = db.Entry(updateOwner);
+                    entry.State = EntityState.Modified;
                     entry.Property(e => e.Status).IsModified = true;
                     entry.Property(e => e.DateOwerTo).IsModified = true;
                     db.SaveChanges();
-                    // Set column not change
+                   
                     //add new owner
-
-                   // var InsertOwner = db.Owners.FirstOrDefault(p => p.KoiID == koiID && p.Status);
                     Owner InsertOwner = new Owner(memberid, koiID,null,DateTime.Now, null,true);
                     db.Owners.Add(InsertOwner);
                     db.SaveChanges();

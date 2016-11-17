@@ -1,0 +1,89 @@
+﻿@{
+    ViewBag.Title = "Admin";
+    Layout = "~/Views/Layout/KoiLayout.cshtml";
+}
+@model IEnumerable<KoiManagement.Models.Notification>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Datetime)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.Content)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.isRead)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.status)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Member.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Member1.Name)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Datetime)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Content)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.isRead)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.status)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Member.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Member1.Name)
+            </td>
+            <td>
+                <span><a class="btn btn-primary" onclick="ChangeOwner(@item.Member,@item.ModelID)"> Đồng ý </a></span>
+                <span><a class="btn btn-primary" href="/Koi/ListKoi/0"> Từ chối </a></span>
+            </td>
+        </tr>
+    }
+
+</table>
+<script src="~/Scripts/jquery-2.1.4.min.js"></script>
+<script type="text/javascript">
+
+    function ChangeOwner(userid, koiid) {
+        if (confirm("Bạn có chắc chắn muốn đổi chủ?")) {
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("ChangeOwnerConfirm", "Koi")",
+                datatype: "JSON",
+                data: {
+                    koiId: koiid,
+                    userid: userid
+                },
+                success: function(res) {
+                    switch (res.Status) {
+                    case 1:
+                        alert(res.Message);
+                        notifications.server.sendNotification(@ViewBag.NewMemberID, "test", "test");
+                        window.location.reload();
+                        break;
+                    }
+                }
+            });
+        }
+    }
+
+
+
+</script>
+
