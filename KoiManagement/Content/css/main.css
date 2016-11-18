@@ -839,6 +839,11 @@ body a {
 /*LIST KOI*/
 .glyphicon-star {
     color: #F7FE2E;
+    font-size:1.2em;
+}
+.glyphicon-star-empty {
+    color: #F7FE2E;
+    font-size:1.2em;
 }
 
 .koi-size {
