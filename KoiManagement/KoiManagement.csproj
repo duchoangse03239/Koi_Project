@@ -920,6 +920,7 @@
     <Content Include="Views\Article\EditArticle.cshtml" />
     <Content Include="Views\InfoDetail\AddParent.cshtml" />
     <Content Include="Views\Article\Details.cshtml" />
+    <Content Include="Views\Article\ListArticle.cshtml" />
     <None Include="Views\InfoDetail\timeline.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>

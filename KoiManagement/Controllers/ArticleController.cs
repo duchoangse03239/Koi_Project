@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using PagedList;
 
 namespace KoiManagement.Controllers
 {
@@ -75,6 +76,16 @@ namespace KoiManagement.Controllers
                 return Json(obj);
             }
             return Json(obj);
+        }
+
+
+        public ActionResult ListArticle(int id, int? page)
+        {
+            var ListArticle = articleDao.GetListArticle(id);
+            int pageSize = 7;
+            int pageNumber = (page ?? 1);
+            ViewBag.ListArticle = ListArticle.ToPagedList(pageNumber, pageSize);
+            return View();
         }
 
     }

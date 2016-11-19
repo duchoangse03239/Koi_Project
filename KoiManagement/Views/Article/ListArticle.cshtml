@@ -1,0 +1,77 @@
+﻿@using KoiManagement.Common
+@using KoiManagement.Models
+@using PagedList.Mvc
+
+@{
+    ViewBag.Title = "ListArticle";
+    Layout = "~/Views/Layout/KoiLayout.cshtml";
+    PagedList.IPagedList ListArticle = ViewBag.ListArticle;
+}
+
+<style type="text/css">
+    .img-farm-list {
+        height: 180px;
+        width: 180px;
+        margin-left: 10px;
+    }
+
+    .button-header {
+        padding-bottom: 10px;
+        margin: 40px 0 20px;
+    }
+</style>
+
+<div class="container">
+    <div class="col-md-8">
+        <div class="section site-main">
+            <div class="container">
+                <div class="row">
+                    <div class="box-cat col-md-12">
+                        <h1>Tin Tức</h1>
+                    </div><!--end box-cat-->
+                    <div class="bg-cat">
+                        @for (int item = 0; item < ViewBag.ListArticle.Count; item++)
+                        {
+                            if (Session[SessionAccount.SessionUserId] != null && Session[SessionAccount.SessionUserId].ToString().Equals(Constants.AdminID))
+                            {
+                                <div class="bg-cat">
+                                    <div class="row-new col-md-12">
+                                        <div class="over-img img-outer col-md-3">
+                                            <a href="#"><img class="image" src="/Content/Image/Member/@ViewBag.ListArticle[item].Image" title="#"></a>
+                                        </div><!--end over-img-->
+                                        <div class="col-md-9">
+                                            <a class="title-article-name" href="@Url.Action("ArticleDetails/" + @ViewBag.ListArticle[item].ArticleID, "ListArticle")" @ViewBag.ListArticle[item].Title</a>
+                                            <div class="shortdes">@ViewBag.ListArticle[item].ShortDescription</div>
+                                            <div class="new-detail">
+                                                <a href="@Url.Action("ArticleDetails/" + @ViewBag.ListArticle[item].ArticleID, "ListArticle")" title="@ViewBag.ListArticle[item].Title">Chi tiết.</a>
+                                            </div>
+                                        </div>
+                                    </div><!--end row-new-->
+                                </div><!--end bg-cat-->
+                            }
+                            else
+                            {
+                                <div class="bg-cat">
+                                    <div class="row-new col-md-12">
+                                        <div class="over-img img-outer col-md-3">
+                                            <a href="#"><img class="image" src="/Content/Image/Member/@ViewBag.ListArticle[item].Image" title="#"></a>
+                                        </div><!--end over-img-->
+                                        <div class="col-md-9">
+                                            <a class="title-article-name" href="@Url.Action("ArticleDetails/" + @ViewBag.ListArticle[item].ArticleID, "ListArticle")" @ViewBag.ListArticle[item].Title</a>
+                                            <div class="shortdes">@ViewBag.ListArticle[item].ShortDescription</div>
+                                            <div class="new-detail">
+                                                <a href="@Url.Action("ArticleDetails/" + @ViewBag.ListArticle[item].ArticleID, "ListArticle")" title="@ViewBag.ListArticle[item].Title">Chi tiết.</a>
+                                            </div>
+                                        </div>
+                                    </div><!--end row-new-->
+                                </div><!--end bg-cat-->
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+            Page @(ListArticle.PageCount < ListArticle.PageNumber ? 0 : ListArticle.PageNumber) of @ListArticle.PageCount
+            @Html.PagedListPager(ListArticle, page => Url.Action("ListArticle", "Article", new { page }))
+        </div>
+    </div>
+

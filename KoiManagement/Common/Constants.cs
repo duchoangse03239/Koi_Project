@@ -19,7 +19,7 @@ namespace KoiManagement.Common
         
         
         public const string EmailTitleResetPass = "Đặt lại mật khẩu tài khoản KSMS";
-
+        public const string AdminID = "1";
 
     }
 }

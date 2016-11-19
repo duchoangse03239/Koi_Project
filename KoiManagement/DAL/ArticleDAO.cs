@@ -27,5 +27,10 @@ namespace KoiManagement.DAL
                 return false;
             }
         }
+
+        public List<Article> GetListArticle(int id)
+        {
+            return db.Articles.Where(p => p.TypeID == id).ToList();
+        }
     }
 }
