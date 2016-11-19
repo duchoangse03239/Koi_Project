@@ -990,7 +990,7 @@
     <Content Include="Views\Notification\Index.cshtml" />
     <Content Include="Views\Notification\Admin.cshtml" />
     <Content Include="Views\Notification\Client.cshtml" />
-    <Content Include="Views\KoiFarm\upload.cshtml" />
+    <Content Include="Views\KoiFarm\Import.cshtml" />
     <Content Include="Views\Shared\_Header.cshtml" />
     <Content Include="Views\Notification\ListNotification.cshtml" />
     <Content Include="Views\Notification\View.cshtml" />

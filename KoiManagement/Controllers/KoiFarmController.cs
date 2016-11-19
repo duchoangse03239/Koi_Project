@@ -22,7 +22,7 @@ namespace KoiManagement.Controllers
         MemberDAO memberDao = new MemberDAO();
         KoiFarmDAO koiFarmDao = new KoiFarmDAO();
         InfoDetailDAO DetailDao = new InfoDetailDAO();
-
+        OwnerDAO ownerDao = new OwnerDAO();
         // GET: KoiFarm
         public ActionResult Index()
         {
@@ -271,25 +271,44 @@ namespace KoiManagement.Controllers
             return File(path, "application/vnd.ms-excel", "Koi.xlsx");
         }
 
-        public ActionResult Upload()
+        public ActionResult Import()
         {
             return View();
         }
 
         [HttpPost]
-        public JsonResult UploadExcel(User users, HttpPostedFileBase FileUpload)
+        public JsonResult Import( HttpPostedFileBase FileUpload)
         {
-            //session
-            var memberid = 2;
             StatusObjForJsonResult obj = new StatusObjForJsonResult();
+
+            //kiểm tra đăng nhập
+            if (Session[SessionAccount.SessionUserId] == null)
+            {
+                obj.Status = 0;
+                obj.RedirectTo = Url.Action("Login", "Account");
+                return Json(obj);
+            }
+
+            //session
+            var memberid = int.Parse(Session[SessionAccount.SessionUserId].ToString());
+            var koifarmId = ownerDao.getKoiFarmbyMember(memberid);
+            if (koifarmId == 0)
+            {
+                obj.Message = "Bạn không phải là chủ trang trại, xin hay đăng kí trang trại.";
+                obj.Status = 0;
+                return Json(obj);
+            }
             List<string> data = new List<string>();
+            HttpFileCollectionBase files = Request.Files;
+            HttpPostedFileBase file = null;
+            if(files.Count>0)
+            FileUpload = files[0];
             if (FileUpload != null)
             {
                 //  tdata.ExecuteCommand("truncate table OtherCompanyAssets");  
                 if (FileUpload.ContentType == "application/vnd.ms-excel" || FileUpload.ContentType == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
                 {
-                    HttpFileCollectionBase files = Request.Files;
-                    HttpPostedFileBase file = null;
+                    
                     int ImageCount = files.Count-1;
 
                     //Lấy file execel validate
@@ -365,7 +384,9 @@ namespace KoiManagement.Controllers
                         {
                             ListImage.Add(dataTableImport.Rows[i][10].ToString());
                         }
-                        ListImport.Add(new KoiImport(dataTableImport.Rows[i][1].ToString(), dataTableImport.Rows[i][0].ToString(), null, dataTableImport.Rows[i][2].ToString(), decimal.Parse(dataTableImport.Rows[i][4].ToString()), dataTableImport.Rows[i][5].ToString()
+                        string datetime = Validate.ConverDateExcel(string.Concat(dataTableImport.Rows[i][3].ToString().TakeWhile((c) => c != ' ')));
+
+                        ListImport.Add(new KoiImport(dataTableImport.Rows[i][1].ToString(), dataTableImport.Rows[i][0].ToString(), Validate.ConverDateTime(datetime), dataTableImport.Rows[i][2].ToString(), decimal.Parse(dataTableImport.Rows[i][4].ToString()), dataTableImport.Rows[i][5].ToString()
                             , ListImage));
                         ListImageCompare.AddRange(ListImage);
                     }
@@ -380,7 +401,7 @@ namespace KoiManagement.Controllers
                         file = files[i];
                         var fileName = file.FileName;
                         fileName = fileName.Remove(fileName.LastIndexOf("."));
-                        Listdictionary.Add(1, fileName);
+                        Listdictionary.Add(i, fileName);
                         ListOriginImage.Add(fileName);
                     }
                     var difference = ListImageCompare.Except(ListOriginImage).ToList();
@@ -408,63 +429,102 @@ namespace KoiManagement.Controllers
                     // List ảnh Dùng khi thêm không thành công thì xóa
                     List<string> fullpath = new List<string>();
                     // List link anh
-                     List<Medium> ListMedia = new List<Medium>();
+                     List<List<Medium>> ListMedia = new List<List<Medium>>();
                     // lấy id max đặt tên file ảnh
-                    var MaxKoiID = koiDao.GetMaxKoiID();
-                    var MaxDetailID = DetailDao.GetMaxDetailID();
-                    string ImageKoiname = String.Empty;
+                    var maxKoiId = koiDao.GetMaxKoiID();
+                    var maxDetailId = DetailDao.GetMaxDetailID();
+                    string imageKoiname;
                     //List ảnh detail
-                    List<string> ListImageDetailname = new List<string>();
+                    List<string> listImageDetailname = new List<string>();
 
                     int indexImage = 0;
+                    int indexDetailName = 0;
                     //Trường hợp có nhiều file ảnh, file đầu tiên là file excel
                     for (var koiIndex=0; koiIndex < ListImport.Count; koiIndex ++)
                     {
-                            
+                        var listIamge = new List<Medium>();
 
-                    }
-                    for (int i = 1; i < files.Count; i++)
-                    {
-                        file = files[i];
-                        //Save file to local
-                        //file đầu tiên làm avartar
-                        if (file != null && i == 1)
+                        for (var image = 0; image < ListImport.ElementAt(koiIndex).Image.Count; image++)
                         {
-                            //thêm ảnh cho koi
-                            ImageKoiname = Path.GetFileName("Koi" + MaxKoiID + file.FileName.Substring(file.FileName.LastIndexOf('.')));
+                            var indeximage = Listdictionary.FirstOrDefault(x => x.Value == ListImport.ElementAt(koiIndex).Image.ElementAt(image)).Key;
+                            Listdictionary.Remove(indeximage);
+                            file = files[indeximage];
+                            if (image == 0)
+                            {
+                         //thêm ảnh cho koi
+                            imageKoiname = Path.GetFileName("Koi" + maxKoiId + file.FileName.Substring(file.FileName.LastIndexOf('.')));
                             //Lấy ảnh đầu tiên làm avatar
-                            ListImport.ElementAt(i - 1).Image[0] = ImageKoiname;
-                            fullpath.Add(Server.MapPath("~/Content/Image/Koi/" + ImageKoiname));
-                            var pathKoi = Path.Combine(Server.MapPath("~/Content/Image/Koi"), ImageKoiname);
+                            ListImport.ElementAt(koiIndex).Image[0] = imageKoiname;
+                            fullpath.Add(Server.MapPath("~/Content/Image/Koi/" + imageKoiname));
+                            var pathKoi = Path.Combine(Server.MapPath("~/Content/Image/Koi"), imageKoiname);
                             file.SaveAs(pathKoi);
                             //thêm ảnh cho koi detail
-                            ListImageDetailname.Add(Path.GetFileName("Detail" + MaxDetailID + file.FileName.Substring(file.FileName.LastIndexOf('.'))));
+                            listImageDetailname.Add(Path.GetFileName("Detail" + maxDetailId + file.FileName.Substring(file.FileName.LastIndexOf('.'))));
 
-                            fullpath.Add(Server.MapPath("~/Content/Image/Detail/" + ListImageDetailname.ElementAt(i-1)));
-                            var pathDetail = Path.Combine(Server.MapPath("~/Content/Image/Detail"), ListImageDetailname.ElementAt(i - 1));
+                            fullpath.Add(Server.MapPath("~/Content/Image/Detail/" + listImageDetailname.ElementAt(indexDetailName)));
+                            var pathDetail = Path.Combine(Server.MapPath("~/Content/Image/Detail"), listImageDetailname.ElementAt(indexDetailName));
                             file.SaveAs(pathDetail);
+                            }
+                            else if (file != null)
+                            {
+                                var filename = Path.GetFileName("Detail" + maxDetailId + "." + image + file.FileName.Substring(file.FileName.LastIndexOf('.')));
+                                fullpath.Add(Server.MapPath("~/Content/Image/Detail/" + filename));
+                                var path = Path.Combine(Server.MapPath("~/Content/Image/Detail"), filename);
+                                file.SaveAs(path);
+                                Medium a = new Medium();
+                                a.ModelTypeID = "InfoDetail";
+                                a.LinkImage = filename;
+                                listIamge.Add(a);
+                            }
                         }
-                        else if (file != null)
-                        {
-                            var filename = Path.GetFileName("Detail" + MaxDetailID + "." + i + file.FileName.Substring(file.FileName.LastIndexOf('.')));
-                            fullpath.Add(Server.MapPath("~/Content/Image/Detail/" + filename));
-                            var path = Path.Combine(Server.MapPath("~/Content/Image/Detail"), filename);
-                            file.SaveAs(path);
-                            Medium a = new Medium();
-                            a.ModelTypeID = "InfoDetail";
-                            a.LinkImage = filename;
-                            ListMedia.Add(a);
-                        }
+                        indexDetailName++;
+                        ListMedia.Add(listIamge);
+
+                        maxKoiId++;
+                        maxDetailId++;
                     }
+                    //for (int i = 1; i < files.Count; i++)
+                    //{
+                    //    file = files[i];
+                    //    //Save file to local
+                    //    //file đầu tiên làm avartar
+                    //    if (file != null && i == 1)
+                    //    {
+                    //        //thêm ảnh cho koi
+                    //        imageKoiname = Path.GetFileName("Koi" + maxKoiId + file.FileName.Substring(file.FileName.LastIndexOf('.')));
+                    //        //Lấy ảnh đầu tiên làm avatar
+                    //        ListImport.ElementAt(i - 1).Image[0] = imageKoiname;
+                    //        fullpath.Add(Server.MapPath("~/Content/Image/Koi/" + imageKoiname));
+                    //        var pathKoi = Path.Combine(Server.MapPath("~/Content/Image/Koi"), imageKoiname);
+                    //        file.SaveAs(pathKoi);
+                    //        //thêm ảnh cho koi detail
+                    //        listImageDetailname.Add(Path.GetFileName("Detail" + maxDetailId + file.FileName.Substring(file.FileName.LastIndexOf('.'))));
+
+                    //        fullpath.Add(Server.MapPath("~/Content/Image/Detail/" + listImageDetailname.ElementAt(i-1)));
+                    //        var pathDetail = Path.Combine(Server.MapPath("~/Content/Image/Detail"), listImageDetailname.ElementAt(i - 1));
+                    //        file.SaveAs(pathDetail);
+                    //    }
+                    //    else if (file != null)
+                    //    {
+                    //        var filename = Path.GetFileName("Detail" + maxDetailId + "." + i + file.FileName.Substring(file.FileName.LastIndexOf('.')));
+                    //        fullpath.Add(Server.MapPath("~/Content/Image/Detail/" + filename));
+                    //        var path = Path.Combine(Server.MapPath("~/Content/Image/Detail"), filename);
+                    //        file.SaveAs(path);
+                    //        Medium a = new Medium();
+                    //        a.ModelTypeID = "InfoDetail";
+                    //        a.LinkImage = filename;
+                    //        ListMedia.Add(a);
+                    //    }
+                    //}
 
 
                     //Import To database
-                    if (koiDao.ImportKoi(ListImport, memberid, ListMedia))
+                    if (koiDao.ImportKoi(ListImport, memberid, koifarmId, listImageDetailname, ListMedia))
                     {
-                        //Thành công
+                        //success
                         obj.Status = 1;
-                        obj.Message = "Bạn đã thêm thành công";
-                        return Json(obj);
+                        obj.Message = "Bạn đã thêm koi thành công";
+                        obj.RedirectTo = Url.Action("KoiUser/" + Session[SessionAccount.SessionUserId], "Koi");
                     }
                     else
                     {
@@ -483,14 +543,14 @@ namespace KoiManagement.Controllers
                 {
 
                     obj.Status = 0;
-                    obj.Message = "Chỉ chấp nhập tập tin excel";
-                    return Json(data, JsonRequestBehavior.AllowGet);
+                    obj.Message = "Chỉ chấp nhập tập tin excel.";
+                    return Json(obj);
                 }
             }
             else
             {
                 obj.Status = 0;
-                obj.Message = "Xin hãy chọn tập tin excel";
+                obj.Message = "Xin hãy chọn tập tin excel.";
                 return Json(obj);
             }
             return Json(obj);
@@ -504,38 +564,46 @@ namespace KoiManagement.Controllers
                 int row = i + 2;
                 if (String.IsNullOrWhiteSpace(ListKoi.Rows[i][0].ToString()))
                 {
-                    return "Tên cá koi không được trống tại hàng " + row + " cột A";
+                    return "Tên cá koi không được trống tại hàng " + row + " cột A.";
                 }
                 else if (String.IsNullOrWhiteSpace(ListKoi.Rows[i][1].ToString()))
                 {
-                    return "Chủng loại không được trống tại hàng " + row + " cột B";
+                    return "Chủng loại không được trống tại hàng " + row + " cột B.";
+                }
+                string datetime = string.Concat(ListKoi.Rows[i][3].ToString().TakeWhile((c) => c != ' '));
+                if (!String.IsNullOrWhiteSpace(datetime))
+                {
+                    if (!Validate.ValidateDateExcel(datetime))
+                    {
+                        return "Xin hãy nhập đúng định dạng ngày tháng tại hàng " + row + " cột D.";
+                    }
                 }
                 else if (String.IsNullOrWhiteSpace(ListKoi.Rows[i][4].ToString()))
                 {
-                    return "Kích thươc không được trống tại hàng " + row + " cột E";
+                    return "Kích thươc không được trống tại hàng " + row + " cột E.";
                 }
 
                 else if (!Validate.CheckIsDouble(ListKoi.Rows[i][4].ToString()))
                 {
-                    return "Xin hãy nhập kích thước kiểu số tại hàng " + row + " cột E";
+                    return "Xin hãy nhập kích thước kiểu số tại hàng " + row + " cột E.";
                 }
                 decimal size = decimal.Parse(ListKoi.Rows[i][4].ToString());
                 if (size < 0)
                 {
-                    return "Xin hãy nhập số dương cho kích thước tại hàng " + row + " cột E";
+                    return "Xin hãy nhập số dương cho kích thước tại hàng " + row + " cột E.";
                 }
                 if (size < 0)
                 {
-                    return "Xin hãy nhập số dương cho kích thước tại hàng " + row + " cột E";
+                    return "Xin hãy nhập số dương cho kích thước tại hàng " + row + " cột E.";
                 }
                 if (size > 150)
                 {
-                    return "Kích thươc phải nhỏ hơn 150cm tại hàng " + row + " cột E";
+                    return "Kích thươc phải nhỏ hơn 150cm tại hàng " + row + " cột E.";
                 }
 
                 else if (string.IsNullOrWhiteSpace(ListKoi.Rows[i][6].ToString()))
                 {
-                    return "Hãy nhập ít nhất 1 ảnh cho Koi tại hàng " + row + " cột G";
+                    return "Hãy nhập ít nhất 1 ảnh cho Koi tại hàng " + row + " cột G.";
                 }
                  if (!string.IsNullOrWhiteSpace(ListKoi.Rows[i][6].ToString()))
                  {
@@ -561,7 +629,7 @@ namespace KoiManagement.Controllers
             //so sanh số lượng ảnh
             if (count != image)
             {
-                return "Xin hãy chọn đủ số lượng "+ count + " ảnh tương ứng với tập tin excel";
+                return "Xin hãy chọn đủ số lượng "+ count + " ảnh tương ứng với tập tin excel.";
             }
             return "";
         }

@@ -76,5 +76,15 @@ namespace KoiManagement.DAL
                 }
             }
         }
+
+        public int getKoiFarmbyMember(int memberid)
+        {
+           var koifarmid= db.KoiFarms.Where(p => p.MemberID == memberid).Select(p => p.KoifarmID);
+            if (koifarmid.Any())
+            {
+                return koifarmid.First();
+            }
+            return 0;
+        }
     }
 }

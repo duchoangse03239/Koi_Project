@@ -76,7 +76,7 @@ namespace KoiManagement.DAL
             }
         }
 
-        public bool ImportKoi(List<KoiImport> ListKoiImport, int memberID, List<Medium> media)
+        public bool ImportKoi(List<KoiImport> ListKoiImport, int memberID, int koifarmId, List<string> imagedetail, List<List<Medium>> media)
         {
             using (var dbContextTransaction = db.Database.BeginTransaction())
             {
@@ -86,6 +86,7 @@ namespace KoiManagement.DAL
                     //var Listowner = new List<Owner>();
                     //var ListDetail = new List<InfoDetail>();
                     VarietyDAO varietyDao = new VarietyDAO();
+                    int detailIndex = 0;
                     foreach (var item in ListKoiImport)
                     {
                         //thêm koi
@@ -94,21 +95,24 @@ namespace KoiManagement.DAL
                         db.SaveChanges();
                         var koinewID = koi.KoiID;
                         //thêm owner
-                        db.Owners.Add(new Owner(memberID, koinewID, null, DateTime.Now, null, true));
+                        db.Owners.Add(new Owner(memberID, koinewID, koifarmId, DateTime.Now, null, true));
                         db.SaveChanges();
                         //thêm infodetail
-                        var Detail = new InfoDetail(koinewID, DateTime.Now, 0, item.Size, String.Empty, String.Empty, item.Image.ElementAt(0), true);
+                        var Detail = new InfoDetail(koinewID, DateTime.Now, 0, item.Size, String.Empty, String.Empty, imagedetail.ElementAt(detailIndex), true);
                         db.InfoDetails.Add(Detail);
                         db.SaveChanges();
                         var DetailID = Detail.DetailID;
                         //thêm media
 
-                        foreach (var image in media)
-                        {
-                            image.ModelId = DetailID;
-                            db.Media.Add(image);
-                            db.SaveChanges();
-                        }
+                        
+                            for (int j = 0; j < media.ElementAt(detailIndex).Count; j++)
+                            {
+                                media.ElementAt(detailIndex).ElementAt(j).ModelId = DetailID;
+                                db.Media.Add(media.ElementAt(detailIndex).ElementAt(j));
+                                db.SaveChanges();
+                            }
+
+                        detailIndex++;
                     }
 
                     db.SaveChanges();

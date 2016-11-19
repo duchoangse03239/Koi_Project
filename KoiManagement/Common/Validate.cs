@@ -107,6 +107,43 @@ namespace KoiManagement.Common
             }
         }
 
+
+        /// <summary>
+        /// check valid date
+        /// </summary>
+        /// <returns></returns>
+        public static bool ValidateDateExcel(string stringDateValue)
+        {
+            try
+            {
+                CultureInfo cultureInfoDateCulture = new CultureInfo("en-US");
+                //if (stringDateValue.Length < 8|| stringDateValue.Length>10) return false;
+                stringDateValue = ConverDateExcel(stringDateValue);
+                DateTime d = DateTime.ParseExact(stringDateValue, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public static string ConverDateExcel(string DateValue )
+        {
+            string date="";
+            string[] s1 = DateValue.Split(new string[] { "/" }, StringSplitOptions.None);
+            if (s1[0].Length == 1)
+            {
+                s1[0] = "0" + s1[0];
+            }
+            if (s1[1].Length == 1)
+            {
+                s1[1] = "0" + s1[1];
+            }
+            date = s1[0] + "/" + s1[1] + "/" + s1[2];
+            return date;
+        }
+
         /// <summary>
         /// Compare 2 DateTime
         /// </summary>
@@ -138,7 +175,7 @@ namespace KoiManagement.Common
 
         public static DateTime? ConverDateTime(string dateTime)
         {
-            string[] formats = { "yyyy-MM-dd","dd-MM-yyyy" };
+            string[] formats = { "yyyy-MM-dd","dd-MM-yyyy", "dd/MM/yyyy" };
             DateTime? dt = new DateTime();
             DateTime parsedDateTime;
             if (DateTime.TryParseExact(dateTime, formats, new CultureInfo("en-US"), DateTimeStyles.None,
