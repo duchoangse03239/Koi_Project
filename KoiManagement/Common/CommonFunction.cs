@@ -226,5 +226,20 @@ namespace KoiManagement.Common
                 return "Chưa rõ";
             }
         }
+        public static string ReturnGenderKoiDb(string gender)
+        {
+            if (gender.Equals("Đực"))
+            {
+                return "M";
+            }
+            else if (gender.Equals("Cái"))
+            {
+                return "F";
+            }
+            else
+            {
+                return "N";
+            }
+        }
     }
 }

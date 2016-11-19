@@ -32,7 +32,7 @@
         </div>
     </div>*@
 
-@using (Html.BeginForm("UploadExcel", "KoiFarm", FormMethod.Post, new { enctype = "multipart/form-data", onsubmit = "return myFunction()" }))
+@using (Html.BeginForm("UploadExcel", "KoiFarm", FormMethod.Post, new { enctype = "multipart/form-data"}))
 {
 <div class="section site-main">
     <div class="container">
@@ -41,7 +41,6 @@
             <div class="col-md-6 col-md-offset-3">
                 <div class="login-block">
                     <h1>Import file</h1>
-                    <form>
                         <div>
                             <h3>Hướng dẫn</h3>
                             <p>1. Tải file exel mẫu tại tải file mẫu.</p>
@@ -52,20 +51,29 @@
                             <a class="btn btn-default"  href="/KoiFarm/DownloadExcel/">Tải file mẫu</a>
                             @*<a class="btn btn-default" href="#" download="w3logo">Tải file mẫu</a>*@
                         </div>
-                        <div class="form-group">
-                            <p>Tải lên file(<span style="color:red;">*</span>)</p>
-                            <input type="file" id="browse" name="fileupload" accept=".xlsb" style="display: none" onChange="Handlechange();" />
-                            <input style="width: 60%;" type="text" id="filename" readonly="true" onclick="HandleBrowseClick();" />
-                            <input class="btn btn-default btn-xs" type="button" value="Chọn tệp" id="fakeBrowse" onclick="HandleBrowseClick();" />
-                            <label id="lblMessage_file_fail" class="label-error"></label>
-                        </div>
+                    <div class="form-group">
+                        <p>Tải lên file(<span style="color:red;">*</span>)</p>
+                        <input type="file" id="browse" name="fileupload" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" style="display: none" onChange="Handlechange();" />
+                        <input style="width: 60%;" type="text" id="filename" readonly="true" onclick="HandleBrowseClick();" />
+                        <input class="btn btn-default btn-xs" type="button" value="Chọn tệp" id="fakeBrowse" onclick="HandleBrowseClick();" />
+                        <label id="lblMessage_file_fail" class="label-error"></label>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Thêm ảnh cá</label>
+                        <input type="file" id="files" name="files[]" multiple />
+                        <label id="lblMessage_file_fail" class="label-error"></label>
+                        @*<script>
+                var loadFile = function (event) {
+                    var output = document.getElementById('imagePreview');
+                    imagePreview.src = URL.createObjectURL(event.target.files[0]);
+                };
+            </script>*@
+                    </div>
                         <br>
                         <div class="form-group">
-                            <button type="submit" class="btn btn-primary">Import</button>
                             <input type="submit" value="Upload" id="btnSubmit" class="btn btn-primary" />
                         </div>
 
-                    </form>
                 </div>
             </div>
         </div>

@@ -28,10 +28,7 @@ namespace KoiManagement.Hub
         {
              Clients.All.broadcastNotification(userid, author, message);
         }
-        public void JoinGroup(string groupName)
-        {
 
-        }
         public override Task OnConnected()
         {
             var us = new UserConnection();

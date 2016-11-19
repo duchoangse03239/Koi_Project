@@ -5,7 +5,6 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="6c9f4fae143d4e6399bca43e63511938" Name="Diagram1" ZoomLevel="74">
-        <EntityTypeShape EntityType="KoiManagementModel.ActiveCode" Width="1.5" PointX="3" PointY="13.625" IsExpanded="true" />
         <EntityTypeShape EntityType="KoiManagementModel.Answer" Width="1.5" PointX="3" PointY="16.875" IsExpanded="true" />
         <EntityTypeShape EntityType="KoiManagementModel.Article" Width="1.5" PointX="6" PointY="15.25" IsExpanded="true" />
         <EntityTypeShape EntityType="KoiManagementModel.Comment" Width="1.5" PointX="5.25" PointY="21.125" IsExpanded="true" />
@@ -48,7 +47,6 @@
         <AssociationConnector Association="KoiManagementModel.FK__Report__ModelId__5629CD9C" />
         <EntityTypeShape EntityType="KoiManagementModel.Member" Width="1.5" PointX="0.75" PointY="18.75" />
         <EntityTypeShape EntityType="KoiManagementModel.Notification" Width="1.5" PointX="3" PointY="33" />
-        <AssociationConnector Association="KoiManagementModel.FK__ActiveCod__Membe__1ED998B2" />
         <AssociationConnector Association="KoiManagementModel.FK__Answer__MemberID__44FF419A" />
         <AssociationConnector Association="KoiManagementModel.FK__Article__MemberI__3C69FB99" />
         <AssociationConnector Association="KoiManagementModel.FK__Comment__MemberI__2D27B809" />
@@ -60,6 +58,8 @@
         <AssociationConnector Association="KoiManagementModel.FK__Rate__MemberID__47DBAE45" />
         <AssociationConnector Association="KoiManagementModel.FK__Report__MemberID__5441852A" />
         <AssociationConnector Association="KoiManagementModel.FK__Report__ModelId__59063A471" />
+        <EntityTypeShape EntityType="KoiManagementModel.ActiveCode" Width="1.5" PointX="3" PointY="21.5" />
+        <AssociationConnector Association="KoiManagementModel.FK__ActiveCod__Membe__1ED998B2" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -27,7 +27,6 @@ namespace KoiManagement.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<ActiveCode> ActiveCodes { get; set; }
         public virtual DbSet<Answer> Answers { get; set; }
         public virtual DbSet<Article> Articles { get; set; }
         public virtual DbSet<Comment> Comments { get; set; }
@@ -46,6 +45,7 @@ namespace KoiManagement.Models
         public virtual DbSet<KoiFarm> KoiFarms { get; set; }
         public virtual DbSet<Member> Members { get; set; }
         public virtual DbSet<Notification> Notifications { get; set; }
+        public virtual DbSet<ActiveCode> ActiveCodes { get; set; }
     
         public virtual int sp_alterdiagram(string diagramname, Nullable<int> owner_id, Nullable<int> version, byte[] definition)
         {

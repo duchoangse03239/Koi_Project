@@ -24,7 +24,11 @@ namespace KoiManagement.Controllers
             if (Session[SessionAccount.SessionUserId] != null)
             {
                 int userid = int.Parse(Session[SessionAccount.SessionUserId].ToString());
-                ViewBag.NotiCount = db.Notifications.Count(p => p.MemberID == userid&&p.status);
+                ViewBag.NotiCount = db.Notifications.Count(p => p.MemberID == userid&&p.status&&!p.isRead);
+                if (ViewBag.NotiCount == null)
+                {
+                    ViewBag.NotiCount = 0;
+                }
             }
             return View("~/Views/Shared/_Header.cshtml");
         }
