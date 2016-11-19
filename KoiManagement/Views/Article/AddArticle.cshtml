@@ -16,7 +16,6 @@
             <div class="col-md-9">
                 <div class="box_right">
                     <div class="container">
-                        <form id="add-article">
                             <div>
                                 <div class="row">
                                     <div class="col-md-12">
@@ -29,12 +28,12 @@
                                     <div class="col-md-12" style="margin-top: 15px;">
                                         <label style="margin-right:20px;">Chọn loại</label>
                                         <span>
-                                            <select style="min-width: 150px;" name="type" id="type">
+                                            <select class="form-control" style="min-width: 150px;" name="type" id="typeid">
                                                 <option value="0">Tin tức</option>
-                                                @*@foreach (var item in listVariety)
-                                                    {
-                                                        <option value="@item.VarietyID">@item.VarietyName</option>
-                                                    }*@
+                                                @foreach (var item in Model)
+                                                {
+                                                    <option value="@item.TypeID">@item.Name</option>
+                                                }
                                             </select>
                                         </span>
                                     </div>
@@ -52,22 +51,129 @@
                                     </div>
                                     <div class="col-md-12" style="margin-top: 20px;">
                                         <label>Nội dung</label>
-                                        <textarea type="text" class="form-control" placeholder="" name="content"></textarea>
+                                        <textarea type="text" class="form-control" placeholder="" id="content" name="content"></textarea>
                                         <label id="lblMessage_content_fail" class="label-error"></label>
                                     </div>
-                                    <div class="col-md-12 align-right" style="margin-top:15px;">
+                                    <div class="col-md-12 align-right" style="margin-top:15px;" id="add-article-btn">
                                         <button class="btn btn-primary" id="btnCreateArticle">Tạo bài viết</button>
                                         <button class="btn btn-primary" id="btnCancel">Đóng</button>
                                     </div>
                                 </div>
                             </div>
-                        </form>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $(function () {
+            $("#title").focus();
+        });
+    });
+
+    $(document).keypress(function (event) {
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        if (keycode == "13") {
+            if (Validate()) {
+                AddArticle();
+            } else {
+                return false;
+            }
+        }
+    });
+
+
+    $("#btnCreateArticle").click(function () {
+        if (Validate()) {
+            AddArticle();
+        } else {
+
+            return false;
+        }
+    });
+
+    function Validate() {
+        var title = $('#title').val();
+        var typeid = $('#typeid').val();
+        var content = $('#content').val();
+
+        return true;
+    }
+
+    function AddArticle() {
+        var fileUpload = $("#file").get(0);
+        var file = fileUpload.file;
+        // Looping over all files and add it to FormData object
+        var fileData = new FormData();
+
+        for (var i = 0; i < file.length; i++) {
+            fileData.append(file[i].name, file[i]);
+        }
+
+        // Adding one more key to FormData object
+        fileData.append('title', $('#title').val());
+        fileData.append('typeid', $('#typeid').val());
+        fileData.append('file', $('#file').val());
+        fileData.append('content', $('#content').val());
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("AddArticle")",
+            contentType: false, // Not to set any content header
+            processData: false,
+            data: fileData,
+            dataType: "Json",
+            success: function (res) {
+                switch (res.Status) {
+                    case 2:
+                        break;
+                    case 3:
+                        break;
+                    case 4:
+                        break;
+                    case 1:
+                        alert(res.Message);
+                        window.location.href = res.RedirectTo;
+                        break;
+                    case 0:
+                        window.location.href = res.RedirectTo;
+                        break;
+                }
+            }
+        });
+    }
+
+
+    $(document).ready(function () {
+        if (window.File && window.FileList && window.FileReader) {
+            $("#files").on("change", function (e) {
+                var files = e.target.files,
+                  filesLength = files.length;
+                for (var i = 0; i < filesLength; i++) {
+                    var f = files[i]
+                    var fileReader = new FileReader();
+                    fileReader.onload = (function (e) {
+                        var file = e.target;
+                        $("<span class=\"pip\">" +
+                          "<img class=\"imageThumb\" src=\"" + e.target.result + "\" title=\"" + file.name + "\"/>" +
+                          "<br/><span class=\"remove\">X</span>" +
+                          "</span>").insertAfter("#files");
+                        $(".remove").click(function () {
+                            $(this).parent(".pip").remove();
+                        });
+                    });
+                    fileReader.readAsDataURL(f);
+                }
+            });
+        } else {
+            alert("Your browser doesn't support to File API")
+        }
+    });
+</script>
 
 <script type="text/javascript">
     tinymce.init({

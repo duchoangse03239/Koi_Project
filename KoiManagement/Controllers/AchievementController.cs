@@ -26,13 +26,13 @@ namespace KoiManagement.Controllers
         public JsonResult AddAchievement(string KoiID, string time, string description)
         {
             StatusObjForJsonResult obj = new StatusObjForJsonResult();
-            // check login
-            //if (Session[SessionAccount.SessionUserId] == null)
-            //{
-            //    obj.Status = 0;
-            //    obj.RedirectTo = Url.Action("Login", "Account");
-            //    return Json(obj);
-            //}
+            //check login
+            if (Session[SessionAccount.SessionUserId] == null)
+            {
+                obj.Status = 0;
+                obj.RedirectTo = Url.Action("Login", "Account");
+                return Json(obj);
+            }
             string Imagename = String.Empty;
             var fullpath = new List<string>();
 
@@ -42,10 +42,10 @@ namespace KoiManagement.Controllers
             //validate
             try
             {
-                if (Validate.ValidateDate(time))
+                if (string.IsNullOrWhiteSpace(time) && Validate.ValidateDate(time))
                 {
-                    obj.Status = 1;
-                    obj.Message = "Time of achievemnent";
+                    obj.Status = 2;
+                    obj.Message = "Ngày tháng không đúng định dạng!";
                     return Json(obj);
                 }
                 else
@@ -55,10 +55,12 @@ namespace KoiManagement.Controllers
 
                 AchievementDAO AchiDao = new AchievementDAO();
                 Achievement ad = new Achievement();
+                // lấy id max đặt tên file ảnh
+                var MaxAchiID = AchiDao.GetMaxAchiID();
                 ad.Date = timeAchievement;
                 ad.Description = description;
                 ad.Status = true;
-                ad.KoiID = 1;//@hardcode
+                ad.KoiID = 2;//@hardcode
 
 
                 //Lấy file ảnh
@@ -73,7 +75,7 @@ namespace KoiManagement.Controllers
                     //Save file to local
                     if (file != null && i == 0)
                     {
-                        var filename = Path.GetFileName("Achievement" + i + file.FileName.Substring(file.FileName.LastIndexOf('.')));
+                        var filename = Path.GetFileName("AchiKoi"+ ad.KoiID + MaxAchiID + file.FileName.Substring(file.FileName.LastIndexOf('.')));
                         ad.Image = filename;
                         fullpath.Add(Server.MapPath("~/Content/Image/Achievement/" + filename));
                         var path = Path.Combine(Server.MapPath("~/Content/Image/Achievement"), filename);
@@ -81,7 +83,7 @@ namespace KoiManagement.Controllers
                     }
                     else if (file != null)
                     {
-                        var filename = Path.GetFileName("Achievement" + i + file.FileName.Substring(file.FileName.LastIndexOf('.')));
+                        var filename = Path.GetFileName("AchiKoi" + ad.KoiID + MaxAchiID + file.FileName.Substring(file.FileName.LastIndexOf('.')));
                         ad.Image = filename;
                         fullpath.Add(Server.MapPath("~/Content/Image/Achievement/" + filename));
                         var path = Path.Combine(Server.MapPath("~/Content/Image/Achievement"), filename);

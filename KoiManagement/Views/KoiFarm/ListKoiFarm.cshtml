@@ -81,18 +81,11 @@
                             <h4>Chủng loại chính:@listVariety.ElementAt(item + ListKoiFarm.FirstItemOnPage - 1)</h4>
                             <a class="btn btn-embossed btn-primary" href="@Url.Action("KoiFarmDetail/"+ @ViewBag.ListKoiFarm[item].KoifarmID, "KoiFarm")" role="button">Xem thêm</a>
                         </div>
-                        <div class="col-md-2">
-                            <div class="ratings align-right">
-                                <a style="text-decoration:none;">
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                </a>
-                                <br />
-                                <br />
-                                <a href="#"> đánh giá</a>
+                        <div class="col-md-3">
+                            <div class="ratings" style="margin-top: 13px;">
+                                <input type="number" name="your_awesome_parameter" id="rating-default" class="rating" value="3" />
+                                <br />                                
+                                <a style="margin-left:10px;" href="#"> đánh giá</a>
                             </div>
                         </div>
                     </div>

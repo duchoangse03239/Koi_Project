@@ -161,10 +161,6 @@
                             <div class="col-md-12">
                                 <div class="title_box">
                                     <h1 class="title2">Cá Koi của tôi</h1>
-                                    @*<div class="option_view_small">
-                                        <button class="option_base_select_small" title="Xem thông tin cơ bản" type="button"></button>
-                                        <input type="submit" name="btnViewDetail" value="" id="btnViewDetail" title="Xem chi tiết thông tin" class="option_detail_small">
-                                    </div>*@
                                     <div id="ContentPlaceHolder1_ContentPlaceHolder1_ContentPlaceHolder2_regPanel" @*onkeypress="javascript:return WebForm_FireDefaultButton(event, &#39;btnSearch&#39;)"*@>
                                         <input name="txtSearch" type="text" id="txtSearch" class="search_textbox_small search_textbox_small_margin" placeholder="Tìm kiếm">
                                         <input type="submit" name="btnSearch" value="" id="btnSearch" class="btnSearch_hide">
@@ -208,14 +204,7 @@
                                                 </div>
                                                 <div class="col-md-3">
                                                     <div class="ratings">
-                                                        <a style="text-decoration: none;" href="#">
-                                                            <span class="glyphicon glyphicon-star"></span>
-                                                            <span class="glyphicon glyphicon-star"></span>
-                                                            <span class="glyphicon glyphicon-star"></span>
-                                                            <span class="glyphicon glyphicon-star"></span>
-                                                            <span class="glyphicon glyphicon-star"></span>
-                                                        </a>
-                                                        <br/>
+                                                        <input type="number" name="your_awesome_parameter" id="rating-default" class="rating" value="3" />
                                                         <br/>
                                                         <a href="">@Model.ElementAt(item).Comments.Count() đánh giá</a>
                                                     </div>

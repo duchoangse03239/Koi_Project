@@ -220,12 +220,8 @@
                 success: function (res) {
                     switch (res.Status) {
                         case 1:
-                            $('#lblMessage_name_fail').text(res.Message);
-                            $('#name').focus();
                             break;
                         case 2:
-                            $('#lblMessage_dob_fail').text(res.Message);
-                            $('#dob').focus();
                             break;
                         case 3:
                             break;
@@ -236,12 +232,8 @@
                         case 6:
                             break;
                         case 7:
-                            $('#lblMessage_phone_fail').text(res.Message);
-                            $('#phone').focus();
                             break;
                         case 8:
-                            $('#errorMessage').text(res.Message);
-                            $('#name').focus();
                             break;
                         case 9:
                             alert("Lưu Thông Tin Thành Công!");

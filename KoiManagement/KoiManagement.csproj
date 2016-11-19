@@ -263,6 +263,7 @@
     <Compile Include="DAL\ActiveCodeDAO.cs" />
     <Compile Include="DAL\InfoDetailDAO.cs" />
     <Compile Include="DAL\CommentDAO.cs" />
+    <Compile Include="DAL\ArticleDAO.cs" />
     <Compile Include="DAL\KoiFarmDAO.cs" />
     <Compile Include="DAL\MediaDAO.cs" />
     <Compile Include="DAL\NotificationDAO.cs" />
@@ -368,9 +369,9 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
-    <Content Include="Content\Common\deleteImage.png" />
     <Content Include="Content\Common\footerImage.jpg" />
     <Content Include="Content\css\semantic.css" />
+    <Content Include="Content\deleteImage.png" />
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\css\fonts\fontawesome-webfont.svg" />
@@ -529,6 +530,7 @@
       <LastGenOutput>KoiContext.cs</LastGenOutput>
     </Content>
     <Content Include="Scripts\action.js" />
+    <Content Include="Scripts\bootstrap-rating-input.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Areas\Admin\Views\web.config">
@@ -1001,6 +1003,7 @@
     <Folder Include="Content\FileImport\" />
     <Folder Include="Content\Image\Avatar\" />
     <Folder Include="Content\Image\Media\" />
+    <Folder Include="Views\ArticleDAO\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
