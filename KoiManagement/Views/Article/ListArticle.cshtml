@@ -46,8 +46,8 @@
                                                 <a href="@Url.Action("ArticleDetails/" + @ViewBag.ListArticle[item].ArticleID, "ListArticle")" title="@ViewBag.ListArticle[item].Title">Chi tiết.</a>
                                             </div>
                                         </div>
-                                    </div><!--end row-new-->
-                                </div><!--end bg-cat-->
+                                    </div>
+                                </div>
                             }
                             else
                             {
@@ -63,15 +63,16 @@
                                                 <a href="@Url.Action("ArticleDetails/" + @ViewBag.ListArticle[item].ArticleID, "ListArticle")" title="@ViewBag.ListArticle[item].Title">Chi tiết.</a>
                                             </div>
                                         </div>
-                                    </div><!--end row-new-->
-                                </div><!--end bg-cat-->
+                                    </div>
+                                </div>
                             }
                         }
+                        Page @(ListArticle.PageCount < ListArticle.PageNumber ? 0 : ListArticle.PageNumber) of @ListArticle.PageCount
+                        @Html.PagedListPager(ListArticle, page => Url.Action("ListArticle", "Article", new { page }))
                     </div>
                 </div>
             </div>
-            Page @(ListArticle.PageCount < ListArticle.PageNumber ? 0 : ListArticle.PageNumber) of @ListArticle.PageCount
-            @Html.PagedListPager(ListArticle, page => Url.Action("ListArticle", "Article", new { page }))
         </div>
     </div>
+</div>
 

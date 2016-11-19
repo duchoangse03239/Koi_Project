@@ -32,5 +32,16 @@ namespace KoiManagement.DAL
         {
             return db.Articles.Where(p => p.TypeID == id).ToList();
         }
+
+        public int GetMaxAchiID()
+        {
+            var count = db.Articles.Count();
+
+            if (count == 0)
+            {
+                return count = 1;
+            }
+            return db.Articles.Max(g => g.ArticleID) + 1; ;
+        }
     }
 }

@@ -929,7 +929,7 @@
     <Content Include="Views\Article\AddArticle.cshtml" />
     <Content Include="Views\Article\EditArticle.cshtml" />
     <Content Include="Views\InfoDetail\AddParent.cshtml" />
-    <Content Include="Views\Article\Details.cshtml" />
+    <Content Include="Views\Article\DetailArticle.cshtml" />
     <Content Include="Views\Article\ListArticle.cshtml" />
     <None Include="Views\InfoDetail\timeline.cshtml" />
     <Content Include="Web.config">
@@ -1002,6 +1002,7 @@
     <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Areas\Admin\Views\Shared\" />
     <Folder Include="Content\FileImport\" />
+    <Folder Include="Content\Image\Article\" />
     <Folder Include="Content\Image\Avatar\" />
     <Folder Include="Content\Image\Media\" />
     <Folder Include="Views\ArticleDAO\" />
