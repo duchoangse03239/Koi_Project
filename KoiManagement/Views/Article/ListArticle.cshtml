@@ -34,37 +34,34 @@
                         {
                             if (Session[SessionAccount.SessionUserId] != null && Session[SessionAccount.SessionUserId].ToString().Equals(Constants.AdminID))
                             {
-                                <div class="bg-cat">
                                     <div class="row-new col-md-12">
                                         <div class="over-img img-outer col-md-3">
                                             <a href="#"><img class="image" src="/Content/Image/Member/@ViewBag.ListArticle[item].Image" title="#"></a>
                                         </div><!--end over-img-->
                                         <div class="col-md-9">
-                                            <a class="title-article-name" href="@Url.Action("ArticleDetails/" + @ViewBag.ListArticle[item].ArticleID, "ListArticle")" @ViewBag.ListArticle[item].Title</a>
+                                            <a class="title-article-name" href="@Url.Action("ArticleDetails/" + @ViewBag.ListArticle[item].ArticleID, "ListArticle")"> @ViewBag.ListArticle[item].Title</a>
                                             <div class="shortdes">@ViewBag.ListArticle[item].ShortDescription</div>
                                             <div class="new-detail">
                                                 <a href="@Url.Action("ArticleDetails/" + @ViewBag.ListArticle[item].ArticleID, "ListArticle")" title="@ViewBag.ListArticle[item].Title">Chi tiết.</a>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
                             }
                             else
                             {
-                                <div class="bg-cat">
+
                                     <div class="row-new col-md-12">
                                         <div class="over-img img-outer col-md-3">
                                             <a href="#"><img class="image" src="/Content/Image/Member/@ViewBag.ListArticle[item].Image" title="#"></a>
                                         </div><!--end over-img-->
                                         <div class="col-md-9">
-                                            <a class="title-article-name" href="@Url.Action("ArticleDetails/" + @ViewBag.ListArticle[item].ArticleID, "ListArticle")" @ViewBag.ListArticle[item].Title</a>
+                                            <a class="title-article-name" href="@Url.Action("ArticleDetails/" + @ViewBag.ListArticle[item].ArticleID, "ListArticle")"> @ViewBag.ListArticle[item].Title</a>
                                             <div class="shortdes">@ViewBag.ListArticle[item].ShortDescription</div>
                                             <div class="new-detail">
                                                 <a href="@Url.Action("ArticleDetails/" + @ViewBag.ListArticle[item].ArticleID, "ListArticle")" title="@ViewBag.ListArticle[item].Title">Chi tiết.</a>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
                             }
                         }
                         Page @(ListArticle.PageCount < ListArticle.PageNumber ? 0 : ListArticle.PageNumber) of @ListArticle.PageCount
