@@ -9,17 +9,45 @@
 }
 
 <style type="text/css">
-    .img-farm-list {
-        height: 180px;
-        width: 180px;
-        margin-left: 10px;
+    .box-cat {
+        background: #1fadc5 url(../images/conca.png) no-repeat top 3px right 5px;
+        border-top-left-radius: 12px;
+        border-top-right-radius: 12px;
     }
 
-    .button-header {
+        .box-cat label, .box-cat h1, .box-cat h2 {
+            font-size: 16px;
+            text-transform: uppercase;
+            color: #fff;
+            font-weight: normal;
+        }
+
+    .bg-cat {
+        border: 1px solid #ddd;
+        border-top: 0;
+        background: #f7f9f0;
+        padding: 6px 8px;
+        margin-bottom: 10px;
+    }
+
+    .row-new {
+        border-bottom: 1px dotted #ccc;
+        margin-bottom: 10px;
         padding-bottom: 10px;
-        margin: 40px 0 20px;
+    }
+
+    .over-img img, .over-img {
+        width: 200px;
+        min-height: 150px;
+        max-height: 200px;
+        overflow: hidden;
+        float: left;
+        margin-right: 15px;
+        margin-top: 10px;
     }
 </style>
+
+s
 
 <div class="container">
     <div class="col-md-8">
@@ -35,12 +63,12 @@
                             if (Session[SessionAccount.SessionUserId] != null && Session[SessionAccount.SessionUserId].ToString().Equals(Constants.AdminID))
                             {
                                     <div class="row-new col-md-12">
-                                        <div class="over-img img-outer col-md-3">
-                                            <a href="#"><img class="image" src="/Content/Image/Member/@ViewBag.ListArticle[item].Image" title="#"></a>
-                                        </div><!--end over-img-->
+                                        <div class="col-md-4">
+                                            <a href=""><img class="image" src="/Content/Image/Article/@ViewBag.ListArticle[item].Image" title="@ViewBag.ListArticle[item].Title"></a>
+                                        </div>
                                         <div class="col-md-9">
-                                            <a class="title-article-name" href="@Url.Action("ArticleDetails/" + @ViewBag.ListArticle[item].ArticleID, "ListArticle")"> @ViewBag.ListArticle[item].Title</a>
-                                            <div class="shortdes">@ViewBag.ListArticle[item].ShortDescription</div>
+                                            <a class="title-article-name" href="@Url.Action("ArticleDetails/" + @ViewBag.ListArticle[item].ArticleID, "ListArticle")" title= "@ViewBag.ListArticle[item].Title"></a>
+                                            <div class="shortdes">@ViewBag.ListArticle[item].ShortDes</div>
                                             <div class="new-detail">
                                                 <a href="@Url.Action("ArticleDetails/" + @ViewBag.ListArticle[item].ArticleID, "ListArticle")" title="@ViewBag.ListArticle[item].Title">Chi tiết.</a>
                                             </div>
@@ -52,11 +80,11 @@
 
                                     <div class="row-new col-md-12">
                                         <div class="over-img img-outer col-md-3">
-                                            <a href="#"><img class="image" src="/Content/Image/Member/@ViewBag.ListArticle[item].Image" title="#"></a>
+                                            <a href="#"><img class="image" src="/Content/Image/Article/@ViewBag.ListArticle[item].Image" title="#"></a>
                                         </div><!--end over-img-->
                                         <div class="col-md-9">
                                             <a class="title-article-name" href="@Url.Action("ArticleDetails/" + @ViewBag.ListArticle[item].ArticleID, "ListArticle")"> @ViewBag.ListArticle[item].Title</a>
-                                            <div class="shortdes">@ViewBag.ListArticle[item].ShortDescription</div>
+                                            <div class="shortdes">@ViewBag.ListArticle[item].ShortDes</div>
                                             <div class="new-detail">
                                                 <a href="@Url.Action("ArticleDetails/" + @ViewBag.ListArticle[item].ArticleID, "ListArticle")" title="@ViewBag.ListArticle[item].Title">Chi tiết.</a>
                                             </div>
