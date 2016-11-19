@@ -4,6 +4,7 @@ using System.Data.Entity;
 using System.Linq;
 using KoiManagement.Common;
 using KoiManagement.Models;
+using EntityFramework.BulkInsert.Extensions;
 
 namespace KoiManagement.DAL
 {
@@ -31,7 +32,7 @@ namespace KoiManagement.DAL
         /// <returns></returns>
         public List<Koi> GetListKoiByMember(int memberID)
         {
-             var Owner = db.Owners.Where(p => p.MemberID == memberID).ToList();
+             var Owner = db.Owners.Where(p => p.MemberID == memberID&&p.Status).ToList();
             if (Owner.Count > 0)
             {
                 var ListKois = new List<Koi>();
@@ -75,6 +76,54 @@ namespace KoiManagement.DAL
             }
         }
 
+        public bool ImportKoi(List<KoiImport> ListKoiImport, int memberID, List<Medium> media)
+        {
+            using (var dbContextTransaction = db.Database.BeginTransaction())
+            {
+                try
+                {
+                    //var ListKoi = new List<Koi>();
+                    //var Listowner = new List<Owner>();
+                    //var ListDetail = new List<InfoDetail>();
+                    VarietyDAO varietyDao = new VarietyDAO();
+                    foreach (var item in ListKoiImport)
+                    {
+                        //thêm koi
+                        var koi = new Koi(varietyDao.getVarityIdByName(item.Variety), item.KoiName, item.DoB, CommonFunction.ReturnGenderKoiDb(item.Gender), "", "", item.Image.ElementAt(0), item.Origin, 1, true);
+                        db.Kois.Add(koi);
+                        db.SaveChanges();
+                        var koinewID = koi.KoiID;
+                        //thêm owner
+                        db.Owners.Add(new Owner(memberID, koinewID, null, DateTime.Now, null, true));
+                        db.SaveChanges();
+                        //thêm infodetail
+                        var Detail = new InfoDetail(koinewID, DateTime.Now, 0, item.Size, String.Empty, String.Empty, item.Image.ElementAt(0), true);
+                        db.InfoDetails.Add(Detail);
+                        db.SaveChanges();
+                        var DetailID = Detail.DetailID;
+                        //thêm media
+
+                        foreach (var image in media)
+                        {
+                            image.ModelId = DetailID;
+                            db.Media.Add(image);
+                            db.SaveChanges();
+                        }
+                    }
+
+                    db.SaveChanges();
+                    dbContextTransaction.Commit();
+                }
+                catch (Exception ex)
+                {
+                    dbContextTransaction.Rollback(); //Required according to MSDN article 
+                    //throw; //Not in MSDN article, but recommended so the exception still bubbles up
+                    return false;
+                }
+            }
+            return true;
+        }
+
         public bool AddKoi(Koi koi,int memberID, string image,decimal size,List<Medium> media )
         {
             // Transaction
@@ -86,7 +135,7 @@ namespace KoiManagement.DAL
                     db.Kois.Add(koi);
                     db.SaveChanges();
                     var koinewID = koi.KoiID;
-                    //thêm ownew
+                    //thêm owner
                     db.Owners.Add(new Owner(memberID, koinewID, null, DateTime.Now, null, true));
                     db.SaveChanges();
                     //thêm infodetail

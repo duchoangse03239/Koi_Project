@@ -249,7 +249,7 @@ namespace KoiManagement.Controllers
                 var koi = new Koi(int.Parse(VarietyID), KoiName, dateOfBirth, Gender, Temperament, DoB, "certificate",
                     Origin, 1, true);
 
-                //Trường hợp chỉ  có nhiều file ảnh
+                //Trường hợp có nhiều file ảnh
                 for (int i = 0; i < files.Count; i++)
                 {
                     file = files[i];
@@ -490,17 +490,20 @@ namespace KoiManagement.Controllers
             }
                 var koiID = int.Parse(koiId);
                 var NewMemberID = memberDao.getExistUserName(username);
+                var mem = memberDao.GetMemberbyID(UserID);
                 var koiName = db.Kois.Find(koiID).KoiName;
 
                 Notification notification = new Notification(NewMemberID.MemberID,UserID , koiID, DateTime.Now
-                    , NewMemberID.Name +"muốn chuyển nhượng"+ koiName+"cho bạn", false,true);
+                    , mem.Name +" muốn chuyển nhượng "+ koiName+" cho bạn", false,true);
 
                 NotificationDAO noDao = new NotificationDAO();
             if (noDao.AddNotification(notification))
             {
+
                 obj.Status = 1;
                 ViewBag.NewMemberID = NewMemberID;
                 obj.Message = "Bạn đã đổi sang chủ "+ username+" thành công vui lòng chờ xác nhận";
+                obj.JsonObject = NewMemberID.MemberID;
                    // ownerDao.ChangeOwner(username, int.Parse(koiId))
                 return Json(obj);
             }
@@ -516,12 +519,12 @@ namespace KoiManagement.Controllers
         }
 
         [HttpPost]
-        public JsonResult ChangeOwnerConfirm(int userid, string koiId)
+        public JsonResult ChangeOwnerConfirm(int NotID, int userid, string koiId)
         {
             StatusObjForJsonResult obj = new StatusObjForJsonResult();
             OwnerDAO ownerDao = new OwnerDAO();
 
-            if (ownerDao.ChangeOwner(userid, int.Parse(koiId)))
+            if (ownerDao.ChangeOwner(NotID, userid, int.Parse(koiId)))
             {
                 obj.Status = 1;
                 obj.Message = "Bạn đã nhận thành công";

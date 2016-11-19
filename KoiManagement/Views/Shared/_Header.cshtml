@@ -78,9 +78,9 @@
                             </ul>
                         </li>
                         <li>
-                            <a href="#" class="button-notification">
+                            <a href="@Url.Action("ListNotification","Notification")" class="button-notification">
                                 <i class="fa fa-bell fa-lg"></i>
-                                <span class="button__badge" id="Notfication">@ViewBag.NotiCount</span>
+                                <span class="button__badge" id="Notification">@ViewBag.NotiCount</span>
                             </a>
                         </li>
                     }
@@ -142,6 +142,11 @@
                                         <li><a href="/Account/logout">Đăng xuất</a></li>
                                     </ul>
                                 </li>
+                                <li>
+                                    <a href="@Url.Action("ListNotification","Notification")" class="button-notification">
+                                        <i class="fa fa-bell fa-lg"></i>
+                                    </a>
+                                </li>
                             }
                         </ul>
                     </div><!--/.nav-collapse -->
@@ -173,19 +178,19 @@
             notifications.client.signalConnectionId = function(data) {
                 var signalConnectionId = data;
             }
-
-            var i = 0;
+            var count = document.getElementById('Notification').innerText;
+            var i = + count + 1;
             var Userid =  @Session[SessionAccount.SessionUserId].ToString();
             notifications.client.broadcastNotification = function(userid, name, message) {
 
                 if (userid == Userid) {
                     // Add the message to the page.
-                    $('#Notfication').text("");
-                    $('#Notfication').append("2");
+                    $('#Notification').text("");
+                    $('#Notification').append(i);
                     i++;
                 };
             }
-    
+
 
             // Start the connection.
             $.connection.hub.start()

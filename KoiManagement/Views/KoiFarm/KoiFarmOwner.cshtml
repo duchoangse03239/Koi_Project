@@ -41,12 +41,12 @@
             <div class="col-md-9">
                 <div class="box_right">
                     <section id="titleArea">
-                        <div class="container">
+                        <div>
                             <div class="row">
                                @if (Session[SessionAccount.SessionUserId] != null && Session[SessionAccount.SessionUserId].ToString().Equals(member.MemberID.ToString()))
                                 {
-                                    <div class="col-lg-6 col-md-push-7">
-                                        <a class="btn icon-btn btn-info btn-Add-Koi" href="@Url.Action("CreateKoiFarm", "KoiFarm")">
+                                    <div class="col-md-12">
+                                        <a class="btn icon-btn btn-info btn-Add-Koi" href="@Url.Action("CreateKoiFarm", "KoiFarm")" style="float:right;">
                                             <span class="glyphicon btn-glyphicon glyphicon-plus img-circle text-success"></span>
                                             Tạo trang trại
                                         </a>
@@ -54,9 +54,9 @@
                             </div>
                         </div>
                     </section>
-                    <section class="container" id="list-koi">
+                    <section id="list-koi">
                         <div class="row">
-                            <div class="col-md-9">
+                            <div class="col-md-12">
                                 <div class="title_box">
                                     <h1 class="title2">Trang trại của tôi</h1>
                                     @*<div class="option_view_small">
@@ -69,7 +69,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-9">
+                            <div class="col-md-12">
                                 @if (Model != null)
                                 {
                                     for (var item = 0; item < Model.Count(); item++)
@@ -86,7 +86,7 @@
                                                         <li><a onclick="DeleteKoiFarm(@Model.ElementAt(item))">Xóa</a></li>
                                                     </ul>
                                                 </div>}
-                                            <div class="row container">
+                                            <div class="row">
                                                 <div class="col-md-3">
                                                     <img class="img-farm-list" src="/Content/Image/Member/@Model.ElementAt(item).Member.Image" alt="">
                                                 </div>
@@ -101,20 +101,10 @@
                                                 </div>
                                                 <div class="col-md-3">
                                                     <div class="ratings">
-                                                        <a style="text-decoration: none;" href="#">
-                                                            <span class="glyphicon glyphicon-star"></span>
-                                                            <span class="glyphicon glyphicon-star"></span>
-                                                            <span class="glyphicon glyphicon-star"></span>
-                                                            <span class="glyphicon glyphicon-star"></span>
-                                                            <span class="glyphicon glyphicon-star"></span>
-                                                        </a>
-                                                        <br />
+                                                        <input type="number" name="your_awesome_parameter" id="rating-default" class="rating" value="3" />
                                                         <br />
                                                         <a href="">@Model.ElementAt(item).Comments.Count() đánh giá</a>
                                                     </div>
-                                                    <p>
-                                                        <a class="btn btn-embossed btn-primary" href="@Url.Action("EditKoiFarm/"+Model.ElementAt(item).KoifarmID, "KoiFarm")" role="button">Chỉnh sửa</a>
-                                                    </p>
                                                 </div>
                                             </div>
                                         </div>

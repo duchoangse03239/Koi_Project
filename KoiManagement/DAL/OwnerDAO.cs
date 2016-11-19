@@ -33,7 +33,7 @@ namespace KoiManagement.DAL
         }
 
 
-        public bool ChangeOwner(int memberid, int koiID)
+        public bool ChangeOwner(int notiID ,int memberid, int koiID)
         {
             using (var dbContextTransaction = db.Database.BeginTransaction())
             {
@@ -55,6 +55,16 @@ namespace KoiManagement.DAL
                     Owner InsertOwner = new Owner(memberid, koiID,null,DateTime.Now, null,true);
                     db.Owners.Add(InsertOwner);
                     db.SaveChanges();
+
+                    //update trạng thái thông báo
+                    var Notifi = db.Notifications.Find(notiID);
+                    Notifi.isRead = true;
+                    db.Notifications.Attach(Notifi);
+                    var entry1 = db.Entry(Notifi);
+                    entry1.State = EntityState.Modified;
+                    entry1.Property(e => e.isRead).IsModified = true;
+                    db.SaveChanges();
+                    
                     dbContextTransaction.Commit();
                     return true;
                 }

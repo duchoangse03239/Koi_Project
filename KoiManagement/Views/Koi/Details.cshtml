@@ -192,7 +192,7 @@
                         var notifications = $.connection.notificationsHub;
                         // Create a function that the hub can call to broadcast messages.
                         $.connection.hub.start().done(function () {
-                            notifications.server.sendNotification(1, "test", "test");
+                            notifications.server.sendNotification(res.JsonObject, "test", "test");
                         });
                         window.location.reload();
                         break;

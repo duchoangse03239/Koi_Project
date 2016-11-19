@@ -43,8 +43,10 @@
             <PropertyRef Name="ArticleID" />
           </Key>
           <Property Name="ArticleID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Title" Type="nvarchar" MaxLength="100" />
           <Property Name="TypeID" Type="int" />
+          <Property Name="Title" Type="nvarchar" MaxLength="100" />
+          <Property Name="ShortDes" Type="nvarchar" MaxLength="2000" />
+          <Property Name="Image" Type="nchar" MaxLength="2000" />
           <Property Name="Date" Type="date" />
           <Property Name="MemberID" Type="int" />
           <Property Name="Content" Type="nvarchar(max)" />
@@ -863,17 +865,6 @@
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="KoiManagementModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityType Name="ActiveCode">
-          <Key>
-            <PropertyRef Name="ActiveCodeID" />
-          </Key>
-          <Property Name="ActiveCodeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="MemberID" Type="Int32" />
-          <Property Name="ActCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="ExpireOn" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="Status" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Member" Relationship="KoiManagementModel.FK__ActiveCod__Membe__1ED998B2" FromRole="ActiveCode" ToRole="Member" />
-        </EntityType>
         <EntityType Name="Answer">
           <Key>
             <PropertyRef Name="AnswerID" />
@@ -905,6 +896,8 @@
           <Property Name="Status" Type="Boolean" />
           <NavigationProperty Name="Type" Relationship="Self.FK__Article__TypeID__3C69FB99" FromRole="Article" ToRole="Type" />
           <NavigationProperty Name="Member" Relationship="KoiManagementModel.FK__Article__MemberI__3C69FB99" FromRole="Article" ToRole="Member" />
+          <Property Name="ShortDes" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="Image" Type="String" MaxLength="2000" FixedLength="true" Unicode="true" />
         </EntityType>
         <EntityType Name="Comment">
           <Key>
@@ -1218,7 +1211,6 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="KoiManagementEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="ActiveCodes" EntityType="Self.ActiveCode" />
           <EntitySet Name="Answers" EntityType="Self.Answer" />
           <EntitySet Name="Articles" EntityType="Self.Article" />
           <EntitySet Name="Comments" EntityType="Self.Comment" />
@@ -1363,10 +1355,6 @@
           </AssociationSet>
           <EntitySet Name="Members" EntityType="KoiManagementModel.Member" />
           <EntitySet Name="Notifications" EntityType="KoiManagementModel.Notification" />
-          <AssociationSet Name="FK__ActiveCod__Membe__1ED998B2" Association="KoiManagementModel.FK__ActiveCod__Membe__1ED998B2">
-            <End Role="Member" EntitySet="Members" />
-            <End Role="ActiveCode" EntitySet="ActiveCodes" />
-          </AssociationSet>
           <AssociationSet Name="FK__Answer__MemberID__44FF419A" Association="KoiManagementModel.FK__Answer__MemberID__44FF419A">
             <End Role="Member" EntitySet="Members" />
             <End Role="Answer" EntitySet="Answers" />
@@ -1410,6 +1398,11 @@
           <AssociationSet Name="FK__Report__ModelId__59063A471" Association="KoiManagementModel.FK__Report__ModelId__59063A471">
             <End Role="Member" EntitySet="Members" />
             <End Role="Report" EntitySet="Reports" />
+          </AssociationSet>
+          <EntitySet Name="ActiveCodes" EntityType="KoiManagementModel.ActiveCode" />
+          <AssociationSet Name="FK__ActiveCod__Membe__1ED998B2" Association="KoiManagementModel.FK__ActiveCod__Membe__1ED998B2">
+            <End Role="Member" EntitySet="Members" />
+            <End Role="ActiveCode" EntitySet="ActiveCodes" />
           </AssociationSet>
           </EntityContainer>
         <ComplexType Name="sp_helpdiagramdefinition_Result">
@@ -1626,7 +1619,6 @@
           <Property Name="Address" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="Role" Type="Int32" />
           <Property Name="Status" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="ActiveCodes" Relationship="KoiManagementModel.FK__ActiveCod__Membe__1ED998B2" FromRole="Member" ToRole="ActiveCode" />
           <NavigationProperty Name="Answers" Relationship="KoiManagementModel.FK__Answer__MemberID__44FF419A" FromRole="Member" ToRole="Answer" />
           <NavigationProperty Name="Articles" Relationship="KoiManagementModel.FK__Article__MemberI__3C69FB99" FromRole="Member" ToRole="Article" />
           <NavigationProperty Name="Comments" Relationship="KoiManagementModel.FK__Comment__MemberI__2D27B809" FromRole="Member" ToRole="Comment" />
@@ -1638,6 +1630,7 @@
           <NavigationProperty Name="Rates" Relationship="KoiManagementModel.FK__Rate__MemberID__47DBAE45" FromRole="Member" ToRole="Rate" />
           <NavigationProperty Name="Reports" Relationship="KoiManagementModel.FK__Report__MemberID__5441852A" FromRole="Member" ToRole="Report" />
           <NavigationProperty Name="Reports1" Relationship="KoiManagementModel.FK__Report__ModelId__59063A471" FromRole="Member" ToRole="Report" />
+          <NavigationProperty Name="ActiveCodes" Relationship="KoiManagementModel.FK__ActiveCod__Membe__1ED998B2" FromRole="Member" ToRole="ActiveCode" />
         </EntityType>
         <EntityType Name="Notification">
           <Key>
@@ -1655,18 +1648,6 @@
           <NavigationProperty Name="Member" Relationship="KoiManagementModel.FK__Notificat__Membe__41B8C09B" FromRole="Notification" ToRole="Member" />
           <NavigationProperty Name="Member1" Relationship="KoiManagementModel.FK__Notificat__Sende__42ACE4D4" FromRole="Notification" ToRole="Member" />
         </EntityType>
-        <Association Name="FK__ActiveCod__Membe__1ED998B2">
-          <End Type="KoiManagementModel.Member" Role="Member" Multiplicity="0..1" />
-          <End Type="KoiManagementModel.ActiveCode" Role="ActiveCode" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Member">
-              <PropertyRef Name="MemberID" />
-            </Principal>
-            <Dependent Role="ActiveCode">
-              <PropertyRef Name="MemberID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK__Answer__MemberID__44FF419A">
           <End Type="KoiManagementModel.Member" Role="Member" Multiplicity="0..1" />
           <End Type="KoiManagementModel.Answer" Role="Answer" Multiplicity="*" />
@@ -1799,23 +1780,35 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="ActiveCode">
+          <Key>
+            <PropertyRef Name="ActiveCodeID" />
+          </Key>
+          <Property Name="ActiveCodeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MemberID" Type="Int32" />
+          <Property Name="ActCode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ExpireOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Status" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Member" Relationship="KoiManagementModel.FK__ActiveCod__Membe__1ED998B2" FromRole="ActiveCode" ToRole="Member" />
+        </EntityType>
+        <Association Name="FK__ActiveCod__Membe__1ED998B2">
+          <End Type="KoiManagementModel.Member" Role="Member" Multiplicity="0..1" />
+          <End Type="KoiManagementModel.ActiveCode" Role="ActiveCode" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="MemberID" />
+            </Principal>
+            <Dependent Role="ActiveCode">
+              <PropertyRef Name="MemberID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="KoiManagementModelStoreContainer" CdmEntityContainer="KoiManagementEntities">
-          <EntitySetMapping Name="ActiveCodes">
-            <EntityTypeMapping TypeName="KoiManagementModel.ActiveCode">
-              <MappingFragment StoreEntitySet="ActiveCode">
-                <ScalarProperty Name="ActiveCodeID" ColumnName="ActiveCodeID" />
-                <ScalarProperty Name="MemberID" ColumnName="MemberID" />
-                <ScalarProperty Name="ActCode" ColumnName="ActCode" />
-                <ScalarProperty Name="ExpireOn" ColumnName="ExpireOn" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Answers">
             <EntityTypeMapping TypeName="KoiManagementModel.Answer">
               <MappingFragment StoreEntitySet="Answer">
@@ -1832,6 +1825,8 @@
           <EntitySetMapping Name="Articles">
             <EntityTypeMapping TypeName="KoiManagementModel.Article">
               <MappingFragment StoreEntitySet="Article">
+                <ScalarProperty Name="Image" ColumnName="Image" />
+                <ScalarProperty Name="ShortDes" ColumnName="ShortDes" />
                 <ScalarProperty Name="ArticleID" ColumnName="ArticleID" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
                 <ScalarProperty Name="TypeID" ColumnName="TypeID" />
@@ -2071,6 +2066,17 @@
                 <ScalarProperty Name="SenderID" ColumnName="SenderID" />
                 <ScalarProperty Name="MemberID" ColumnName="MemberID" />
                 <ScalarProperty Name="NoID" ColumnName="NoID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ActiveCodes">
+            <EntityTypeMapping TypeName="KoiManagementModel.ActiveCode">
+              <MappingFragment StoreEntitySet="ActiveCode">
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="ExpireOn" ColumnName="ExpireOn" />
+                <ScalarProperty Name="ActCode" ColumnName="ActCode" />
+                <ScalarProperty Name="MemberID" ColumnName="MemberID" />
+                <ScalarProperty Name="ActiveCodeID" ColumnName="ActiveCodeID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

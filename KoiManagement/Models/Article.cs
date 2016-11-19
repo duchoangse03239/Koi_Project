@@ -21,6 +21,8 @@ namespace KoiManagement.Models
         public Nullable<int> MemberID { get; set; }
         public string Content { get; set; }
         public Nullable<bool> Status { get; set; }
+        public string ShortDes { get; set; }
+        public string Image { get; set; }
     
         public virtual Type Type { get; set; }
         public virtual Member Member { get; set; }

@@ -17,6 +17,11 @@ namespace KoiManagement.DAL
             return db.Varieties.ToList();
         }
 
+        public int getVarityIdByName(string varietyName)
+        {
+            return db.Varieties.Where(p => p.VarietyName == varietyName).Select(p => p.VarietyID).FirstOrDefault();
+        }
+
         public List<Variety> getListMainVariety()
         {
            return  db.Varieties.Where(p => p.VarietyDetailID == null).ToList();

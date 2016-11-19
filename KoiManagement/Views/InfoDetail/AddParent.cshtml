@@ -85,10 +85,10 @@
                                              <div class="content-section-a">
                                                  <input type="hidden" id="koiID" name="koiID" value="@ViewBag.Listkoi[item].KoiID">
                                                  <div class="row">
-                                                     <div class="col-md-4">
+                                                     <div class="col-md-3">
                                                          <img class="img-koi-list " src="/Content/Image/Koi/@ViewBag.Listkoi[item].Image" alt="">
                                                      </div>
-                                                     <div class="col-md-5">
+                                                     <div class="col-md-6">
                                                          <p class="title-koi-name" href="/Koi/Details/@ViewBag.Listkoi[item].KoiID">@ViewBag.Listkoi[item].KoiName</p>
                                                          <h4 style="margin-top: 25px;">
                                                              Chủ sở hữu:     @{
@@ -110,16 +110,9 @@
                                                              <a class="btn btn-embossed btn-primary" onclick="AddParent(@ViewBag.KoiSonID,@ViewBag.Listkoi[item].KoiID)" role="button">Thêm cá mẹ</a>
                                                          </p>
                                                      </div>
-                                                     <div class="col-md-2">
-                                                         <div class="ratings align-right">
-                                                             <a style="text-decoration: none;" href="#">
-                                                                 <span class="glyphicon glyphicon-star"></span>
-                                                                 <span class="glyphicon glyphicon-star"></span>
-                                                                 <span class="glyphicon glyphicon-star"></span>
-                                                                 <span class="glyphicon glyphicon-star"></span>
-                                                                 <span class="glyphicon glyphicon-star"></span>
-                                                             </a>
-                                                             <br/>
+                                                     <div class="col-md-3">
+                                                         <div class="ratings" style="margin-top: 13px;">
+                                                             <input type="number" name="your_awesome_parameter" id="rating-default" class="rating" value="3"/>
                                                              <br/>
                                                              <a href="">@cmDao.CountCommentByKoiID(ViewBag.Listkoi[item].KoiID) đánh giá</a>
                                                          </div>
