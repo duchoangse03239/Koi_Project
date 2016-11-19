@@ -21,7 +21,7 @@ namespace KoiManagement.Models
         public Nullable<System.DateTime> Datetime { get; set; }
         public string url { get; set; }
         public string Content { get; set; }
-        public Nullable<bool> isRead { get; set; }
+        public bool isRead { get; set; }
         public bool status { get; set; }
         public Notification()
         {
