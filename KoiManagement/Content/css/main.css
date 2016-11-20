@@ -1648,7 +1648,7 @@ input[type="file"] {
 /*ADD FORM*/
 .fileUpload { position: relative; overflow: hidden; margin-bottom: 5px; margin-top:5px; }
 .fileUpload input.upload { position: absolute; top: 0; right: 0; margin: 0; padding: 0; font-size: 20px; cursor: pointer; opacity: 0; filter: alpha(opacity=0); }
-.deleteDiv{ position:relative; top:-160px; left:99px; width:30px;height:30px;}
+.deleteDiv{ position:relative; top:-160px; left:101px; width:30px;height:30px;}
 .imageBlock{display: inline-block;}
 .thumb{width:130px; height:159px;}
 .thumb{width:130px; height:159px;border: 1px solid #000;
@@ -1656,14 +1656,17 @@ input[type="file"] {
 .deleteIcon {
     width:30px; 
     height:30px;
-    background: url("/Content/deleteImage.png");
 }
 .setAvatar {
     width:30px; 
     height:30px;
-    position: absolute;
-    top: 99px;
-    right: 0px;
+}
+.setAvatarDiv {
+    position:relative; 
+    top:-60px; 
+    left:129px; 
+    width:30px;
+    height:30px;
 }
 
 #add-btn {

@@ -122,7 +122,7 @@
                                     {
                                         if (Session[SessionAccount.SessionUserId] != null && @owner.Member.MemberID.ToString().Equals(Session[SessionAccount.SessionUserId].ToString()))
                                         {
-                                            <span><a href="@Url.Action("AddParent/"+ Model.KoiID, "InfoDetail")" class="btn btn-primary btn-sm">Thêm bố - mẹ</a></span>
+                                            <span><a href="@Url.Action("AddParent/"+ Model.KoiID, "InfoDetail")" class="btn btn-embossed btn-primary btn-sm" role="button">Thêm bố - mẹ</a></span>
                                         }
                                     }
                                 }
@@ -131,10 +131,10 @@
                                 <label><span class="fa fa-home"></span> Chủ sở hữu:</label>
                                 @if (owner != null)
                                 {
-                                    <span>@owner.Member.Name</span>
+                                    <span><a href="#">@owner.Member.Name</a></span>
                                     if (Session[SessionAccount.SessionUserId] != null && @owner.Member.MemberID.ToString().Equals(Session[SessionAccount.SessionUserId].ToString()))
                                     {
-                                    <span style="float:right;"><a  class="btn btn-primary btn-sm" data-toggle="modal" data-target="#trade">Đổi chủ</a></span>}
+                                    <span style="float:right;"><a  class="btn btn-embossed btn-primary btn-sm" role="button" data-toggle="modal" data-target="#trade">Đổi chủ</a></span>}
                                 }
                             </div>
                             <div class="line">
@@ -144,7 +144,8 @@
                                 <label><span class="fa fa-clock-o"></span> Thông tin sinh trưởng:</label> <a href="@Url.Action("timeline/"+@Model.KoiID, "InfoDetail")">Chi tiết <span class="fa fa-angle-double-right"></span></a>
                             </div>
                             <div class="line">
-                                <a href="#" class="btn btn-embossed btn-primary">Báo cáo vi phạm</a>
+                                <a href="#" class="btn btn-embossed btn-primary" role="button">Liên hệ</a>
+                                <a href="#" class="btn btn-embossed btn-primary" role="button" style="float: right;">Báo cáo vi phạm</a>
                             </div>
                         </div>
                     </div>
