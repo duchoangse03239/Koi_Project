@@ -1662,12 +1662,20 @@ input[type="file"] {
     height:30px;
 }
 .setAvatarDiv {
-    position:relative; 
-    top:-60px; 
-    left:129px; 
+    position:relative;
+    top:-58px;
+    left:137px;
     width:30px;
     height:30px;
 }
+.radio-lg input[type=radio] {
+        width: 2em;
+        height: 1em;
+        border: 2px solid;
+        border-radius: 5px;
+        /*checkbox border color*/
+        border-color: #737373;
+    }
 
 #add-btn {
     margin-top:20px;
