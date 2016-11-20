@@ -1,61 +1,97 @@
 ﻿@model KoiManagement.Models.InfoDetail
-
 @{
     ViewBag.Title = "Create";
     Layout = "~/Views/Layout/KoiLayout.cshtml";
 }
-
 <div class="container" id="add-koi">
     <form action="/InfoDetail/Edit" enctype="multipart/form-data" method="post">
-        <h2 id="form-title">CẬP NHÂT TRẠNG THÁI MỚI CHO <i>@Model.Koi.KoiName</i></h2>
+        <h3 id="form-title" style="text-align:center; margin-top:40px;">CẬP NHẬT TRẠNG THÁI CHO "<span style="color:red;">@Model.Koi.KoiName</span>"</h3>
         @Html.AntiForgeryToken()
         <div class="">
             <div class="row">
                 <div class="col-sm-6 col-sm-offset-3">
-                    <input type="text" class="form-control" placeholder="Cân Nặng" name="Weight" value="@Model.Weight">
-                    <label id="lblMessage_koi_weight_fail" class="label-error"></label>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-6 col-sm-offset-3">
+                    <hr />
+                    <label>Kích thước hiện tại</label>
                     <input type="text" class="form-control" placeholder="Kích Thước" name="Size" value="@Model.Size">
                     <label id="lblMessage_koi_size_fail" class="label-error"></label>
                 </div>
             </div>
             <div class="row">
                 <div class="col-sm-6 col-sm-offset-3">
+                    <label>Tình trạng sức khỏe</label>
                     <input type="text" class="form-control" placeholder="Tình Trạng Sức Khỏe" name="HeathyStatus" value="@Model.HeathyStatus">
                     <label id="lblMessage_koi_healthy_fail" class="label-error"></label>
                 </div>
             </div>
             <div class="row">
                 <div class="col-sm-6 col-sm-offset-3">
+                    <label>Mô tả trạng thái</label>
                     <textarea rows="4" type="text" class="form-control" placeholder="Mô tả" name="Description">@Model.Description</textarea>
                     <label id="lblMessage_koi_description_fail" class="label-error"></label>
                 </div>
             </div>
             <div class="row">
                 <div class="col-sm-6 col-sm-offset-3">
-                    <input id="uploadFile" type="file" accept="image/png, image/jpeg, image/gif" name="file" class="img" onchange="loadFile(event)" />
-                    <br />
-                    <div><img id="imagePreview" src="~/Content/Image/Detail/@Model.Image" alt="" /></div>
-                    <script>
-                        var loadFile = function (event) {
-                            var output = document.getElementById('imagePreview');
-                            imagePreview.src = URL.createObjectURL(event.target.files[0]);
-                        };
-                    </script>
+                    <label>Chọn ảnh cá</label>
+                    <input type="file" id="files" name="files" onchange="previewImg()" class="upload hides" multiple accept="image/*" />
+                    <output id="result"></output>
                 </div>
             </div>
             <div class="row add-button">
-                <div class="col-sm-3"></div>
-                <input type="hidden" name="DetailID" value="@Model.DetailID">
-                <input type="hidden" name="Image" value="@Model.Image">
-                <input type="hidden" name="KoiID" value="@Model.KoiID">
-                <button type="submit" class="btn btn-default">Cập nhật</button>
-                <button type="button" class="btn btn-default"  onclick="location.href='/Koi/edit/@Model.DetailID';">Hủy</button>
+                <div class="col-sm-6 col-sm-offset-3 align-right">
+                    <input type="hidden" name="DetailID" value="@Model.DetailID">
+                    <input type="hidden" name="Image" value="@Model.Image">
+                    <input type="hidden" name="KoiID" value="@Model.KoiID">
+                    <button type="submit" class="btn btn-primary">Cập nhật</button>
+                    <button type="button" class="btn btn-primary" onclick="location.href='/Koi/edit/@Model.DetailID';">Hủy</button>
+                </div>
             </div>
         </div>
     </form>
+</div>
+<script>
+    $(".camera.icon")
+                    .click(function () {
+                        $("#files").trigger('click');
+                    });
 
-</div>  
+    var ImgList = [];
+
+    function previewImg() {
+        var filesInput = document.getElementById("files");
+        var files = filesInput.files;
+        var output = document.getElementById("result");
+        var i = 0,
+            len = files.length;
+        (function readFile(n) {
+            var reader = new FileReader();
+            var f = files[n];
+            reader.onload = function (e) {
+                var div = document.createElement("span");
+                div.className = "imageBlock";
+                div.innerHTML = "<img class='thumb' src='" +
+                    e.target.result +
+                    "'" +
+                    "title='" +
+                    f.name +
+                    "'/>  <div href='#' class='deleteDiv'><img class='deleteIcon'/></div>" +
+                    "<div href='#' class='deleteDiv'><img class='setAvatar' title='Đặt ảnh đại diện'/></div>";
+                output.insertBefore(div, null);
+                div.children[1].addEventListener("click",
+                    function () {
+                        div.parentNode.removeChild(div);
+                        var removeId = div.children[0].title;
+                        for (var index = 0; index < ImgList.length; index++) {
+                            if (ImgList[index].name === removeId) {
+                                ImgList.splice(index, 1);
+                                break;
+                            }
+                        }
+                    });
+                ImgList.push(f);
+                if (n < len - 1) readFile(++n);
+            };
+            reader.readAsDataURL(f);
+        }(i));
+    }
+</script>  
