@@ -119,6 +119,7 @@
           <Property Name="LinkVideo" Type="varchar" MaxLength="2048" />
           <Property Name="ModelId" Type="int" />
           <Property Name="ModelTypeID" Type="varchar" MaxLength="10" />
+          <Property Name="Status" Type="bit" />
         </EntityType>
         <EntityType Name="Member">
           <Key>
@@ -931,21 +932,8 @@
           <Property Name="HeathyStatus" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="Description" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
           <Property Name="Status" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Media" Relationship="Self.FK__Media__ModelId__5070F446" FromRole="InfoDetail" ToRole="Media" />
           <NavigationProperty Name="Koi" Relationship="KoiManagementModel.FK__InfoDetai__KoiID__164452B1" FromRole="InfoDetail" ToRole="Koi" />
-        </EntityType>
-        <EntityType Name="Medium">
-          <Key>
-            <PropertyRef Name="MediaID" />
-          </Key>
-          <Property Name="MediaID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="LinkImage" Type="String" MaxLength="2048" FixedLength="false" Unicode="false" />
-          <Property Name="LinkVideo" Type="String" MaxLength="2048" FixedLength="false" Unicode="false" />
-          <Property Name="ModelId" Type="Int32" />
-          <Property Name="ModelTypeID" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="InfoDetail" Relationship="Self.FK__Media__ModelId__5070F446" FromRole="Media" ToRole="InfoDetail" />
-          <NavigationProperty Name="ModelType" Relationship="Self.FK__Media__ModelType__4F7CD00D" FromRole="Media" ToRole="ModelType" />
-          <NavigationProperty Name="KoiFarm" Relationship="KoiManagementModel.FK__Media__ModelId__5070F4461" FromRole="Medium" ToRole="KoiFarm" />
+          <NavigationProperty Name="Media" Relationship="KoiManagementModel.FK__Media__ModelId__4F7CD00D" FromRole="InfoDetail" ToRole="Medium" />
         </EntityType>
         <EntityType Name="ModelType">
           <Key>
@@ -953,8 +941,8 @@
           </Key>
           <Property Name="ModelTypeID" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Media" Relationship="Self.FK__Media__ModelType__4F7CD00D" FromRole="ModelType" ToRole="Media" />
           <NavigationProperty Name="Reports" Relationship="Self.FK__Report__ModelTyp__5441852A" FromRole="ModelType" ToRole="Report" />
+          <NavigationProperty Name="Media" Relationship="KoiManagementModel.FK__Media__ModelType__4E88ABD4" FromRole="ModelType" ToRole="Medium" />
         </EntityType>
         <EntityType Name="Owner">
           <Key>
@@ -1126,30 +1114,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Media__ModelId__5070F446">
-          <End Role="InfoDetail" Type="Self.InfoDetail" Multiplicity="0..1" />
-          <End Role="Media" Type="Self.Medium" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="InfoDetail">
-              <PropertyRef Name="DetailID" />
-            </Principal>
-            <Dependent Role="Media">
-              <PropertyRef Name="ModelId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__Media__ModelType__4F7CD00D">
-          <End Role="ModelType" Type="Self.ModelType" Multiplicity="0..1" />
-          <End Role="Media" Type="Self.Medium" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ModelType">
-              <PropertyRef Name="ModelTypeID" />
-            </Principal>
-            <Dependent Role="Media">
-              <PropertyRef Name="ModelTypeID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK__Report__ModelTyp__5441852A">
           <End Role="ModelType" Type="Self.ModelType" Multiplicity="0..1" />
           <End Role="Report" Type="Self.Report" Multiplicity="*" />
@@ -1215,7 +1179,6 @@
           <EntitySet Name="Articles" EntityType="Self.Article" />
           <EntitySet Name="Comments" EntityType="Self.Comment" />
           <EntitySet Name="InfoDetails" EntityType="Self.InfoDetail" />
-          <EntitySet Name="Media" EntityType="Self.Medium" />
           <EntitySet Name="ModelTypes" EntityType="Self.ModelType" />
           <EntitySet Name="Owners" EntityType="Self.Owner" />
           <EntitySet Name="Questions" EntityType="Self.Question" />
@@ -1247,14 +1210,6 @@
           <AssociationSet Name="FK__Comment__Comment__300424B4" Association="Self.FK__Comment__Comment__300424B4">
             <End Role="Comment" EntitySet="Comments" />
             <End Role="Comment1" EntitySet="Comments" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Media__ModelId__5070F446" Association="Self.FK__Media__ModelId__5070F446">
-            <End Role="InfoDetail" EntitySet="InfoDetails" />
-            <End Role="Media" EntitySet="Media" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Media__ModelType__4F7CD00D" Association="Self.FK__Media__ModelType__4F7CD00D">
-            <End Role="ModelType" EntitySet="ModelTypes" />
-            <End Role="Media" EntitySet="Media" />
           </AssociationSet>
           <AssociationSet Name="FK__Report__ModelTyp__5441852A" Association="Self.FK__Report__ModelTyp__5441852A">
             <End Role="ModelType" EntitySet="ModelTypes" />
@@ -1341,10 +1296,6 @@
             <End Role="KoiFarm" EntitySet="KoiFarms" />
             <End Role="Comment" EntitySet="Comments" />
           </AssociationSet>
-          <AssociationSet Name="FK__Media__ModelId__5070F4461" Association="KoiManagementModel.FK__Media__ModelId__5070F4461">
-            <End Role="KoiFarm" EntitySet="KoiFarms" />
-            <End Role="Medium" EntitySet="Media" />
-          </AssociationSet>
           <AssociationSet Name="FK__Owner__KoiFarmID__29572725" Association="KoiManagementModel.FK__Owner__KoiFarmID__29572725">
             <End Role="KoiFarm" EntitySet="KoiFarms" />
             <End Role="Owner" EntitySet="Owners" />
@@ -1403,6 +1354,19 @@
           <AssociationSet Name="FK__ActiveCod__Membe__1ED998B2" Association="KoiManagementModel.FK__ActiveCod__Membe__1ED998B2">
             <End Role="Member" EntitySet="Members" />
             <End Role="ActiveCode" EntitySet="ActiveCodes" />
+          </AssociationSet>
+          <EntitySet Name="Media" EntityType="KoiManagementModel.Medium" />
+          <AssociationSet Name="FK__Media__ModelId__4F7CD00D" Association="KoiManagementModel.FK__Media__ModelId__4F7CD00D">
+            <End Role="InfoDetail" EntitySet="InfoDetails" />
+            <End Role="Medium" EntitySet="Media" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Media__ModelId__5070F446" Association="KoiManagementModel.FK__Media__ModelId__5070F446">
+            <End Role="KoiFarm" EntitySet="KoiFarms" />
+            <End Role="Medium" EntitySet="Media" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Media__ModelType__4E88ABD4" Association="KoiManagementModel.FK__Media__ModelType__4E88ABD4">
+            <End Role="ModelType" EntitySet="ModelTypes" />
+            <End Role="Medium" EntitySet="Media" />
           </AssociationSet>
           </EntityContainer>
         <ComplexType Name="sp_helpdiagramdefinition_Result">
@@ -1550,10 +1514,10 @@
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Status" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Comments" Relationship="KoiManagementModel.FK__Comment__KoiFarm__2E1BDC42" FromRole="KoiFarm" ToRole="Comment" />
-          <NavigationProperty Name="Media" Relationship="KoiManagementModel.FK__Media__ModelId__5070F4461" FromRole="KoiFarm" ToRole="Medium" />
           <NavigationProperty Name="Owners" Relationship="KoiManagementModel.FK__Owner__KoiFarmID__29572725" FromRole="KoiFarm" ToRole="Owner" />
           <NavigationProperty Name="Reports" Relationship="KoiManagementModel.FK__Report__ModelId__5629CD9C" FromRole="KoiFarm" ToRole="Report" />
           <NavigationProperty Name="Member" Relationship="KoiManagementModel.FK__KoiFarm__MemberI__21B6055D" FromRole="KoiFarm" ToRole="Member" />
+          <NavigationProperty Name="Media" Relationship="KoiManagementModel.FK__Media__ModelId__5070F446" FromRole="KoiFarm" ToRole="Medium" />
         </EntityType>
         <Association Name="FK__Comment__KoiFarm__2E1BDC42">
           <End Type="KoiManagementModel.KoiFarm" Role="KoiFarm" Multiplicity="0..1" />
@@ -1564,18 +1528,6 @@
             </Principal>
             <Dependent Role="Comment">
               <PropertyRef Name="KoiFarmID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__Media__ModelId__5070F4461">
-          <End Type="KoiManagementModel.KoiFarm" Role="KoiFarm" Multiplicity="0..1" />
-          <End Type="KoiManagementModel.Medium" Role="Medium" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="KoiFarm">
-              <PropertyRef Name="KoifarmID" />
-            </Principal>
-            <Dependent Role="Medium">
-              <PropertyRef Name="ModelId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1803,6 +1755,56 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Medium">
+          <Key>
+            <PropertyRef Name="MediaID" />
+          </Key>
+          <Property Name="MediaID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LinkImage" Type="String" MaxLength="2048" FixedLength="false" Unicode="false" />
+          <Property Name="LinkVideo" Type="String" MaxLength="2048" FixedLength="false" Unicode="false" />
+          <Property Name="ModelId" Type="Int32" />
+          <Property Name="ModelTypeID" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Status" Type="Boolean" />
+          <NavigationProperty Name="InfoDetail" Relationship="KoiManagementModel.FK__Media__ModelId__4F7CD00D" FromRole="Medium" ToRole="InfoDetail" />
+          <NavigationProperty Name="KoiFarm" Relationship="KoiManagementModel.FK__Media__ModelId__5070F446" FromRole="Medium" ToRole="KoiFarm" />
+          <NavigationProperty Name="ModelType" Relationship="KoiManagementModel.FK__Media__ModelType__4E88ABD4" FromRole="Medium" ToRole="ModelType" />
+        </EntityType>
+        <Association Name="FK__Media__ModelId__4F7CD00D">
+          <End Type="KoiManagementModel.InfoDetail" Role="InfoDetail" Multiplicity="0..1" />
+          <End Type="KoiManagementModel.Medium" Role="Medium" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="InfoDetail">
+              <PropertyRef Name="DetailID" />
+            </Principal>
+            <Dependent Role="Medium">
+              <PropertyRef Name="ModelId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Media__ModelId__5070F446">
+          <End Type="KoiManagementModel.KoiFarm" Role="KoiFarm" Multiplicity="0..1" />
+          <End Type="KoiManagementModel.Medium" Role="Medium" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="KoiFarm">
+              <PropertyRef Name="KoifarmID" />
+            </Principal>
+            <Dependent Role="Medium">
+              <PropertyRef Name="ModelId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Media__ModelType__4E88ABD4">
+          <End Type="KoiManagementModel.ModelType" Role="ModelType" Multiplicity="0..1" />
+          <End Type="KoiManagementModel.Medium" Role="Medium" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ModelType">
+              <PropertyRef Name="ModelTypeID" />
+            </Principal>
+            <Dependent Role="Medium">
+              <PropertyRef Name="ModelTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1864,17 +1866,6 @@
                 <ScalarProperty Name="HeathyStatus" ColumnName="HeathyStatus" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Media">
-            <EntityTypeMapping TypeName="KoiManagementModel.Medium">
-              <MappingFragment StoreEntitySet="Media">
-                <ScalarProperty Name="MediaID" ColumnName="MediaID" />
-                <ScalarProperty Name="LinkImage" ColumnName="LinkImage" />
-                <ScalarProperty Name="LinkVideo" ColumnName="LinkVideo" />
-                <ScalarProperty Name="ModelId" ColumnName="ModelId" />
-                <ScalarProperty Name="ModelTypeID" ColumnName="ModelTypeID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -2077,6 +2068,18 @@
                 <ScalarProperty Name="ActCode" ColumnName="ActCode" />
                 <ScalarProperty Name="MemberID" ColumnName="MemberID" />
                 <ScalarProperty Name="ActiveCodeID" ColumnName="ActiveCodeID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Media">
+            <EntityTypeMapping TypeName="KoiManagementModel.Medium">
+              <MappingFragment StoreEntitySet="Media">
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="ModelTypeID" ColumnName="ModelTypeID" />
+                <ScalarProperty Name="ModelId" ColumnName="ModelId" />
+                <ScalarProperty Name="LinkVideo" ColumnName="LinkVideo" />
+                <ScalarProperty Name="LinkImage" ColumnName="LinkImage" />
+                <ScalarProperty Name="MediaID" ColumnName="MediaID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

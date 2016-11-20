@@ -273,6 +273,11 @@ namespace KoiManagement.Controllers
 
         public ActionResult Import()
         {
+            //kiểm tra đăng nhập
+            if (Session[SessionAccount.SessionUserId] == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
             return View();
         }
 
@@ -483,40 +488,6 @@ namespace KoiManagement.Controllers
                         maxKoiId++;
                         maxDetailId++;
                     }
-                    //for (int i = 1; i < files.Count; i++)
-                    //{
-                    //    file = files[i];
-                    //    //Save file to local
-                    //    //file đầu tiên làm avartar
-                    //    if (file != null && i == 1)
-                    //    {
-                    //        //thêm ảnh cho koi
-                    //        imageKoiname = Path.GetFileName("Koi" + maxKoiId + file.FileName.Substring(file.FileName.LastIndexOf('.')));
-                    //        //Lấy ảnh đầu tiên làm avatar
-                    //        ListImport.ElementAt(i - 1).Image[0] = imageKoiname;
-                    //        fullpath.Add(Server.MapPath("~/Content/Image/Koi/" + imageKoiname));
-                    //        var pathKoi = Path.Combine(Server.MapPath("~/Content/Image/Koi"), imageKoiname);
-                    //        file.SaveAs(pathKoi);
-                    //        //thêm ảnh cho koi detail
-                    //        listImageDetailname.Add(Path.GetFileName("Detail" + maxDetailId + file.FileName.Substring(file.FileName.LastIndexOf('.'))));
-
-                    //        fullpath.Add(Server.MapPath("~/Content/Image/Detail/" + listImageDetailname.ElementAt(i-1)));
-                    //        var pathDetail = Path.Combine(Server.MapPath("~/Content/Image/Detail"), listImageDetailname.ElementAt(i - 1));
-                    //        file.SaveAs(pathDetail);
-                    //    }
-                    //    else if (file != null)
-                    //    {
-                    //        var filename = Path.GetFileName("Detail" + maxDetailId + "." + i + file.FileName.Substring(file.FileName.LastIndexOf('.')));
-                    //        fullpath.Add(Server.MapPath("~/Content/Image/Detail/" + filename));
-                    //        var path = Path.Combine(Server.MapPath("~/Content/Image/Detail"), filename);
-                    //        file.SaveAs(path);
-                    //        Medium a = new Medium();
-                    //        a.ModelTypeID = "InfoDetail";
-                    //        a.LinkImage = filename;
-                    //        ListMedia.Add(a);
-                    //    }
-                    //}
-
 
                     //Import To database
                     if (koiDao.ImportKoi(ListImport, memberid, koifarmId, listImageDetailname, ListMedia))
