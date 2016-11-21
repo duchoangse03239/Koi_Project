@@ -19,8 +19,8 @@
                             <span class="caret"></span>
                         </button>
                         <ul class="dropdown-menu dropdown-menu-right">
-                            <li><a href="#">Sửa</a></li>
-                            <li><a href="#">Xóa</a></li>
+                            <li><a href="@Url.Action("EditDetail/"+ @listInfo.ElementAt(item).DetailID, "InfoDetail")">Sửa</a></li>
+                            <li><a onclick="DeleteDetail(@listInfo.ElementAt(item).DetailID)">Xóa</a></li>
                         </ul>
                     </div>
                     <div class="timeline-heading">
@@ -114,8 +114,8 @@
                             <span class="caret"></span>
                         </button>
                         <ul class="dropdown-menu dropdown-menu-right">
-                            <li><a href="#">Sửa</a></li>
-                            <li><a href="#">Xóa</a></li>
+                            <li><a href="@Url.Action("EditDetail/"+ @listInfo.ElementAt(item).DetailID, "InfoDetail")">Sửa</a></li>
+                            <li><a onclick="DeleteDetail(@listInfo.ElementAt(item).DetailID)">Xóa</a></li>
                         </ul>
                     </div>
                     <div class="timeline-heading">
@@ -192,3 +192,26 @@
         <li class="clearfix" style="float: none;"></li>
     </ul>
 }
+
+<script>
+    function DeleteDetail(parameter1) {
+        if (confirm("Bạn có chắc chắn muốn xóa?")) {
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("DeleteConfirmed")",
+                datatype: "JSON",
+            data: {
+                Detailid: parameter1
+            },
+            success: function (res) {
+                if (res) {
+
+                    window.location.reload();
+                    // $('#test').html();
+                    alert("Xóa thành công");
+                }
+            }
+        }); // end ajax
+    }
+    }
+</script>

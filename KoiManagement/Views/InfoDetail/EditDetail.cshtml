@@ -8,74 +8,79 @@
 }
 
 <div class="container" id="add-koi">
-        <h2 id="form-title">CẬP NHÂT TRẠNG THÁI MỚI CHO <i>@Model.Koi.KoiName</i></h2>
-        
-        
+        <h3 id="form-title" style="text-align:center; margin-top:40px;">CẬP NHẬT TRẠNG THÁI CHO "<span style="color:red;">@Model.Koi.KoiName</span>"</h3>
+        @Html.AntiForgeryToken()
+<div class="">
+    <div class="row">
+        <div class="col-sm-6 col-sm-offset-3">
+            <hr />
+            <label>Kích thước hiện tại</label>
+            <input type="text" class="form-control" placeholder="Kích Thước" name="Size" id="Size" value="@Model.Size">
+            <label id="lblMessage_koi_size_fail" class="label-error"></label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6 col-sm-offset-3">
+            <label>Tình trạng sức khỏe</label>
+            <input type="text" class="form-control" placeholder="Tình Trạng Sức Khỏe" name="HeathyStatus" id="HeathyStatus" value="@Model.HeathyStatus">
+            <label id="lblMessage_koi_healthy_fail" class="label-error"></label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6 col-sm-offset-3">
+            <label>Mô tả trạng thái</label>
+            <textarea rows="4" type="text" class="form-control" placeholder="Mô tả" name="Description" id="Description">@Model.Description</textarea>
+            <label id="lblMessage_koi_description_fail" class="label-error"></label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6 col-sm-offset-3">
+            <label>Chọn ảnh cá</label>
+            <label id="lblMessage_Image_fail" class="label-error"></label>
+            <input type="file" id="files" name="files" onchange="previewImg()" class="upload hides" multiple accept="image/*" />
+            <output id="result">
+                @{
+                    if (Image != null)
+                    {
+                        for (var i = 0; i < Image.Count; i++)
+                        {
 
-            <div class="row">
-                <div class="col-sm-6 col-sm-offset-3">
-                    <label>Kích thước</label>
-                    <input type="text" class="form-control" placeholder="Kích Thước" name="Size" id="Size" value="@Model.Size">
-                    <label id="lblMessage_koi_size_fail" class="label-error"></label>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-6 col-sm-offset-3">
-                    <label>Tình Trạng</label>
-                    <input type="text" class="form-control" placeholder="Tình Trạng Sức Khỏe" name="HeathyStatus" id ="HeathyStatus" value="@Model.HeathyStatus">
-                    <label id="lblMessage_koi_healthy_fail" class="label-error"></label>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-6 col-sm-offset-3">
-                    <label>Mô tả</label>
-                    <textarea rows="4" type="text" class="form-control" placeholder="Mô tả" name="Description" id ="Description">@Model.Description</textarea>
-                    <label id="lblMessage_koi_description_fail" class="label-error"></label>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-6 col-sm-offset-3">
-                    <label>Ảnh cá</label>
-                    <input type="file" id="files" name="files" onchange="previewImg()" class="upload hides" multiple accept="image/*" />
-                    <output id="result">
-                        @{
-                            if (Image != null)
-                            {
-                                for (var i=0;i<Image.Count;i++)
+                            <div class="imageBlock" id="tl_@i">
+                                <img class="thumb" src="~/Content/Image/Detail/@Image.ElementAt(i).LinkImage" alt="images" />
+                                <div class="deleteDiv">
+                                    <img class="deleteIcon" src="~/Content/deleteImage.png" title="Delete Image" onclick="deleteImage('@Image.ElementAt(i).MediaID','@i');" />
+
+                                </div>
+                                @if (i == 0)
                                 {
-
-                                    <div class="imageBlock" id="tl_@i">
-                                        <img class="thumb" src="~/Content/Image/Detail/@Image.ElementAt(i).LinkImage" alt="images" />
-                                        <div class="deleteDiv">
-                                            <img class="deleteIcon" src="~/Content/deleteImage.png" title="Delete Image" onclick="deleteImage('@Image.ElementAt(i).MediaID','@i');" />
-
-                                        </div>
-                                        @if (i == 0)
-                                        {
-                                            <div onclick="Avatar('@Image.ElementAt(i).LinkImage')" class='setAvatarDiv radio radio-lg'><input type='radio' name='myRadio' checked="checked" value='' title='Đặt làm ảnh đại diện'>
-                                            </div>
-                                        }
-                                        else
-                                        {
-                                            <div onclick="Avatar('@Image.ElementAt(i).LinkImage')" class='setAvatarDiv radio radio-lg'><input type='radio' name='myRadio' value='' title='Đặt làm ảnh đại diện'></div>
-                                        }
+                                    <div onclick="Avatar('@Image.ElementAt(i).LinkImage')" class='setAvatarDiv radio radio-lg'>
+                                        <input type='radio' name='myRadio' checked="checked" value='' title='Đặt làm ảnh đại diện'>
                                     </div>
                                 }
-                            }
+                                else
+                                {
+                                    <div onclick="Avatar('@Image.ElementAt(i).LinkImage')" class='setAvatarDiv radio radio-lg'><input type='radio' name='myRadio' value='' title='Đặt làm ảnh đại diện'></div>
+                                }
+                            </div>
                         }
-                    </output>
-                </div>
-            </div>
-            <div class="row add-button">
-                <div class="col-sm-3"></div>
-                <input type="hidden" name="DetailID" value="@Model.DetailID">
-                <input type="hidden" name="KoiID" value="@Model.KoiID">
-                <button id ="btnEditDetail" class="btn btn-default">Cập nhật</button>
-                <button type="button" class="btn btn-default" onclick="location.href='/Koi/edit/@Model.DetailID';">Hủy</button>
-            </div>
-        <input type="hidden" id="Avatar" name="Avatar" value="change" />
-</div>  
-<script>
+                    }
+                }
+            </output>
+        </div>
+    </div>
+    <div class="row add-button">
+        <div class="col-sm-6 col-sm-offset-3 align-right">
+            <input type="hidden" name="DetailID" value="@Model.DetailID">
+            <input type="hidden" name="Image" value="@Model.Image">
+            <input type="hidden" name="KoiID" value="@Model.KoiID">
+            <button id="btnEditDetail" class="btn btn-primary">Cập nhật</button>
+            <button type="button" class="btn btn-primary" onclick="location.href='/Koi/edit/@Model.DetailID';">Hủy</button>
+        </div>
+    </div>
+    <input type="hidden" id="Avatar" name="Avatar" value="change" />
+</div>
+    </div>
+        <script>
     $(".camera.icon")
         .click(function () {
             $("#files").trigger('click');
@@ -123,9 +128,9 @@
             reader.readAsDataURL(f);
         }(i));
     }
-</script>
+        </script>
 
-<script>
+        <script>
 
     $(document).ready(function () {
         $(function () {
@@ -159,6 +164,7 @@
             var regex = /^[0-9 \.\,\+]+$/;
             return regex.test(Size);
         };
+        var files = $('#files').val();
         if (Size == "") {
             $('#lblMessage_koi_size_fail').text("Vui lòng nhập kích thước");
             return false;
@@ -167,6 +173,13 @@
             $('#lblMessage_koi_size_fail').text("Vui lòng nhập số cho kích thước của Koi!");
             return false;
         }
+
+        if($('input[name=myRadio]:checked').length<=0)
+        {
+            $('#lblMessage_Image_fail').text("Vui lòng chọn ảnh đại diện cho Koi!");
+            return false;
+        }
+
         return true;
     }
 
@@ -259,20 +272,21 @@
         document.getElementById('Avatar').value=o;
 
     }
-</script>
-<style>
-.setAvatarDiv {
-    position:relative;
-    top:-60px;
-    left:129px;
-    width:30px;
-    height:30px;
-}
-.radio-lg input[type=radio] {
-        width: 26px;
-        border: 2px solid;
-        border-radius: 5px;
-        /*checkbox border color*/
-        border-color: #737373;
-    }
-</style>
+        </script>
+        <style>
+            .setAvatarDiv {
+                position: relative;
+                top: -60px;
+                left: 129px;
+                width: 30px;
+                height: 30px;
+            }
+
+            .radio-lg input[type=radio] {
+                width: 26px;
+                border: 2px solid;
+                border-radius: 5px;
+                /*checkbox border color*/
+                border-color: #737373;
+            }
+        </style>

@@ -210,12 +210,12 @@ namespace KoiManagement.DAL
                 if (!string.IsNullOrEmpty(searchModel.SizeFrom))
                 {
                     decimal? size = CommonFunction.ToNullableDecimal(searchModel.SizeFrom);
-                    koi = koi.Where(p => p.InfoDetails.OrderByDescending(u => u.DetailID).FirstOrDefault().Size >= size);
+                    koi = koi.Where(p => p.InfoDetails.OrderBy(u => u.Date).FirstOrDefault().Size >= size);
                 }
                 if (!string.IsNullOrWhiteSpace(searchModel.SizeTo))
                 {
                     decimal? size = CommonFunction.ToNullableDecimal(searchModel.SizeTo);
-                    koi = koi.Where(p => p.InfoDetails.OrderByDescending(u => u.DetailID).FirstOrDefault().Size <= size);
+                    koi = koi.Where(p => p.InfoDetails.OrderBy(u => u.Date).FirstOrDefault().Size <= size);
                 }
                 if (!string.IsNullOrEmpty(searchModel.Gender))
                 {
@@ -229,13 +229,27 @@ namespace KoiManagement.DAL
                 }
                 if (!string.IsNullOrEmpty(searchModel.AgeFrom))
                 {
-                    //@@
-                   // koi = koi.Where(p => p.KoiName.Contains(searchModel.KoiName));
+                    int? age = CommonFunction.ToNullableInt(searchModel.AgeFrom);
+                    if (age.HasValue)
+                    {
+                        DateTime? Month = CommonFunction.getDateFromMonth(age.Value);
+                        if (Month != null)
+                        {
+                                 koi = koi.Where(p => p.DoB >= Month);
+                        }
+                    }
                 }
                 if (!string.IsNullOrEmpty(searchModel.AgeTo))
                 {
-                    //@@
-                    // koi = koi.Where(p => p.KoiName.Contains(searchModel.KoiName));
+                    int? age = CommonFunction.ToNullableInt(searchModel.AgeTo);
+                    if (age.HasValue)
+                    {
+                        DateTime? Month = CommonFunction.getDateFromMonth(age.Value);
+                        if (Month != null)
+                        {
+                            koi = koi.Where(p => p.DoB <= Month);
+                        }
+                    }
                 }
                 if (!string.IsNullOrEmpty(searchModel.orderby))
                 {

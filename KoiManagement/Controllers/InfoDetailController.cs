@@ -33,7 +33,7 @@ namespace KoiManagement.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var infoDetail = db.InfoDetails.Where(p => p.KoiID == id).OrderByDescending(p => p.Date);
+            var infoDetail = db.InfoDetails.Where(p => p.KoiID == id&&p.Status).OrderByDescending(p => p.Date);
             if (infoDetail == null)
             {
                 return HttpNotFound();
@@ -96,7 +96,7 @@ namespace KoiManagement.Controllers
 
 
 
-            var ListInfo = db.InfoDetails.Where(p => p.KoiID == id).OrderByDescending(p => p.Date).Skip(filter.Skip).Take(filter.ItemsPerPage).ToList();
+            var ListInfo = db.InfoDetails.Where(p => p.KoiID == id&&p.Status).OrderByDescending(p => p.Date).Skip(filter.Skip).Take(filter.ItemsPerPage).ToList();
             // if (ListInfo.Count < filter.ItemsPerPage) ViewBag.IsEndOfRecords = true;
 
             List<String> ListImage = new List<string>();
@@ -133,7 +133,7 @@ namespace KoiManagement.Controllers
 
 
 
-            var ListInfo = db.InfoDetails.Where(p => p.KoiID == id).OrderByDescending(p => p.Date).Skip(filter.Skip).Take(filter.ItemsPerPage).ToList();
+            var ListInfo = db.InfoDetails.Where(p => p.KoiID == id&&p.Status).OrderByDescending(p => p.Date).Skip(filter.Skip).Take(filter.ItemsPerPage).ToList();
             if (ListInfo.Count < filter.ItemsPerPage) ViewBag.IsEndOfRecords = true;
 
             List<String> ListImage = new List<string>();
@@ -470,30 +470,28 @@ namespace KoiManagement.Controllers
             return Json(obj);
         }
 
-        // GET: InfoDetail/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            InfoDetail infoDetail = db.InfoDetails.Find(id);
-            if (infoDetail == null)
-            {
-                return HttpNotFound();
-            }
-            return View(infoDetail);
-        }
 
         // POST: InfoDetail/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        [HttpPost]
+        public ActionResult DeleteConfirmed(int Detailid)
         {
-            InfoDetail infoDetail = db.InfoDetails.Find(id);
-            db.InfoDetails.Remove(infoDetail);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            InfoDetail koi = db.InfoDetails.Find(Detailid);
+            koi.Status = false;
+            db.InfoDetails.Attach(koi);
+            db.Entry(koi).Property(x => x.Status).IsModified = true;
+            int result = db.SaveChanges();
+            //return View();
+            if (result == 1)
+            {
+                return Json(new { result = true });
+            }
+            else
+            {
+                return Json(new
+                {
+                    result = false
+                });
+            }
         }
         public ActionResult AddParent(int id, int? page, string nameKoi, string variety, string owner)
         {

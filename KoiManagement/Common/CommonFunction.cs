@@ -241,5 +241,32 @@ namespace KoiManagement.Common
                 return "N";
             }
         }
+
+        public static int GetAgeMonth(DateTime? birthday)
+        {
+            DateTime now = DateTime.Today;
+            int Month = 0;
+            Month = 12 * (now.Year - birthday.Value.Year) + (now.Month - birthday.Value.Month);
+            return Month;
+        }
+        // compute difference in total months
+        public static DateTime? getDateFromMonth(int months)
+        {
+            DateTime now = DateTime.Today;
+            DateTime? t;
+            if (months < 0) return null;
+            var month1 = now.Month - months % 12;
+            if (month1 == 0) month1 = 1;
+            var year = now.Year - months / 12;
+            if (month1 < -0)
+            {
+                month1 = month1 + 12;
+                year = year - 1;
+            }
+            string date = "01/" + month1 + "/" + year;
+            date = Validate.ConverDateExcel(date);
+            t = Validate.ConverDateTime(date);
+            return t;
+        }
     }
 }

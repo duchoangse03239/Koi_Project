@@ -44,7 +44,7 @@ namespace KoiManagement.DAL
 
         public List<InfoDetail> GetlistInfoDetails(int koiId)
         {
-            return db.InfoDetails.Where(p => p.KoiID == koiId).ToList();
+            return db.InfoDetails.Where(p => p.KoiID == koiId&&p.Status).ToList();
         }
         public int GetMaxDetailID()
         {
@@ -57,7 +57,7 @@ namespace KoiManagement.DAL
         }
         public string GetLastSize(int KoiID)
         {
-            var koiDeatail = db.InfoDetails.Where(p => p.KoiID == KoiID).OrderBy(p => p.Date).FirstOrDefault();
+            var koiDeatail = db.InfoDetails.Where(p => p.KoiID == KoiID&&p.Status).OrderBy(p => p.Date).FirstOrDefault();
             if (koiDeatail == null)
             {
                 return string.Empty;
@@ -78,8 +78,6 @@ namespace KoiManagement.DAL
                         {
                             infoDetail.Image = listImage.LinkImage;
                         }
-                    }
-                    {
                     }
 
                         //set default value
