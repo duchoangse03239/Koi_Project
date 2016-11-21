@@ -515,6 +515,7 @@
     <Content Include="Content\Image\Variety\koi10.jpg" />
     <Content Include="Content\Image\Variety\showa.jpg" />
     <Content Include="Content\PagedList.css" />
+    <Content Include="Content\tick.png" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
