@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using KoiManagement.Models;
 
 namespace KoiManagement.Common
 {
@@ -17,5 +18,12 @@ namespace KoiManagement.Common
         /// Session screen redirect to other screen
         /// </summary>
         public const string ScreenRedirect = "ScreenRedirect";
+       
+
+    }
+
+    public static class SessionInfoDetail
+    {
+        public static List<Medium> listRemoveImage = new List<Medium>();
     }
 }

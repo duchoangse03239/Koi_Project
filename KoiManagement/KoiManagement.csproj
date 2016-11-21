@@ -707,6 +707,7 @@
     <Content Include="Models\KoiContext.edmx.diagram">
       <DependentUpon>KoiContext.edmx</DependentUpon>
     </Content>
+    <Content Include="Content\FileImport\Koi.xlsx" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\custom.js" />
     <Content Include="Scripts\flickity.pkgd.min.js" />
@@ -1001,7 +1002,6 @@
     <Folder Include="Areas\Admin\Controllers\" />
     <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Areas\Admin\Views\Shared\" />
-    <Folder Include="Content\FileImport\" />
     <Folder Include="Content\Image\Article\" />
     <Folder Include="Content\Image\Avatar\" />
     <Folder Include="Content\Image\Media\" />

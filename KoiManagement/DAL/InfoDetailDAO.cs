@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using KoiManagement.Models;
 
@@ -49,6 +50,11 @@ namespace KoiManagement.DAL
         {
             return db.InfoDetails.Max(g => g.DetailID) + 1;
         }
+
+        public InfoDetail GetDetailByid(int id)
+        {
+            return db.InfoDetails.Find(id);
+        }
         public string GetLastSize(int KoiID)
         {
             var koiDeatail = db.InfoDetails.Where(p => p.KoiID == KoiID).OrderBy(p => p.Date).FirstOrDefault();
@@ -59,5 +65,60 @@ namespace KoiManagement.DAL
             return koiDeatail.Size.ToString();
         }
 
+        public bool UpdateDetail(InfoDetail infoDetail, List<Medium> ListMediaRemove, List<Medium> ListMediaAdd, string avatar)
+        {
+            using (var dbContextTransaction = db.Database.BeginTransaction())
+            {
+                try
+                {
+                    if (!infoDetail.Image.Equals(avatar))
+                    {
+                        var listImage = db.Media.FirstOrDefault(p => p.ModelId == infoDetail.DetailID && p.LinkImage == avatar);
+                        if (listImage != null)
+                        {
+                            infoDetail.Image = listImage.LinkImage;
+                        }
+                    }
+                    {
+                    }
+
+                        //set default value
+                        infoDetail.Date = DateTime.Now;
+                    db.InfoDetails.Attach(infoDetail);
+                    var entry = db.Entry(infoDetail);
+                    entry.State = EntityState.Modified;
+                    // Set column not change
+                    entry.Property(e => e.KoiID).IsModified = false;
+                    db.SaveChanges();
+                    var DetailID = infoDetail.DetailID;
+                    foreach (var image in ListMediaRemove)
+                    {
+                        image.Status = false;
+                        db.Media.Attach(image);
+                        var entry1 = db.Entry(image);
+                        entry1.State = EntityState.Modified;
+                        // Set column not change
+                        entry1.Property(e => e.Status).IsModified = true;
+                        db.SaveChanges();
+                    }
+                    foreach (var item in ListMediaAdd)
+                    {
+                        item.ModelId = DetailID;
+                        db.Media.Add(item);
+                        db.SaveChanges();
+                    }
+
+
+                        dbContextTransaction.Commit();
+
+                }
+                catch (Exception ex)
+                {
+                    dbContextTransaction.Rollback(); //Required according to MSDN article 
+                    return false;
+                }
+            }
+            return true;
+        }
     }
 }

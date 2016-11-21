@@ -102,8 +102,8 @@ namespace KoiManagement.Controllers
             List<String> ListImage = new List<string>();
             foreach (var item in ListInfo)
             {
-                var ListImage1 = db.Media.Where(p => p.ModelTypeID == "infodetail" && p.ModelId == item.DetailID).ToList();
-                ListImage1.Add(new Medium(item.Image, "", item.DetailID, "infodetail"));
+                var ListImage1 = db.Media.Where(p => p.ModelTypeID == "infodetail" && p.ModelId == item.DetailID&&p.Status).ToList();
+                ListImage1.Add(new Medium(item.Image, "", item.DetailID, "infodetail",true));
                 myList.Add(ListImage1);
             }
             foreach (List<Medium> subList in myList)
@@ -139,8 +139,8 @@ namespace KoiManagement.Controllers
             List<String> ListImage = new List<string>();
             foreach (var item in ListInfo)
             {
-                var ListImage1 = db.Media.Where(p => p.ModelTypeID == "infodetail" && p.ModelId == item.DetailID).ToList();
-                ListImage1.Add(new Medium(item.Image,"",item.DetailID, "infodetail"));
+                var ListImage1 = db.Media.Where(p => p.ModelTypeID == "infodetail" && p.ModelId == item.DetailID && p.Status).ToList();
+                ListImage1.Add(new Medium(item.Image,"",item.DetailID, "infodetail",true));
                 myList.Add(ListImage1);
             }
             foreach (List<Medium> subList in myList)
@@ -230,7 +230,7 @@ namespace KoiManagement.Controllers
                     //file đầu tiên làm avartar
                     if (file != null && i==0)
                     {
-                        var filename = Path.GetFileName("Detail" + MaxID + i + file.FileName.Substring(file.FileName.LastIndexOf('.')) );
+                        var filename = Path.GetFileName("Detail" + MaxID + "." + i + file.FileName.Substring(file.FileName.LastIndexOf('.')) );
                         infoDetail.Image = filename;
                         fullpath.Add(Server.MapPath("~/Content/Image/Detail/" + filename));
                         var path = Path.Combine(Server.MapPath("~/Content/Image/Detail"), filename);
@@ -238,7 +238,7 @@ namespace KoiManagement.Controllers
                     }
                     else if (file != null )
                     {
-                        var filename = Path.GetFileName("Detail" + MaxID + i + file.FileName.Substring(file.FileName.LastIndexOf('.')));
+                        var filename = Path.GetFileName("Detail" + MaxID + "." + i + file.FileName.Substring(file.FileName.LastIndexOf('.')));
                         infoDetail.Image = filename;
                         fullpath.Add(Server.MapPath("~/Content/Image/Detail/" + filename));
                         var path = Path.Combine(Server.MapPath("~/Content/Image/Detail"), filename);
@@ -246,6 +246,7 @@ namespace KoiManagement.Controllers
                         Medium a =  new Medium();
                         a.ModelTypeID = "InfoDetail";
                         a.LinkImage = filename;
+                        a.Status = true;
                         lishMedia.Add(a);
                     }
                 }
@@ -260,7 +261,7 @@ namespace KoiManagement.Controllers
                     //success
                     obj.Status = 1;
                     obj.Message = "Bạn đã thêm";
-                    obj.RedirectTo = Url.Action("timeline", "InfoDetail");
+                    obj.RedirectTo = Url.Action("timeline/" + KoiID, "InfoDetail");
                     return Json(obj);
                 }
                 else
@@ -295,6 +296,7 @@ namespace KoiManagement.Controllers
 
         public ActionResult EditDetail(int? id)
         {
+            SessionInfoDetail.listRemoveImage.Clear();
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -304,50 +306,168 @@ namespace KoiManagement.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.KoiID = infoDetail.KoiID;
+            List<Medium> listImage = new List<Medium>();
+            listImage.Add(new Medium(infoDetail.Image,"", id.Value, "infodetail",true));
+            var a = db.Media.Where(p => p.ModelTypeID == "infodetail" && p.ModelId == id && p.Status).ToList();
+
+            listImage.AddRange(a);
+
+            ViewBag.ListImage = listImage;
             return View(infoDetail);
         }
 
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult EditDetail(HttpPostedFileBase file, [Bind(Include = "DetailID,KoiID,Weight,Image,Size,HeavyStatus,Description")] InfoDetail infoDetail)
+        public JsonResult EditDetail(string KoiID,int DetailID, string Size, string HeathyStatus, string Description, string Avatar)
         {
-            if (ModelState.IsValid)
+            StatusObjForJsonResult obj = new StatusObjForJsonResult();
+            var fullpath = new List<string>();
+            var lishMedia = new List<Medium>();
+            if (Session[SessionAccount.SessionUserId] == null)
             {
-                string filename;
-
-                //Edit file to local
-                if (file != null)
-                {
-                    if (infoDetail.Image == null)
-                    {
-                        filename = Path.GetFileName("Koi" + infoDetail.KoiID + file.FileName.Substring(file.FileName.LastIndexOf('.')));
-                        infoDetail.Image = filename; 
-                    }
-                    else
-                    {
-                        filename = infoDetail.Image;
-                    }
-                    var fullpath = Server.MapPath("~/Content/Image/Detail/" + filename);
-                    var path = Path.Combine(Server.MapPath("~/Content/Image/Detail/"), filename);
-                    if (System.IO.File.Exists(fullpath))
-                    {
-                        System.IO.File.Delete(fullpath);
-                    }
-                    file.SaveAs(path);
-                }
-                infoDetail.Date = DateTime.Now; 
-                db.InfoDetails.Attach(infoDetail);
-                var entry = db.Entry(infoDetail);
-                entry.State = EntityState.Modified;
-                // Set column not change
-                entry.Property(e => e.KoiID).IsModified = false;
-                db.SaveChanges();
-                return RedirectToAction("KoiInfoDetail/" + infoDetail.KoiID);
+                obj.Status = 0;
+                obj.RedirectTo = Url.Action("Login", "Account");
+                return Json(obj);
             }
-            ViewBag.KoiID = new SelectList(db.Kois, "KoiID", "KoiName", infoDetail.KoiID);
-            return View(infoDetail);
+            try
+            {
+                if (String.IsNullOrWhiteSpace(Size))
+                {
+                    obj.Status = 2;
+                    obj.Message = "Vui lòng nhập kích thước!";
+                    return Json(obj);
+                }
+                if (!Validate.CheckIsDouble(Size))
+                {
+                    obj.Status = 2;
+                    obj.Message = "Vui lòng nhập kiểu số cho kích thước!";
+                    return Json(obj);
+                }
+                if (double.Parse(Size) < 0)
+                {
+                    obj.Status = 2;
+                    obj.Message = "Vui lòng nhập số cho kích thước của Koi!";
+                    return Json(obj);
+                }
+                var listImageRemove = SessionInfoDetail.listRemoveImage;
+                InfoDetailDAO infoDetailDao = new InfoDetailDAO();
+                MediaDAO mediaDao = new MediaDAO();
+                var infoDetail = infoDetailDao.GetDetailByid(DetailID);
+                infoDetail.Size = decimal.Parse(Size);
+                infoDetail.HeathyStatus = HeathyStatus;
+                infoDetail.Description = Description;
+                infoDetail.KoiID = int.Parse(KoiID);
+                infoDetail.Status = true;
+                //xóa ảnh
+                foreach (var item in listImageRemove)
+                {
+                    var path = Server.MapPath("~/Content/Image/Detail/" + item.LinkImage);
+                    if (System.IO.File.Exists(path))
+                    {
+                        System.IO.File.Delete(path);
+                    }
+                }
+
+
+                // lấy id đặt tên
+                double MaxID = DetailID + (double)db.Media.Count(p => p.ModelId == DetailID)/10 - (double)listImageRemove.Count/10;
+
+                //Lấy file ảnh
+                HttpFileCollectionBase files = Request.Files;
+                HttpPostedFileBase file = null;
+                //Trường hợp chỉ  có nhiều file ảnh
+                for (int i = 0; i < files.Count; i++)
+                {
+                    //string filename = Path.GetFileName(Request.Files[i].FileName);  
+                    file = files[i];
+                    if (file != null)
+                    {
+                    var name = file.FileName;
+                    //Save file to local
+                    if (name.Equals(Avatar))
+                    {
+                        var filename =
+                            Path.GetFileName("Detail" + MaxID + "."+ i +
+                                             file.FileName.Substring(file.FileName.LastIndexOf('.')));
+                        infoDetail.Image = filename;
+                        fullpath.Add(Server.MapPath("~/Content/Image/Detail/" + filename));
+                        var path = Path.Combine(Server.MapPath("~/Content/Image/Detail"), filename);
+                        file.SaveAs(path);
+                    }
+                    else 
+                    {
+                        var filename =
+                            Path.GetFileName("Detail" + MaxID + "." + i +
+                                             file.FileName.Substring(file.FileName.LastIndexOf('.')));
+                        infoDetail.Image = filename;
+                        fullpath.Add(Server.MapPath("~/Content/Image/Detail/" + filename));
+                        var path = Path.Combine(Server.MapPath("~/Content/Image/Detail"), filename);
+                        file.SaveAs(path);
+                        Medium a = new Medium();
+                        a.ModelTypeID = "InfoDetail";
+                        a.LinkImage = filename;
+                        a.Status = true;
+                        lishMedia.Add(a);
+                    }
+                    }
+                }
+
+
+
+                    if (infoDetailDao.UpdateDetail(infoDetail, listImageRemove, lishMedia, Avatar))
+                {
+
+                    obj.Status = 1;
+                    obj.RedirectTo = Url.Action("EditDetail/"+DetailID, "InfoDetail");
+                    obj.Message = "Bạn đã cập nhật thành công.";
+                    return Json(obj);
+                }
+                else
+                {
+                    foreach (var item in fullpath)
+                    {
+                        if (System.IO.File.Exists(item))
+                        {
+                            System.IO.File.Delete(item);
+                        }
+                    }
+                    obj.Status = 1;
+                    obj.Message = "Bạn đã cập nhật thành công.";
+                    return Json(obj);
+                }
+
+
+                //update bang media
+                ViewBag.KoiID = new SelectList(db.Kois, "KoiID", "KoiName", infoDetail.KoiID);
+            }
+            catch (Exception ex)
+            {
+                Common.Logger.LogException(ex);
+                obj.Status = 0;
+                obj.RedirectTo = this.Url.Action("SystemError", "Error");
+                //Nếu fail xoa anh da them
+                foreach (var item in fullpath)
+                {
+                    if (System.IO.File.Exists(item))
+                    {
+                        System.IO.File.Delete(item);
+                    }
+                }
+                return Json(obj);
+            }
+            return Json(obj);
+
+        }
+
+        [HttpPost]
+        public JsonResult ListImageDelete(int ModelID)
+        {
+            StatusObjForJsonResult obj = new StatusObjForJsonResult();
+            var Model = db.Media.Find(ModelID);
+            SessionInfoDetail.listRemoveImage.Add(Model);
+            return Json(obj);
         }
 
         // GET: InfoDetail/Delete/5

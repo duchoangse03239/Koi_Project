@@ -1656,7 +1656,7 @@ input[type="file"] {
 .deleteIcon {
     width:30px; 
     height:30px;
-    background: url("/Content/deleteImage.png");
+   
 }
 .setAvatar {
     width:30px; 
