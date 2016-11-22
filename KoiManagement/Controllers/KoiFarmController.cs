@@ -479,6 +479,7 @@ namespace KoiManagement.Controllers
                                 Medium a = new Medium();
                                 a.ModelTypeID = "InfoDetail";
                                 a.LinkImage = filename;
+                                a.Status = true;
                                 listIamge.Add(a);
                             }
                         }

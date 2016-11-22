@@ -163,10 +163,10 @@
                                     </p>
                                 </div>
                                 <div class="col-md-3">
-                                    <div class="ratings" style="margin-top: 13px;" >
+                                    <div class="ratings" onclick="Rating(@ViewBag.Listkoi[item].KoiID)" style="margin-top: 13px;" >
                                         <input type="number" name="your_awesome_parameter" id="rating-default" class="rating" value="3" disabled="disabled"/>
                                         <br />
-                                        <a style="margin-left:5px;" href="">@cmDao.CountCommentByKoiID(ViewBag.Listkoi[item].KoiID) đánh giá</a>
+                                        <a style="margin-left:5px;" >@cmDao.CountCommentByKoiID(ViewBag.Listkoi[item].KoiID) đánh giá</a>
                                     </div>
                                 </div>
                             </div>
@@ -183,5 +183,28 @@
         </div>
     </section>
     <script type="text/javascript">
-
+        function Rating(koiID) {
+            var RateNum = $('#rating-default').val();
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("Rating")",
+                    datatype: "JSON",
+                data: {
+                    koiID: koiID,
+                    RateNum :RateNum
+                },
+                success: function(res) {
+                    switch (res.Status) {
+                        case 1:
+                            alert(res.Message);
+                           // window.location.href = res.RedirectTo;
+                            break;
+                        case 0:
+                            alert(res.Message);
+                            window.location.href = res.RedirectTo;
+                            break;
+                    }
+                }
+            }); // end ajax
+        }
     </script>
