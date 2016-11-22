@@ -135,7 +135,8 @@
                                 <label><span class="fa fa-home"></span> Chủ sở hữu:</label>
                                 @if (owner != null)
                                 {
-                                    <span><a href="#">@owner.Member.Name</a></span>
+                                    
+                                        <span><a href="/Account/profile/@owner.Member.MemberID">@owner.Member.Name</a></span>
                                     if (Session[SessionAccount.SessionUserId] != null && @owner.Member.MemberID.ToString().Equals(Session[SessionAccount.SessionUserId].ToString()))
                                     {
                                     <span style="float:right;"><a  class="btn btn-embossed btn-primary btn-sm" role="button" data-toggle="modal" data-target="#trade">Đổi chủ</a></span>}
