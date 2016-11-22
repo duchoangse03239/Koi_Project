@@ -89,8 +89,6 @@
                         </div>
                         <!-- #endregion Jssor Slider End -->
                     </div>
-                    <div class="fb-like" data-href="https://localhost:44304/Koi/Details/2/" data-layout="standard" data-action="like" data-size="small" data-show-faces="true" data-share="true"></div>
-                    <div class="fb-comments" data-href="https://localhost:44304/Koi/Details/@Model.KoiID" data-numposts="5"></div>
                 </div>
                 <div class="col-md-5">
                     <div class="item">
@@ -135,7 +133,8 @@
                                 <label><span class="fa fa-home"></span> Chủ sở hữu:</label>
                                 @if (owner != null)
                                 {
-                                    <span><a href="#">@owner.Member.Name</a></span>
+                                    
+                                        <span><a href="/Account/profile/@owner.Member.MemberID">@owner.Member.Name</a></span>
                                     if (Session[SessionAccount.SessionUserId] != null && @owner.Member.MemberID.ToString().Equals(Session[SessionAccount.SessionUserId].ToString()))
                                     {
                                     <span style="float:right;"><a  class="btn btn-embossed btn-primary btn-sm" role="button" data-toggle="modal" data-target="#trade">Đổi chủ</a></span>}
@@ -152,6 +151,49 @@
                                 <a href="#" class="btn btn-embossed btn-primary" role="button" style="float: right;">Báo cáo vi phạm</a>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-10 col-md-offset-1" style="margin-top: 40px;">
+                    <input type="number" name="your_awesome_parameter" id="rating-default" class="rating" value="3" />
+                    <div class="post-footer" style="margin-top:20px">
+                        <div class="input-group">
+                            <input class="form-control" placeholder="Add a comment" type="text">
+                            <span class="input-group-addon">
+                                <a href="#"><i class="fa fa-edit"></i></a>
+                            </span>
+                        </div>
+                        <ul class="comments-list">
+                            <li class="comment">
+                                <a class="pull-left" href="#">
+                                    <img class="avatar" src="http://bootdey.com/img/Content/user_1.jpg" alt="avatar">
+                                </a>
+                                <div class="comment-body">
+                                    <div class="comment-heading">
+                                        <h4 class="user">Gavino Free</h4>
+                                        <h5 class="time">5 minutes ago</h5>
+                                    </div>
+                                    <p>Sure, oooooooooooooooohhhhhhhhhhhhhhhh</p>
+                                    <a id="reply" style="font-size: 13px;">Trả lời</a>
+                                </div>
+                                <ul class="comments-list">
+                                    <li class="comment">
+                                        <a class="pull-left" href="#">
+                                            <img class="avatar" src="http://bootdey.com/img/Content/user_3.jpg" alt="avatar">
+                                        </a>
+                                        <div class="comment-body">
+                                            <div class="comment-heading">
+                                                <h4 class="user">Ryan Haywood</h4>
+                                                <h5 class="time">3 minutes ago</h5>
+                                            </div>
+                                            <p>Relax my friend</p>
+                                        </div>
+                                    </li>
+                                    <li class="comment" id="input-reply"> </li>
+</ul>
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -206,7 +248,35 @@
             }); // end ajax
         }
     }
+
+    $(document).ready(function () {
+        $("#reply").one('click',function () {
+            $("#input-reply").append("<div class='input-group ' >" +
+                "<span class='input-group-addon'>" +
+                "<a class='pull-left' href='#'>" +
+                "<img class='avatar' src='http://bootdey.com/img/Content/user_1.jpg' alt='avatar' ></a> </span>" +
+                "<input class='form-control' placeholder='Add a comment' type='text'>"+
+                            "<span class='input-group-addon'> "+
+                               " <a href='#'><i class='fa fa-edit'></i></a>"+
+                " </span> " + "</div>"
+            );
+        });
+    });
+
 </script>
 <script src="~/Scripts/jquery.signalR-2.2.1.js"></script>
 <!--Reference the autogenerated SignalR hub script. -->
 <script src="/signalr/hubs"></script>
+<style>
+    .input-group-addon {
+    padding: 0px 12px;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1;
+    color: #555;
+    text-align: center;
+    background-color: #eee;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+</style>
