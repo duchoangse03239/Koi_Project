@@ -8,6 +8,7 @@
     Owner owner = ViewBag.Owner;
     List<Medium> listImage = ViewBag.listImage;
     if(ViewBag.NewMemberID==null) { ViewBag.NewMemberID=0;}
+    if(ViewBag.Size==null) { ViewBag.Size = 0; }
 }
 
 <body>
@@ -107,7 +108,7 @@
                                 <label><span class="fa fa-adjust"></span> Giới tính:</label> <span>@CommonFunction.ReturnGenderKoi(@Model.Gender)</span>
                             </div>
                             <div class="line">
-                                <label><span class="fa fa-arrows-h"></span> Kích thước:</label> <span>20 cm</span>
+                                <label><span class="fa fa-arrows-h"></span> Kích thước:</label> <span>@ViewBag.Size cm</span>
                             </div>
                             <div class="line">
                                 <label><span class="fa fa-bullseye"></span> Xuất xứ:</label> <span>@Model.Origin</span>

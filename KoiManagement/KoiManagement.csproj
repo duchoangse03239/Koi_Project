@@ -934,7 +934,7 @@
     <Content Include="Views\InfoDetail\AddParent.cshtml" />
     <Content Include="Views\Article\DetailArticle.cshtml" />
     <Content Include="Views\Article\ListArticle.cshtml" />
-    <Content Include="Views\Achievement\ListAchivement.cshtml" />
+    <Content Include="Views\Achievement\ListAchievement.cshtml" />
     <None Include="Views\InfoDetail\timeline.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
