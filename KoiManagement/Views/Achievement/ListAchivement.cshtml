@@ -16,7 +16,7 @@
             <select class="selectpicker" data-style="btn-primary" onchange="location = this.options[this.selectedIndex].value;">
                 <option value="@Url.Action("timeline/"+ViewBag.koiId, "InfoDetail")">Dòng thời gian</option>
                 <option value="@Url.Action("TimelineVertical/"+ViewBag.koiId , "InfoDetail")">Ảnh sinh trưởng</option>
-                <option value="@Url.Action("ListAchivement/"+ViewBag.koiId , "Achievement")">Giải thưởng</option>
+                <option value="@Url.Action("ListAchivement/"+ViewBag.koiId , "Achievement")" selected>Giải thưởng</option>
             </select>
         </div>
         <div class="col-md-6" style="padding-bottom:15px;">
@@ -27,7 +27,8 @@
 
     </div>
     <ul class="timeline">
-        @for (int item = 0; item < listIAchi.Count; item++)
+        @if (listIAchi != null) { 
+        for (int item = 0; item < listIAchi.Count; item++)
         {
             <li>
                 <div class="timeline-badge primary">
@@ -39,7 +40,7 @@
                             <span class="caret"></span>
                         </button>
                         <ul class="dropdown-menu dropdown-menu-right">
-                            <li><a href="@Url.Action("EditAchievement/"+@listIAchi.ElementAt(item).AchievementID, "Achievement")">Sửa</a></li>
+                            <li><a href="@Url.Action("EditAchievement/" + @listIAchi.ElementAt(item).AchievementID, "Achievement")">Sửa</a></li>
                             <li><a onclick="DeleteDetail(@listIAchi.ElementAt(item).AchievementID)">Xóa</a></li>
                         </ul>
                     </div>
@@ -53,7 +54,7 @@
                     <div class="timeline-body">
 
                         <p>
-                           Ngày đạt giải: <label>@listIAchi.ElementAt(item).Date </label>
+                            Ngày đạt giải: <label>@listIAchi.ElementAt(item).Date </label>
                         </p>
                         <p>
                             Mô tả: <label>@listIAchi.ElementAt(item).Description </label>
@@ -75,60 +76,60 @@
 
                     });
             </script>
-                                    if (item < listIAchi.Count - 1)
-                                    {
-                                        item++;
-                                    }
-                                    else
-                                    {
-                                        break;
-                                    }
-                                    <li class="timeline-inverted">
-                                        <div class="timeline-badge primary">
-                                            <a><i class="glyphicon glyphicon-record invert" rel="tooltip" title="11 hours ago via Twitter" id=""></i></a>
-                                        </div>
-                                        <div class="timeline-panel">
-                                            <div class="dropdown">
-                                                <button class="setting-icon dropdown-toggle" type="button" data-toggle="dropdown">
-                                                    <span class="caret"></span>
-                                                </button>
-                                                <ul class="dropdown-menu dropdown-menu-right">
-                                                    <li><a href="@Url.Action("EditDetail/"+ @listIAchi.ElementAt(item).AchievementID, "InfoDetail")">Sửa</a></li>
-                                                    <li><a onclick="DeleteDetail(@listIAchi.ElementAt(item).AchievementID)">Xóa</a></li>
-                                                </ul>
-                                            </div>
-                                            <div class="timeline-heading">
-                                                <!--Image-->
-                                                <div style="padding-top:20px!important" id="@item"></div>
-                                            </div>
-                                            <div class="timeline-body">
-                                                <p>
+            if (item < listIAchi.Count - 1)
+            {
+                item++;
+            }
+            else
+            {
+                break;
+            }
+            <li class="timeline-inverted">
+                <div class="timeline-badge primary">
+                    <a><i class="glyphicon glyphicon-record invert" rel="tooltip" title="11 hours ago via Twitter" id=""></i></a>
+                </div>
+                <div class="timeline-panel">
+                    <div class="dropdown">
+                        <button class="setting-icon dropdown-toggle" type="button" data-toggle="dropdown">
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-right">
+                            <li><a href="@Url.Action("EditDetail/" + @listIAchi.ElementAt(item).AchievementID, "InfoDetail")">Sửa</a></li>
+                            <li><a onclick="DeleteDetail(@listIAchi.ElementAt(item).AchievementID)">Xóa</a></li>
+                        </ul>
+                    </div>
+                    <div class="timeline-heading">
+                        <!--Image-->
+                        <div style="padding-top: 20px !important" id="@item"></div>
+                    </div>
+                    <div class="timeline-body">
+                        <p>
 
-                                                    Ngày đạt giải: <label>@listIAchi.ElementAt(item).Date </label>
-                                                </p>
-                                                <p>
-                                                    Mô tả: <label>@listIAchi.ElementAt(item).Description</label>
-                                                </p>
-                                            </div>
+                            Ngày đạt giải: <label>@listIAchi.ElementAt(item).Date </label>
+                        </p>
+                        <p>
+                            Mô tả: <label>@listIAchi.ElementAt(item).Description</label>
+                        </p>
+                    </div>
 
-                                            <div class="timeline-footer">
-                                                @*<a><i class="glyphicon glyphicon-thumbs-up"></i></a>
+                    <div class="timeline-footer">
+                        @*<a><i class="glyphicon glyphicon-thumbs-up"></i></a>
                                                     <a><i class="glyphicon glyphicon-share"></i></a>*@
-                                                <a href="#">Continuar Lendo</a>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <script>
-                                        var hello1 = document.getElementById('@item');
-                                        $(hello1)
-                                            .imagesGrid({
-                                                images: [
-                                                    @Html.Raw("~/Content/Image/Achievement/" + listIAchi.ElementAt(item).Image)
-                                                ],
+                        <a href="#">Continuar Lendo</a>
+                    </div>
+                </div>
+            </li>
+            <script>
+                var hello1 = document.getElementById('@item');
+                $(hello1)
+                    .imagesGrid({
+                        images: [
+                            @Html.Raw("~/Content/Image/Achievement/" + listIAchi.ElementAt(item).Image)
+                        ],
 
-                                            });
-                                    </script>
-                                                            }
+                    });
+            </script>
+        }}
 
         <li class="clearfix" style="float: none;"></li>
 
@@ -175,7 +176,7 @@
                 url: "@Url.Action("DeleteConfirmed")",
                 datatype: "JSON",
             data: {
-                Detailid: parameter1
+                AchiId: parameter1
             },
             success: function (res) {
                 if (res) {
