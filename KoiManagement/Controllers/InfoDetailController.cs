@@ -388,14 +388,21 @@ namespace KoiManagement.Controllers
                     //Save file to local
                     if (name.Equals(Avatar))
                     {
-                        var filename =
+                            Medium a = new Medium();
+                            a.ModelTypeID = "InfoDetail";
+                            a.LinkImage = infoDetail.Image;
+                            a.Status = true;
+                            lishMedia.Add(a);
+
+                            var filename =
                             Path.GetFileName("Detail" + MaxID + "."+ i +
                                              file.FileName.Substring(file.FileName.LastIndexOf('.')));
                         infoDetail.Image = filename;
                         fullpath.Add(Server.MapPath("~/Content/Image/Detail/" + filename));
                         var path = Path.Combine(Server.MapPath("~/Content/Image/Detail"), filename);
                         file.SaveAs(path);
-                    }
+        
+                        }
                     else 
                     {
                         var filename =

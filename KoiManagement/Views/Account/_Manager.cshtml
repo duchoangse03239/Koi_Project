@@ -10,9 +10,9 @@
         <div class="profile_info">
             <div class="profile_left">
                 <a href="#">
-                    <img src="~/Content/Image/Member/@member.MemberID" id="avatar" class="profile_img" alt="">
+                    <img src="~/Content/Image/Member/@member.Image" id="avatar" class="profile_img" alt="">
                 </a>
-                <h4><a href="#" class="profile_name">Người dùng</a></h4>
+                <h4><a href="#" class="profile_name">@member.UserName</a></h4>
             </div>
         </div>
         @if (Session[SessionAccount.SessionUserId] != null && Session[SessionAccount.SessionUserId].ToString().Equals(member.MemberID.ToString()))

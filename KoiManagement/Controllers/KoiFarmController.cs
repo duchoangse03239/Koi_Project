@@ -230,15 +230,15 @@ namespace KoiManagement.Controllers
             return View();
         }
 
-        public ActionResult KoifarmOwner()
+        public ActionResult KoifarmOwner(int id = 0)
         {
             //kiểm tra đăng nhập
-            if (Session[SessionAccount.SessionUserId] == null)
-            {
-                return RedirectToAction("Login", "Account");
-            }
+            //if (Session[SessionAccount.SessionUserId] == null)
+            //{
+            //    return RedirectToAction("Login", "Account");
+            //}
             // lấy id người đang đăng nhập
-            int id = int.Parse(Session[SessionAccount.SessionUserId].ToString());
+            //id = int.Parse(Session[SessionAccount.SessionUserId].ToString());
             var koifarm = koiFarmDao.GetListKoiFarmByMemberId(id);
             //Viewbag cho patialView _Manager
             ViewBag.Member = memberDao.GetMemberbyID(id);

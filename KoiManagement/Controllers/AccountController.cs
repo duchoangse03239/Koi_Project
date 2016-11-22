@@ -475,6 +475,14 @@ namespace KoiManagement.Controllers
             {
                 return RedirectToAction("Login", "Account");
             }
+            int id = int.Parse(Session[SessionAccount.SessionUserId].ToString());
+            MemberDAO MDao = new MemberDAO();
+            KoiDAO koiDao = new KoiDAO();
+            MemberDAO mDAO = new MemberDAO();
+            KoiFarmDAO koiFarmDao = new KoiFarmDAO();
+            ViewBag.Member = mDAO.GetMemberbyID(id);
+            ViewBag.CountKoi = koiDao.CountKoibyOwnerId(id);
+            ViewBag.CountKoiFarm = koiFarmDao.CountKoiFarmbyOwnerId(id);
             return View();
         }
 
@@ -584,8 +592,21 @@ namespace KoiManagement.Controllers
         // GET: /Account/UpdateProfile
         public ActionResult UpdateProfile()
         {
-
+            StatusObjForJsonResult obj = new StatusObjForJsonResult();
+            if (Session[SessionAccount.SessionUserId] == null)
+            {
+                RedirectToAction("Login", "Account");
+                return Json(obj);
+            }
+            int id = int.Parse(Session[SessionAccount.SessionUserId].ToString());
             MemberDAO MDao = new MemberDAO();
+            KoiDAO koiDao = new KoiDAO();
+            MemberDAO mDAO = new MemberDAO();
+            KoiFarmDAO koiFarmDao = new KoiFarmDAO();
+            ViewBag.Member = mDAO.GetMemberbyID(id);
+            ViewBag.CountKoi = koiDao.CountKoibyOwnerId(id);
+            ViewBag.CountKoiFarm = koiFarmDao.CountKoiFarmbyOwnerId(id);
+
             var mem = MDao.GetMemberbyID(int.Parse(Session[SessionAccount.SessionUserId].ToString()));
             return View(mem);
         }
@@ -704,14 +725,21 @@ namespace KoiManagement.Controllers
         {
 
             // id = int.Parse(Session[SessionAccount.SessionUserId].ToString());
-            KoiDAO koiDao = new KoiDAO();
-            MemberDAO mDAO = new MemberDAO();
-            KoiFarmDAO koiFarmDao = new KoiFarmDAO();
-            ViewBag.Member = mDAO.GetMemberbyID(id);
-            ViewBag.CountKoi = koiDao.CountKoibyOwnerId(id);
-            ViewBag.CountKoiFarm = koiFarmDao.CountKoiFarmbyOwnerId(id);
+            if (id == null&& Session[SessionAccount.SessionUserId]!=null)
+            {
+                id = int.Parse(Session[SessionAccount.SessionUserId].ToString());
+            }
+                KoiDAO koiDao = new KoiDAO();
+                MemberDAO mDAO = new MemberDAO();
+                KoiFarmDAO koiFarmDao = new KoiFarmDAO();
+                ViewBag.Member = mDAO.GetMemberbyID(id);
+                ViewBag.CountKoi = koiDao.CountKoibyOwnerId(id);
+                ViewBag.CountKoiFarm = koiFarmDao.CountKoiFarmbyOwnerId(id);
+            
+
             return View("~/Views/Account/_Manager.cshtml");
         }
+
 
         //
         // POST: /Account/ExternalLogin

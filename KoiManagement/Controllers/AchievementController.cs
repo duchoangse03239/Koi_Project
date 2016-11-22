@@ -23,7 +23,7 @@ namespace KoiManagement.Controllers
 
         // GET: /Account/AddAchievement
         [HttpPost]
-        public JsonResult AddAchievement(string KoiID, string time, string description)
+        public JsonResult AddAchievement(int? id, string time, string description)
         {
             StatusObjForJsonResult obj = new StatusObjForJsonResult();
             //check login
@@ -60,7 +60,7 @@ namespace KoiManagement.Controllers
                 ad.Date = timeAchievement;
                 ad.Description = description;
                 ad.Status = true;
-                ad.KoiID = 2;//@hardcode
+                ad.KoiID = id;//@hardcode
 
 
                 //Lấy file ảnh
@@ -122,7 +122,7 @@ namespace KoiManagement.Controllers
 
         // GET: /Account/UpdateProfile
         [HttpPost]
-        public JsonResult EditAchievement(string KoiID,string image, string time, string description)
+        public JsonResult EditAchievement(int id,string image, string time, string description)
         {
             StatusObjForJsonResult obj = new StatusObjForJsonResult();
             // check login
@@ -149,7 +149,7 @@ namespace KoiManagement.Controllers
                 DateTime? timeAchievement = Validate.ConverDateTime(time);
                 Achievement achi = new Achievement();
                 achi.Image = image;
-                achi.KoiID = 1;
+                achi.KoiID = id;
                 achi.Date = timeAchievement;
                 achi.Description = description;
                 achi.Status = true;
@@ -189,5 +189,41 @@ namespace KoiManagement.Controllers
             }
             return Json(obj);
         }
+
+        public ActionResult ListAchivement(int? id)
+        {
+            AchievementDAO AchiDao = new AchievementDAO();
+            if (id == null)
+            {
+                return View();
+            }
+            ViewBag.listIAchi = AchiDao.GetListAchievements(id.Value);
+
+            return View();
+
+        }
+        private KoiManagementEntities db = new KoiManagementEntities();
+        [HttpPost]
+        public ActionResult DeleteConfirmed(int AchiId)
+        {
+            Achievement achie = db.Achievements.Find(AchiId);
+            achie.Status = false;
+            db.Achievements.Attach(achie);
+            db.Entry(achie).Property(x => x.Status).IsModified = true;
+            int result = db.SaveChanges();
+            //return View();
+            if (result == 1)
+            {
+                return Json(new { result = true });
+            }
+            else
+            {
+                return Json(new
+                {
+                    result = false
+                });
+            }
+        }
+
     }
 }

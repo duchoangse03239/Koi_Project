@@ -63,5 +63,9 @@ namespace KoiManagement.DAL
                 return 0;
             }
         }
+        public List<Achievement> GetListAchievements(int id)
+        {
+            return db.Achievements.Where(p => p.KoiID == id && p.Status).ToList();
+        }
     }
 }
