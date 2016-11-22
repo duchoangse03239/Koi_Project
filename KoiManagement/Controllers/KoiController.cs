@@ -149,7 +149,7 @@ namespace KoiManagement.Controllers
             {
             ViewBag.KoiMomName = db.Kois.Find(koi.KoiMom).KoiName;
             }
-
+            ViewBag.Size = KoiDeatail.FirstOrDefault().Size;
             if (koi == null)
             {
                 return HttpNotFound();

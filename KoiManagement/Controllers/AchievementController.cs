@@ -190,7 +190,7 @@ namespace KoiManagement.Controllers
             return Json(obj);
         }
 
-        public ActionResult ListAchivement(int? id)
+        public ActionResult ListAchievement(int? id)
         {
             AchievementDAO AchiDao = new AchievementDAO();
             if (id == null)
