@@ -1008,7 +1008,6 @@
     <Folder Include="Content\Image\Article\" />
     <Folder Include="Content\Image\Avatar\" />
     <Folder Include="Content\Image\Media\" />
-    <Folder Include="Views\ArticleDAO\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
