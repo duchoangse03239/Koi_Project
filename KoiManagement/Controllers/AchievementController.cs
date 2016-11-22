@@ -198,7 +198,7 @@ namespace KoiManagement.Controllers
                 return View();
             }
             ViewBag.listIAchi = AchiDao.GetListAchievements(id.Value);
-
+            ViewBag.koiId = id;
             return View();
 
         }
