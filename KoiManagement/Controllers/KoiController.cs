@@ -149,7 +149,7 @@ namespace KoiManagement.Controllers
             {
             ViewBag.KoiMomName = db.Kois.Find(koi.KoiMom).KoiName;
             }
-
+            ViewBag.Size = KoiDeatail.FirstOrDefault().Size;
             if (koi == null)
             {
                 return HttpNotFound();
@@ -279,6 +279,7 @@ namespace KoiManagement.Controllers
                         Medium a = new Medium();
                         a.ModelTypeID = "InfoDetail";
                         a.LinkImage = filename;
+                        a.Status = true;
                         ListMedia.Add(a);
                     }
                 }
@@ -554,6 +555,38 @@ namespace KoiManagement.Controllers
                     obj.Message = "Bạn đã khai tử thành công";
                     return Json(obj);
                 }
+
+            }
+            catch (Exception ex)
+            {
+                Common.Logger.LogException(ex);
+                obj.Status = 0;
+                obj.RedirectTo = this.Url.Action("SystemError", "Error");
+                return Json(obj);
+            }
+            return Json(obj);
+        }
+
+        [HttpPost]
+        public JsonResult Rating(int koiID,float RateNum)
+        {
+            StatusObjForJsonResult obj = new StatusObjForJsonResult();
+
+            try
+            {
+                if (Session[SessionAccount.SessionUserId] == null)
+                {
+                    obj.Status = 0;
+                    obj.Message = "Xin hãy đăng nhập để đánh giá";
+                    return Json(obj);
+                }
+
+                //if (koiDao.ToDead(int.Parse(KoiId), DeadReason) > 0)
+                //{
+                //    obj.Status = 1;
+                //    obj.Message = "Bạn đã khai tử thành công";
+                //    return Json(obj);
+                //}
 
             }
             catch (Exception ex)

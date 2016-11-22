@@ -169,16 +169,19 @@
     }
 
     function validateDateRangeMax(inputDate) {
-        var now = new Date(),
+        var now = new Date();
          
-        date = new Date(inputDate);
+        var dateParts = inputDate.split("-");
+        var date = new Date(dateParts[2], dateParts[1] - 1, dateParts[0]); // month is 0-based
         return date < now;
     }
     //nho hon 126 tuoi;
     function validateDateRangeMin(inputDate) {
         var now = new Date(),
             after30Days = new Date().setDate(now.getDate() - 126 * 365);
-        date = new Date(inputDate);
+        var dateParts = inputDate.split("-");
+        var date = new Date(dateParts[2], dateParts[1] - 1, dateParts[0]); // month is 0-based
+
         return  date > after30Days;
     }
 

@@ -96,7 +96,7 @@ namespace KoiManagement.Controllers
                     //success
                     obj.Status = 1;
                     obj.Message = "Bạn đã thêm giải thưởng cho cá thành công";
-                    obj.RedirectTo = Url.Action("KoiUser/" + Session[SessionAccount.SessionUserId], "Koi");
+                    obj.RedirectTo = Url.Action("ListAchievement/" + ad.KoiID, "Achievement");
                     return Json(obj);
                 }
                 
@@ -190,7 +190,7 @@ namespace KoiManagement.Controllers
             return Json(obj);
         }
 
-        public ActionResult ListAchivement(int? id)
+        public ActionResult ListAchievement(int? id)
         {
             AchievementDAO AchiDao = new AchievementDAO();
             if (id == null)

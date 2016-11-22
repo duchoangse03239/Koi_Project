@@ -80,8 +80,7 @@ namespace KoiManagement.DAL
                         }
                     }
 
-                        //set default value
-                        infoDetail.Date = DateTime.Now;
+                    //set default value
                     db.InfoDetails.Attach(infoDetail);
                     var entry = db.Entry(infoDetail);
                     entry.State = EntityState.Modified;

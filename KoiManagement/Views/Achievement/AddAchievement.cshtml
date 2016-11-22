@@ -112,9 +112,9 @@
         }
 
         function validateDateRangeMax(inputDate) {
-            var now = new Date(),
-
-            date = new Date(inputDate);
+            var now = new Date();
+            var dateParts = inputDate.split("-");
+            var date = new Date(dateParts[2], dateParts[1] - 1, dateParts[0]); // month is 0-based
             return date < now;
         }
 
