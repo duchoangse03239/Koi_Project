@@ -9,7 +9,8 @@
     <div class="row">
         <div class="col-md-6 col-md-offset-3">
             <div class="login-block">
-                <h1>Thêm cá Koi</h1>
+                <h2 class="align-center">Thêm cá Koi</h2>
+                <hr />  
                     <div class="form-group">
                         <label>Tên cá Koi</label>
                         <input type="text" class="form-control" placeholder="Tên Cá Koi" id="KoiName" name="KoiName">
@@ -56,14 +57,9 @@
                     </div>
                     <div class="form-group">
                         <label for="phone">Thêm ảnh cá</label>
-                        <input type="file" id="files" name="files[]" multiple />
-                        <label id="lblMessage_file_fail" class="label-error"></label>
-                        @*<script>
-                            var loadFile = function (event) {
-                                var output = document.getElementById('imagePreview');
-                                imagePreview.src = URL.createObjectURL(event.target.files[0]);
-                            };
-                        </script>*@
+                        <label id="lblMessage_Image_fail" class="label-error"></label>
+                        <input type="file" id="files" name="files" onchange="previewImg()" class="upload hides" multiple accept="image/*" />
+                        <output id="result"></output>
                     </div>
 
                     <div class="form-group">
@@ -243,61 +239,53 @@
         });
     }
 
-    //$(document).ready(function () {
-    //    $("#fileUpload").on('change', function () {
-    //        //Get count of selected files
-    //        var countFiles = $(this)[0].files.length;
-    //        var imgPath = $(this)[0].value;
-    //        var extn = imgPath.substring(imgPath.lastIndexOf('.') + 1).toLowerCase();
-    //        var image_holder = $("#image-holder");
-    //        image_holder.empty();
-    //        if (extn == "gif" || extn == "png" || extn == "jpg" || extn == "jpeg") {
-    //            if (typeof (FileReader) != "undefined") {
-    //                //loop for each file selected for uploaded.
-    //                for (var i = 0; i < countFiles; i++) {
-    //                    var reader = new FileReader();
-    //                    reader.onload = function (e) {
-    //                        $("<img />", {
-    //                            "src": e.target.result,
-    //                            "class": "thumb-image"
-    //                        }).appendTo(image_holder);
-    //                    }
-    //                    image_holder.show();
-    //                    reader.readAsDataURL($(this)[0].files[i]);
-    //                }
-    //            } else {
-    //                alert("This browser does not support FileReader.");
-    //            }
-    //        } else {
-    //            alert("Pls select only images");
-    //        }
-    //    });
-    //});
+    $(".camera.icon")
+        .click(function () {
+            $("#files").trigger('click');
+        });
 
-    $(document).ready(function () {
-        if (window.File && window.FileList && window.FileReader) {
-            $("#files").on("change", function (e) {
-                var files = e.target.files,
-                    filesLength = files.length;
-                for (var i = 0; i < filesLength; i++) {
-                    var f = files[i]
-                    var fileReader = new FileReader();
-                    fileReader.onload = (function (e) {
-                        var file = e.target;
-                        $("<span class=\"pip\">" +
-                            "<img class=\"imageThumb\" src=\"" + e.target.result + "\" title=\"" + file.name + "\"/>" +
-                            "<br/><span class=\"remove\"></span>" +
-                            "</span>").insertAfter("#files");
-                        $(".remove").click(function () {
-                            $(this).parent(".pip").remove();
-                        });
+
+    var ImgList = [];
+
+    function previewImg() {
+        var filesInput = document.getElementById("files");
+        var files = filesInput.files;
+        var output = document.getElementById("result");
+        var i = 0,
+            len = files.length;
+        (function readFile(n) {
+            var reader = new FileReader();
+            var f = files[n];
+            var m = "onclick=Avatar('" + f.name + "')";
+
+            reader.onload = function (e) {
+                var div = document.createElement("span");
+                div.className = "imageBlock";
+                div.innerHTML = "<img class='thumb' src='" +
+                    e.target.result +
+                    "'" +
+                    "title='" +
+                    f.name +
+                    "'/>  <div  class='deleteDiv'><img src='/Content/deleteImage.png' class='deleteIcon' title='Xóa ảnh'/></div>" +
+                    "<div " + m + " class='setAvatarDiv radio'><input class='radio-lg' type='radio' name='myRadio' value='' title='Đặt làm ảnh đại diện'></div>";
+                output.insertBefore(div, null);
+                div.children[1].addEventListener("click",
+                    function () {
+                        div.parentNode.removeChild(div);
+                        var removeId = div.children[0].title;
+                        for (var index = 0; index < ImgList.length; index++) {
+                            if (ImgList[index].name === removeId) {
+                                ImgList.splice(index, 1);
+                                break;
+                            }
+                        }
                     });
-                    fileReader.readAsDataURL(f);
-                }
-            });
-        } else {
-            alert("Your browser doesn't support to File API")
-        }
-    });
+                ImgList.push(f);
+                if (n < len - 1) readFile(++n);
+            };
+            reader.readAsDataURL(f);
+        }(i));
+    }
+   
 </script>
 @*<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>*@
