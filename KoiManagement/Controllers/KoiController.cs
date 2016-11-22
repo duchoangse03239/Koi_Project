@@ -385,7 +385,7 @@ namespace KoiManagement.Controllers
                 //Edit file to local
                 if (file != null)
                 {
-                    if (koi.Image == null)
+                    if (string.IsNullOrWhiteSpace(koi.Image))
                     {
                         filename = Path.GetFileName("Koi" + koi.KoiID + file.FileName.Substring(file.FileName.LastIndexOf('.')));
                         koi.Image = filename;

@@ -75,7 +75,7 @@ namespace KoiManagement.Controllers
                     //Save file to local
                     if (file != null && i == 0)
                     {
-                        var filename = Path.GetFileName("AchiKoi"+ ad.KoiID + MaxAchiID + file.FileName.Substring(file.FileName.LastIndexOf('.')));
+                        var filename = Path.GetFileName("Koi"+ ad.KoiID+ "Achi"+ MaxAchiID + file.FileName.Substring(file.FileName.LastIndexOf('.')));
                         ad.Image = filename;
                         fullpath.Add(Server.MapPath("~/Content/Image/Achievement/" + filename));
                         var path = Path.Combine(Server.MapPath("~/Content/Image/Achievement"), filename);
@@ -83,7 +83,7 @@ namespace KoiManagement.Controllers
                     }
                     else if (file != null)
                     {
-                        var filename = Path.GetFileName("AchiKoi" + ad.KoiID + MaxAchiID + file.FileName.Substring(file.FileName.LastIndexOf('.')));
+                        var filename = Path.GetFileName("Koi" + ad.KoiID + "Achi" + MaxAchiID + file.FileName.Substring(file.FileName.LastIndexOf('.')));
                         ad.Image = filename;
                         fullpath.Add(Server.MapPath("~/Content/Image/Achievement/" + filename));
                         var path = Path.Combine(Server.MapPath("~/Content/Image/Achievement"), filename);
@@ -115,14 +115,16 @@ namespace KoiManagement.Controllers
         /// Edit Achievemnt
         /// </summary>
         /// <returns>View</returns>
-        public ActionResult EditAchievement()
+        public ActionResult EditAchievement(int id)
         {
+            db.Achievements.Find(id);
+            ViewBag.EditAchi = db.Achievements.Find(id);
             return View();
         }
 
         // GET: /Account/UpdateProfile
         [HttpPost]
-        public JsonResult EditAchievement(int id,string image, string time, string description)
+        public JsonResult EditAchievement(int ?id, string image, string time, string description,string koiid)
         {
             StatusObjForJsonResult obj = new StatusObjForJsonResult();
             // check login
@@ -132,8 +134,9 @@ namespace KoiManagement.Controllers
             //    obj.RedirectTo = Url.Action("Login", "Account");
             //    return Json(obj);
             //}
-            try{
-            AchievementDAO AchiDao = new AchievementDAO();
+            try
+            {
+                AchievementDAO AchiDao = new AchievementDAO();
                 // Validate
 
                 string filename;
@@ -147,18 +150,28 @@ namespace KoiManagement.Controllers
                     file = files[i];
                 }
                 DateTime? timeAchievement = Validate.ConverDateTime(time);
+                if (string.IsNullOrWhiteSpace(time) && Validate.ValidateDate(time))
+                {
+                    obj.Status = 2;
+                    obj.Message = "Ngày tháng đúng định dạng";
+                    return Json(obj);
+                }
+                else
+                {
+                    timeAchievement = Validate.ConverDateTime(time);
+                }
                 Achievement achi = new Achievement();
+                achi.AchievementID = id.Value;
+                achi.KoiID = int.Parse(koiid);
                 achi.Image = image;
-                achi.KoiID = id;
                 achi.Date = timeAchievement;
                 achi.Description = description;
-                achi.Status = true;
                 //Edit file to local
                 if (file != null)
                 {
                     if (achi.Image == null)
                     {
-                        filename = Path.GetFileName("Achi" + achi.KoiID + file.FileName.Substring(file.FileName.LastIndexOf('.')));
+                        filename = Path.GetFileName("Koi" + achi.KoiID + "Achi" + file.FileName.Substring(file.FileName.LastIndexOf('.')));
                         achi.Image = filename;
                     }
                     else
@@ -180,8 +193,9 @@ namespace KoiManagement.Controllers
                     obj.Message = "Cập nhật thông tin thành công";
                     obj.RedirectTo = Url.Action("KoiUser/" + Session[SessionAccount.SessionUserId], "Koi");
                 }
-            } 
-            catch (Exception ex){
+            }
+            catch (Exception ex)
+            {
                 Common.Logger.LogException(ex);
                 obj.Status = 0;
                 obj.RedirectTo = this.Url.Action("SystemError", "Error");

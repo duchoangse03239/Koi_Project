@@ -614,7 +614,7 @@ namespace KoiManagement.Controllers
 
         // GET: /Account/UpdateProfile
         [HttpPost]
-        public JsonResult UpdateProfile(string name, string image, string gender, string dob, string address, string phone)
+        public JsonResult UpdateProfile(string name, string image, string gender, string dob, string address, string phone, string memberid)
         {
             StatusObjForJsonResult obj = new StatusObjForJsonResult();
             //Khởi tạo giá trị cho trường không bắt buộc
@@ -675,11 +675,12 @@ namespace KoiManagement.Controllers
                 MemberDAO dao = new MemberDAO();
                 Member me = new Member(name, "", "", dateOfBirth, "", gender, phone, "", address, true);
                 me.Image = image;
+                me.MemberID = int.Parse(memberid);
 
                 //Edit file to local
                 if (file != null)
                 {
-                    if (me.Image == null)
+                    if (string.IsNullOrWhiteSpace(me.Image))
                     {
                         filename = Path.GetFileName("mem" + me.MemberID + file.FileName.Substring(file.FileName.LastIndexOf('.')));
                         me.Image = filename;
