@@ -36,7 +36,7 @@ section {
 
 body a {
     text-decoration: none;
-    color: #113949;
+    color: #337ab7;
 }
 
 .carousel-fade .carousel-inner .item {
@@ -1041,7 +1041,7 @@ input[type="file"] {
 }*/
 
 .koi-detail .line a:hover {
-    text-decoration: none;
+    text-decoration: underline;
 }
 
 .koi-detail .line.item-name {
