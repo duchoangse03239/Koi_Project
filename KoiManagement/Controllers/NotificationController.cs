@@ -37,6 +37,5 @@ namespace KoiManagement.Controllers
             var list = notificationDao.GetListNotifications(memberId);
             return View(list);
         }
-        
     }
 }

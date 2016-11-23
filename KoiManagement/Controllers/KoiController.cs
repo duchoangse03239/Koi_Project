@@ -569,7 +569,7 @@ namespace KoiManagement.Controllers
         }
 
         [HttpPost]
-        public JsonResult Rating(int koiID,float RateNum)
+        public JsonResult Rating(int koiID,float RateNum,string content)
         {
             StatusObjForJsonResult obj = new StatusObjForJsonResult();
 

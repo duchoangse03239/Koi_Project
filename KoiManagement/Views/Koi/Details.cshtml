@@ -13,7 +13,6 @@
 
 <body>
 
-
     <!-- Modal Trade-->
     <div id="trade" class="modal fade" role="dialog">
         <div class="modal-dialog">
@@ -164,6 +163,7 @@
                                 <a href="#"><i class="fa fa-edit"></i></a>
                             </span>
                         </div>
+
                         <ul class="comments-list">
                             <li class="comment">
                                 <a class="pull-left" href="#">
@@ -173,9 +173,10 @@
                                     <div class="comment-heading">
                                         <h4 class="user">Gavino Free</h4>
                                         <h5 class="time">5 minutes ago</h5>
+                                        <input type="number" name="your_awesome_parameter" id="rating-readonly" class="rating" value="3" data-readonly />
                                     </div>
                                     <p>Sure, oooooooooooooooohhhhhhhhhhhhhhhh</p>
-                                    <a id="reply" style="font-size: 13px;">Trả lời</a>
+                                    <a id="reply1" style="font-size: 13px;">Trả lời</a>
                                 </div>
                                 <ul class="comments-list">
                                     <li class="comment">
@@ -187,13 +188,55 @@
                                                 <h4 class="user">Ryan Haywood</h4>
                                                 <h5 class="time">3 minutes ago</h5>
                                             </div>
-                                            <p>Relax my friend</p>
+                                            <p id="a">Relax my friend</p>
                                         </div>
                                     </li>
-                                    <li class="comment" id="input-reply"> </li>
-</ul>
+                                    <li class="comment" id="input-reply1" style="display: none;">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">
+                                                <a class="pull-left" href="#">
+                                                    <img class="avatar" src="http://bootdey.com/img/Content/user_3.jpg" alt="avatar">
+                                                </a>
+                                            </span>
+                                            <input class="form-control" id="comment1" placeholder="Add a comment" type="text">
+                                            <span class="input-group-addon">
+                                                <a href="#"><i class="fa fa-edit"></i></a>
+                                            </span>
+                                        </div>
+                                    </li>
+                                </ul>
                             </li>
                         </ul>
+
+                        <ul class="comments-list">
+                            <li class="comment">
+                                <a class="pull-left" href="#">
+                                    <img class="avatar" src="http://bootdey.com/img/Content/user_1.jpg" alt="avatar">
+                                </a>
+                                <div class="comment-body">
+                                    <div class="comment-heading">
+                                        <h4 class="user">Gavino Free</h4>
+                                        <h5 class="time">5 minutes ago</h5>
+                                        <input type="number" name="your_awesome_parameter" id="rating-readonly" class="rating" value="3" data-readonly />
+                                    </div>
+                                    <p>Sure, oooooooooooooooohhhhhhhhhhhhhhhh</p>
+                                    <a id="reply" style="font-size: 13px;">Trả lời</a>
+                                </div>
+                            </li>
+                        </ul>
+                        <li class="comment" id="input-reply1" style="display: none;">
+                            <div class="input-group">
+                                <span class="input-group-addon">
+                                    <a class="pull-left" href="#">
+                                        <img class="avatar" src="http://bootdey.com/img/Content/user_3.jpg" alt="avatar">
+                                    </a>
+                                </span>
+                                <input class="form-control" id="comment2" placeholder="Add a comment" type="text">
+                                <span class="input-group-addon">
+                                    <a href="#"><i class="fa fa-edit"></i></a>
+                                </span>
+                            </div>
+                        </li>
                     </div>
                 </div>
             </div>
@@ -221,7 +264,7 @@
                 datatype: "JSON",
                 data: {
                     koiId: parameter1,
-                    username : username
+                    username: username
                 },
                 success: function(res) {
                     switch (res.Status) {
@@ -238,9 +281,10 @@
                         // Declare a proxy to reference the hub.
                         var notifications = $.connection.notificationsHub;
                         // Create a function that the hub can call to broadcast messages.
-                        $.connection.hub.start().done(function () {
-                            notifications.server.sendNotification(res.JsonObject, "test", "test");
-                        });
+                        $.connection.hub.start()
+                            .done(function() {
+                                notifications.server.sendNotification(res.JsonObject, "test", "test");
+                            });
                         window.location.reload();
                         break;
                     }
@@ -248,21 +292,50 @@
             }); // end ajax
         }
     }
-
-    $(document).ready(function () {
-        $("#reply").one('click',function () {
-            $("#input-reply").append("<div class='input-group ' >" +
-                "<span class='input-group-addon'>" +
-                "<a class='pull-left' href='#'>" +
-                "<img class='avatar' src='http://bootdey.com/img/Content/user_1.jpg' alt='avatar' ></a> </span>" +
-                "<input class='form-control' placeholder='Add a comment' type='text'>"+
-                            "<span class='input-group-addon'> "+
-                               " <a href='#'><i class='fa fa-edit'></i></a>"+
-                " </span> " + "</div>"
-            );
+    var other_appended = false;
+    
+    $("#reply1").click(function () {
+        //khởi tạo
+                if(other_appended == false) {
+                        //$("#input-reply")
+                        //    .append("<div class='input-group ' >" +
+                        //        "<span class='input-group-addon'>" +
+                        //        "<a class='pull-left' href='#'>" +
+                        //        "<img class='avatar' src='http://bootdey.com/img/Content/user_1.jpg' alt='avatar' ></a> </span>" +
+                        //        "<input class='form-control' placeholder='Add a comment' type='text'>" +
+                        //        "<span class='input-group-addon'> " +
+                        //        " <a href='#'><i class='fa fa-edit'></i></a>" +
+                        //        " </span> " +
+                        //        "</div>"
+                        //    );
+                        other_appended = true;
+                        $("#input-reply1").show();
+                }
         });
-    });
 
+    $(document)
+        .keypress(function(event) {
+            var keycode = (event.keyCode ? event.keyCode : event.which);
+            if (keycode == "13") {
+                if (Validate()) {
+                    AddComment();
+                } else {
+                    return false;
+                }
+            }
+        });
+
+    function Validate() {
+
+        return true;
+    }
+    function AddComment() {
+        var t = document.activeElement.id;
+        t = t.substr(t.length - 1);
+        //ẩn input
+            $("#input-reply"+t).hide();
+            other_appended = false;
+    }
 </script>
 <script src="~/Scripts/jquery.signalR-2.2.1.js"></script>
 <!--Reference the autogenerated SignalR hub script. -->

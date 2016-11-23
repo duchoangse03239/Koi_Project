@@ -29,6 +29,13 @@ namespace KoiManagement.Hub
              Clients.All.broadcastNotification(userid, author, message);
         }
 
+        [HubMethodName("sendMessages")]
+        public static void SendMessages()
+        {
+            IHubContext context = GlobalHost.ConnectionManager.GetHubContext<NotificationsHub>();
+            context.Clients.All.updateMessages();
+        }
+
         public override Task OnConnected()
         {
             var us = new UserConnection();
@@ -59,11 +66,8 @@ namespace KoiManagement.Hub
 
     public class UserConnection
     {
-  public string UserName { set; get; }
-    public string ConnectionID { set; get; }
-}
-
-
-
+        public string UserName { set; get; }
+        public string ConnectionID { set; get; }
+    }
 
 }
