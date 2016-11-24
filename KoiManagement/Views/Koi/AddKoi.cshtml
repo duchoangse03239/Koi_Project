@@ -41,7 +41,7 @@
                     </div>
                     <div class="form-group">
                         <label>Kích thước</label>
-                        <input type="text" class="form-control" placeholder="Chiều dài" id="Size" name="Size">
+                        <input type="text" class="form-control" placeholder="Chiều dài(cm)" id="Size" name="Size">
                         <label id="lblMessage_koi_size_fail" class="label-error"></label>
                     </div>
                     <div class="form-group">
@@ -121,7 +121,7 @@
         $('#lblMessage_file_fail').text("");
         
         function isPositiveNumber(Size) {
-            var regex = /^[0-9 \.\,\+]+$/;
+            var regex = /^[0-9]+(\\.[0-9]+)/;
             return regex.test(Size);
         };
 
@@ -136,7 +136,7 @@
             return false;
         }
         else if (!isPositiveNumber(Size)) {
-            $('#lblMessage_koi_size_fail').text("Vui lòng không nhập số âm cho kích thước của Koi!");
+            $('#lblMessage_koi_size_fail').text("Vui lòng nhập đúng định dạng số thập phân!");
             $('#Size').focus();
             return false;
         }
