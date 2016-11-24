@@ -29,6 +29,12 @@ namespace KoiManagement.Hub
              Clients.All.broadcastNotification(userid, author, message);
         }
 
+        public void AddComment()
+        {
+            IHubContext context = GlobalHost.ConnectionManager.GetHubContext<NotificationsHub>();
+            context.Clients.All.displayStatus();
+        }
+
         [HubMethodName("sendMessages")]
         public static void SendMessages()
         {

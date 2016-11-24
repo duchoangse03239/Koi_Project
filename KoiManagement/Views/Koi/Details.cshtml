@@ -165,6 +165,9 @@
                         <div class="post-footer" style="margin-top: 20px">
                             <div class="">
                                 <input id="MainComment"class="form-control" placeholder="Add a comment" type="text" disabled>
+                                <span class="input-group-addon">
+                                    <a href="#" ><i class="fa fa-edit"></i></a>
+                                </span>
                             </div>
                             @for (int i = 0; i < ListComment.Count; i++)
                             {
@@ -397,14 +400,11 @@
                             .done(function () {
                                 notifications.server.sendNotification(res.JsonObject, "doi chu", "koi");
                             });
-                        window.location.reload();
                         break;
                 }
             }
         });
     } else{
-
-
         //ẩn input
             var textSonComment = $('#comment' +id).val();
             var Commmentid = $('#com' +id).val();
@@ -437,7 +437,6 @@
                            .done(function () {
                                notifications.server.sendNotification(res.JsonObject, "doi chu", "koi");
                            });
-                       window.location.reload();
                        break;
                }
            }
