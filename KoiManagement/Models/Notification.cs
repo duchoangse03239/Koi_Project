@@ -17,7 +17,8 @@ namespace KoiManagement.Models
         public int NoID { get; set; }
         public Nullable<int> MemberID { get; set; }
         public Nullable<int> SenderID { get; set; }
-        public Nullable<int> ModelID { get; set; }
+        public Nullable<int> ObjectType { get; set; }
+        public Nullable<int> ObjectID { get; set; }
         public Nullable<System.DateTime> Datetime { get; set; }
         public string url { get; set; }
         public string Content { get; set; }
@@ -26,15 +27,17 @@ namespace KoiManagement.Models
         public Notification()
         {
         }
-        public Notification(int MemberID, int SenderID, int ModelID, DateTime Datetime, string Content, bool isRead, bool Status)
+        public Notification(int MemberID, int SenderID,int? ObjectType, int? ObjectID, DateTime Datetime, string Content,string url, bool isRead, bool status)
         {
             this.MemberID = MemberID;
             this.SenderID = SenderID;
-            this.ModelID = ModelID;
+            this.ObjectType = ObjectType;
+            this.ObjectID = ObjectID;
             this.Datetime = Datetime;
+            this.url = url;
             this.Content = Content;
             this.isRead = isRead;
-            this.status = Status;
+            this.status = status;
         }
         public virtual Member Member { get; set; }
         public virtual Member Member1 { get; set; }

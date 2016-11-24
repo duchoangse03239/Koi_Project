@@ -16,30 +16,38 @@
         <li><a data-toggle="tab" href="#menu1">Cá của trang trại</a></li>
         @if (Session[SessionAccount.SessionUserId] != null && Session[SessionAccount.SessionUserId].ToString().Equals(@koifarm.MemberID.ToString()))
         {
-            <div class="button-header text-right">
-                <a class="btn btn-success" href="@Url.Action("AddKoiToKoiFarm/"+Session[SessionAccount.SessionUserId], "KoiFarm")">Thêm cá vào trang trại</a>
-            </div>
+            <li style="float: right; margin-left: 5px;">
+                <div class="button-header align-right">
+                    <a class="btn btn-success" href="@Url.Action("AddKoiToKoiFarm/"+Session[SessionAccount.SessionUserId], "KoiFarm")">Thêm cá vào trang trại</a>
+                </div>
+            </li>
+            <li style="float: right;">
+                <div class="button-header text-right">
+                    <a class="btn btn-success" href="@Url.Action("Import", "KoiFarm")">Thêm bằng file excel</a>
+                </div>
+            </li>
         }
-    </ul>
+
+</ul>
 
     <div class="tab-content">
         <div id="home" class="tab-pane fade in active koi-detail">
             <div class="row">
 
-                <div class="col-md-5">
+                <div class="col-md-6">
                     <div class="item">
                         <div class="item-attr">
                             <div class="line item-name">
                                 <h1>@koifarm.FarmName</h1>
                             </div>
                             <div class="line">
-                                <label><span class="fa fa-user"></span> Chủ trang trại:</label> <span>@koifarm.Member.Name</span>
+                                <label><span class="fa fa-user"></span> Chủ trang trại:</label> <a href="/Account/profile/@koifarm.Member.MemberID">@koifarm.Member.Name</a>
                             </div>
                             <div class="line">
-                                <label><span class="fa fa-map-marker"></span> Địa chỉ:</label> <span>Hòa Lạc Campus @koifarm.Address</span>
+                                <label><span class="fa fa-map-marker"></span> Địa chỉ:</label> <span>@koifarm.Address</span>
                             </div>
                             <div class="line">
-                                <label><span class="fa fa-phone"></span> Số điện thoại:</label> <span>0898 090 678 @koifarm.Address</span>
+                                <label><span class="fa fa-phone"></span> Số điện thoại:</label> <span>@koifarm.Member.Phone</span>
                             </div>
                             <div class="line">
                                 <label><span class="fa fa-cubes"></span> Chủng loại chính:</label> <span>Kohaku</span>

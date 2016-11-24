@@ -324,9 +324,6 @@
     <Compile Include="Models\Member.cs">
       <DependentUpon>KoiContext.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\ModelType.cs">
-      <DependentUpon>KoiContext.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\Notification.cs">
       <DependentUpon>KoiContext.tt</DependentUpon>
     </Compile>

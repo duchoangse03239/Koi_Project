@@ -17,15 +17,10 @@ namespace KoiManagement.Models
         public int ReportID { get; set; }
         public string Content { get; set; }
         public Nullable<int> MemberID { get; set; }
-        public string ModelTypeID { get; set; }
-        public Nullable<int> ModelId { get; set; }
+        public string ObjectType { get; set; }
+        public Nullable<int> ObjectId { get; set; }
+        public bool Status { get; set; }
     
-        public virtual Answer Answer { get; set; }
-        public virtual Koi Koi { get; set; }
-        public virtual KoiFarm KoiFarm { get; set; }
-        public virtual ModelType ModelType { get; set; }
-        public virtual Question Question { get; set; }
         public virtual Member Member { get; set; }
-        public virtual Member Member1 { get; set; }
     }
 }

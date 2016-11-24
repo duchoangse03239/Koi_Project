@@ -71,14 +71,7 @@ namespace KoiManagement.DAL
             {
                 try
                 {
-                    if (!infoDetail.Image.Equals(avatar))
-                    {
-                        var listImage = db.Media.FirstOrDefault(p => p.ModelId == infoDetail.DetailID && p.LinkImage == avatar);
-                        if (listImage != null)
-                        {
-                            infoDetail.Image = listImage.LinkImage;
-                        }
-                    }
+
 
                     //set default value
                     db.InfoDetails.Attach(infoDetail);
@@ -104,9 +97,34 @@ namespace KoiManagement.DAL
                         db.Media.Add(item);
                         db.SaveChanges();
                     }
+                    if (!avatar.Equals("change") && !infoDetail.Image.Equals(avatar))
+                    {
+                        var listImage = db.Media.FirstOrDefault(p => p.ModelId == infoDetail.DetailID && p.LinkImage == avatar);
+                        var oldImage = infoDetail.Image;
+                        if (listImage != null)
+                        {
+                            infoDetail.Image = listImage.LinkImage;
+
+                            listImage.LinkImage = oldImage;
+                            db.Media.Attach(listImage);
+                            var entry3 = db.Entry(listImage);
+                            entry3.State = EntityState.Modified;
+                            // Set column not change
+                            entry3.Property(e => e.LinkImage).IsModified = true;
+                            db.SaveChanges();
+                        }
 
 
-                        dbContextTransaction.Commit();
+                        //set default value
+                        db.InfoDetails.Attach(infoDetail);
+                        var entry2 = db.Entry(infoDetail);
+                        entry2.State = EntityState.Modified;
+                        // Set column not change
+                        entry2.Property(e => e.KoiID).IsModified = false;
+                        db.SaveChanges();
+                    }
+
+                    dbContextTransaction.Commit();
 
                 }
                 catch (Exception ex)

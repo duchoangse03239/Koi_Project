@@ -19,25 +19,20 @@ namespace KoiManagement.Models
         {
             this.Media = new HashSet<Medium>();
         }
-
-
-        public InfoDetail(int KoiID, DateTime Date, decimal Weight, decimal Size, string HeathyStatus, string Description, string Image, bool staus)
+        public InfoDetail(int KoiID, DateTime Date,  decimal Size, string HeathyStatus, string Description, string Image, bool staus)
         {
             this.Media = new HashSet<Medium>();
             this.KoiID = KoiID;
             this.Date = Date;
-            this.Weight = Weight;
             this.Size = Size;
             this.HeathyStatus = HeathyStatus;
             this.Description = Description;
             this.Image = Image;
             this.Status = staus;
         }
-
         public int DetailID { get; set; }
         public Nullable<int> KoiID { get; set; }
         public System.DateTime Date { get; set; }
-        public Nullable<decimal> Weight { get; set; }
         public Nullable<decimal> Size { get; set; }
         public string Image { get; set; }
         public string HeathyStatus { get; set; }

@@ -27,7 +27,6 @@ namespace KoiManagement.Models
         public string Image { get; set; }
         public Nullable<int> VarietyDetailID { get; set; }
         public bool Status { get; set; }
-        public int TypeID { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Variety> Variety1 { get; set; }

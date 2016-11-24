@@ -140,7 +140,7 @@
                                 }
                             </div>
                             <div class="line">
-                                <label><span class="fa fa-trophy"></span> Thành tích:</label> <a href="#">Chi tiết <span class="fa fa-angle-double-right"></span></a>
+                                <label><span class="fa fa-trophy"></span> Thành tích:</label> <a href="@Url.Action("ListAchievement/"+Model.KoiID , "Achievement")">Chi tiết <span class="fa fa-angle-double-right"></span></a>
                             </div>
                             <div class="line">
                                 <label><span class="fa fa-clock-o"></span> Thông tin sinh trưởng:</label> <a href="@Url.Action("timeline/"+@Model.KoiID, "InfoDetail")">Chi tiết <span class="fa fa-angle-double-right"></span></a>
@@ -293,8 +293,11 @@
         }
     }
     var other_appended = false;
-    
-    $("#reply1").click(function () {
+    //$(document).ready(function () {
+    for (i =1; i < 2; i++) {
+        var id = "#reply1" + i;
+        $(document).on("click","#reply1" + i,function(){
+      //  $("#reply1" + i).click(function () {
         //khởi tạo
                 if(other_appended == false) {
                         //$("#input-reply")
@@ -311,7 +314,8 @@
                         other_appended = true;
                         $("#input-reply1").show();
                 }
-        });
+        });}
+   // });
 
     $(document)
         .keypress(function(event) {

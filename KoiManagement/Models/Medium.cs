@@ -18,20 +18,15 @@ namespace KoiManagement.Models
         public string LinkImage { get; set; }
         public string LinkVideo { get; set; }
         public Nullable<int> ModelId { get; set; }
-        public string ModelTypeID { get; set; }
         public bool Status { get; set; }
-
         public Medium() { }
-        public Medium(string LinkImage, string LinkVideo, int ModelId, string ModelTypeID, bool Status)
+        public Medium(string LinkImage, string LinkVideo, int ModelId, bool Status)
         {
             this.LinkImage = LinkImage;
             this.LinkVideo = LinkVideo;
             this.ModelId = ModelId;
-            this.ModelTypeID = ModelTypeID;
             this.Status = Status;
         }
         public virtual InfoDetail InfoDetail { get; set; }
-        public virtual KoiFarm KoiFarm { get; set; }
-        public virtual ModelType ModelType { get; set; }
     }
 }

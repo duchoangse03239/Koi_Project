@@ -19,7 +19,6 @@ namespace KoiManagement.Models
         {
             this.Answer1 = new HashSet<Answer>();
             this.Rates = new HashSet<Rate>();
-            this.Reports = new HashSet<Report>();
         }
     
         public int AnswerID { get; set; }
@@ -36,8 +35,6 @@ namespace KoiManagement.Models
         public virtual Question Question { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Rate> Rates { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Report> Reports { get; set; }
         public virtual Member Member { get; set; }
     }
 }
