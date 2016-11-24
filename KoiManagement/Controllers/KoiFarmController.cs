@@ -332,7 +332,7 @@ namespace KoiManagement.Controllers
                     }
 
 
-                    var adapter = new OleDbDataAdapter("SELECT * FROM [Sheet1$]", connectionString);
+                    var adapter = new OleDbDataAdapter("SELECT * FROM [ImportData$]", connectionString);
                     var ds = new DataSet();
 
                     adapter.Fill(ds, "ExcelTable");
@@ -477,7 +477,6 @@ namespace KoiManagement.Controllers
                                 var path = Path.Combine(Server.MapPath("~/Content/Image/Detail"), filename);
                                 file.SaveAs(path);
                                 Medium a = new Medium();
-                                a.ModelTypeID = "InfoDetail";
                                 a.LinkImage = filename;
                                 a.Status = true;
                                 listIamge.Add(a);

@@ -102,8 +102,8 @@ namespace KoiManagement.Controllers
             List<String> ListImage = new List<string>();
             foreach (var item in ListInfo)
             {
-                var ListImage1 = db.Media.Where(p => p.ModelTypeID == "infodetail" && p.ModelId == item.DetailID&&p.Status).ToList();
-                ListImage1.Add(new Medium(item.Image, "", item.DetailID, "infodetail",true));
+                var ListImage1 = db.Media.Where(p =>  p.ModelId == item.DetailID&&p.Status).ToList();
+                ListImage1.Add(new Medium(item.Image, "", item.DetailID,true));
                 myList.Add(ListImage1);
             }
             foreach (List<Medium> subList in myList)
@@ -139,8 +139,8 @@ namespace KoiManagement.Controllers
             List<String> ListImage = new List<string>();
             foreach (var item in ListInfo)
             {
-                var ListImage1 = db.Media.Where(p => p.ModelTypeID == "infodetail" && p.ModelId == item.DetailID && p.Status).ToList();
-                ListImage1.Add(new Medium(item.Image,"",item.DetailID, "infodetail",true));
+                var ListImage1 = db.Media.Where(p => p.ModelId == item.DetailID && p.Status).ToList();
+                ListImage1.Add(new Medium(item.Image,"",item.DetailID,true));
                 myList.Add(ListImage1);
             }
             foreach (List<Medium> subList in myList)
@@ -244,7 +244,6 @@ namespace KoiManagement.Controllers
                         var path = Path.Combine(Server.MapPath("~/Content/Image/Detail"), filename);
                         file.SaveAs(path);
                         Medium a =  new Medium();
-                        a.ModelTypeID = "InfoDetail";
                         a.LinkImage = filename;
                         a.Status = true;
                         lishMedia.Add(a);
@@ -308,8 +307,8 @@ namespace KoiManagement.Controllers
             }
             ViewBag.KoiID = infoDetail.KoiID;
             List<Medium> listImage = new List<Medium>();
-            listImage.Add(new Medium(infoDetail.Image,"", id.Value, "infodetail",true));
-            var a = db.Media.Where(p => p.ModelTypeID == "infodetail" && p.ModelId == id && p.Status).ToList();
+            listImage.Add(new Medium(infoDetail.Image,"", id.Value,true));
+            var a = db.Media.Where(p =>  p.ModelId == id && p.Status).ToList();
 
             listImage.AddRange(a);
 
@@ -389,7 +388,6 @@ namespace KoiManagement.Controllers
                     if (name.Equals(Avatar))
                     {
                             Medium a = new Medium();
-                            a.ModelTypeID = "InfoDetail";
                             a.LinkImage = infoDetail.Image;
                             a.Status = true;
                             lishMedia.Add(a);
@@ -413,7 +411,6 @@ namespace KoiManagement.Controllers
                         var path = Path.Combine(Server.MapPath("~/Content/Image/Detail"), filename);
                         file.SaveAs(path);
                         Medium a = new Medium();
-                        a.ModelTypeID = "InfoDetail";
                         a.LinkImage = filename;
                         a.Status = true;
                         lishMedia.Add(a);

@@ -21,7 +21,6 @@ namespace KoiManagement.Models
             this.Comments = new HashSet<Comment>();
             this.InfoDetails = new HashSet<InfoDetail>();
             this.Owners = new HashSet<Owner>();
-            this.Reports = new HashSet<Report>();
         }
         public Koi(int VarietyID, string KoiName, DateTime? DoB, string Gender, string Temperament, string Certificate, string Image, string Origin, int Status, bool Privacy)
         {
@@ -29,7 +28,6 @@ namespace KoiManagement.Models
             this.Comments = new HashSet<Comment>();
             this.InfoDetails = new HashSet<InfoDetail>();
             this.Owners = new HashSet<Owner>();
-            this.Reports = new HashSet<Report>();
             this.VarietyID = VarietyID;
             this.KoiName = KoiName;
             this.DoB = DoB;
@@ -65,8 +63,6 @@ namespace KoiManagement.Models
         public virtual Variety Variety { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Owner> Owners { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Report> Reports { get; set; }
         public virtual Koi Koi1 { get; set; }
         public virtual Koi Koi2 { get; set; }
     }

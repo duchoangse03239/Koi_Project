@@ -26,7 +26,7 @@
         <div class="row">
             <div class="col-md-4">
                 <!-- Form Search -->
-                <form class="searchForm" action="/Koi/ListKoi/4" method="get">
+                <form class="searchForm" action="/Koi/ListKoi/4" method="post">
                     <div id="parent">
                         <h3>Tìm kiếm</h3>
                         <hr />
@@ -126,14 +126,26 @@
         </div>
             <div class="col-md-8">
                 <div class="btn-group">
-                    <a class="btn btn-filter" href="@Url.Action("ListKoi", "Koi", new {orderby ="newest",username =filter.Username, nameKoi= filter.KoiName  , variety= filter.VarietyId , sizeFrom= filter.SizeFrom , sizeTo= filter.SizeTo ,gender= filter.Gender ,owner=  filter.Owner } )">Mới nhất</a>
-                    <a class="btn btn-filter" href="@Url.Action("ListKoi", "Koi", new {orderby ="review",username =filter.Username, nameKoi= filter.KoiName  , variety= filter.VarietyId , sizeFrom= filter.SizeFrom , sizeTo= filter.SizeTo ,gender= filter.Gender ,owner=  filter.Owner } )">Nhiều đánh giá</a>
+                    <a class="btn btn-filter" id="order1" href="@Url.Action("ListKoi", "Koi", new {orderby ="newest",username =filter.Username, nameKoi= filter.KoiName  , variety= filter.VarietyId , sizeFrom= filter.SizeFrom , sizeTo= filter.SizeTo ,gender= filter.Gender ,owner=  filter.Owner } )">Mới nhất</a>
+                    <a class="btn btn-filter" id="order2" href="@Url.Action("ListKoi", "Koi", new {orderby ="review",username =filter.Username, nameKoi= filter.KoiName  , variety= filter.VarietyId , sizeFrom= filter.SizeFrom , sizeTo= filter.SizeTo ,gender= filter.Gender ,owner=  filter.Owner } )">Nhiều đánh giá</a>
                     <script>
-                        $(".btn-group > .btn").click(function () {
-                            //$(this).addClass("active").siblings().removeClass("active");
-                            $(".btn-group > .btn").removeClass("active");
-                            $(this).addClass("active");
-                        });
+
+                         @{
+                             if (filter.orderby !=null&& filter.orderby.Equals("newest"))
+                             {
+                                <text> 
+                                        $('#order1').addClass("active");
+                                        $('#order2').removeClass("active");
+                                </text>
+                             }else if (filter.orderby != null && filter.orderby.Equals("review"))
+                             {
+                               <text> 
+                                        $('#order1').removeClass("active");
+                                        $('#order2').addClass("active");
+                                </text>
+                             }
+                        }
+  
                     </script>
                 </div>
                 <div id="Main-ListKoi">

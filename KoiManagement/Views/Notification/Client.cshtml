@@ -47,7 +47,7 @@
             var userid=
             // Create a function that the hub can call to broadcast messages.
             notifications.client.broadcastNotification = function (userid, name, message) {
-                if (userid == 2) {
+                if (userid == 1) {
                     alert(name + " says '" + message + "'" + userid);
                 // Html encode display name and message.
                 var encodedName = $('<div />').text(name).html();
@@ -58,7 +58,7 @@
                 };
             }
 
-            notifications.client.broadcastMessage = function (name, message) {
+            notifications.client.broadcastMessage = function (userid, name, message) {
                 
                 // Html encode display name and message.
                 var encodedName = $('<div />').text(name).html();

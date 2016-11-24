@@ -140,7 +140,7 @@ namespace KoiManagement.Controllers
             ViewBag.Owner = ownDao.GetOwner(id);
             // Lấy giá trị deatail cuối cùng
             var KoiDeatail = db.InfoDetails.Where(p => p.KoiID == id&&p.Status).OrderByDescending(p => p.Date);
-            ViewBag.listImage =  db.Media.Where(p => p.ModelTypeID == "infodetail" && p.ModelId == KoiDeatail.FirstOrDefault().DetailID && p.Status).ToList();
+            ViewBag.listImage =  db.Media.Where(p =>p.ModelId == KoiDeatail.FirstOrDefault().DetailID && p.Status).ToList();
             if (KoiDeatail.Any())
             {
                 KoiDeatail.First();
@@ -272,7 +272,6 @@ namespace KoiManagement.Controllers
                         var path = Path.Combine(Server.MapPath("~/Content/Image/Detail"), filename);
                         file.SaveAs(path);
                         Medium a = new Medium();
-                        a.ModelTypeID = "InfoDetail";
                         a.LinkImage = filename;
                         a.Status = true;
                         ListMedia.Add(a);
@@ -489,8 +488,8 @@ namespace KoiManagement.Controllers
                 var mem = memberDao.GetMemberbyID(UserID);
                 var koiName = db.Kois.Find(koiID).KoiName;
 
-                Notification notification = new Notification(NewMemberID.MemberID,UserID , koiID, DateTime.Now
-                    , mem.Name +" muốn chuyển nhượng "+ koiName+" cho bạn", false,true);
+                Notification notification = new Notification(NewMemberID.MemberID,UserID , 1,koiID, DateTime.Now
+                    , mem.Name +" muốn chuyển nhượng "+ koiName+" cho bạn","", false,true);
 
                 NotificationDAO noDao = new NotificationDAO();
             if (noDao.AddNotification(notification))
@@ -563,7 +562,7 @@ namespace KoiManagement.Controllers
         }
 
         [HttpPost]
-        public JsonResult Rating(int koiID,float RateNum)
+        public JsonResult Rating(int koiID,float RateNum,string content)
         {
             StatusObjForJsonResult obj = new StatusObjForJsonResult();
 

@@ -324,9 +324,6 @@
     <Compile Include="Models\Member.cs">
       <DependentUpon>KoiContext.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\ModelType.cs">
-      <DependentUpon>KoiContext.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\Notification.cs">
       <DependentUpon>KoiContext.tt</DependentUpon>
     </Compile>
@@ -951,7 +948,6 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
     <Content Include="Views\Layout\KoiLayout.cshtml" />
-    <Content Include="Views\Koi\Delete.cshtml" />
     <Content Include="Views\Koi\Index.cshtml" />
     <Content Include="Views\Variety\Create.cshtml" />
     <Content Include="Views\Variety\Delete.cshtml" />
@@ -965,7 +961,6 @@
     <Content Include="Views\InfoDetail\EditDetail.cshtml" />
     <Content Include="Views\InfoDetail\KoiInfoDetail.cshtml" />
     <Content Include="Views\InfoDetail\AddDetail.cshtml" />
-    <Content Include="Views\Koi\TestAddd.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Error\SystemError.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />

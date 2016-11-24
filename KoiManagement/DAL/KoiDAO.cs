@@ -98,7 +98,7 @@ namespace KoiManagement.DAL
                         db.Owners.Add(new Owner(memberID, koinewID, koifarmId, DateTime.Now, null, true));
                         db.SaveChanges();
                         //thêm infodetail
-                        var Detail = new InfoDetail(koinewID, DateTime.Now, 0, item.Size, String.Empty, String.Empty, imagedetail.ElementAt(detailIndex), true);
+                        var Detail = new InfoDetail(koinewID, DateTime.Now,  item.Size, String.Empty, String.Empty, imagedetail.ElementAt(detailIndex), true);
                         db.InfoDetails.Add(Detail);
                         db.SaveChanges();
                         var DetailID = Detail.DetailID;
@@ -143,7 +143,7 @@ namespace KoiManagement.DAL
                     db.Owners.Add(new Owner(memberID, koinewID, null, DateTime.Now, null, true));
                     db.SaveChanges();
                     //thêm infodetail
-                    var Detail = new InfoDetail(koinewID, DateTime.Now, 0, size, String.Empty, String.Empty, image, true);
+                    var Detail = new InfoDetail(koinewID, DateTime.Now,  size, String.Empty, String.Empty, image, true);
                     db.InfoDetails.Add(Detail);
                     db.SaveChanges();
                     var DetailID = Detail.DetailID;

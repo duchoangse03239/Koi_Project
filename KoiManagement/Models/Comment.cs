@@ -33,8 +33,8 @@ namespace KoiManagement.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Comment> Comment1 { get; set; }
         public virtual Comment Comment2 { get; set; }
-        public virtual KoiFarm KoiFarm { get; set; }
         public virtual Koi Koi { get; set; }
+        public virtual KoiFarm KoiFarm { get; set; }
         public virtual Member Member { get; set; }
     }
 }
