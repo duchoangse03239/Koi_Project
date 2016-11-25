@@ -873,6 +873,10 @@ body a {
   margin-top: 0;
   display: inline;
 }
+.post-footer .comments-list .comment .comment-heading .star {
+    display: inline;
+    margin-right: 10px;
+}
 .post-footer .comments-list .comment .comment-body {
   margin-left: 50px;
 }

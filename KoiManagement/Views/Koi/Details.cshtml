@@ -163,7 +163,7 @@
                         <label for="TextComment" style="vertical-align: middle"></label>
                     </div>
                         <div class="post-footer" style="margin-top: 20px">
-                            <div class="input-group">
+                            <div class="">
                                 <input id="MainComment"class="form-control" placeholder="Add a comment" type="text" disabled>
                                 <span class="input-group-addon">
                                     <a href="#" ><i class="fa fa-edit"></i></a>
@@ -178,11 +178,11 @@
                                         </a>
                                         <div class="comment-body">
                                             <div class="comment-heading">
-                                                <a class="pull-left" href="@Url.Action("Profile/" + @ListComment.ElementAt(i).MemberID, "Account")">
-                                                    <h4 class="user">@ListComment.ElementAt(i).Member.Name</h4>
-                                                </a>
+                                                <a class="pull-left" href="@Url.Action("Profile/" + @ListComment.ElementAt(i).MemberID, "Account")"></a>
+                                                    <h4 class="user"><a>@ListComment.ElementAt(i).Member.Name</a></h4>
+                                                    <input type="number" name="your_awesome_parameter" id="rating-readonly" class="rating star" value="@Convert.ToInt32(ListComment.ElementAt(i).Rating)" data-readonly />
                                                     <h5 class="time">@ListComment.ElementAt(i).DateTime</h5>
-                                                    <input type="number" name="your_awesome_parameter" id="rating-readonly" class="rating" value="@Convert.ToInt32(ListComment.ElementAt(i).Rating)" data-readonly />
+                                                    
                                                 </div>
                                             <p>@ListComment.ElementAt(i).Content</p>
                                             @{var replyID= "reply"+ i;}
@@ -196,12 +196,12 @@
                                                     </a>
                                                     <div class="comment-body">
                                                         <div class="comment-heading">
-                                                            <a class="pull-left" href="@Url.Action("Profile/" + @ListCommentDetail.ElementAt(i).ElementAt(item).MemberID, "Account")">
-                                                                <h4 class="user">@ListCommentDetail.ElementAt(i).ElementAt(item).Member.Name</h4></a>
+                                                            <a class="pull-left" href="@Url.Action("Profile/" + @ListCommentDetail.ElementAt(i).ElementAt(item).MemberID, "Account")"></a>
+                                                                <h4 class="user"><a>@ListCommentDetail.ElementAt(i).ElementAt(item).Member.Name</a></h4>
                                                                 <h5 class="time">@ListCommentDetail.ElementAt(i).ElementAt(item).DateTime</h5>
-                                                        </div>
-                                                        <p >@ListCommentDetail.ElementAt(i).ElementAt(item).Content</p>
-                                                    </div>
+                                                            <p>@ListCommentDetail.ElementAt(i).ElementAt(item).Content</p>
+                                                        </div>   
+                                                    </div> 
                                                 </li>
                                             }
                                             @{ var inputReply = "input-reply" + i;}
@@ -219,9 +219,6 @@
                                                     }
                                                     <input class="form-control" id="@CommentId" placeholder="Add a comment" type="text">
                                                     <input type="hidden" id="@ComName" value ="@ComId" placeholder="Add a comment" type="text">
-                                                    <span class="input-group-addon">
-                                                    <a href="#"><i class="fa fa-edit"></i></a>
-                                                </span>
                                                 </div>
                                             </li>
                                         </ul>
