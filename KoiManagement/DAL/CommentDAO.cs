@@ -33,7 +33,18 @@ namespace KoiManagement.DAL
 
         public List<Comment> GetListCommentKoi(int KoiId)
         {
-            return db.Comments.Where(p=>p.KoiID== KoiId&&p.Status).ToList();
+            return db.Comments.Where(p=>p.KoiID== KoiId&&p.Status && p.CommentAnswer == null).ToList();
+        }
+        public List<List<Comment>> GetListCommentKoiDetail(int KoiId)
+        {
+            List<List<Comment>> ListComment = new List<List<Comment>>();
+            var t= db.Comments.Where(p => p.KoiID == KoiId && p.Status&&p.CommentAnswer==null).ToList();
+            foreach (var i in t)
+            {
+                var b = db.Comments.Where(p => p.KoiID == KoiId&&p.CommentAnswer==i.CommentID && p.Status).ToList();
+                ListComment.Add(b);
+            }
+            return ListComment;
         }
     }
 }

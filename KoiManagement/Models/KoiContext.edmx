@@ -57,11 +57,11 @@
             <PropertyRef Name="CommentID" />
           </Key>
           <Property Name="CommentID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="MemberID" Type="int" />
+          <Property Name="MemberID" Type="int" Nullable="false" />
           <Property Name="KoiID" Type="int" />
-          <Property Name="DateTime" Type="datetime" />
+          <Property Name="DateTime" Type="datetime" Nullable="false" />
           <Property Name="KoiFarmID" Type="int" />
-          <Property Name="Rating" Type="decimal" Precision="2" Scale="1" Nullable="false" />
+          <Property Name="Rating" Type="decimal" Precision="2" Scale="1" />
           <Property Name="Content" Type="nvarchar" MaxLength="4000" Nullable="false" />
           <Property Name="CommentAnswer" Type="int" />
           <Property Name="Status" Type="bit" Nullable="false" />
@@ -72,7 +72,7 @@
           </Key>
           <Property Name="DetailID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="KoiID" Type="int" />
-          <Property Name="Date" Type="date" />
+          <Property Name="Date" Type="datetime" Nullable="false" />
           <Property Name="Size" Type="decimal" Precision="8" Scale="2" />
           <Property Name="Image" Type="varchar" MaxLength="2048" />
           <Property Name="HeathyStatus" Type="nvarchar" MaxLength="255" />
@@ -148,7 +148,7 @@
           <Property Name="Datetime" Type="datetime" />
           <Property Name="url" Type="varchar" MaxLength="2048" />
           <Property Name="Content" Type="nvarchar" MaxLength="2000" />
-          <Property Name="isRead" Type="bit" />
+          <Property Name="isRead" Type="bit" Nullable="false" />
           <Property Name="status" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Owner">
@@ -348,7 +348,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK__Comment__MemberI__2D27B809">
-          <End Role="Member" Type="Self.Member" Multiplicity="0..1" />
+          <End Role="Member" Type="Self.Member" Multiplicity="1" />
           <End Role="Comment" Type="Self.Comment" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Member">
@@ -763,32 +763,13 @@
           <Property Name="ShortDes" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
           <Property Name="Image" Type="String" MaxLength="2000" FixedLength="true" Unicode="true" />
         </EntityType>
-        <EntityType Name="Comment">
-          <Key>
-            <PropertyRef Name="CommentID" />
-          </Key>
-          <Property Name="CommentID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="MemberID" Type="Int32" />
-          <Property Name="KoiID" Type="Int32" />
-          <Property Name="DateTime" Type="DateTime" Precision="3" />
-          <Property Name="KoiFarmID" Type="Int32" />
-          <Property Name="Rating" Type="Decimal" Precision="2" Scale="1" Nullable="false" />
-          <Property Name="Content" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="CommentAnswer" Type="Int32" />
-          <Property Name="Status" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Comment1" Relationship="Self.FK__Comment__Comment__300424B4" FromRole="Comment" ToRole="Comment1" />
-          <NavigationProperty Name="Comment2" Relationship="Self.FK__Comment__Comment__300424B4" FromRole="Comment1" ToRole="Comment" />
-          <NavigationProperty Name="Koi" Relationship="KoiManagementModel.FK__Comment__KoiID__2C3393D0" FromRole="Comment" ToRole="Koi" />
-          <NavigationProperty Name="KoiFarm" Relationship="KoiManagementModel.FK__Comment__KoiFarm__2E1BDC42" FromRole="Comment" ToRole="KoiFarm" />
-          <NavigationProperty Name="Member" Relationship="KoiManagementModel.FK__Comment__MemberI__2D27B809" FromRole="Comment" ToRole="Member" />
-        </EntityType>
         <EntityType Name="InfoDetail">
           <Key>
             <PropertyRef Name="DetailID" />
           </Key>
           <Property Name="DetailID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="KoiID" Type="Int32" />
-          <Property Name="Date" Type="DateTime" Precision="0" />
+          <Property Name="Date" Type="DateTime" Precision="3" Nullable="false" />
           <Property Name="Size" Type="Decimal" Precision="8" Scale="2" />
           <Property Name="Image" Type="String" MaxLength="2048" FixedLength="false" Unicode="false" />
           <Property Name="HeathyStatus" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
@@ -925,18 +906,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Comment__Comment__300424B4">
-          <End Role="Comment" Type="Self.Comment" Multiplicity="0..1" />
-          <End Role="Comment1" Type="Self.Comment" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Comment">
-              <PropertyRef Name="CommentID" />
-            </Principal>
-            <Dependent Role="Comment1">
-              <PropertyRef Name="CommentAnswer" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK__Question__TypeID__403A8C7D">
           <End Role="Type" Type="Self.Type" Multiplicity="0..1" />
           <End Role="Question" Type="Self.Question" Multiplicity="*" />
@@ -976,7 +945,6 @@
         <EntityContainer Name="KoiManagementEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Answers" EntityType="Self.Answer" />
           <EntitySet Name="Articles" EntityType="Self.Article" />
-          <EntitySet Name="Comments" EntityType="Self.Comment" />
           <EntitySet Name="InfoDetails" EntityType="Self.InfoDetail" />
           <EntitySet Name="Owners" EntityType="Self.Owner" />
           <EntitySet Name="Questions" EntityType="Self.Question" />
@@ -999,10 +967,6 @@
           <AssociationSet Name="FK__Article__TypeID__3C69FB99" Association="Self.FK__Article__TypeID__3C69FB99">
             <End Role="Type" EntitySet="Types" />
             <End Role="Article" EntitySet="Articles" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Comment__Comment__300424B4" Association="Self.FK__Comment__Comment__300424B4">
-            <End Role="Comment" EntitySet="Comments" />
-            <End Role="Comment1" EntitySet="Comments" />
           </AssociationSet>
           <AssociationSet Name="FK__Question__TypeID__403A8C7D" Association="Self.FK__Question__TypeID__403A8C7D">
             <End Role="Type" EntitySet="Types" />
@@ -1052,10 +1016,6 @@
             <End Role="Koi" EntitySet="Kois" />
             <End Role="Achievement" EntitySet="Achievements" />
           </AssociationSet>
-          <AssociationSet Name="FK__Comment__KoiID__2C3393D0" Association="KoiManagementModel.FK__Comment__KoiID__2C3393D0">
-            <End Role="Koi" EntitySet="Kois" />
-            <End Role="Comment" EntitySet="Comments" />
-          </AssociationSet>
           <AssociationSet Name="FK__InfoDetai__KoiID__164452B1" Association="KoiManagementModel.FK__InfoDetai__KoiID__164452B1">
             <End Role="Koi" EntitySet="Kois" />
             <End Role="InfoDetail" EntitySet="InfoDetails" />
@@ -1073,10 +1033,6 @@
             <End Role="Koi1" EntitySet="Kois" />
           </AssociationSet>
           <EntitySet Name="KoiFarms" EntityType="KoiManagementModel.KoiFarm" />
-          <AssociationSet Name="FK__Comment__KoiFarm__2E1BDC42" Association="KoiManagementModel.FK__Comment__KoiFarm__2E1BDC42">
-            <End Role="KoiFarm" EntitySet="KoiFarms" />
-            <End Role="Comment" EntitySet="Comments" />
-          </AssociationSet>
           <AssociationSet Name="FK__Owner__KoiFarmID__29572725" Association="KoiManagementModel.FK__Owner__KoiFarmID__29572725">
             <End Role="KoiFarm" EntitySet="KoiFarms" />
             <End Role="Owner" EntitySet="Owners" />
@@ -1089,10 +1045,6 @@
           <AssociationSet Name="FK__Article__MemberI__3C69FB99" Association="KoiManagementModel.FK__Article__MemberI__3C69FB99">
             <End Role="Member" EntitySet="Members" />
             <End Role="Article" EntitySet="Articles" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Comment__MemberI__2D27B809" Association="KoiManagementModel.FK__Comment__MemberI__2D27B809">
-            <End Role="Member" EntitySet="Members" />
-            <End Role="Comment" EntitySet="Comments" />
           </AssociationSet>
           <AssociationSet Name="FK__KoiFarm__MemberI__21B6055D" Association="KoiManagementModel.FK__KoiFarm__MemberI__21B6055D">
             <End Role="Member" EntitySet="Members" />
@@ -1133,6 +1085,23 @@
           <AssociationSet Name="FK__Report__MemberID__5441852A" Association="KoiManagementModel.FK__Report__MemberID__5441852A">
             <End Role="Member" EntitySet="Members" />
             <End Role="Report" EntitySet="Reports" />
+          </AssociationSet>
+          <EntitySet Name="Comments" EntityType="KoiManagementModel.Comment" />
+          <AssociationSet Name="FK__Comment__Comment__2F10007B" Association="KoiManagementModel.FK__Comment__Comment__2F10007B">
+            <End Role="Comment" EntitySet="Comments" />
+            <End Role="Comment1" EntitySet="Comments" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Comment__KoiFarm__2E1BDC42" Association="KoiManagementModel.FK__Comment__KoiFarm__2E1BDC42">
+            <End Role="KoiFarm" EntitySet="KoiFarms" />
+            <End Role="Comment" EntitySet="Comments" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Comment__KoiID__2C3393D0" Association="KoiManagementModel.FK__Comment__KoiID__2C3393D0">
+            <End Role="Koi" EntitySet="Kois" />
+            <End Role="Comment" EntitySet="Comments" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Comment__MemberI__2D27B809" Association="KoiManagementModel.FK__Comment__MemberI__2D27B809">
+            <End Role="Member" EntitySet="Members" />
+            <End Role="Comment" EntitySet="Comments" />
           </AssociationSet>
           </EntityContainer>
         <ComplexType Name="sp_helpdiagramdefinition_Result">
@@ -1177,12 +1146,12 @@
           <Property Name="Status" Type="Int32" Nullable="false" />
           <Property Name="Privacy" Type="Boolean" />
           <NavigationProperty Name="Achievements" Relationship="KoiManagementModel.FK__Achivemen__KoiID__24927208" FromRole="Koi" ToRole="Achievement" />
-          <NavigationProperty Name="Comments" Relationship="KoiManagementModel.FK__Comment__KoiID__2C3393D0" FromRole="Koi" ToRole="Comment" />
           <NavigationProperty Name="InfoDetails" Relationship="KoiManagementModel.FK__InfoDetai__KoiID__164452B1" FromRole="Koi" ToRole="InfoDetail" />
           <NavigationProperty Name="Variety" Relationship="KoiManagementModel.FK__Koi__VarietyID__1367E606" FromRole="Koi" ToRole="Variety" />
           <NavigationProperty Name="Owners" Relationship="KoiManagementModel.FK__Owner__KoiID__276EDEB3" FromRole="Koi" ToRole="Owner" />
           <NavigationProperty Name="Koi1" Relationship="KoiManagementModel.FK_Koi_KoiMomID" FromRole="Koi" ToRole="Koi1" />
           <NavigationProperty Name="Koi2" Relationship="KoiManagementModel.FK_Koi_KoiMomID" FromRole="Koi1" ToRole="Koi" />
+          <NavigationProperty Name="Comments" Relationship="KoiManagementModel.FK__Comment__KoiID__2C3393D0" FromRole="Koi" ToRole="Comment" />
         </EntityType>
         <Association Name="FK__Achivemen__KoiID__24927208">
           <End Type="KoiManagementModel.Koi" Role="Koi" Multiplicity="0..1" />
@@ -1192,18 +1161,6 @@
               <PropertyRef Name="KoiID" />
             </Principal>
             <Dependent Role="Achievement">
-              <PropertyRef Name="KoiID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__Comment__KoiID__2C3393D0">
-          <End Type="KoiManagementModel.Koi" Role="Koi" Multiplicity="0..1" />
-          <End Type="KoiManagementModel.Comment" Role="Comment" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Koi">
-              <PropertyRef Name="KoiID" />
-            </Principal>
-            <Dependent Role="Comment">
               <PropertyRef Name="KoiID" />
             </Dependent>
           </ReferentialConstraint>
@@ -1266,22 +1223,10 @@
           <Property Name="Address" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Status" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Comments" Relationship="KoiManagementModel.FK__Comment__KoiFarm__2E1BDC42" FromRole="KoiFarm" ToRole="Comment" />
           <NavigationProperty Name="Owners" Relationship="KoiManagementModel.FK__Owner__KoiFarmID__29572725" FromRole="KoiFarm" ToRole="Owner" />
           <NavigationProperty Name="Member" Relationship="KoiManagementModel.FK__KoiFarm__MemberI__21B6055D" FromRole="KoiFarm" ToRole="Member" />
+          <NavigationProperty Name="Comments" Relationship="KoiManagementModel.FK__Comment__KoiFarm__2E1BDC42" FromRole="KoiFarm" ToRole="Comment" />
         </EntityType>
-        <Association Name="FK__Comment__KoiFarm__2E1BDC42">
-          <End Type="KoiManagementModel.KoiFarm" Role="KoiFarm" Multiplicity="0..1" />
-          <End Type="KoiManagementModel.Comment" Role="Comment" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="KoiFarm">
-              <PropertyRef Name="KoifarmID" />
-            </Principal>
-            <Dependent Role="Comment">
-              <PropertyRef Name="KoiFarmID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK__Owner__KoiFarmID__29572725">
           <End Type="KoiManagementModel.KoiFarm" Role="KoiFarm" Multiplicity="0..1" />
           <End Type="KoiManagementModel.Owner" Role="Owner" Multiplicity="*" />
@@ -1312,7 +1257,6 @@
           <Property Name="Status" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Answers" Relationship="KoiManagementModel.FK__Answer__MemberID__44FF419A" FromRole="Member" ToRole="Answer" />
           <NavigationProperty Name="Articles" Relationship="KoiManagementModel.FK__Article__MemberI__3C69FB99" FromRole="Member" ToRole="Article" />
-          <NavigationProperty Name="Comments" Relationship="KoiManagementModel.FK__Comment__MemberI__2D27B809" FromRole="Member" ToRole="Comment" />
           <NavigationProperty Name="KoiFarms" Relationship="KoiManagementModel.FK__KoiFarm__MemberI__21B6055D" FromRole="Member" ToRole="KoiFarm" />
           <NavigationProperty Name="Owners" Relationship="KoiManagementModel.FK__Owner__MemberID__286302EC" FromRole="Member" ToRole="Owner" />
           <NavigationProperty Name="Questions" Relationship="KoiManagementModel.FK__Question__Member__403A8C7D" FromRole="Member" ToRole="Question" />
@@ -1321,6 +1265,7 @@
           <NavigationProperty Name="Notifications" Relationship="KoiManagementModel.FK__Notificat__Membe__41B8C09B" FromRole="Member" ToRole="Notification" />
           <NavigationProperty Name="Notifications1" Relationship="KoiManagementModel.FK__Notificat__Sende__42ACE4D4" FromRole="Member" ToRole="Notification" />
           <NavigationProperty Name="Reports" Relationship="KoiManagementModel.FK__Report__MemberID__5441852A" FromRole="Member" ToRole="Report" />
+          <NavigationProperty Name="Comments" Relationship="KoiManagementModel.FK__Comment__MemberI__2D27B809" FromRole="Member" ToRole="Comment" />
         </EntityType>
         <Association Name="FK__Answer__MemberID__44FF419A">
           <End Type="KoiManagementModel.Member" Role="Member" Multiplicity="0..1" />
@@ -1342,18 +1287,6 @@
               <PropertyRef Name="MemberID" />
             </Principal>
             <Dependent Role="Article">
-              <PropertyRef Name="MemberID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__Comment__MemberI__2D27B809">
-          <End Type="KoiManagementModel.Member" Role="Member" Multiplicity="0..1" />
-          <End Type="KoiManagementModel.Comment" Role="Comment" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Member">
-              <PropertyRef Name="MemberID" />
-            </Principal>
-            <Dependent Role="Comment">
               <PropertyRef Name="MemberID" />
             </Dependent>
           </ReferentialConstraint>
@@ -1452,7 +1385,7 @@
           <Property Name="Datetime" Type="DateTime" Precision="3" />
           <Property Name="url" Type="String" MaxLength="2048" FixedLength="false" Unicode="false" />
           <Property Name="Content" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
-          <Property Name="isRead" Type="Boolean" />
+          <Property Name="isRead" Type="Boolean" Nullable="false" />
           <Property Name="status" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Member" Relationship="KoiManagementModel.FK__Notificat__Membe__41B8C09B" FromRole="Notification" ToRole="Member" />
           <NavigationProperty Name="Member1" Relationship="KoiManagementModel.FK__Notificat__Sende__42ACE4D4" FromRole="Notification" ToRole="Member" />
@@ -1517,6 +1450,73 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Comment">
+          <Key>
+            <PropertyRef Name="CommentID" />
+          </Key>
+          <Property Name="CommentID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MemberID" Type="Int32" Nullable="false" />
+          <Property Name="KoiID" Type="Int32" />
+          <Property Name="DateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="KoiFarmID" Type="Int32" />
+          <Property Name="Rating" Type="Decimal" Precision="2" Scale="1" />
+          <Property Name="Content" Type="String" Nullable="false" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Name="CommentAnswer" Type="Int32" />
+          <Property Name="Status" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Comment1" Relationship="KoiManagementModel.FK__Comment__Comment__2F10007B" FromRole="Comment" ToRole="Comment1" />
+          <NavigationProperty Name="Comment2" Relationship="KoiManagementModel.FK__Comment__Comment__2F10007B" FromRole="Comment1" ToRole="Comment" />
+          <NavigationProperty Name="KoiFarm" Relationship="KoiManagementModel.FK__Comment__KoiFarm__2E1BDC42" FromRole="Comment" ToRole="KoiFarm" />
+          <NavigationProperty Name="Koi" Relationship="KoiManagementModel.FK__Comment__KoiID__2C3393D0" FromRole="Comment" ToRole="Koi" />
+          <NavigationProperty Name="Member" Relationship="KoiManagementModel.FK__Comment__MemberI__2D27B809" FromRole="Comment" ToRole="Member" />
+        </EntityType>
+        <Association Name="FK__Comment__Comment__2F10007B">
+          <End Type="KoiManagementModel.Comment" Role="Comment" Multiplicity="0..1" />
+          <End Type="KoiManagementModel.Comment" Role="Comment1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Comment">
+              <PropertyRef Name="CommentID" />
+            </Principal>
+            <Dependent Role="Comment1">
+              <PropertyRef Name="CommentAnswer" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Comment__KoiFarm__2E1BDC42">
+          <End Type="KoiManagementModel.KoiFarm" Role="KoiFarm" Multiplicity="0..1" />
+          <End Type="KoiManagementModel.Comment" Role="Comment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="KoiFarm">
+              <PropertyRef Name="KoifarmID" />
+            </Principal>
+            <Dependent Role="Comment">
+              <PropertyRef Name="KoiFarmID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Comment__KoiID__2C3393D0">
+          <End Type="KoiManagementModel.Koi" Role="Koi" Multiplicity="0..1" />
+          <End Type="KoiManagementModel.Comment" Role="Comment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Koi">
+              <PropertyRef Name="KoiID" />
+            </Principal>
+            <Dependent Role="Comment">
+              <PropertyRef Name="KoiID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Comment__MemberI__2D27B809">
+          <End Type="KoiManagementModel.Member" Role="Member" Multiplicity="1" />
+          <End Type="KoiManagementModel.Comment" Role="Comment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="MemberID" />
+            </Principal>
+            <Dependent Role="Comment">
+              <PropertyRef Name="MemberID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1547,21 +1547,6 @@
                 <ScalarProperty Name="Date" ColumnName="Date" />
                 <ScalarProperty Name="MemberID" ColumnName="MemberID" />
                 <ScalarProperty Name="Content" ColumnName="Content" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Comments">
-            <EntityTypeMapping TypeName="KoiManagementModel.Comment">
-              <MappingFragment StoreEntitySet="Comment">
-                <ScalarProperty Name="CommentID" ColumnName="CommentID" />
-                <ScalarProperty Name="MemberID" ColumnName="MemberID" />
-                <ScalarProperty Name="KoiID" ColumnName="KoiID" />
-                <ScalarProperty Name="DateTime" ColumnName="DateTime" />
-                <ScalarProperty Name="KoiFarmID" ColumnName="KoiFarmID" />
-                <ScalarProperty Name="Rating" ColumnName="Rating" />
-                <ScalarProperty Name="Content" ColumnName="Content" />
-                <ScalarProperty Name="CommentAnswer" ColumnName="CommentAnswer" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -1784,6 +1769,21 @@
                 <ScalarProperty Name="MemberID" ColumnName="MemberID" />
                 <ScalarProperty Name="Content" ColumnName="Content" />
                 <ScalarProperty Name="ReportID" ColumnName="ReportID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Comments">
+            <EntityTypeMapping TypeName="KoiManagementModel.Comment">
+              <MappingFragment StoreEntitySet="Comment">
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="CommentAnswer" ColumnName="CommentAnswer" />
+                <ScalarProperty Name="Content" ColumnName="Content" />
+                <ScalarProperty Name="Rating" ColumnName="Rating" />
+                <ScalarProperty Name="KoiFarmID" ColumnName="KoiFarmID" />
+                <ScalarProperty Name="DateTime" ColumnName="DateTime" />
+                <ScalarProperty Name="KoiID" ColumnName="KoiID" />
+                <ScalarProperty Name="MemberID" ColumnName="MemberID" />
+                <ScalarProperty Name="CommentID" ColumnName="CommentID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

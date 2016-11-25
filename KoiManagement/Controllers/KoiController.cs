@@ -152,10 +152,8 @@ namespace KoiManagement.Controllers
             }
             ViewBag.Size = KoiDeatail.FirstOrDefault().Size;
             ViewBag.ListComment = commentDao.GetListCommentKoi(id);
-            if (koi == null)
-            {
-                return HttpNotFound();
-            }
+            ViewBag.ListCommentDetail = commentDao.GetListCommentKoiDetail(id);
+
             return View(koi);
         }
 

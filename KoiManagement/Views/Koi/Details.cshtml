@@ -10,6 +10,8 @@
     if(ViewBag.NewMemberID==null) { ViewBag.NewMemberID=0;}
     if(ViewBag.Size==null) { ViewBag.Size = 0; }
     List<Comment> ListComment =ViewBag.ListComment;
+    List<List<Comment>> ListCommentDetail = ViewBag.ListCommentDetail;
+
 }
 
 <body>
@@ -171,32 +173,37 @@
                             {
                                 <ul class="comments-list">
                                     <li class="comment">
-                                        <a class="pull-left" href="#">
+                                        <a class="pull-left"  href="@Url.Action("Profile/" + @ListComment.ElementAt(i).MemberID, "Account")">
                                             <img class="avatar" src="/Content/Image/Member/@ListComment.ElementAt(i).Member.Image" alt="avatar">
                                         </a>
                                         <div class="comment-body">
                                             <div class="comment-heading">
-                                                <h4 class="user">@ListComment.ElementAt(i).Member.UserName</h4>
-                                                <h5 class="time">@ListComment.ElementAt(i).DateTime</h5>
-                                                <input type="number" name="your_awesome_parameter" id="rating-readonly" class="rating" value="3" data-readonly/>
-                                            </div>
+                                                <a class="pull-left" href="@Url.Action("Profile/" + @ListComment.ElementAt(i).MemberID, "Account")">
+                                                    <h4 class="user">@ListComment.ElementAt(i).Member.Name</h4>
+                                                </a>
+                                                    <h5 class="time">@ListComment.ElementAt(i).DateTime</h5>
+                                                    <input type="number" name="your_awesome_parameter" id="rating-readonly" class="rating" value="@Convert.ToInt32(ListComment.ElementAt(i).Rating)" data-readonly />
+                                                </div>
                                             <p>@ListComment.ElementAt(i).Content</p>
                                             @{var replyID= "reply"+ i;}
-                                            <a id="@replyID" onclick="ReplyFunction(this.id);" style="font-size: 13px;">Trả lời</a>
+                                            <a id="@replyID"  onmouseover="this.style.cursor='pointer';" onclick="ReplyFunction(this.id);" style="font-size: 13px;">Trả lời</a>
                                         </div>
                                         <ul class="comments-list">
-                                            <li class="comment">
-                                                <a class="pull-left" href="#">
-                                                    <img class="avatar" src="http://bootdey.com/img/Content/user_3.jpg" alt="avatar">
-                                                </a>
-                                                <div class="comment-body">
-                                                    <div class="comment-heading">
-                                                        <h4 class="user">Ryan Haywood</h4>
-                                                        <h5 class="time">3 minutes ago</h5>
+                                            @for (var item = 0; item< @ListCommentDetail.ElementAt(i).Count; item++) { 
+                                                <li class="comment">
+                                                    <a class="pull-left"  href="@Url.Action("Profile/" + @ListCommentDetail.ElementAt(i).ElementAt(item).MemberID, "Account")">
+                                                        <img class="avatar" src="/Content/Image/Member/@ListCommentDetail.ElementAt(i).ElementAt(item).Member.Image" alt="avatar">
+                                                    </a>
+                                                    <div class="comment-body">
+                                                        <div class="comment-heading">
+                                                            <a class="pull-left" href="@Url.Action("Profile/" + @ListCommentDetail.ElementAt(i).ElementAt(item).MemberID, "Account")">
+                                                                <h4 class="user">@ListCommentDetail.ElementAt(i).ElementAt(item).Member.Name</h4></a>
+                                                                <h5 class="time">@ListCommentDetail.ElementAt(i).ElementAt(item).DateTime</h5>
+                                                        </div>
+                                                        <p >@ListCommentDetail.ElementAt(i).ElementAt(item).Content</p>
                                                     </div>
-                                                    <p id="a">Relax my friend</p>
-                                                </div>
-                                            </li>
+                                                </li>
+                                            }
                                             @{ var inputReply = "input-reply" + i;}
                                             <li class="comment" id="@inputReply" style="display: none;">
                                                 <div class="input-group">
@@ -205,8 +212,13 @@
                                                         <img class="avatar" src="http://bootdey.com/img/Content/user_3.jpg" alt="avatar">
                                                     </a>
                                                 </span>
-                                                    @{ var CommentId = "comment" + i;}
+                                                    @{
+                                                        var CommentId = "comment" + i;
+                                                        var ComId = ListComment.ElementAt(i).CommentID;
+                                                        var ComName = "com" + i;
+                                                    }
                                                     <input class="form-control" id="@CommentId" placeholder="Add a comment" type="text">
+                                                    <input type="hidden" id="@ComName" value ="@ComId" placeholder="Add a comment" type="text">
                                                     <span class="input-group-addon">
                                                     <a href="#"><i class="fa fa-edit"></i></a>
                                                 </span>
@@ -215,38 +227,7 @@
                                         </ul>
                                     </li>
                                 </ul>
-
-                            @*<ul class="comments-list">
-                <li class="comment">
-                    <a class="pull-left" href="#">
-                        <img class="avatar" src="http://bootdey.com/img/Content/user_1.jpg" alt="avatar">
-                    </a>
-                    <div class="comment-body">
-                        <div class="comment-heading">
-                            <h4 class="user">Gavino Free</h4>
-                            <h5 class="time">5 minutes ago</h5>
-                            <input type="number" name="your_awesome_parameter" id="rating-readonly" class="rating" value="3" data-readonly />
-                        </div>
-                        <p>Sure, oooooooooooooooohhhhhhhhhhhhhhhh</p>
-                        <a id="reply2" onclick="ReplyFunction(this.id);" style="font-size: 13px;" >Trả lời</a>
-                    </div>
-                    <ul class="comments-list">
-                        <li class="comment" id="input-reply2" style="display: none;">
-                            <div class="input-group">
-                                <span class="input-group-addon">
-                                    <a class="pull-left" href="#">
-                                        <img class="avatar" src="http://bootdey.com/img/Content/user_3.jpg" alt="avatar">
-                                    </a>
-                                </span>
-                                <input class="form-control" id="comment2" placeholder="Add a comment" type="text">
-                                <span class="input-group-addon">
-                                    <a href="#"><i class="fa fa-edit"></i></a>
-                                </span>
-                            </div>
-                        </li>
-                    </ul>
-                </li>
-                </ul>*@}
+                            }
                         </div>
                     </div>
             </div>
@@ -302,20 +283,28 @@
             }); // end ajax
         }
     }
-    var other_appended = false;
     var id1;
              function ReplyFunction(id) {
             @{
-                for (var i = 0; i < 3; i++)
+                for (var i = 0; i < ListComment.Count; i++)
                 {
                     <text>
-                 id1 = "reply" + @i;
-                if(id==id1){
-                    if(other_appended == false) {
-                        other_appended = true;
-                        $("#input-reply"+@i).show();
-                    }}
 
+                     var ele1 = document.getElementById("input-reply"+@i);
+                        ele1.style.cursor = "pointer";
+                 id1 = "reply" + @i;
+                 if(id==id1){
+                     var input ="#input-reply"+@i;
+                     var ele = document.getElementById("input-reply"+@i);
+                     if(ele.style.display == "block") {
+                         ele.style.display = "none";
+                     }
+                     else {
+                         ele.style.display = "block";
+                         var m="#comment" + @i;
+                         $(m).focus();
+                     }
+                 }
                 </text>
             }
             }
@@ -341,20 +330,13 @@
     function AddComment() {
         //ẩn hiện textbox
         var activeInput = document.activeElement.id;
-        var id = activeInput.substr(t.length - 1);
-        //ẩn input
-       $("#input-reply" + id).hide();
-        other_appended = false;
-
-
-
+        var id = activeInput.substr(activeInput.length - 1);
 
         //lấy ID theo active
         if(activeInput=="MainComment"){
-        //ajax thêm comment chính
-        var TextComment = $('#MainComment').val();
-        var koiId= @Model.KoiID;
-
+            //ajax thêm comment chính
+            var TextComment = $('#MainComment').val();
+            var koiId= @Model.KoiID;
             $.ajax({
                 type: "POST",
                 url: "@Url.Action("AddCommentKoi", "Comment")",
@@ -387,7 +369,50 @@
                         break;
                 }
             }
-            });} // end ajax
+        });
+    } else{
+
+
+        //ẩn input
+            var textSonComment = $('#comment' +id).val();
+            var Commmentid = $('#com' +id).val();
+       var koiId1= @Model.KoiID;
+       $.ajax({
+           type: "POST",
+           url: "@Url.Action("AddSonCommentKoi", "Comment")",
+           datatype: "JSON",
+           data: {
+               commentId: Commmentid,
+               comment: textSonComment,
+               koiID: koiId1
+           },
+           success: function (res) {
+               switch (res.Status) {
+                   case 2:
+                       $('#lbl_username_fail').text(res.Message);
+                       $('#username').focus();
+                       break;
+                   case 3:
+                       $('#lbl_username_fail').text(res.Message);
+                       $('#username').focus();
+                       break;
+                   case 1:
+                       alert(res.Message);
+                       // Declare a proxy to reference the hub.
+                       var notifications = $.connection.notificationsHub;
+                       // Create a function that the hub can call to broadcast messages.
+                       $.connection.hub.start()
+                           .done(function () {
+                               notifications.server.sendNotification(res.JsonObject, "doi chu", "koi");
+                           });
+                       window.location.reload();
+                       break;
+               }
+           }
+       });
+        $("#input-reply" + id).hide();
+        }
+
     }
 
     function Rating(koiID) {
@@ -412,4 +437,5 @@
     border: 1px solid #ccc;
     border-radius: 4px;
 }
+
 </style>

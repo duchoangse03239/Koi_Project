@@ -55,7 +55,7 @@ namespace KoiManagement.Controllers
         }
 
         [HttpPost]
-        public JsonResult AddSonCommentKoi(int commentId,string comment, int koiID, decimal RateNum)
+        public JsonResult AddSonCommentKoi(int commentId,string comment, int koiID)
         {
             StatusObjForJsonResult obj = new StatusObjForJsonResult();
             //int UserID = int.Parse(Session[SessionAccount.SessionUserId].ToString());
@@ -69,7 +69,7 @@ namespace KoiManagement.Controllers
                     return Json(obj);
                 }
 
-                Comment com = new Comment(UserID, koiID, DateTime.Now, null, RateNum, comment, commentId, true);
+                Comment com = new Comment(UserID, koiID, DateTime.Now, null,null, comment, commentId, true);
                 if (commentDao.addComment(com))
                 {
                     obj.Status = 1;
