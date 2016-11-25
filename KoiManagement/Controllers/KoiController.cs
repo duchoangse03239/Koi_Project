@@ -201,7 +201,7 @@ namespace KoiManagement.Controllers
                     obj.Message = "Vui lòng nhập tên Koi!(Không quá 100 ký tự)";
                     return Json(obj);
                 }
-                if (!Validate.CheckSpecialCharacterInput(KoiName, @"^[a-zA-Z_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ]+$/"))
+                if (!Validate.CheckSpecialCharacterInput(KoiName, @"^[0-9_a-zA-Z_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ]+$/"))
                 {
                     obj.Status = 2;
                     obj.Message = "Vui lòng không nhập ký tự đặc biệt cho tên Koi";
