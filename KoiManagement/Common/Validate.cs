@@ -77,6 +77,17 @@ namespace KoiManagement.Common
             return result;
         }
 
+
+        /// <summary>
+        /// Normal character a-z A-Z 0-9CheckConfirmInput
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns></returns>
+        public static bool CheckDoubleValue(String str)
+        {
+            return Regex.IsMatch(str, @"\d+(\.\d{1,2})");
+        }
+
         /// <summary>
         /// Check Confirm textbox
         /// </summary>
