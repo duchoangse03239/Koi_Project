@@ -873,11 +873,21 @@ body a {
   margin-top: 0;
   display: inline;
 }
+.post-footer .comments-list .comment .comment-heading .star {
+    display: inline;
+    margin-right: 10px;
+}
 .post-footer .comments-list .comment .comment-body {
   margin-left: 50px;
 }
 .post-footer .comments-list .comment > .comments-list {
   margin-left: 50px;
+}
+.comment-body #ed-button {
+    display: none;
+}
+.comment-body:hover #ed-button {
+    display: block;
 }
 /*END KOI DETAIL*/
 /*LIST KOI*/

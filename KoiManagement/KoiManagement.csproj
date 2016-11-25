@@ -251,6 +251,7 @@
     </Compile>
     <Compile Include="Controllers\AchievementController.cs" />
     <Compile Include="Controllers\ArticleController.cs" />
+    <Compile Include="Controllers\CommentController.cs" />
     <Compile Include="Controllers\EditorController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -1003,6 +1004,7 @@
     <Folder Include="Content\Image\Article\" />
     <Folder Include="Content\Image\Avatar\" />
     <Folder Include="Content\Image\Media\" />
+    <Folder Include="Views\Comment\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
