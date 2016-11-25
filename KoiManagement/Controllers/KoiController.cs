@@ -22,8 +22,9 @@ namespace KoiManagement.Controllers
         private KoiManagementEntities db = new KoiManagementEntities();
         KoiFarmDAO koiFarmDao = new KoiFarmDAO();
         KoiDAO koiDao = new KoiDAO();
-         InfoDetailDAO DetailDao = new InfoDetailDAO();
+        InfoDetailDAO DetailDao = new InfoDetailDAO();
         MemberDAO memberDao = new MemberDAO();
+        CommentDAO commentDao = new CommentDAO();
         /// <summary>
         /// List Koi
         /// </summary>
@@ -150,7 +151,7 @@ namespace KoiManagement.Controllers
             ViewBag.KoiMomName = db.Kois.Find(koi.KoiMom).KoiName;
             }
             ViewBag.Size = KoiDeatail.FirstOrDefault().Size;
-
+            ViewBag.ListComment = commentDao.GetListCommentKoi(id);
             if (koi == null)
             {
                 return HttpNotFound();
@@ -500,7 +501,6 @@ namespace KoiManagement.Controllers
                 NotificationDAO noDao = new NotificationDAO();
             if (noDao.AddNotification(notification))
             {
-
                 obj.Status = 1;
                 ViewBag.NewMemberID = NewMemberID;
                 obj.Message = "Bạn đã đổi sang chủ "+ username+" thành công vui lòng chờ xác nhận";
