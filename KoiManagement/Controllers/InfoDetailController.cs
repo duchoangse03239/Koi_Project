@@ -202,7 +202,7 @@ namespace KoiManagement.Controllers
                 if (double.Parse(Size)<0)
                 {
                     obj.Status = 2;
-                    obj.Message = "Vui lòng nhập số cho kích thước của Koi!";
+                    obj.Message = "Vui lòng không nhập số âm cho kích thước của Koi!";
                     return Json(obj);
                 }
 
@@ -347,7 +347,7 @@ namespace KoiManagement.Controllers
                 if (double.Parse(Size) < 0)
                 {
                     obj.Status = 2;
-                    obj.Message = "Vui lòng nhập số cho kích thước của Koi!";
+                    obj.Message = "Vui lòng không nhập số âm cho kích thước của Koi!";
                     return Json(obj);
                 }
                 var listImageRemove = SessionInfoDetail.listRemoveImage;
@@ -537,7 +537,7 @@ namespace KoiManagement.Controllers
                 if (kDao.AddParent(koiSonId, koMomId) >0)
                 {
                     obj.Status = 1;
-                    obj.Message = "Bạn đã thêm mẹ thành công";
+                    obj.Message = "Bạn đã thêm mẹ cho cá Koi thành công";
                     obj.RedirectTo = Url.Action("Details/" + koiSonId, "Koi");
                     return Json(obj);
                 }
@@ -562,7 +562,7 @@ namespace KoiManagement.Controllers
                 if (String.IsNullOrWhiteSpace(koiname))
                 {
                     obj.Status = 2;
-                    obj.Message = "Vui lòng nhập tên koi";
+                    obj.Message = "Vui lòng nhập tên Koi";
                     return Json(obj);
                 }
                 //Lấy file ảnh
@@ -591,7 +591,7 @@ namespace KoiManagement.Controllers
                 if ( koiDao.AddNewParent(koi,koiSonId))
                 {
                     obj.Status = 1;
-                    obj.Message = "Bạn đã thêm mẹ thành công";
+                    obj.Message = "Bạn đã thêm mẹ cho cá Koi thành công";
                     obj.RedirectTo = Url.Action("Details/" + koiSonId, "Koi");
                     return Json(obj);
                 }

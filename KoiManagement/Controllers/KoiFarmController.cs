@@ -90,7 +90,7 @@ namespace KoiManagement.Controllers
                 koiFarm.Status = 1;
                 if (koiFarmDao.AddKoiFarm(koiFarm))
                 {
-                    ViewBag.Message = "Bạn đã thêm thành công, vui long chờ người quản trị xác nhận thông tin";
+                    ViewBag.Message = "Bạn đã thêm trang trại thành công, vui lòng chờ người quản trị xác nhận thông tin";
                 }
                 else
                 {
@@ -206,7 +206,7 @@ namespace KoiManagement.Controllers
                 koiFarm.KoifarmID = int.Parse(KoifarmID);
                 if (koiFarmDao.EditKoiFarm(koiFarm) > 0)
                 {
-                    ViewBag.Message = "Bạn đã sửa thông tin thành công, vui long chờ người quản trị xác nhận thông tin";
+                    ViewBag.Message = "Bạn đã sửa thông tin thành công, vui lòng chờ người quản trị xác nhận thông tin";
                     ViewBag.Koifarm = koiFarmDao.GetKoiFarmDetail(int.Parse(KoifarmID));
                 }
                 else
@@ -299,7 +299,7 @@ namespace KoiManagement.Controllers
             var koifarmId = ownerDao.getKoiFarmbyMember(memberid);
             if (koifarmId == 0)
             {
-                obj.Message = "Bạn không phải là chủ trang trại, xin hay đăng kí trang trại.";
+                obj.Message = "Bạn không phải là chủ trang trại, xin hãy đăng kí trang trại.";
                 obj.Status = 0;
                 return Json(obj);
             }
@@ -535,7 +535,7 @@ namespace KoiManagement.Controllers
                 int row = i + 2;
                 if (String.IsNullOrWhiteSpace(ListKoi.Rows[i][0].ToString()))
                 {
-                    return "Tên cá koi không được trống tại hàng " + row + " cột A.";
+                    return "Tên cá Koi không được trống tại hàng " + row + " cột A.";
                 }
                 else if (String.IsNullOrWhiteSpace(ListKoi.Rows[i][1].ToString()))
                 {
@@ -551,7 +551,7 @@ namespace KoiManagement.Controllers
                 }
                 else if (String.IsNullOrWhiteSpace(ListKoi.Rows[i][4].ToString()))
                 {
-                    return "Kích thươc không được trống tại hàng " + row + " cột E.";
+                    return "Kích thước không được trống tại hàng " + row + " cột E.";
                 }
 
                 else if (!Validate.CheckIsDouble(ListKoi.Rows[i][4].ToString()))
@@ -559,10 +559,6 @@ namespace KoiManagement.Controllers
                     return "Xin hãy nhập kích thước kiểu số tại hàng " + row + " cột E.";
                 }
                 decimal size = decimal.Parse(ListKoi.Rows[i][4].ToString());
-                if (size < 0)
-                {
-                    return "Xin hãy nhập số dương cho kích thước tại hàng " + row + " cột E.";
-                }
                 if (size < 0)
                 {
                     return "Xin hãy nhập số dương cho kích thước tại hàng " + row + " cột E.";
