@@ -50,6 +50,11 @@ namespace KoiManagement.Controllers
             var fullpath = new List<string>();
             var MaxArticleID = articleDao.GetMaxAchiID();
             StatusObjForJsonResult obj = new StatusObjForJsonResult();
+            if (Session[SessionAccount.SessionUserId] == null)
+            {
+                RedirectToAction("Login", "Account");
+                return Json(obj);
+            }
             // lấy id người đang đăng nhập
             int id = int.Parse(Session[SessionAccount.SessionUserId].ToString());
             //Viewbag cho patialView _Manager

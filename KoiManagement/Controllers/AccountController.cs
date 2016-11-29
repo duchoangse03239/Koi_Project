@@ -92,7 +92,7 @@ namespace KoiManagement.Controllers
                     if (member.Status == false)
                     {
                         //User check : Tài khoản đã bị xóa: chuyển màn hình login.
-                        obj.Message = "Tài khoản đã bị khóa vui long đăng kí tài khoản mới.";
+                        obj.Message = "Tài khoản đã bị khóa vui lòng đăng kí tài khoản mới.";
                         obj.RedirectTo = Url.Action("Login");
                     }
                     else
@@ -183,13 +183,13 @@ namespace KoiManagement.Controllers
                 if (string.IsNullOrWhiteSpace(confirmPassword))
                 {
                     obj.Status = 2;
-                    obj.Message = "Xác nhận mật khẩu không được để trống";
+                    obj.Message = "Mật khẩu xác nhận không được để trống";
                     return Json(obj);
                 }
                 if (!password.Equals(confirmPassword))
                 {
                     obj.Status = 2;
-                    obj.Message = "Xác nhận mật khẩu không trùng khớp";
+                    obj.Message = "Mật khẩu xác nhận không trùng khớp";
                     return Json(obj);
                 }
                 // đổi lại pass
@@ -244,7 +244,7 @@ namespace KoiManagement.Controllers
                 if (string.IsNullOrWhiteSpace(email))
                 {
                     obj.Status = 1;
-                    obj.Message = "Vui lòng nhập địa chỉa email";
+                    obj.Message = "Vui lòng nhập địa chỉ Email";
                     return Json(obj);
                 }
 
@@ -260,7 +260,7 @@ namespace KoiManagement.Controllers
                 if (isExistEmail)
                 {
                     obj.Status = 3;
-                    obj.Message = "Địa chỉ email này không tồn tại";
+                    obj.Message = "Địa chỉ Email này không tồn tại";
                     return Json(obj);
                 }
                 else
@@ -290,7 +290,7 @@ namespace KoiManagement.Controllers
                                 CommonFunction.SendMailHelper(email, "Thay đổi mật khẩu tài khoản KoiManagement",
                                     content);
                                 obj.Status = 3;
-                                obj.Message = "Email đc được gửi, bạn vui long vào mail để kiểm tra";
+                                obj.Message = "Email đc được gửi, bạn vui lòng vào mail để kiểm tra";
                             }
                         }
                     }
@@ -347,7 +347,7 @@ namespace KoiManagement.Controllers
                 if (Validate.ValidateDate(dob))
                 {
                     obj.Status = 2;
-                    obj.Message = "Date of birt";
+                    obj.Message = "Date of birth";
                     return Json(obj);
                 }
                 else
@@ -416,13 +416,13 @@ namespace KoiManagement.Controllers
                 if (string.IsNullOrWhiteSpace(rePassword))
                 {
                     obj.Status = 6;
-                    obj.Message = "Xác nhận mật khẩu không được để trống";
+                    obj.Message = "Mật khẩu xác nhận không được để trống";
                     return Json(obj);
                 }
                 if (!Validate.CheckConfirmInput(password, rePassword))
                 {
                     obj.Status = 6;
-                    obj.Message = "Xác nhận mật khẩu phải trùng với mật khẩu";
+                    obj.Message = "Mật khẩu xác nhận không trùng khớp";
                     return Json(obj);
                 }
 
@@ -522,13 +522,13 @@ namespace KoiManagement.Controllers
                 if (string.IsNullOrWhiteSpace(password))
                 {
                     obj.Status = 2;
-                    obj.Message = "Mật khẩu không được để trống.";
+                    obj.Message = "Mật khẩu mới không được để trống.";
                     return Json(obj);
                 }
                 else if (!Validate.CheckLengthInput(password, 6, 32))
                 {
                     obj.Status = 2;
-                    obj.Message = "Mật khẩu phải chứa từ 6 đến 32 ký tự";
+                    obj.Message = "Mật khẩu mới phải chứa từ 6 đến 32 ký tự";
                     return Json(obj);
                 }
                 else if (dao.GetOldPass(Session[SessionAccount.SessionUserId].ToString())
@@ -541,13 +541,13 @@ namespace KoiManagement.Controllers
                 if (string.IsNullOrWhiteSpace(cmfPassword))
                 {
                     obj.Status = 3;
-                    obj.Message = "Xác nhận mật khẩu không được để trống.";
+                    obj.Message = "Mật khẩu xác nhận không được để trống.";
                     return Json(obj);
                 }
                 else if (!Validate.CheckConfirmInput(password, cmfPassword))
                 {
                     obj.Status = 3;
-                    obj.Message = "Xác nhận mật khẩu không trùng với mật khẩu.";
+                    obj.Message = "Mật khẩu xác nhận không trùng với mật khẩu mới.";
                     return Json(obj);
                 }
 
@@ -682,7 +682,7 @@ namespace KoiManagement.Controllers
                 {
                     if (string.IsNullOrWhiteSpace(me.Image))
                     {
-                        filename = Path.GetFileName("mem" + me.MemberID + file.FileName.Substring(file.FileName.LastIndexOf('.')));
+                        filename = Path.GetFileName("Mem" + me.MemberID + file.FileName.Substring(file.FileName.LastIndexOf('.')));
                         me.Image = filename;
                     }
                     else

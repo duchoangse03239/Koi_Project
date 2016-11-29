@@ -200,7 +200,7 @@ namespace KoiManagement.Controllers
                     obj.Message = "Vui lòng nhập tên Koi!(Không quá 100 ký tự)";
                     return Json(obj);
                 }
-                if (!Validate.CheckSpecialCharacterInput(KoiName, @"^[a-zA-Z_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ]+$/"))
+                if (!Validate.CheckSpecialCharacterInput(KoiName, @"^[0-9_a-zA-Z_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ]+$/"))
                 {
                     obj.Status = 2;
                     obj.Message = "Vui lòng không nhập ký tự đặc biệt cho tên Koi";
@@ -282,7 +282,7 @@ namespace KoiManagement.Controllers
                 {
                     //success
                     obj.Status = 1;
-                    obj.Message = "Bạn đã thêm koi thành công";
+                    obj.Message = "Bạn đã thêm Koi thành công";
                     obj.RedirectTo = Url.Action("KoiUser/" + Session[SessionAccount.SessionUserId], "Koi");
                     return Json(obj);
                 }
@@ -537,7 +537,7 @@ namespace KoiManagement.Controllers
                 if (string.IsNullOrWhiteSpace(DeadReason))
                 {
                     obj.Status = 2;
-                    obj.Message = "Xin hãy nhập tên lý do khai tử";
+                    obj.Message = "Xin hãy nhập lý do khai tử";
                     return Json(obj);
                 }
 

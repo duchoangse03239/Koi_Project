@@ -183,9 +183,19 @@
                                                     <h4 class="user"><a>@ListComment.ElementAt(i).Member.Name</a></h4>
                                                     <input type="number" name="your_awesome_parameter" id="rating-readonly" class="rating star" value="@Convert.ToInt32(ListComment.ElementAt(i).Rating)" data-readonly />
                                                     <h5 class="time">@ListComment.ElementAt(i).DateTime</h5>
-                                                    
+                                                <span id="ed-button" style="float:right;">
+                                                    <div class="dropdown">
+                                                        <a class="dropdown-toggle" data-toggle="dropdown">
+                                                            <span class="fa fa-edit" title="Sửa hoặc xóa"></span>
+                                                        </a>
+                                                        <ul class="dropdown-menu dropdown-menu-right">
+                                                            <li><a id="buttonid" name="buttonid" data-p="1_2">Sửa</a></li>
+                                                            <li><a id="delete-comment">Xóa</a></li>
+                                                        </ul>
+                                                    </div>
+                                                </span>
                                                 </div>
-                                            <p>@ListComment.ElementAt(i).Content</p>
+                                            <p for="1_2">@ListComment.ElementAt(i).Content</p>
                                             @{var replyID= "reply"+ i;}
                                             <a id="@replyID"  onmouseover="this.style.cursor='pointer';" onclick="ReplyFunction(this.id);" style="font-size: 13px;">Trả lời</a>
                                         </div>
@@ -200,7 +210,18 @@
                                                             <a class="pull-left" href="@Url.Action("Profile/" + @ListCommentDetail.ElementAt(i).ElementAt(item).MemberID, "Account")"></a>
                                                                 <h4 class="user"><a>@ListCommentDetail.ElementAt(i).ElementAt(item).Member.Name</a></h4>
                                                                 <h5 class="time">@ListCommentDetail.ElementAt(i).ElementAt(item).DateTime</h5>
-                                                            <p>@ListCommentDetail.ElementAt(i).ElementAt(item).Content</p>
+                                                                <span id="ed-button" style="float:right;">
+                                                                    <div class="dropdown">
+                                                                        <a class="dropdown-toggle" data-toggle="dropdown">
+                                                                            <span class="fa fa-edit" title="Sửa hoặc xóa"></span>
+                                                                        </a>
+                                                                        <ul class="dropdown-menu dropdown-menu-right">
+                                                                            <li><a id="buttonid" name="buttonid" data-p="1_5">Sửa</a></li>
+                                                                            <li><a id="delete-comment">Xóa</a></li>
+                                                                        </ul>
+                                                                    </div>
+                                                                </span>
+                                                            <p for="1_5">@ListCommentDetail.ElementAt(i).ElementAt(item).Content</p>
                                                         </div>   
                                                     </div> 
                                                 </li>
@@ -242,6 +263,23 @@
 
 
 <script type="text/javascript">
+
+    $(document).ready(function() {
+        $("a").click(function() {
+            var tar_id = $(this).attr("data-p");
+            var tar = $("p[for='"+tar_id+"']");
+            var val = tar.text();
+            tar.replaceWith("<input style='width:100%;' type='text' name='"+tar_id+"' id='"+tar_id+"' value='"+val+"' /><br/>");
+        });
+    });
+    $('.comments-list').on('click', '#delete-comment', function() {
+        $(this).closest('li').remove();
+    });
+
+    //$('.comments-list a#delete-comment').live('click', function(){
+    //    $(this).parent().remove();
+    //});
+
     var RateNum;
     function ChangeOwner(parameter1) {
         var username = $('#username').val();

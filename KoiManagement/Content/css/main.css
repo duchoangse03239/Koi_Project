@@ -883,6 +883,12 @@ body a {
 .post-footer .comments-list .comment > .comments-list {
   margin-left: 50px;
 }
+.comment-body #ed-button {
+    display: none;
+}
+.comment-body:hover #ed-button {
+    display: block;
+}
 /*END KOI DETAIL*/
 /*LIST KOI*/
 .glyphicon-star {

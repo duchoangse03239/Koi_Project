@@ -18,6 +18,10 @@ namespace KoiManagement.Controllers
         /// <returns>View</returns>
         public ActionResult AddAchievement()
         {
+            if (Session[SessionAccount.SessionUserId] == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
             return View();
         }
 
@@ -117,6 +121,10 @@ namespace KoiManagement.Controllers
         /// <returns>View</returns>
         public ActionResult EditAchievement(int id)
         {
+            if (Session[SessionAccount.SessionUserId] == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
             db.Achievements.Find(id);
             ViewBag.EditAchi = db.Achievements.Find(id);
             return View();
@@ -127,13 +135,13 @@ namespace KoiManagement.Controllers
         public JsonResult EditAchievement(int ?id, string image, string time, string description,string koiid)
         {
             StatusObjForJsonResult obj = new StatusObjForJsonResult();
-            // check login
-            //if (Session[SessionAccount.SessionUserId] == null)
-            //{
-            //    obj.Status = 0;
-            //    obj.RedirectTo = Url.Action("Login", "Account");
-            //    return Json(obj);
-            //}
+             check login
+            if (Session[SessionAccount.SessionUserId] == null)
+            {
+                obj.Status = 0;
+                obj.RedirectTo = Url.Action("Login", "Account");
+                return Json(obj);
+            }
             try
             {
                 AchievementDAO AchiDao = new AchievementDAO();
@@ -207,9 +215,9 @@ namespace KoiManagement.Controllers
         public ActionResult ListAchievement(int? id)
         {
             AchievementDAO AchiDao = new AchievementDAO();
-            if (id == null)
+            if (Session[SessionAccount.SessionUserId] == null)
             {
-                return View();
+                return RedirectToAction("Login", "Account");
             }
             ViewBag.listIAchi = AchiDao.GetListAchievements(id.Value);
             ViewBag.koiId = id;
