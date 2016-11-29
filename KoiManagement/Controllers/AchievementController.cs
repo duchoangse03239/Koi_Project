@@ -135,7 +135,7 @@ namespace KoiManagement.Controllers
         public JsonResult EditAchievement(int ?id, string image, string time, string description,string koiid)
         {
             StatusObjForJsonResult obj = new StatusObjForJsonResult();
-             check login
+             //check login
             if (Session[SessionAccount.SessionUserId] == null)
             {
                 obj.Status = 0;
