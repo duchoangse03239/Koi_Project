@@ -220,13 +220,13 @@
                                                             <span class="fa fa-edit" title="Sửa hoặc xóa"></span>
                                                         </a>
                                                         <ul class="dropdown-menu dropdown-menu-right">
-                                                            <li><a id="buttonid" name="buttonid" data-p="1_2">Sửa</a></li>
+                                                            <li><a id="buttonid" name="buttonid" data-p="@i">Sửa</a></li>
                                                             <li><a id="delete-comment">Xóa</a></li>
                                                         </ul>
                                                     </div>
                                                 </span>
                                                 </div>
-                                            <p for="1_2">@ListComment.ElementAt(i).Content</p>
+                                            <p for="@i">@ListComment.ElementAt(i).Content</p>
                                             @{var replyID= "reply"+ i;}
                                             <a id="@replyID"  onmouseover="this.style.cursor='pointer';" onclick="ReplyFunction(this.id);" style="font-size: 13px;">Trả lời</a>
                                         </div>
@@ -247,12 +247,12 @@
                                                                             <span class="fa fa-edit" title="Sửa hoặc xóa"></span>
                                                                         </a>
                                                                         <ul class="dropdown-menu dropdown-menu-right">
-                                                                            <li><a id="buttonid" name="buttonid" data-p="1_5">Sửa</a></li>
+                                                                            <li><a id="buttonid" name="buttonid" data-p="@i+@item">Sửa</a></li>
                                                                             <li><a id="delete-comment">Xóa</a></li>
                                                                         </ul>
                                                                     </div>
                                                                 </span>
-                                                            <p for="1_5">@ListCommentDetail.ElementAt(i).ElementAt(item).Content</p>
+                                                            <p for="@i+@item">@ListCommentDetail.ElementAt(i).ElementAt(item).Content</p>
                                                         </div>   
                                                     </div> 
                                                 </li>
@@ -294,7 +294,6 @@
 
 
 <script type="text/javascript">
-
     $(document).ready(function() {
         $("a").click(function() {
             var tar_id = $(this).attr("data-p");
@@ -303,6 +302,7 @@
             tar.replaceWith("<input style='width:100%;' type='text' name='"+tar_id+"' id='"+tar_id+"' value='"+val+"' /><br/>");
         });
     });
+
     $('.comments-list').on('click', '#delete-comment', function() {
         $(this).closest('li').remove();
     });
@@ -355,12 +355,12 @@
     var id1;
              function ReplyFunction(id) {
             @{
-                for (var i = 0; i < ListComment.Count; i++)
+                for (var i = 0; i <= ListComment.Count; i++)
                 {
                     <text>
 
                      var ele1 = document.getElementById("input-reply"+@i);
-                        ele1.style.cursor = "pointer";
+                      //  ele1.style.cursor = "pointer";
                  id1 = "reply" + @i;
                  if(id==id1){
                      var input ="#input-reply"+@i;
@@ -483,20 +483,115 @@
 
     // Create list items and append them inside <ul> element
     function DisplayListItems(Com) {
-        var t = Com;
+        @*var t = Com;
+        var replyID= "reply"+ @ListComment.Count;
+        var  inputReply = 'input-reply' + @ListComment.Count;
+        var CommentId = 'comment' + @ListComment.Count;
+        var ComId = Com.CommentID;
+        var ComName = 'com' + +@ListComment.Count;
         var itemHTML = ["<ul class='comments-list'>",
                                     " <li class='comment'>",
                                         "<a class='pull-left' href='#'>",
-                                            "<img class='avatar' src='http://bootdey.com/img/Content/",
-                                            + @newComment.KoiFarm+
-                                            "</a>",
-                                        "</a>",
-                                        "</div>",
-                                        "<div>",
-                                            Com.Comment,
-                                        "</div>",
+                                            "<img class='avatar' src='/Content/Image/Member/"+ "duc"+" alt='avatar'>",
+                                         "</a>",
+                                       " <div class='comment-body'>",
+                                           "<div class='comment-heading'>",
+                                               "<h4 class='user'>"+Com.Member+"</h4>",
+                                               " <h5 class='time'>"+Com.DateTime+"</h5>",
+                                               "<div class='rating-input star'>"+
+										"<i class='glyphicon glyphicon-star' data-value='1'>"+
+										"</i><i class='glyphicon glyphicon-star' data-value='2'></i><i class='glyphicon glyphicon-star' data-value='3'></i><i class='glyphicon glyphicon-star' data-value='4'></i><i class='glyphicon glyphicon-star' data-value='5'></i></div>",
+                                            "</div>"+
+                                            "<p>"+Com.Content+"</p>",
+                                            "<a id='"+replyID+"'  onmouseover='this.style.cursor='pointer';' onclick='ReplyFunction(this.id);' style='font-size: 13px;'>Trả lời</a>",
+                                            "</div>",
+                                           " <li class='comment' id='"+inputReply+"' style='display: none;'>",
+                                                "<div class='input-group'>",
+                                                    "<span class='input-group-addon'>",
+                                                   " <a class='pull-left' href='#'>",
+                                                        "<img class='avatar' src='http://bootdey.com/img/Content/user_3.jpg' alt='avatar'>",
+                                                   " </a>",
+                                                "</span>",
+                                                    "<input class='form-control' id='"+CommentId+"' placeholder='Add a comment' type='text'>",
+                                                    "<input type='hidden' id='"+ComName+"' value ='"+ComId+"' placeholder='Add a comment' type='text'>",
+                                                "</div>",
                                     "</li>",
-                                "</ul>"].join('\n');
+                                "</ul>"].join('\n');*@
+        var CommentId = 'comment' + @ListComment.Count;
+        var ComId = Com.CommentID;
+        var ComName = 'com' + +@ListComment.Count;
+        var replyID= "reply"+ @ListComment.Count;
+        var inputReply = 'input-reply' + @ListComment.Count;
+        var itemHTML = ["<ul class='comments-list'>",
+                                    "<li class='comment'>",
+                                        "<a class='pull-left'  href='@Url.Action("Profile", "Account")'>",
+                                            "<img class='avatar' src='/Content/Image/Member/anh' alt='avatar'>",
+                                        "</a>",
+                                        "<div class='comment-body'>",
+                                            "<div class='comment-heading'>",
+                                                "<a class='pull-left' href='@Url.Action("Profile", "Account")'>","</a>",
+                                                    "<h4 class='user'>","<a>",Com.Member+"</a>","</h4>",
+                                                          //"<div class='rating star'>"+
+										                  //  "<i class='glyphicon glyphicon-star' data-value='1'>"+
+										                  //  "</i><i class='glyphicon glyphicon-star' data-value='2'></i><i class='glyphicon glyphicon-star' data-value='3'></i><i class='glyphicon glyphicon-star' data-value='4'></i><i class='glyphicon glyphicon-star' data-value='5'></i></div>",
+                                                          // "</div>"+
+                                                    "<h5 class='time'>",Com.DateTime+"</h5>",
+                                                "<span id='ed-button' style='float:right;'>",
+                                                    "<div class='dropdown'>",
+                                                        "<a class='dropdown-toggle' data-toggle='dropdown'>",
+                                                            "<span class='fa fa-edit' title='Sửa hoặc xóa'>","</span>",
+                                                        "</a>",
+                                                        "<ul class='dropdown-menu dropdown-menu-right'>",
+                                                           "<li><a id='buttonid' name='buttonid' data-p=''>Sửa</a></li>",
+                                                            "<li><a id='delete-comment'>Xóa</a></li>",
+                                                        "</ul>",
+                                                    "</div>",
+                                                "</span>",
+                                                "</div>",
+                                            "<p for=''>"+Com.Content+"</p>",
+                                            "<a id='"+replyID+"'    onclick='ReplyFunction(this.id);' style='font-size: 13px;'>Trả lời</a>",
+                                       "</div>",
+                                        "<ul class='comments-list'>",
+                                            @*@for (var item = 0; item"< @ListCommentDetail.ElementAt(i).Count; item++) {
+                                                "<li class='comment'>",
+                                                    "<a class='pull-left'  href='@Url.Action('Profile/' + @ListCommentDetail.ElementAt(i).ElementAt(item).MemberID, 'Account')'>",
+                                                        "<img class='avatar' src='/Content/Image/Member/@ListCommentDetail.ElementAt(i).ElementAt(item).Member.Image' alt='avatar'>",
+                                                    "</a>",
+                                                    "<div class='comment-body'>",
+                                                        "<div class='comment-heading'>",
+                                                            "<a class='pull-left' href='@Url.Action('Profile/' + @ListCommentDetail.ElementAt(i).ElementAt(item).MemberID, 'Account')'>","</a>",
+                                                                "<h4 class='user'>","<a>",@ListCommentDetail.ElementAt(i).ElementAt(item).Member.Name"</a>","</h4>",
+                                                                "<h5 class='time'>",@ListCommentDetail.ElementAt(i).ElementAt(item).DateTime"</h5>",
+                                                                "<span id='ed-button' style='float:right;'>",
+                                                                    "<div class='dropdown'>",
+                                                                        "<a class='dropdown-toggle' data-toggle='dropdown'>",
+                                                                            "<span class='fa fa-edit' title='Sửa hoặc xóa'>","</span>",
+                                                                        "</a>",
+                                                                        "<ul class='dropdown-menu dropdown-menu-right'>",
+                                                                            "<li>","<a id='buttonid' name='buttonid' data-p='@i+@item'>",Sửa"</a>","</li>",
+                                                                            "<li>","<a id='delete-comment'>",Xóa"</a>","</li>",
+                                                                        "</ul>",
+                                                                    "</div>",
+                                                                "</span>",
+                                                            "<p for='@i+@item'>",@ListCommentDetail.ElementAt(i).ElementAt(item).Content"</p>",
+                                                        "</div>",
+                                                    "</div>",
+                                                "</li>",
+                                        }*@
+                                            @*@{ var inputReply = 'input-reply' + i;}*@
+                                            "<li class='comment' id='"+inputReply+"' style='display: none;'>",
+                                                "<div class='input-group'>",
+                                                    "<span class='input-group-addon'>",
+                                                    "<a class='pull-left' href='#'>",
+                                                        "<img class='avatar' src='http://bootdey.com/img/Content/user_3.jpg' alt='avatar'>",
+                                                    "</a>",
+                                                "</span>",
+
+                                                    "<input class='form-control' id='"+CommentId+"' placeholder='Add a comment' type='text'>",
+                                                    "<input type='hidden' id='"+ComId+"' value ='"+ComName+"' placeholder='Add a comment' type='text'>",
+                                                "</div>",
+                                            "</li>",
+                                        "</ul>"].join('\n');
             var $tbl = $('#CommentMore');
             $tbl.append(itemHTML);
         }
