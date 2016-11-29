@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Http;
 using System.Web.Mvc;
 using KoiManagement.Common;
 using KoiManagement.DAL;
@@ -17,8 +18,8 @@ namespace KoiManagement.Controllers
         {
             return View();
         }
-        [HttpPost]
-        public JsonResult AddCommentKoi(string Comment, int koiID ,decimal RateNum)
+        [System.Web.Mvc.HttpPost]
+        public JsonResult AddCommentKoi([FromBody] string Comment, int koiID ,decimal RateNum)
         {
             StatusObjForJsonResult obj = new StatusObjForJsonResult();
             //int UserID = int.Parse(Session[SessionAccount.SessionUserId].ToString());
@@ -33,14 +34,16 @@ namespace KoiManagement.Controllers
                 }
 
                 Comment com = new Comment(UserID, koiID, DateTime.Now,null, RateNum, Comment,null,true);
-
-                if (commentDao.addComment(com))
+                Comment comtsest = commentDao.GetCommentbyId(5);
+               // if (commentDao.addComment(com))
                 {
                     obj.Status = 1;
+                    obj.JsonObject = comtsest;
                     //obj.Message = "Bạn đã đổi sang chủ " + username + " thành công vui lòng chờ xác nhận";
                     //obj.JsonObject = NewMemberID.MemberID;
                     // ownerDao.ChangeOwner(username, int.Parse(koiId))
-                    return Json(obj);
+                    ViewBag.NewComment = comtsest;
+                    return Json(com);
                 }
 
             }
@@ -54,8 +57,8 @@ namespace KoiManagement.Controllers
             return Json(obj);
         }
 
-        [HttpPost]
-        public JsonResult AddSonCommentKoi(int commentId,string comment, int koiID)
+        [System.Web.Mvc.HttpPost]
+        public JsonResult AddSonCommentKoi( int commentId,string comment, int koiID)
         {
             StatusObjForJsonResult obj = new StatusObjForJsonResult();
             //int UserID = int.Parse(Session[SessionAccount.SessionUserId].ToString());

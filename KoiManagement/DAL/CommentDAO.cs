@@ -31,6 +31,11 @@ namespace KoiManagement.DAL
             }
         }
 
+        public Comment GetCommentbyId(int CommentID)
+        {
+            return db.Comments.Find(CommentID);
+        }
+
         public List<Comment> GetListCommentKoi(int KoiId)
         {
             return db.Comments.Where(p=>p.KoiID== KoiId&&p.Status && p.CommentAnswer == null).ToList();
