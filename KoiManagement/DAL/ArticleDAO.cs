@@ -43,5 +43,10 @@ namespace KoiManagement.DAL
             }
             return db.Articles.Max(g => g.ArticleID) + 1; ;
         }
+
+        public Article GetArticleDetail(int id)
+        {
+            return db.Articles.Find(id);
+        }
     }
 }

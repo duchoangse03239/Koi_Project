@@ -1,0 +1,92 @@
+﻿@using KoiManagement.Common
+@using KoiManagement.Models
+@{
+    ViewBag.Title = "ArticleDetail";
+    Layout = "~/Views/Layout/KoiLayout.cshtml";
+    Article articledetail = ViewBag.articleDetail;
+}
+
+<style type="text/css">
+    .box-cat {
+        background: #1fadc5 url(../images/conca.png) no-repeat top 3px right 5px;
+        border-top-left-radius: 12px;
+        border-top-right-radius: 12px;
+    }
+
+        .box-cat label, .box-cat h1, .box-cat h2 {
+            font-size: 16px;
+            text-transform: uppercase;
+            color: #fff;
+            font-weight: normal;
+        }
+
+    .bg-cat {
+        border: 1px solid #ddd;
+        border-top: 0;
+        background: #f7f9f0;
+        padding: 6px 8px;
+        margin-bottom: 10px;
+    }
+
+    .row-new {
+        border-bottom: 1px dotted #ccc;
+        margin-bottom: 10px;
+        padding-bottom: 10px;
+    }
+
+    .over-img img, .over-img {
+        width: 200px;
+        min-height: 150px;
+        max-height: 200px;
+        overflow: hidden;
+        float: left;
+        margin-right: 15px;
+        margin-top: 10px;
+    }
+</style>
+<body>
+<div id="wrapper">
+    <div class="section site-main">
+        <div class="container">
+            <div class="row" style="margin:0px;">
+                <div class="box-cat col-md-12">
+                    <h1>Title</h1>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<div class="container">
+    <ul class="nav nav-tabs">
+        @if (Session[SessionAccount.SessionUserId] != null )
+        {
+            <div class="tab-content">
+                <div id="home" class="tab-pane fade in active koi-detail">
+                    <div class="row">
+
+                        <div class="col-md-6">
+                            <div class="item">
+                                <div class="item-attr">
+                                    <div class="bg-cat">
+                                        <p style="margin-top: 60px; margin-left: 8px;">
+                                            Ngày đăng:
+                                            <small class="text-muted"> <i class="glyphicon glyphicon-time"></i></small>
+                                            @articledetail.Date
+                                        </p>
+                                    </div>
+                                    <div class="line item-name">
+                                        <h1>@articledetail.Title</h1>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @Html.Raw(@articledetail.Content)
+                </div>
+            </div>
+        }
+    </ul>
+</div>
+
