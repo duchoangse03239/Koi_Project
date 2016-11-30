@@ -102,7 +102,15 @@ namespace KoiManagement.Controllers
                         Session.Add(SessionAccount.SessionName, member.Name);
                         Session.Add(SessionAccount.SessionImage, member.Image);
                         SessionAccount.SessionGetUserId = member.MemberID.ToString();
-                        obj.RedirectTo = Url.Action("ListVariety", "Variety");
+                        if (member.Role == 1)
+                        {
+                            obj.RedirectTo = Url.Action("Home", "Admin");
+                        }
+                        else
+                        {
+                        obj.RedirectTo = Url.Action("Index", "Home");
+
+                        }
 
                     }
                 }

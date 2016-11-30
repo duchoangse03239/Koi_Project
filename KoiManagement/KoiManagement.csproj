@@ -269,6 +269,7 @@
     <Compile Include="DAL\KoiFarmDAO.cs" />
     <Compile Include="DAL\MediaDAO.cs" />
     <Compile Include="DAL\NotificationDAO.cs" />
+    <Compile Include="DAL\AdminDAO.cs" />
     <Compile Include="DAL\VarietyDAO.cs" />
     <Compile Include="DAL\OwnerDAO.cs" />
     <Compile Include="DAL\KoiDAO.cs" />
@@ -945,6 +946,9 @@
     <Content Include="Views\Article\ListArticle.cshtml" />
     <Content Include="Views\Achievement\ListAchievement.cshtml" />
     <Content Include="Views\Admin\ListMember.cshtml" />
+    <Content Include="Views\Admin\ListKoi.cshtml" />
+    <Content Include="Views\Admin\ListKoiFarm.cshtml" />
+    <Content Include="Views\Admin\Home.cshtml" />
     <None Include="Views\InfoDetail\timeline.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>

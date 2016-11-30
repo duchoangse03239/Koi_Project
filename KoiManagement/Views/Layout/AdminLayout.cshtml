@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using KoiManagement.Common
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -47,7 +48,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.html">KSMS</a>
+                <a class="navbar-brand" href="@Url.Action("Home","Admin")">KSMS</a>
             </div>
             <!-- /.navbar-header -->
 
@@ -58,15 +59,15 @@
                     </a>
                     <ul class="dropdown-menu">
                         <li>
-                            <a href="admin_manage_user.html">Người dùng</a>
+                            <a href="@Url.Action("ListMember","Admin")">Người dùng</a>
                         </li>
                         <li class="divider"></li>
                         <li>
-                            <a href="admin_manage_koi.html">Cá Koi</a>
+                            <a href="@Url.Action("ListKoi","Admin")">Cá Koi</a>
                         </li>
                         <li class="divider"></li>
                         <li>
-                            <a href="admin_manage_farm.html">Trang trại</a>
+                            <a href="@Url.Action("ListKoiFarm","Admin")">Trang trại</a>
                         </li>
                     </ul>
                     <!-- /.dropdown-messages -->
@@ -78,19 +79,19 @@
                     </a>
                     <ul class="dropdown-menu">
                         <li>
-                            <a href="admin_report_user.html">Người dùng</a>
+                            <a href="#">Người dùng</a>
                         </li>
                         <li class="divider"></li>
                         <li>
-                            <a href="admin_report_koi.html">Cá Koi</a>
+                            <a href="#">Cá Koi</a>
                         </li>
                         <li class="divider"></li>
                         <li>
-                            <a href="admin_report_farm.html">Trang trại</a>
+                            <a href="#">Trang trại</a>
                         </li>
                         <li class="divider"></li>
                         <li>
-                            <a href="admin_report_qa.html">Hỏi đáp</a>
+                            <a href="#">Hỏi đáp</a>
                         </li>
                     </ul>
                     <!-- /.dropdown-tasks -->
@@ -102,7 +103,7 @@
                     </a>
                     <ul class="dropdown-menu">
                         <li>
-                            <a href="admin_article.html">
+                            <a href="#">
                                 <div>
                                     <i class="fa fa-plus fa-fw"></i> Thêm
                                 </div>
@@ -114,12 +115,10 @@
                 <!-- /.dropdown -->
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                        <i class="fa fa-user fa-fw"></i> <span>Admin </span> <i class="fa fa-caret-down"></i>
+                        <i class="fa fa-user fa-fw"></i> <span>@Session[SessionAccount.SessionUserName] </span> <i class="fa fa-caret-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-user">
-                        <li>
-                            <a href="login.html"><i class="fa fa-sign-out fa-fw"></i> Đăng xuất</a>
-                        </li>
+                        <li><a href="/Account/logout"><i class="fa fa-sign-out fa-fw"></i>Đăng xuất</a></li>
                     </ul>
                     <!-- /.dropdown-user -->
                 </li>
@@ -131,19 +130,19 @@
                 <div class="sidebar-nav navbar-collapse">
                     <ul class="nav" id="side-menu">
                         <li>
-                            <a href="admin.html"><i class="fa fa-home fa-fw"></i> Trang chủ</a>
+                            <a href="@Url.Action("Home","Admin")"><i class="fa fa-home fa-fw"></i> Trang chủ</a>
                         </li>
                         <li>
                             <a href="#"><i class="fa fa-briefcase fa-fw"></i> Quản lý<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a href="Admin_manage_user.html">Người dùng</a>
+                                    <a href="@Url.Action("ListMember","Admin")">Người dùng</a>
                                 </li>
                                 <li>
-                                    <a href="admin_manage_koi.html">Cá Koi</a>
+                                    <a href="@Url.Action("ListKoi","Admin")">Cá Koi</a>
                                 </li>
                                 <li>
-                                    <a href="admin_manage_farm.html">Trang trại</a>
+                                    <a href="@Url.Action("ListKoiFarm","Admin")">Trang trại</a>
                                 </li>
                             </ul>
                             <!-- /.nav-second-level -->
@@ -152,22 +151,22 @@
                             <a href="#"><i class="fa fa-exclamation-triangle fa-fw"></i> Report<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a href="admin_report_user.html">Người dùng</a>
+                                    <a href="#">Người dùng</a>
                                 </li>
                                 <li>
-                                    <a href="admin_report_koi.html">Cá Koi</a>
+                                    <a href="#">Cá Koi</a>
                                 </li>
                                 <li>
-                                    <a href="admin_report_farm.html">Trang trại</a>
+                                    <a href="#">Trang trại</a>
                                 </li>
                                 <li>
-                                    <a href="admin_report_qa.html">Hỏi đáp</a>
+                                    <a href="#">Hỏi đáp</a>
                                 </li>
                             </ul>
                             <!-- /.nav-second-level -->
                         </li>
                         <li>
-                            <a href="admin_article.html"><i class="fa fa-newspaper-o fa-fw"></i> Tin tức</a>
+                            <a href="#"><i class="fa fa-newspaper-o fa-fw"></i> Tin tức</a>
                             <!-- /.nav-second-level -->
                         </li>
                     </ul>

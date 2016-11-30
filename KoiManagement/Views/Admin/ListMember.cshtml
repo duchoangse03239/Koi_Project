@@ -35,32 +35,51 @@
                             <th>@Html.ActionLink("Tên người dùng", "ListMember", new { sortOrder = ViewBag.Name, currentFilter = ViewBag.CurrentFilter })</th>
                             <th>@Html.ActionLink("Điện thoại", "ListMember", new { sortOrder = ViewBag.Phone, currentFilter = ViewBag.CurrentFilter })</th>
                             <th>@Html.ActionLink("Email", "ListMember", new { sortOrder = ViewBag.Email, currentFilter = ViewBag.CurrentFilter })</th>
-                            <th>Trạng thái</th>
-                            <th>Phân quyền</th>
+                            <th>@Html.ActionLink("Trạng thái", "ListMember", new { sortOrder = ViewBag.Status, currentFilter = ViewBag.CurrentFilter })</th>
+                            <th>@Html.ActionLink("Phân quyền", "ListMember", new { sortOrder = ViewBag.Role, currentFilter = ViewBag.CurrentFilter })</th>
                             <th></th>
                         </tr>
                     </thead>
                     <tbody>
-                        @for (var item = 0; item < ViewBag.ListMember.Count; item++)
-                        {
-                            <tr>
-                                <td>@Convert.ToInt32(@item + @ListMember.FirstItemOnPage - 1)</td>
-                                <td>@ViewBag.ListMember[item].Name</td>
-                                <td>@ViewBag.ListMember[item].UserName</td>
-                                <td>@ViewBag.ListMember[item].Phone</td>
-                                <td>@ViewBag.ListMember[item].Email</td>
-                                @if (ViewBag.ListMember[item].Status)
-                                {
-                                    <td>Hoạt động</td>
-                                }
-                                else
-                                {
-                                    <td>Khóa</td>
-                                }
-                                <td class="col-md-1"><a href="#" class="btn btn-success btn-sm" role="button">Người quản trị</a></td>
-                                <td class="col-md-1"><a href="#" class="btn btn-danger btn-sm" role="button">Khóa</a></td>
-                            </tr>
+                    @if (ViewBag.ListMember != null){
+                    for (var item = 0; item < ViewBag.ListMember.Count; item++)
+                    {
+                        <tr>
+                            <td>@Convert.ToInt32(@item + @ListMember.FirstItemOnPage - 1)</td>
+                            <td>@ViewBag.ListMember[item].Name</td>
+                            <td>@ViewBag.ListMember[item].UserName</td>
+                            <td>@ViewBag.ListMember[item].Phone</td>
+                            <td>@ViewBag.ListMember[item].Email</td>
+                            @if (ViewBag.ListMember[item].Status)
+                            {
+                                <td>Hoạt động</td>
+                            }
+                            else
+                            {
+                                <td>Khóa</td>
+                            }
+                            @if (ViewBag.ListMember[item].Role == 1)
+                            {
+                                <td class="col-md-1"><a onclick="RemoveAdmin(@ViewBag.ListMember[item].MemberID);" class="btn btn-success btn-sm" role="button">Hủy quản trị</a></td>
+
+                            }
+                            else
+                            {
+                                <td class="col-md-1"><a onclick="MakeAdmin(@ViewBag.ListMember[item].MemberID, '@ViewBag.ListMember[item].UserName');" class="btn btn-success btn-sm" role="button">Người quản trị</a></td>
+                            }
+
+                            @if (ViewBag.ListMember[item].Status)
+                            {
+                                <td class="col-md-1"><a class="btn btn-danger btn-sm" onclick="Delete(@ViewBag.ListMember[item].MemberID, '@ViewBag.ListMember[item].UserName');" role="button">Khóa</a></td>
+                            }
+
+                            else
+                            {
+                                <td class="col-md-1"><a class="btn btn-danger btn-sm" onclick="Active(@ViewBag.ListMember[item].MemberID, '@ViewBag.ListMember[item].UserName');" role="button">Mở khóa</a></td>
+                            }
+                        </tr>
                         }
+                    }
                     </tbody>
                 </table>
                 Page @(ListMember.PageCount < ListMember.PageNumber ? 0 : ListMember.PageNumber) of @ListMember.PageCount
@@ -70,3 +89,87 @@
         </div>
         <!-- /.row -->
 </div>
+<script type="text/javascript">
+
+    function MakeAdmin(MemberID,username) {
+        if (confirm("Bạn có chắc chắn muốn chọn " + username + " làm người quản trị?")) {
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("MakeAdmin")",
+                datatype: "JSON",
+                data: {
+                    MemberID: MemberID
+                },
+                success: function (res) {
+                    if (res) {
+
+                        window.location.reload();
+                        // $('#test').html();
+                        alert("Đặt làm quản trị thành công");
+                    }
+                }
+            }); // end ajax
+        }
+    }
+    function RemoveAdmin(MemberID, username) {
+        if (confirm("Bạn có chắc chắn muốn huỷ quản trị " + username + " ?")) {
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("RemoveAdmin")",
+                datatype: "JSON",
+            data: {
+                MemberID: MemberID
+            },
+            success: function (res) {
+                if (res) {
+
+                    window.location.reload();
+                    // $('#test').html();
+                    alert("Hủy quản trị thành công");
+                }
+            }
+        }); // end ajax
+    }
+    }
+    function Delete(MemberID,username) {
+        if (confirm("Bạn có chắc chắn muốn khóa tài khoản " + username + "?")) {
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("DeActiveMember")",
+                datatype: "JSON",
+            data: {
+                MemberID: MemberID
+            },
+            success: function (res) {
+                if (res) {
+
+                    window.location.reload();
+                    // $('#test').html();
+                    alert("Khóa thành công");
+                }
+            }
+        }); // end ajax
+    }
+    }
+
+    function Active(MemberID, username) {
+        if (confirm("Bạn có chắc chắn muốn mở khóa tài khoản " + username + "?")) {
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("ActiveMember")",
+                datatype: "JSON",
+            data: {
+                MemberID: MemberID
+            },
+            success: function (res) {
+                if (res) {
+
+                    window.location.reload();
+                    // $('#test').html();
+                    alert("Mở khóa thành công");
+                }
+            }
+        }); // end ajax
+    }
+    }
+</script>
