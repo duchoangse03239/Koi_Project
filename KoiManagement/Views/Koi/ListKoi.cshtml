@@ -13,6 +13,41 @@
     //filter.VarietyId = ViewBag.VarietyId.ToString();
 
 }
+<body>
+    <!-- Modal Vote-->
+    <div id="vote" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Gửi đánh giá về Koi</h4>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        <label>Tên cá Koi:</label>
+                        <a href="">Đẹp</a>
+                    </div>
+                    <div>
+                        <input type="number" name="your_awesome_parameter" id="rating-default" class="rating" value="3" disabled="disabled" />
+                    </div>
+                    <div>
+                        <label>Nội dung</label>
+                    </div>
+                    <div>
+                        <textarea rows="4" cols="69" placeholder="Nhập nội dung tin nhắn"></textarea>
+                    </div>
+                    <div style="margin-top:10px;">
+                        <a class="btn btn-primary">Gửi</a>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--End vote modal-->
     <section id="titleArea">
         <div class="container">
             <div class="row">
@@ -178,7 +213,7 @@
                                     <div class="ratings" onclick="Rating(@ViewBag.Listkoi[item].KoiID)" style="margin-top: 13px;" >
                                         <input type="number" name="your_awesome_parameter" id="rating-default" class="rating" value="3" disabled="disabled"/>
                                         <br />
-                                        <a style="margin-left:5px;" >@cmDao.CountCommentByKoiID(ViewBag.Listkoi[item].KoiID) đánh giá</a>
+                                        <a style="margin-left:5px;" data-toggle="modal" data-target="#vote" >@cmDao.CountCommentByKoiID(ViewBag.Listkoi[item].KoiID) đánh giá</a>
                                     </div>
                                 </div>
                             </div>
@@ -194,6 +229,8 @@
             </div>
         </div>
     </section>
+    
+</body>
     <script type="text/javascript">
         function Rating(koiID) {
             var RateNum = $('#rating-default').val();
