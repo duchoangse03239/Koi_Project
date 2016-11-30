@@ -867,6 +867,13 @@ body a {
   margin-top: 0;
   margin-right: 10px;
 }
+.post-footer .CommentMore .comments-list .comment .comment-heading .user {
+  font-size: 14px;
+  font-weight: bold;
+  display: inline;
+  margin-top: 0;
+  margin-right: 10px;
+}
 .post-footer .comments-list .comment .comment-heading .time {
   font-size: 12px;
   color: #aaa;

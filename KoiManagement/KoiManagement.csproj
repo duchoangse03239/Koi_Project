@@ -235,7 +235,6 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Common\BaseFilter.cs" />
     <Compile Include="Common\CommonFunction.cs" />
     <Compile Include="Common\Constants.cs" />
@@ -250,6 +249,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Controllers\AchievementController.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\ArticleController.cs" />
     <Compile Include="Controllers\CommentController.cs" />
     <Compile Include="Controllers\EditorController.cs" />
@@ -362,6 +362,11 @@
     <Compile Include="ViewModel\ListKoiOwner.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\admin\bootstrap.min.css" />
+    <Content Include="Content\admin\font-awesome.min.css" />
+    <Content Include="Content\admin\metisMenu.min.css" />
+    <Content Include="Content\admin\morris.css" />
+    <Content Include="Content\admin\sb-admin-2.css" />
     <Content Include="Content\bootstrap.js" />
     <Content Include="Content\bootstrap.min.js" />
     <Content Include="Content\bootstrap-theme.css" />
@@ -530,12 +535,16 @@
       <LastGenOutput>KoiContext.cs</LastGenOutput>
     </Content>
     <Content Include="Scripts\action.js" />
+    <Content Include="Scripts\admin\bootstrap.min.js" />
+    <Content Include="Scripts\admin\jquery.min.js" />
+    <Content Include="Scripts\admin\metisMenu.min.js" />
+    <Content Include="Scripts\admin\morris-data.js" />
+    <Content Include="Scripts\admin\morris.min.js" />
+    <Content Include="Scripts\admin\raphael.min.js" />
+    <Content Include="Scripts\admin\sb-admin-2.js" />
     <Content Include="Scripts\bootstrap-rating-input.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <Content Include="Areas\Admin\Views\web.config">
-      <SubType>Designer</SubType>
-    </Content>
     <Content Include="fonts\fontawesome-webfont.eot" />
     <Content Include="fonts\fontawesome-webfont.ttf" />
     <Content Include="fonts\fontawesome-webfont.woff" />
@@ -708,6 +717,8 @@
       <DependentUpon>KoiContext.edmx</DependentUpon>
     </Content>
     <Content Include="Content\FileImport\Koi.xlsx" />
+    <Content Include="Content\admin\desktop.ini" />
+    <Content Include="Scripts\admin\desktop.ini" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\custom.js" />
     <Content Include="Scripts\flickity.pkgd.min.js" />
@@ -933,6 +944,7 @@
     <Content Include="Views\Article\DetailArticle.cshtml" />
     <Content Include="Views\Article\ListArticle.cshtml" />
     <Content Include="Views\Achievement\ListAchievement.cshtml" />
+    <Content Include="Views\Admin\ListMember.cshtml" />
     <None Include="Views\InfoDetail\timeline.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -995,12 +1007,10 @@
     <Content Include="Views\Shared\_Header.cshtml" />
     <Content Include="Views\Notification\ListNotification.cshtml" />
     <Content Include="Views\Notification\View.cshtml" />
+    <Content Include="Views\Layout\AdminLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\Admin\Controllers\" />
-    <Folder Include="Areas\Admin\Models\" />
-    <Folder Include="Areas\Admin\Views\Shared\" />
     <Folder Include="Content\Image\Article\" />
     <Folder Include="Content\Image\Avatar\" />
     <Folder Include="Content\Image\Media\" />
