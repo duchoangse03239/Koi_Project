@@ -510,7 +510,53 @@ namespace KoiManagement.Controllers
             }
             return Json(obj);
         }
+        [HttpPost]
+        public JsonResult SentMessage(int koiId, string content,int ToMember)
+        {
+            StatusObjForJsonResult obj = new StatusObjForJsonResult();
+            // check login
+            //if (Session[SessionAccount.SessionUserId] == null)
+            //{
+            //    obj.Status = 2;
+            //    obj.Message = "Xin hãy đăng nhập.";
+            //    return Json(obj);
+            //}
+            int UserID = int.Parse(Session[SessionAccount.SessionUserId].ToString());
+            try
+            {
 
+                OwnerDAO ownerDao = new OwnerDAO();
+                if (string.IsNullOrWhiteSpace(content))
+                {
+                    obj.Status = 2;
+                    obj.Message = "Xin hãy nhập tên nội dung.";
+                    return Json(obj);
+                }
+
+                var mem = memberDao.GetMemberbyID(UserID);
+                var koiName = db.Kois.Find(koiId).KoiName;
+
+                Notification notification = new Notification(ToMember, UserID,1,koiId,DateTime.Now,content,"",false,true);
+
+                NotificationDAO noDao = new NotificationDAO();
+                if (noDao.AddNotification(notification))
+                {
+                    obj.Status = 1;
+                    obj.Message = "Bạn đã gửi tin nhắn đến "+ mem.Name +"thành công.";
+                    return Json(obj);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Common.Logger.LogException(ex);
+                obj.Status = 0;
+                obj.RedirectTo = this.Url.Action("SystemError", "Error");
+                return Json(obj);
+            }
+            return Json(obj);
+        }
+        
         [HttpPost]
         public JsonResult ChangeOwnerConfirm(int NotID, int userid, string koiId)
         {

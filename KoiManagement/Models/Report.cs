@@ -21,6 +21,22 @@ namespace KoiManagement.Models
         public string ObjectType { get; set; }
         public Nullable<int> ObjectId { get; set; }
         public bool Status { get; set; }
+
+        public Report()
+        {
+            
+        }
+        public Report(string Content,int? MemberID, string ObjectType,int? ObjectId)
+        {
+            this.Content = Content;
+            this.MemberID = MemberID;
+            this.ObjectType = ObjectType;
+            this.ObjectId = ObjectId;
+
+            this.DateTime= DateTime.Now;
+            this.Status = true;
+        }
+
         public virtual Member Member { get; set; }
     }
 }

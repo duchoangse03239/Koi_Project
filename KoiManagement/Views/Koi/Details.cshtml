@@ -7,15 +7,16 @@
     Layout = "~/Views/Layout/KoiLayout.cshtml";
     Owner owner = ViewBag.Owner;
     List<Medium> listImage = ViewBag.listImage;
-    if(ViewBag.NewMemberID==null) { ViewBag.NewMemberID=0;}
-    if(ViewBag.Size==null) { ViewBag.Size = 0; }
-    List<Comment> ListComment =ViewBag.ListComment;
+    if (ViewBag.NewMemberID == null) { ViewBag.NewMemberID = 0; }
+    if (ViewBag.Size == null) { ViewBag.Size = 0; }
+    List<Comment> ListComment = ViewBag.ListComment;
     List<List<Comment>> ListCommentDetail = ViewBag.ListCommentDetail;
     Comment newComment = ViewBag.NewComment;
     if (newComment == null)
     {
-        newComment= new Comment();
+        newComment = new Comment();
     }
+
 }
 
 <body>
@@ -44,28 +45,96 @@
         </div>
     </div>
     <!-- Modal Contact-->
-    <div id="contact" class="modal fade" role="dialog">
+<div id="contact" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Liên hệ với chủ sở hữu</h4>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <label>Gửi tin nhắn đến:</label>
+                    @if (owner != null)
+                    {
+                        <a href="/Account/profile/@owner.Member.MemberID">@owner.Member.Name</a>
+                    }
+                </div>
+                <div>
+                    <label>Nội dung:</label>
+                </div>
+                <div>
+                    <textarea rows="4" cols="69" id="content" name ="content" placeholder="Nhập nội dung tin nhắn"></textarea>
+                    <label id="lbl_Content_fail" class="label-error"></label>
+                </div>
+                <div style="margin-top:10px;">
+                    <a onclick="SentMessage(@Model.KoiID)" class="btn btn-primary">Gửi</a>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+    
+        <!-- Modal Contact-->
+<div id="contact" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Liên hệ với chủ sở hữu</h4>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <label>Gửi tin nhắn đến:</label>
+                    @if (owner != null)
+                    {
+                        <a href="/Account/profile/@owner.Member.MemberID">@owner.Member.Name</a>
+                    }
+                </div>
+                <div>
+                    <label>Nội dung:</label>
+                </div>
+                <div>
+                    <textarea rows="4" cols="69" id="content" name ="content" placeholder="Nhập nội dung tin nhắn"></textarea>
+                    <label id="lbl_Content_fail" class="label-error"></label>
+                </div>
+                <div style="margin-top:10px;">
+                    <a onclick="SentMessage(@Model.KoiID)" class="btn btn-primary">Gửi</a>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+    <!-- Modal Report-->
+    <div id="report" class="modal fade" role="dialog">
         <div class="modal-dialog">
 
             <!-- Modal content-->
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Liên hệ với chủ sở hữu</h4>
+                    <h4 class="modal-title">Báo cáo vi phạm</h4>
                 </div>
                 <div class="modal-body">
                     <div>
-                        <label>Gửi tin nhắn đến:</label>
-                        <a>Tên chủ sở hữu</a>
+                        <label>Nội dung vi phạm:</label>
                     </div>
                     <div>
-                        <label>Nội dung:</label>
-                    </div>
-                    <div>
-                        <textarea rows="4" cols="69" placeholder="Nhập nội dung tin nhắn"></textarea>
+                        <textarea rows="4" cols="69" id="contentReport" name="content" placeholder="Nhập nội dung tin nhắn"></textarea>
+                        <label id="lbl_report_fail" class="label-error"></label>
                     </div>
                     <div style="margin-top:10px;">
-                        <a onclick="ChangeOwner(@Model.KoiID)" class="btn btn-primary">Gửi</a>
+                        <a onclick="ReportKoi(@Model.KoiID)" class="btn btn-primary">Gửi</a>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -74,6 +143,7 @@
             </div>
         </div>
     </div>
+
 
 <div class="section site-main">
     <div class="container">
@@ -170,8 +240,7 @@
                                 <label><span class="fa fa-home"></span> Chủ sở hữu:</label>
                                 @if (owner != null)
                                 {
-                                    
-                                        <span><a href="/Account/profile/@owner.Member.MemberID">@owner.Member.Name</a></span>
+                                     <span><a href="/Account/profile/@owner.Member.MemberID">@owner.Member.Name</a></span>
                                     if (Session[SessionAccount.SessionUserId] != null && @owner.Member.MemberID.ToString().Equals(Session[SessionAccount.SessionUserId].ToString()))
                                     {
                                     <span style="float:right;"><a  class="btn btn-embossed btn-primary btn-sm" role="button" data-toggle="modal" data-target="#trade">Đổi chủ</a></span>}
@@ -185,7 +254,7 @@
                             </div>
                             <div class="line">
                                 <a href="#" class="btn btn-embossed btn-primary" role="button" data-toggle="modal" data-target="#contact">Liên hệ</a>
-                                <a href="#" class="btn btn-embossed btn-primary" role="button" style="float: right;">Báo cáo vi phạm</a>
+                                <a href="#" class="btn btn-embossed btn-primary" role="button" data-toggle="modal" data-target="#report" style="float: right;">Báo cáo vi phạm</a>
                             </div>
                         </div>
                     </div>
@@ -294,24 +363,113 @@
 
 
 <script type="text/javascript">
-    $(document).ready(function() {
-        $("a").click(function() {
-            var tar_id = $(this).attr("data-p");
-            var tar = $("p[for='"+tar_id+"']");
-            var val = tar.text();
-            tar.replaceWith("<input style='width:100%;' type='text' name='"+tar_id+"' id='"+tar_id+"' value='"+val+"' /><br/>");
+    $(document)
+        .ready(function() {
+            $("a")
+                .click(function() {
+                    var tar_id = $(this).attr("data-p");
+                    var tar = $("p[for='" + tar_id + "']");
+                    var val = tar.text();
+                    tar.replaceWith("<input style='width:100%;' type='text' name='" +
+                        tar_id +
+                        "' id='" +
+                        tar_id +
+                        "' value='" +
+                        val +
+                        "' /><br/>");
+                });
         });
-    });
 
-    $('.comments-list').on('click', '#delete-comment', function() {
-        $(this).closest('li').remove();
-    });
+    $('.comments-list')
+        .on('click',
+            '#delete-comment',
+            function() {
+                $(this).closest('li').remove();
+            });
 
     //$('.comments-list a#delete-comment').live('click', function(){
     //    $(this).parent().remove();
     //});
 
     var RateNum;
+
+    function SentMessage(parameter1) {
+        var content = $('#content').val();
+        $('#lbl_Content_fail').text("");
+
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("SentMessage")",
+                datatype: "JSON",
+            data: {
+                koiId: parameter1,
+                content: content,
+                ToMember: @owner.Member.MemberID,
+            },
+            success: function (res) {
+                switch (res.Status) {
+                    case 2:
+                        $('#lbl_username_fail').text(res.Message);
+                        $('#username').focus();
+                        break;
+                    case 3:
+                        $('#lbl_username_fail').text(res.Message);
+                        $('#username').focus();
+                        break;
+                    case 1:
+                        alert(res.Message);
+                        // Declare a proxy to reference the hub.
+                        var notifications = $.connection.notificationsHub;
+                        // Create a function that the hub can call to broadcast messages.
+                        $.connection.hub.start()
+                            .done(function () {
+                                notifications.server.sendNotification(res.JsonObject, "doi chu", "koi");
+                            });
+                        window.location.reload();
+                        break;
+                }
+            }
+        }); // end ajax
+    }
+
+    function ReportKoi(parameter1) {
+        var content = $('#contentReport').val();
+        $('#lbl_Report_fail').text("");
+
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("ReportKoi","Report")",
+                datatype: "JSON",
+            data: {
+                koiId: parameter1,
+                content: content,
+                },
+            success: function (res) {
+                switch (res.Status) {
+                    case 2:
+                        $('#lbl_username_fail').text(res.Message);
+                        $('#username').focus();
+                        break;
+                    case 3:
+                        $('#lbl_username_fail').text(res.Message);
+                        $('#username').focus();
+                        break;
+                    case 1:
+                        alert(res.Message);
+                        // Declare a proxy to reference the hub.
+                        var notifications = $.connection.notificationsHub;
+                        // Create a function that the hub can call to broadcast messages.
+                        $.connection.hub.start()
+                            .done(function () {
+                                notifications.server.sendNotification(res.JsonObject, "doi chu", "koi");
+                            });
+                        window.location.reload();
+                        break;
+                }
+            }
+        }); // end ajax
+    }
+
     function ChangeOwner(parameter1) {
         var username = $('#username').val();
         $('#lbl_username_fail').text("");
