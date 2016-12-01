@@ -8,32 +8,31 @@
 <div class="section site-main">
     <div class="container">
         <ul class="nav nav-tabs">
-            <li class="active"><a data-toggle="tab" href="#menu1">Tìm trong hệ thống</a></li>
-            <li><a data-toggle="tab" href="#menu2">Thêm mới</a></li>
+            <li class="active"><a data-toggle="tab" href="#menu1">Thông báo của tôi</a></li>
+            <li><a data-toggle="tab" href="#menu2">Xác nhận thông báo</a></li>
+            <li><a data-toggle="tab" href="#menu3">Tin nhắn</a></li>
         </ul>
 
         <div class="tab-content">
             <div id="menu1" class="tab-pane fade in active">
-                <h3>Tin tức của tôi</h3>
-                <table class="table">
+                <table style="margin-top:15px;" class="table">
                     <tbody>
                         <tr>
-                            <td class="col-md-2">Thời gian</td>
-                            <td class="col-md-7"><a href="#">Nội dung</a></td>
+                            <td class="col-md-3">Thời gian</td>
+                            <td class="col-md-6"><a href="#">Nội dung</a></td>
                             <td class="col-md-3"><a style="float: right;" href="#" class="btn btn-xs btn-info" role="button">Đánh dấu đã đọc</a></td>
                         </tr>
                     </tbody>
                 </table>
             </div>
             <div id="menu2" class="tab-pane fade">
-                <h3>Xác nhận thông tin</h3>
-                <table class="table">
+                <table style="margin-top:15px;" class="table">
                     <tbody>
                         @foreach (var item in Model)
                         {
                             <tr>
-                                <td class="col-md-2">@item.Datetime</td>
-                                <td class="col-md-7"><a href="#">@item.Content</a></td>
+                                <td class="col-md-3">@item.Datetime</td>
+                                <td class="col-md-6"><a href="#">@item.Content</a></td>
                                 <td class="col-md-3">
                                     @if (!item.isRead)
                                     {
@@ -46,6 +45,17 @@
                             </tr>
                         }
 
+                    </tbody>
+                </table>
+            </div>
+            <div id="menu3" class="tab-pane fade">
+                <table style="margin-top:15px;" class="table">
+                    <tbody>
+                        <tr>
+                            <td class="col-md-3">Thời gian</td>
+                            <td class="col-md-2"><a href="#">Người gửi</a></td>
+                            <td class="col-md-7"><a href="#">Tiêu đề</a></td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
