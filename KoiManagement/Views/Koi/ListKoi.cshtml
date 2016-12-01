@@ -1,8 +1,9 @@
-﻿@using KoiManagement.DAL
+﻿@using KoiManagement.Common
+@using KoiManagement.DAL
 @using KoiManagement.Models
 @using PagedList.Mvc;
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Danh sách cá koi";
     Layout = "~/Views/Layout/KoiLayout.cshtml";
     PagedList.IPagedList ListKoi = ViewBag.Listkoi;
     KoiFilterModel filter = ViewBag.Filter;
@@ -212,12 +213,19 @@
                                 </div>
                                 <input type="hidden" name="KoiId" id="KoiId">
                                 <div class="col-md-3">
-                                    <div class="ratings" data-toggle="modal" data-target="#vote" onclick="Rate(@ViewBag.Listkoi[item].KoiID, @item)" style="margin-top: 13px;" >
-                                        @{ var id = "rating-default" +@item;}
-                                        <input type="number" name="your_awesome_parameter" id="@id" class="rating" value="@cmDao.getRate(ViewBag.Listkoi[item].KoiID)" disabled="disabled"/>
-                                        <br />
-                                        <a style="margin-left:5px;"  >@cmDao.CountCommentByKoiID(ViewBag.Listkoi[item].KoiID) đánh giá</a>
-                                    </div>
+                                    @if (Session[SessionAccount.SessionUserId] != null)
+                                    {
+                                        <div class="ratings" data-toggle="modal" data-target="#vote" onclick="Rate(@ViewBag.Listkoi[item].KoiID, @item)" style="margin-top: 13px;">
+                                            @{ var id = "rating-default" + @item; }
+                                            <input type="number" name="your_awesome_parameter" id="@id" class="rating" value="@cmDao.getRate(ViewBag.Listkoi[item].KoiID)" disabled="disabled"/>
+                                        </div>
+                                                }
+                                                else
+                                                {
+                                                    <input type="number" name="your_awesome_parameter" id="rating-readonly" class="rating" value="@cmDao.getRate(ViewBag.Listkoi[item].KoiID)"  data-readonly/>
+                                                }
+                                        <h5 style="margin-left: 5px;">@cmDao.CountCommentByKoiID(ViewBag.Listkoi[item].KoiID) đánh giá</h5>
+                                    
                                 </div>
                             </div>
                         </div>
