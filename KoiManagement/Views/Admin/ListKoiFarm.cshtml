@@ -46,7 +46,7 @@
                         <tr>
                             <td>@Convert.ToInt32(@item + @ListKoiFarm.FirstItemOnPage - 1)</td>
                             <td>@ViewBag.ListKoiFarm[item].FarmName</td>
-                            <td>@ViewBag.ListKoiFarm[item].Member.Name</td>
+                            <td> <a href="@Url.Action("ListMember", "Admin",new {searchstring= @ViewBag.ListKoiFarm[item].Member.UserName  })">@ViewBag.ListKoiFarm[item].Member.Name</a></td>
                             <td>@ViewBag.ListKoiFarm[item].Address</td>
                             <td>@ViewBag.ListKoiFarm[item].Member.Phone</td>
                             @if (ViewBag.ListKoiFarm[item].Status == 1)
