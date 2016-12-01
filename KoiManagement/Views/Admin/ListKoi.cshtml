@@ -54,12 +54,12 @@
                                 <td>@ViewBag.ListKoi[item].KoiName</td>
                                 <td>@(ViewBag.ListKoi[item].DoB != null ? ViewBag.ListKoi[item].DoB.ToString("dd/MM/yyyy") : "Chưa biết")</td>
                                 <td> @{
-                                         var owner = oDao.GetOwner(ViewBag.ListKoi[item].KoiID);
-                                         if (owner != null)
-                                         {
-                                             @owner.Member.Name
-                                         }
-                                     }
+                                    var owner = oDao.GetOwner(ViewBag.ListKoi[item].KoiID);
+                                    if (owner != null)
+                                    {
+                                        <a href="@Url.Action("ListMember", "Admin",new {searchstring= @owner.Member.UserName  })">@owner.Member.Name</a>
+                                    }
+                                }
                                 <td>@ViewBag.ListKoi[item].Image</td>
                                 @if (ViewBag.ListKoi[item].Status == 1)
                                 {

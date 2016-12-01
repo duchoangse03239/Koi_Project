@@ -62,6 +62,12 @@ namespace KoiManagement.DAL
             return ow.Include(p => p.Koi).Where(p=>p.Koi.Status==1).Count(); 
         }
 
+        public Koi getKoiById(int id)
+        {
+            
+            return db.Kois.Find(id);
+        }
+
         public bool AddKoi(Koi koi)
         {
             try

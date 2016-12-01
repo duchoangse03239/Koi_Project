@@ -263,6 +263,7 @@
     <Compile Include="Controllers\VarietyController.cs" />
     <Compile Include="DAL\AchievementDAO.cs" />
     <Compile Include="DAL\ActiveCodeDAO.cs" />
+    <Compile Include="DAL\ReportDAO.cs" />
     <Compile Include="DAL\InfoDetailDAO.cs" />
     <Compile Include="DAL\CommentDAO.cs" />
     <Compile Include="DAL\ArticleDAO.cs" />
@@ -949,6 +950,8 @@
     <Content Include="Views\Admin\ListKoi.cshtml" />
     <Content Include="Views\Admin\ListKoiFarm.cshtml" />
     <Content Include="Views\Admin\Home.cshtml" />
+    <Content Include="Views\Admin\MemberReport.cshtml" />
+    <Content Include="Views\Admin\KoiReport.cshtml" />
     <None Include="Views\InfoDetail\timeline.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>

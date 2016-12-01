@@ -29,16 +29,17 @@
                         <a href="">Đẹp</a>
                     </div>
                     <div>
-                        <input type="number" name="your_awesome_parameter" id="rating-default" class="rating" value="3" disabled="disabled" />
+                        <input type="number" name="your_awesome_parameter" id="rating-default0" class="rating" value="4" disabled="disabled" />
                     </div>
                     <div>
                         <label>Nội dung</label>
                     </div>
                     <div>
-                        <textarea rows="4" cols="69" placeholder="Nhập nội dung tin nhắn"></textarea>
+                        <textarea rows="4" cols="69" id ="content" name ="content" placeholder="Nhập nội dung tin nhắn"></textarea>
                     </div>
+                    <label id="lbl_Rating_fail" class="label-error"></label>
                     <div style="margin-top:10px;">
-                        <a class="btn btn-primary">Gửi</a>
+                        <a class="btn btn-primary" onclick="Rating()">Gửi</a>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -196,11 +197,11 @@
                                     <p class="title-koi-name" href="/Koi/Details/@ViewBag.Listkoi[item].KoiID">@ViewBag.Listkoi[item].KoiName</p>
                                     <h4 style="margin-top:25px;">
                                         Chủ sở hữu:@{
-                                            var owner = oDao.GetOwner(ViewBag.Listkoi[item].KoiID);
-                                            if (owner != null)
-                                            {
-                                                <a href="/Account/profile/@owner.Member.MemberID">@owner.Member.Name</a>
-                                            }
+                                                       var owner = oDao.GetOwner(ViewBag.Listkoi[item].KoiID);
+                                                       if (owner != null)
+                                                       {
+                                                           <a href="/Account/profile/@owner.Member.MemberID">@owner.Member.Name</a>
+                                                       }
                                                    } 
                                     </h4>
                                     <h4>Kích thước: @infoDao.GetLastSize(ViewBag.Listkoi[item].KoiID) (cm) </h4>
@@ -209,11 +210,13 @@
                                     <p><a class="btn btn-embossed btn-primary" href="/Koi/Details/@ViewBag.Listkoi[item].KoiID" role="button">Chi tiết</a>
                                     </p>
                                 </div>
+                                <input type="hidden" name="KoiId" id="KoiId">
                                 <div class="col-md-3">
-                                    <div class="ratings" onclick="Rating(@ViewBag.Listkoi[item].KoiID)" style="margin-top: 13px;" >
-                                        <input type="number" name="your_awesome_parameter" id="rating-default" class="rating" value="3" disabled="disabled"/>
+                                    <div class="ratings" data-toggle="modal" data-target="#vote" onclick="Rate(@ViewBag.Listkoi[item].KoiID, @item)" style="margin-top: 13px;" >
+                                        @{ var id = "rating-default" +@item;}
+                                        <input type="number" name="your_awesome_parameter" id="@id" class="rating" value="@cmDao.getRate(ViewBag.Listkoi[item].KoiID)" disabled="disabled"/>
                                         <br />
-                                        <a style="margin-left:5px;" data-toggle="modal" data-target="#vote" >@cmDao.CountCommentByKoiID(ViewBag.Listkoi[item].KoiID) đánh giá</a>
+                                        <a style="margin-left:5px;"  >@cmDao.CountCommentByKoiID(ViewBag.Listkoi[item].KoiID) đánh giá</a>
                                     </div>
                                 </div>
                             </div>
@@ -232,28 +235,51 @@
     
 </body>
     <script type="text/javascript">
-        function Rating(koiID) {
-            var RateNum = $('#rating-default').val();
+        function Rate(koiID, index) {
+            //set koi ID
+            $("#KoiId").val(koiID);
+            var RateNum = $('#rating-default' + index).val();
+            var m = $("#rating-default0");
+            var num = parseInt(RateNum);
+            //m.val(num);
+            m.attr('value', num);
+
+
+        }
+        function Rating() {
+            
+            $('#lbl_Rating_fail').text("");
+            var RateNum = $('#rating-default0').val();
+            var content = $('#content').val();
+            //m.val(num);
+            var koiID = $('#KoiId').val();
             $.ajax({
                 type: "POST",
                 url: "@Url.Action("Rating")",
-                    datatype: "JSON",
-                data: {
-                    koiID: koiID,
-                    RateNum :RateNum
-                },
-                success: function(res) {
-                    switch (res.Status) {
-                        case 1:
-                            alert(res.Message);
-                           // window.location.href = res.RedirectTo;
-                            break;
-                        case 0:
-                            alert(res.Message);
-                            window.location.href = res.RedirectTo;
-                            break;
-                    }
+                datatype: "JSON",
+            data: {
+                koiID: koiID,
+                RateNum: RateNum,
+                content: content
+            },
+            success: function(res) {
+                switch (res.Status) {
+                    case 2:
+                        $('#lbl_Rating_fail').text(res.Message);
+                        break;
+                    case 1:
+                        alert(res.Message);
+                        window.location.reload();
+                        break;
+                    case 0:
+                        alert(res.Message);
+                        window.location.href = res.RedirectTo;
+                        break;
+ 
+
                 }
+            }
             }); // end ajax
+            //clear data
         }
     </script>

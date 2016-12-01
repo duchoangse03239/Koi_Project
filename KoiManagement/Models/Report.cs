@@ -17,10 +17,10 @@ namespace KoiManagement.Models
         public int ReportID { get; set; }
         public string Content { get; set; }
         public Nullable<int> MemberID { get; set; }
+        public System.DateTime DateTime { get; set; }
         public string ObjectType { get; set; }
         public Nullable<int> ObjectId { get; set; }
         public bool Status { get; set; }
-    
         public virtual Member Member { get; set; }
     }
 }
