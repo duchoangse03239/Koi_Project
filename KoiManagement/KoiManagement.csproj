@@ -260,6 +260,7 @@
     <Compile Include="Controllers\KoiFarmController.cs" />
     <Compile Include="Controllers\LayoutController.cs" />
     <Compile Include="Controllers\NotificationController.cs" />
+    <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Controllers\VarietyController.cs" />
     <Compile Include="DAL\AchievementDAO.cs" />
     <Compile Include="DAL\ActiveCodeDAO.cs" />
@@ -1023,6 +1024,7 @@
     <Folder Include="Content\Image\Avatar\" />
     <Folder Include="Content\Image\Media\" />
     <Folder Include="Views\Comment\" />
+    <Folder Include="Views\Report\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

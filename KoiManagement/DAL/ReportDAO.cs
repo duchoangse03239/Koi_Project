@@ -12,7 +12,19 @@ namespace KoiManagement.DAL
         {
             db = new KoiManagementEntities();
         }
-
+        public bool AddReport(Report re)
+        {
+            try
+            {
+                db.Reports.Add(re);
+                db.SaveChanges();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
         public int CountMemberReport(int MemberID)
         {
             return db.Reports.Count(p => p.ObjectType == "Member" && p.ObjectId == MemberID);
