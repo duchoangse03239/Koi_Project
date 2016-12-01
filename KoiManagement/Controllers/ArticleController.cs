@@ -17,15 +17,19 @@ namespace KoiManagement.Controllers
         ArticleDAO articleDao = new ArticleDAO();
         private KoiManagementEntities db = new KoiManagementEntities();
 
-        //
-        // GET: /Account/
+        /// <summary>
+        /// ActionResult
+        /// </summary>
+        /// <returns>View</returns>
         public ActionResult Index()
         {
             return View();
         }
 
-        //
-        // GET: /Account/Login
+        /// <summary>
+        /// AddArticle
+        /// </summary>
+        /// <returns>View</returns>
         public ActionResult AddArticle()
         {
             if (Session[SessionAccount.SessionUserId] == null)
@@ -41,7 +45,14 @@ namespace KoiManagement.Controllers
             return View(type);
         }
 
-        // POST: /Account/Login
+        /// <summary>
+        /// AddArticle
+        /// </summary>
+        /// <param name="title">title</param>
+        /// <param name="typeid">typeid</param>
+        /// <param name="content">content</param>
+        /// <param name="shortdesription">shortdesription</param>
+        /// <returns></returns>
         [HttpPost, ValidateInput(false)]
         public ActionResult AddArticle(string title, string typeid, string content, string shortdesription)
         {
@@ -118,6 +129,17 @@ namespace KoiManagement.Controllers
             return Json(obj);
         }
 
+        public ActionResult ArticleDetail(int? id)
+        {
+            //neu co id la 0 truyen vao thi ?
+            if (id == 0)
+            {
+                return View();
+            }
+            var articledetail = articleDao.GetArticleDetail((int)id);
+            ViewBag.articleDetail = articledetail;
+            return View();
+        }
 
         public ActionResult ListArticle(int id, int? page)
         {

@@ -260,6 +260,7 @@
     <Compile Include="Controllers\KoiFarmController.cs" />
     <Compile Include="Controllers\LayoutController.cs" />
     <Compile Include="Controllers\NotificationController.cs" />
+    <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Controllers\VarietyController.cs" />
     <Compile Include="DAL\AchievementDAO.cs" />
     <Compile Include="DAL\ActiveCodeDAO.cs" />
@@ -943,7 +944,6 @@
     <Content Include="Views\Article\AddArticle.cshtml" />
     <Content Include="Views\Article\EditArticle.cshtml" />
     <Content Include="Views\InfoDetail\AddParent.cshtml" />
-    <Content Include="Views\Article\DetailArticle.cshtml" />
     <Content Include="Views\Article\ListArticle.cshtml" />
     <Content Include="Views\Achievement\ListAchievement.cshtml" />
     <Content Include="Views\Admin\ListMember.cshtml" />
@@ -953,6 +953,7 @@
     <Content Include="Views\Admin\MemberReport.cshtml" />
     <Content Include="Views\Admin\KoiReport.cshtml" />
     <Content Include="Views\Admin\KoiFarmReport.cshtml" />
+    <Content Include="Views\Article\ArticleDetail.cshtml" />
     <None Include="Views\InfoDetail\timeline.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -1023,6 +1024,7 @@
     <Folder Include="Content\Image\Avatar\" />
     <Folder Include="Content\Image\Media\" />
     <Folder Include="Views\Comment\" />
+    <Folder Include="Views\Report\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
