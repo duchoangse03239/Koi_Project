@@ -36,7 +36,7 @@
         <div class="col-sm-6 col-sm-offset-3">
             <label>Chọn ảnh cá</label>
             <label id="lblMessage_Image_fail" class="label-error"></label>
-            <input type="file" id="files" name="files" onchange="previewImg()" class="upload hides" multiple accept="image/*" />
+            <input type="file" accept="image/png, image/jpeg, image/gif" id="files" name="files" onchange="previewImg()" class="upload hides" multiple accept="image/*" />
             <output id="result">
                 @{
                     if (Image != null)

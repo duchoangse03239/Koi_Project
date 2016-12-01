@@ -1,6 +1,6 @@
 ﻿@{
     ViewBag.Title = "AddArticle";
-    Layout = "~/Views/Layout/KoiLayout.cshtml";
+    Layout = "~/Views/Layout/AdminLayout.cshtml";
 }
 
 <script src="~/Scripts/modernizr-2.6.2.js"></script>
@@ -9,13 +9,12 @@
 <script src="~/Scripts/modernizr-2.6.2.js"></script>
 <script type="text/javascript" src="@Url.Content("~/Scripts/tinymce/tinymce.min.js")"></script>
 
-<div class="section site-main">
+<div id="page-wrapper">
     <div class="container">
         <div class="row">
             <h2 id="form-title" class="align-center">Tạo bài viết mới</h2>
             <div class="col-md-9">
                 <div class="box_right">
-                    <div class="container">
                         <div>
                             <div class="row">
                                 <div class="col-md-12">
@@ -29,7 +28,6 @@
                                     <label style="margin-right:20px;">Chọn loại</label>
                                     <span>
                                         <select class="form-control" style="min-width: 150px;" name="type" id="typeid">
-                                            <option value="0">Tin tức</option>
                                             @foreach (var item in Model)
                                             {
                                                 <option value="@item.TypeID">@item.Name</option>
@@ -68,7 +66,6 @@
                         </div>
                     </div>
                 </div>
-            </div>
         </div>
     </div>
 </div>

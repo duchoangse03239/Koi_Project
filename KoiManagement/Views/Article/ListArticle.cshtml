@@ -58,23 +58,7 @@
                     <div class="bg-cat">
                         @for (int item = 0; item < ViewBag.ListArticle.Count; item++)
                         {
-                            if (Session[SessionAccount.SessionUserId] != null && Session[SessionAccount.SessionUserId].ToString().Equals(Constants.AdminID))
-                            {
-                                    <div class="row-new col-md-12">
-                                        <div class="col-md-4">
-                                            <a href=""><img class="image" src="/Content/Image/Article/@ViewBag.ListArticle[item].Image" title="@ViewBag.ListArticle[item].Title"></a>
-                                        </div>
-                                        <div class="col-md-9">
-                                            <a class="title-article-name" href="@Url.Action("ArticleDetails/" + @ViewBag.ListArticle[item].ArticleID, "ListArticle")" title= "@ViewBag.ListArticle[item].Title"></a>
-                                            <div class="shortdes">@ViewBag.ListArticle[item].ShortDes</div>
-                                            <div class="new-detail">
-                                                <a href="@Url.Action("ArticleDetail/" + @ViewBag.ListArticle[item].ArticleID, "Article")" title="@ViewBag.ListArticle[item].Title">Chi tiết.</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                            }
-                            else
-                            {
+
 
                                     <div class="row-new col-md-12">
                                         <div class="over-img img-outer col-md-3">
@@ -88,7 +72,6 @@
                                             </div>
                                         </div>
                                     </div>
-                            }
                         }
                         Page @(ListArticle.PageCount < ListArticle.PageNumber ? 0 : ListArticle.PageNumber) of @ListArticle.PageCount
                         @Html.PagedListPager(ListArticle, page => Url.Action("ListArticle", "Article", new { page }))

@@ -129,6 +129,23 @@ namespace KoiManagement.Controllers
             return Json(obj);
         }
 
+        public ActionResult EditArticle(int id)
+        {
+            //if (Session[SessionAccount.SessionUserId] == null)
+            //{
+            //    return RedirectToAction("Login", "Account");
+            //}
+            // lấy id người đang đăng nhập
+           // int id = int.Parse(Session[SessionAccount.SessionUserId].ToString());
+            //Viewbag cho patialView _Manager
+           // ViewBag.Member = memberDao.GetMemberbyID(id);
+            ViewBag.TypeID = new SelectList(db.Types, "TypeID", "Name");
+            var articledetail = articleDao.GetArticleDetail((int)id);
+            ViewBag.Article = articledetail;
+            var type = db.Types.ToList();
+            return View(type);
+        }
+
         public ActionResult ArticleDetail(int? id)
         {
             //neu co id la 0 truyen vao thi ?

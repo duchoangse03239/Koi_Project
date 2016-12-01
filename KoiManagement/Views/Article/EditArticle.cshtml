@@ -1,8 +1,229 @@
-﻿
+﻿@using KoiManagement.Models
 @{
-    ViewBag.Title = "EditArticle";
-    Layout = "~/Views/Layout/KoiLayout.cshtml";
+    ViewBag.Title = "AddArticle";
+    Layout = "~/Views/Layout/AdminLayout.cshtml";
+    Article Article = ViewBag.Article;
 }
 
-<h2>EditArticle</h2>
+<script src="~/Scripts/modernizr-2.6.2.js"></script>
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script src="~/Scripts/bootstrap.js"></script>
+<script src="~/Scripts/modernizr-2.6.2.js"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/tinymce/tinymce.min.js")"></script>
+
+<div id="page-wrapper">
+    <div class="container">
+        <div class="row">
+            <h2 id="form-title" class="align-center">Sửa bài viết </h2>
+            <div class="col-md-9">
+                <div class="box_right">
+                    <div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <hr />
+                                <label>Tiêu đề</label>
+                                <input type="text" class="form-control" placeholder="Tiêu đề" value ="@Article.Title" id="title" name="title">
+                                <label id="lblMessage_title_fail" class="label-error"></label>
+                            </div>
+                            <br />
+                            <div class="col-md-12" style="margin-top: 15px;">
+                                <label style="margin-right:20px;">Chọn loại</label>
+                                <span>
+                                    <select class="form-control" style="min-width: 150px;" name="type" id="typeid">
+          
+                                        @foreach (var item in Model)
+                                        {
+                                            if (@Article.TypeID == @item.TypeID)
+                                            {
+                                                <option value="@item.TypeID"  selected>@item.Name</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="@item.TypeID" s>@item.Name</option>
+                                            }
+                                        }
+                                    </select>
+                                </span>
+                            </div>
+                            <div class="col-md-12" style="margin-top: 15px;">
+                                <label>Ảnh bài viết</label>
+                                <input type="file" accept="image/png, image/jpeg, image/gif" name="file" id="file" class="img" onchange="loadFile(event)" />
+                                <div><img id="imagePreview" src="~/Content/Image/Article/@Article.Image" alt="" /></div>
+                                <br />
+                                <script>
+                                        var loadFile = function (event) {
+                                            var output = document.getElementById('imagePreview');
+                                            imagePreview.src = URL.createObjectURL(event.target.files[0]);
+                                        };
+                                </script>
+                            </div>
+                            <div class="col-md-12">
+                                <hr />
+                                <label>Mô tả ngắn</label>
+                                <input type="text" class="form-control" placeholder="Mô tả ngắn" value ="@Article.ShortDes" id="shortdesription" name="shortdesription">
+                                <label id="lblMessage_shortdescription_fail" class="label-error"></label>
+                            </div>
+                            <div class="col-md-12" style="margin-top: 20px;">
+                                <label>Nội dung</label>
+                                <textarea type="text" class="form-control" placeholder="" id="content" name="content">value ="@Article.Content"</textarea>
+                                <label id="lblMessage_content_fail" class="label-error"></label>
+                            </div>
+                            <div class="col-md-12 align-right" style="margin-top:15px;" id="add-article-btn">
+                                <button class="btn btn-primary" id="btnCreateArticle">Tạo bài viết</button>
+                                <button class="btn btn-primary" id="btnCancel">Đóng</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $(function () {
+            $("#title").focus();
+        });
+    });
+
+    $(document).keypress(function (event) {
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        if (keycode == "13") {
+            if (Validate()) {
+                AddArticle();
+            } else {
+                return false;
+            }
+        }
+    });
+
+
+    $("#btnCreateArticle").click(function () {
+        if (Validate()) {
+            AddArticle();
+        } else {
+
+            return false;
+        }
+    });
+
+    function Validate() {
+        var title = $('#title').val();
+        var typeid = $('#typeid').val();
+        var typeid = $('#shortdesription').val();
+        var content = window.parent.tinymce.get('content').getContent();
+
+        return true;
+    }
+
+    function AddArticle() {
+        var fileUpload = $("#file").get(0);
+        var files = fileUpload.files;
+        // Looping over all files and add it to FormData object
+        var fileData = new FormData();
+
+        for (var i = 0; i < files.length; i++) {
+            fileData.append(files[i].name, files[i]);
+        }
+
+        // Adding one more key to FormData object
+        fileData.append('title', $('#title').val());
+        fileData.append('typeid', $('#typeid').val());
+        fileData.append('shortdesription', $('#shortdesription').val());
+        var content = window.parent.tinymce.get('content').getContent();
+        fileData.append('content', content);
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("EditArticle")",
+            contentType: false, // Not to set any content header
+            processData: false,
+            data: fileData,
+            dataType: "Json",
+            success: function (res) {
+                switch (res.Status) {
+                    case 2:
+                        break;
+                    case 3:
+                        break;
+                    case 4:
+                        break;
+                    case 1:
+                        alert(res.Message);
+                        window.location.href = res.RedirectTo;
+                        break;
+                    case 0:
+                        window.location.href = res.RedirectTo;
+                        break;
+                }
+            }
+        });
+    }
+
+
+    $(document).ready(function () {
+        if (window.File && window.FileList && window.FileReader) {
+            $("#files").on("change", function (e) {
+                var files = e.target.files,
+                  filesLength = files.length;
+                for (var i = 0; i < filesLength; i++) {
+                    var f = files[i]
+                    var fileReader = new FileReader();
+                    fileReader.onload = (function (e) {
+                        var file = e.target;
+                        $("<span class=\"pip\">" +
+                          "<img class=\"imageThumb\" src=\"" + e.target.result + "\" title=\"" + file.name + "\"/>" +
+                          "<br/><span class=\"remove\">X</span>" +
+                          "</span>").insertAfter("#files");
+                        $(".remove").click(function () {
+                            $(this).parent(".pip").remove();
+                        });
+                    });
+                    fileReader.readAsDataURL(f);
+                }
+            });
+        } else {
+            alert("Your browser doesn't support to File API")
+        }
+    });
+</script>
+
+<script type="text/javascript">
+    tinymce.init({
+        selector: "textarea",
+        width: '100%',
+        language: 'vi_VN',
+        height: 400,
+        statusbar: false,
+        menubar: false,
+
+        setup: function (ed) {
+            ed.on('init', function () {
+                this.getDoc().body.style.fontSize = '14px';
+                this.getDoc().body.style.fontFamily = '"Helvetica Neue", Helvetica, Arial, sans-serif';
+            });
+        },
+
+        paste_data_images: true,
+
+        plugins: [
+            "advlist autolink lists link base64_image charmap hr anchor pagebreak",
+            "searchreplace wordcount visualblocks visualchars code",
+            "insertdatetime media nonbreaking save table contextmenu directionality",
+            "emoticons textcolor colorpicker textpattern "
+        ],
+        toolbar: "undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link base64_image media | forecolor backcolor"
+    });
+
+    // Prevent bootstrap dialog from blocking focusin
+    $(document).on('focusin', function (e) {
+        if ($(e.target).closest(".mce-window").length) {
+            e.stopImmediatePropagation();
+        }
+    });
+</script>
 

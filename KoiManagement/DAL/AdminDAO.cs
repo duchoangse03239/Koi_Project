@@ -170,6 +170,48 @@ namespace KoiManagement.DAL
             return KoiFarm;
         }
 
+        public IQueryable<Article> getlistArticle(string searchString, string sortOrder)
+        {
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                searchString = searchString.Trim();
+            }
+            var Article = db.Articles.AsQueryable();
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                Article = Article.Where(s => s.Title.Contains(searchString) || s.Type.Name.Contains(searchString) || s.Member.Phone.Contains(searchString) || s.Member.Name.Contains(searchString));
+            }
+            //sort
+            switch (sortOrder)
+            {
+                case "Type_desc":
+                    Article = Article.OrderByDescending(s => s.TypeID);
+                    break;
+                case "Date":
+                    Article = Article.OrderBy(s => s.Date);
+                    break;
+                case "Date_desc":
+                    Article = Article.OrderByDescending(s => s.Date);
+                    break;
+                case "Title":
+                    Article = Article.OrderBy(s => s.Title);
+                    break;
+                case "Title_desc":
+                    Article = Article.OrderByDescending(s => s.Title);
+                    break;
+                case "Status":
+                    Article = Article.Where(s => s.Status);
+                    break;
+                case "AllStatus":
+                    Article = Article.Where(s => !s.Status);
+                    break;
+                default:  // Name ascending 
+                    Article = Article.OrderBy(s => s.TypeID);
+                    break;
+            }
+            return Article;
+        }
+
         public IQueryable<Report> MemberReport(string searchString, string sortOrder)
         {
             if (!string.IsNullOrEmpty(searchString))
