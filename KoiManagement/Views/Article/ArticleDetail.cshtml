@@ -44,49 +44,32 @@
         margin-top: 10px;
     }
 </style>
-<body>
-<div id="wrapper">
-    <div class="section site-main">
-        <div class="container">
-            <div class="row" style="margin:0px;">
-                <div class="box-cat col-md-12">
-                    <h1>Title</h1>
-                </div>
-                
-            </div>
-        </div>
-    </div>
-</div>
-</body>
 <div class="container">
     <ul class="nav nav-tabs">
-        @if (Session[SessionAccount.SessionUserId] != null )
-        {
             <div class="tab-content">
                 <div id="home" class="tab-pane fade in active koi-detail">
                     <div class="row">
-
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                             <div class="item">
                                 <div class="item-attr">
+                                    <div class="row" style="margin:0px;">
+                                        <div class="box-cat col-md-12">
+                                            <h1>@articledetail.Title</h1>
+                                        </div>
+                                    </div>
                                     <div class="bg-cat">
-                                        <p style="margin-top: 60px; margin-left: 8px;">
-                                            Ngày đăng:
+                                        <p style="margin-top: 0px; margin-left: 8px;">
                                             <small class="text-muted"> <i class="glyphicon glyphicon-time"></i></small>
                                             @articledetail.Date
                                         </p>
-                                    </div>
-                                    <div class="line item-name">
-                                        <h1>@articledetail.Title</h1>
+                                        @Html.Raw(@articledetail.Content)
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    @Html.Raw(@articledetail.Content)
                 </div>
             </div>
-        }
     </ul>
 </div>
 
