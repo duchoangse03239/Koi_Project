@@ -4,8 +4,8 @@
 }
 <script src="~/Scripts/jquery-2.1.4.min.js"></script>
 @model IEnumerable<KoiManagement.Models.Notification>
-
 <div class="section site-main">
+@Html.Partial("~/Views/Account/_Manager.cshtml")
     <div class="container">
         <ul class="nav nav-tabs">
             <li class="active"><a data-toggle="tab" href="#menu1">Tìm trong hệ thống</a></li>
@@ -17,11 +17,11 @@
                 <h3>Tin tức của tôi</h3>
                 <table class="table">
                     <tbody>
-                        <tr>
-                            <td class="col-md-2">Thời gian</td>
-                            <td class="col-md-7"><a href="#">Nội dung</a></td>
-                            <td class="col-md-3"><a style="float: right;" href="#" class="btn btn-xs btn-info" role="button">Đánh dấu đã đọc</a></td>
-                        </tr>
+                    <tr>
+                        <td class="col-md-2">Thời gian</td>
+                        <td class="col-md-7"><a href="#">Nội dung</a></td>
+                        <td class="col-md-3"><a style="float: right;" href="#" class="btn btn-xs btn-info" role="button">Đánh dấu đã đọc</a></td>
+                    </tr>
                     </tbody>
                 </table>
             </div>
@@ -29,22 +29,22 @@
                 <h3>Xác nhận thông tin</h3>
                 <table class="table">
                     <tbody>
-                        @foreach (var item in Model)
-                        {
-                            <tr>
-                                <td class="col-md-2">@item.Datetime</td>
-                                <td class="col-md-7"><a href="#">@item.Content</a></td>
-                                <td class="col-md-3">
-                                    @if (!item.isRead)
-                                    {
-                                        <div style="float: right;">
-                                            <a onclick="Confirm('ChangeOwner',@item.NoID,@item.MemberID, @item.ObjectID)" class="btn btn-info btn-xs" role="button">Đồng ý</a>
-                                            <a href="#" class="btn btn-info btn-xs" role="button">Từ chối</a>
-                                        </div>
-                                    }
-                                </td>
-                            </tr>
-                        }
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td class="col-md-2">@item.Datetime</td>
+                            <td class="col-md-7"><a href="#">@item.Content</a></td>
+                            <td class="col-md-3">
+                                @if (!item.isRead)
+                                {
+                                    <div style="float: right;">
+                                        <a onclick="Confirm('ChangeOwner', @item.NoID, @item.MemberID, @item.ObjectID)" class="btn btn-info btn-xs" role="button">Đồng ý</a>
+                                        <a href="#" class="btn btn-info btn-xs" role="button">Từ chối</a>
+                                    </div>
+                                }
+                            </td>
+                        </tr>
+                    }
 
                     </tbody>
                 </table>
