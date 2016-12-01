@@ -41,16 +41,15 @@
         <AssociationConnector Association="KoiManagementModel.FK__ActiveCod__Membe__1ED998B2" />
         <EntityTypeShape EntityType="KoiManagementModel.Medium" Width="1.5" PointX="5.25" PointY="26.25" />
         <EntityTypeShape EntityType="KoiManagementModel.Notification" Width="1.5" PointX="3" PointY="33.375" />
-        <EntityTypeShape EntityType="KoiManagementModel.Report" Width="1.5" PointX="3" PointY="7.25" />
         <AssociationConnector Association="KoiManagementModel.FK__Media__ModelId__4F7CD00D" />
         <AssociationConnector Association="KoiManagementModel.FK__Notificat__Membe__41B8C09B" />
         <AssociationConnector Association="KoiManagementModel.FK__Notificat__Sende__42ACE4D4" />
-        <AssociationConnector Association="KoiManagementModel.FK__Report__MemberID__5441852A" />
         <EntityTypeShape EntityType="KoiManagementModel.Comment" Width="1.5" PointX="11.25" PointY="16.25" />
         <AssociationConnector Association="KoiManagementModel.FK__Comment__Comment__2F10007B" />
         <AssociationConnector Association="KoiManagementModel.FK__Comment__KoiFarm__2E1BDC42" />
         <AssociationConnector Association="KoiManagementModel.FK__Comment__KoiID__2C3393D0" />
         <AssociationConnector Association="KoiManagementModel.FK__Comment__MemberI__2D27B809" />
+        <EntityTypeShape EntityType="KoiManagementModel.Report" Width="1.5" PointX="3.375" PointY="0.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

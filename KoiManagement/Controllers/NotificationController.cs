@@ -30,11 +30,22 @@ namespace KoiManagement.Controllers
         public ActionResult ListNotification()
         {
             int memberId=0;
-            if (Session[SessionAccount.SessionUserId]!=null)
-            {
+                if (Session[SessionAccount.SessionUserId] == null)
+                {
+                    return RedirectToAction("Login", "Account");
+                }
                 memberId = int.Parse(Session[SessionAccount.SessionUserId].ToString());
-            }
+
             var list = notificationDao.GetListNotifications(memberId);
+
+            MemberDAO MDao = new MemberDAO();
+            KoiDAO koiDao = new KoiDAO();
+            MemberDAO mDAO = new MemberDAO();
+            KoiFarmDAO koiFarmDao = new KoiFarmDAO();
+            ViewBag.Member = mDAO.GetMemberbyID(memberId);
+            ViewBag.CountKoi = koiDao.CountKoibyOwnerId(memberId);
+            ViewBag.CountKoiFarm = koiFarmDao.CountKoiFarmbyOwnerId(memberId);
+
             return View(list);
         }
     }

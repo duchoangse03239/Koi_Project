@@ -1,0 +1,125 @@
+﻿@using PagedList.Mvc;
+@{
+    ViewBag.Title = "ListKoiFarm";
+    Layout = "~/Views/Layout/AdminLayout.cshtml";
+    PagedList.IPagedList ListKoiFarm = ViewBag.ListKoiFarm;
+}
+
+<div id="page-wrapper">
+    <form style="margin-top:10px;" class="searchForm" action="" method="get">
+    <div class="row">
+        <div class="col-md-8">
+            <h1 class="page-header">Quản lý - Trang trại</h1>
+        </div>
+        <div class="col-md-4">
+            <div class="input-group custom-search-form" style="margin-top: 50px;">
+                <input type="text" name="searchString" id="searchString" value="@ViewBag.CurrentFilter" class="form-control" placeholder="Search...">
+                <span class="input-group-btn">
+                        <button class="btn btn-default" type="submit">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </span>
+            </div>
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+    </form>
+        <!-- /.row -->
+        <div class="row">
+            <div class="col-lg-12">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>STT</th>
+                            <th>@Html.ActionLink("Tên trang trại", "ListKoiFarm", new { sortOrder = ViewBag.FarmName, currentFilter = ViewBag.CurrentFilter })</th>
+                            <th>@Html.ActionLink("Chủ sở hữu", "ListKoiFarm", new { sortOrder = ViewBag.Name, currentFilter = ViewBag.CurrentFilter })</th>
+                            <th>@Html.ActionLink("Địa chỉ", "ListKoiFarm", new { sortOrder = ViewBag.Address, currentFilter = ViewBag.CurrentFilter })</th>
+                            <th>@Html.ActionLink("Số điện thoại	", "ListKoiFarm", new { sortOrder = ViewBag.Phone, currentFilter = ViewBag.CurrentFilter })</th>
+                            <th>@Html.ActionLink("Trạng thái", "ListKoiFarm", new { sortOrder = ViewBag.Status, currentFilter = ViewBag.CurrentFilter })</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    @if(ViewBag.ListKoiFarm !=null){
+                    for (var item = 0; item < ViewBag.ListKoiFarm.Count; item++)
+                    {
+                        <tr>
+                            <td>@Convert.ToInt32(@item + @ListKoiFarm.FirstItemOnPage - 1)</td>
+                            <td>@ViewBag.ListKoiFarm[item].FarmName</td>
+                            <td> <a href="@Url.Action("ListMember", "Admin",new {searchstring= @ViewBag.ListKoiFarm[item].Member.UserName  })">@ViewBag.ListKoiFarm[item].Member.Name</a></td>
+                            <td>@ViewBag.ListKoiFarm[item].Address</td>
+                            <td>@ViewBag.ListKoiFarm[item].Member.Phone</td>
+                            @if (ViewBag.ListKoiFarm[item].Status == 1)
+                            {
+                                <td>Hoạt động</td>
+                            }
+                            else
+                            {
+                                <td>Khóa</td>
+                            }
+
+                            @if (ViewBag.ListKoiFarm[item].Status == 1)
+                            {
+                                <td class="col-md-1"><a class="btn btn-danger btn-sm" onclick="Delete(@ViewBag.ListKoiFarm[item].KoifarmID, '@ViewBag.ListKoiFarm[item].FarmName');" role="button">Khóa</a></td>
+                            }
+
+                            else
+                            {
+                                <td class="col-md-1"><a class="btn btn-danger btn-sm" onclick="Active(@ViewBag.ListKoiFarm[item].KoifarmID, '@ViewBag.ListKoiFarm[item].FarmName');" role="button">Mở khóa</a></td>
+                            }
+                        </tr>
+                    }}
+                    </tbody>
+                </table>
+                Page @(ListKoiFarm.PageCount < ListKoiFarm.PageNumber ? 0 : ListKoiFarm.PageNumber) of @ListKoiFarm.PageCount
+                @Html.PagedListPager(ListKoiFarm, page => Url.Action("ListKoiFarm", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+            </div>
+            <!-- /.col-lg-8 -->
+        </div>
+        <!-- /.row -->
+</div>
+<script type="text/javascript">
+
+
+    function Delete(koifarmId, username) {
+        if (confirm("Bạn có chắc chắn muốn khóa " + username + "?")) {
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("DeActiveKoiFarm")",
+                datatype: "JSON",
+            data: {
+                koifarmId: koifarmId
+            },
+            success: function (res) {
+                if (res) {
+
+                    window.location.reload();
+                    // $('#test').html();
+                    alert("Khóa thành công");
+                }
+            }
+        }); // end ajax
+    }
+    }
+
+    function Active(koifarmId, username) {
+        if (confirm("Bạn có chắc chắn muốn mở khóa " + username + "?")) {
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("ActiveKoiFarm")",
+                datatype: "JSON",
+            data: {
+                koifarmId: koifarmId
+            },
+            success: function (res) {
+                if (res) {
+
+                    window.location.reload();
+                    // $('#test').html();
+                    alert("Mở khóa thành công");
+                }
+            }
+        }); // end ajax
+    }
+    }
+</script>

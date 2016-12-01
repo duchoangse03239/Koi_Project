@@ -193,6 +193,7 @@
           <Property Name="ReportID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Content" Type="nvarchar" MaxLength="2000" />
           <Property Name="MemberID" Type="int" />
+          <Property Name="DateTime" Type="date" Nullable="false" />
           <Property Name="ObjectType" Type="nchar" MaxLength="10" />
           <Property Name="ObjectId" Type="int" />
           <Property Name="Status" Type="bit" Nullable="false" />
@@ -527,18 +528,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Report__MemberID__5441852A">
-          <End Role="Member" Type="Self.Member" Multiplicity="0..1" />
-          <End Role="Report" Type="Self.Report" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Member">
-              <PropertyRef Name="MemberID" />
-            </Principal>
-            <Dependent Role="Report">
-              <PropertyRef Name="MemberID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK__Variety__Variety__108B795B">
           <End Role="Variety" Type="Self.Variety" Multiplicity="0..1" />
           <End Role="Variety1" Type="Self.Variety" Multiplicity="*" />
@@ -712,10 +701,6 @@
           <AssociationSet Name="FK__Rate__QuestionID__48CFD27E" Association="Self.FK__Rate__QuestionID__48CFD27E">
             <End Role="Question" EntitySet="Question" />
             <End Role="Rate" EntitySet="Rate" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Report__MemberID__5441852A" Association="Self.FK__Report__MemberID__5441852A">
-            <End Role="Member" EntitySet="Member" />
-            <End Role="Report" EntitySet="Report" />
           </AssociationSet>
           <AssociationSet Name="FK__Variety__Variety__108B795B" Association="Self.FK__Variety__Variety__108B795B">
             <End Role="Variety" EntitySet="Variety" />
@@ -1069,7 +1054,6 @@
           </AssociationSet>
           <EntitySet Name="Media" EntityType="KoiManagementModel.Medium" />
           <EntitySet Name="Notifications" EntityType="KoiManagementModel.Notification" />
-          <EntitySet Name="Reports" EntityType="KoiManagementModel.Report" />
           <AssociationSet Name="FK__Media__ModelId__4F7CD00D" Association="KoiManagementModel.FK__Media__ModelId__4F7CD00D">
             <End Role="InfoDetail" EntitySet="InfoDetails" />
             <End Role="Medium" EntitySet="Media" />
@@ -1081,10 +1065,6 @@
           <AssociationSet Name="FK__Notificat__Sende__42ACE4D4" Association="KoiManagementModel.FK__Notificat__Sende__42ACE4D4">
             <End Role="Member" EntitySet="Members" />
             <End Role="Notification" EntitySet="Notifications" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Report__MemberID__5441852A" Association="KoiManagementModel.FK__Report__MemberID__5441852A">
-            <End Role="Member" EntitySet="Members" />
-            <End Role="Report" EntitySet="Reports" />
           </AssociationSet>
           <EntitySet Name="Comments" EntityType="KoiManagementModel.Comment" />
           <AssociationSet Name="FK__Comment__Comment__2F10007B" Association="KoiManagementModel.FK__Comment__Comment__2F10007B">
@@ -1103,6 +1083,7 @@
             <End Role="Member" EntitySet="Members" />
             <End Role="Comment" EntitySet="Comments" />
           </AssociationSet>
+          <EntitySet Name="Reports" EntityType="KoiManagementModel.Report" />
           </EntityContainer>
         <ComplexType Name="sp_helpdiagramdefinition_Result">
           <Property Type="Int32" Name="version" Nullable="true" />
@@ -1264,7 +1245,6 @@
           <NavigationProperty Name="ActiveCodes" Relationship="KoiManagementModel.FK__ActiveCod__Membe__1ED998B2" FromRole="Member" ToRole="ActiveCode" />
           <NavigationProperty Name="Notifications" Relationship="KoiManagementModel.FK__Notificat__Membe__41B8C09B" FromRole="Member" ToRole="Notification" />
           <NavigationProperty Name="Notifications1" Relationship="KoiManagementModel.FK__Notificat__Sende__42ACE4D4" FromRole="Member" ToRole="Notification" />
-          <NavigationProperty Name="Reports" Relationship="KoiManagementModel.FK__Report__MemberID__5441852A" FromRole="Member" ToRole="Report" />
           <NavigationProperty Name="Comments" Relationship="KoiManagementModel.FK__Comment__MemberI__2D27B809" FromRole="Member" ToRole="Comment" />
         </EntityType>
         <Association Name="FK__Answer__MemberID__44FF419A">
@@ -1390,18 +1370,6 @@
           <NavigationProperty Name="Member" Relationship="KoiManagementModel.FK__Notificat__Membe__41B8C09B" FromRole="Notification" ToRole="Member" />
           <NavigationProperty Name="Member1" Relationship="KoiManagementModel.FK__Notificat__Sende__42ACE4D4" FromRole="Notification" ToRole="Member" />
         </EntityType>
-        <EntityType Name="Report">
-          <Key>
-            <PropertyRef Name="ReportID" />
-          </Key>
-          <Property Name="ReportID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Content" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
-          <Property Name="MemberID" Type="Int32" />
-          <Property Name="ObjectType" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="ObjectId" Type="Int32" />
-          <Property Name="Status" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Member" Relationship="KoiManagementModel.FK__Report__MemberID__5441852A" FromRole="Report" ToRole="Member" />
-        </EntityType>
         <Association Name="FK__Media__ModelId__4F7CD00D">
           <End Type="KoiManagementModel.InfoDetail" Role="InfoDetail" Multiplicity="0..1" />
           <End Type="KoiManagementModel.Medium" Role="Medium" Multiplicity="*" />
@@ -1435,18 +1403,6 @@
             </Principal>
             <Dependent Role="Notification">
               <PropertyRef Name="SenderID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__Report__MemberID__5441852A">
-          <End Type="KoiManagementModel.Member" Role="Member" Multiplicity="0..1" />
-          <End Type="KoiManagementModel.Report" Role="Report" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Member">
-              <PropertyRef Name="MemberID" />
-            </Principal>
-            <Dependent Role="Report">
-              <PropertyRef Name="MemberID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1517,6 +1473,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Report">
+          <Key>
+            <PropertyRef Name="ReportID" />
+          </Key>
+          <Property Name="ReportID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Content" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="MemberID" Type="Int32" />
+          <Property Name="DateTime" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="ObjectType" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="ObjectId" Type="Int32" />
+          <Property Name="Status" Type="Boolean" Nullable="false" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1760,18 +1728,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Reports">
-            <EntityTypeMapping TypeName="KoiManagementModel.Report">
-              <MappingFragment StoreEntitySet="Report">
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="ObjectId" ColumnName="ObjectId" />
-                <ScalarProperty Name="ObjectType" ColumnName="ObjectType" />
-                <ScalarProperty Name="MemberID" ColumnName="MemberID" />
-                <ScalarProperty Name="Content" ColumnName="Content" />
-                <ScalarProperty Name="ReportID" ColumnName="ReportID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Comments">
             <EntityTypeMapping TypeName="KoiManagementModel.Comment">
               <MappingFragment StoreEntitySet="Comment">
@@ -1784,6 +1740,19 @@
                 <ScalarProperty Name="KoiID" ColumnName="KoiID" />
                 <ScalarProperty Name="MemberID" ColumnName="MemberID" />
                 <ScalarProperty Name="CommentID" ColumnName="CommentID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Reports">
+            <EntityTypeMapping TypeName="KoiManagementModel.Report">
+              <MappingFragment StoreEntitySet="Report">
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="ObjectId" ColumnName="ObjectId" />
+                <ScalarProperty Name="ObjectType" ColumnName="ObjectType" />
+                <ScalarProperty Name="DateTime" ColumnName="DateTime" />
+                <ScalarProperty Name="MemberID" ColumnName="MemberID" />
+                <ScalarProperty Name="Content" ColumnName="Content" />
+                <ScalarProperty Name="ReportID" ColumnName="ReportID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

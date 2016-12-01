@@ -510,7 +510,53 @@ namespace KoiManagement.Controllers
             }
             return Json(obj);
         }
+        [HttpPost]
+        public JsonResult SentMessage(int koiId, string content,int ToMember)
+        {
+            StatusObjForJsonResult obj = new StatusObjForJsonResult();
+            // check login
+            //if (Session[SessionAccount.SessionUserId] == null)
+            //{
+            //    obj.Status = 2;
+            //    obj.Message = "Xin hãy đăng nhập.";
+            //    return Json(obj);
+            //}
+            int UserID = int.Parse(Session[SessionAccount.SessionUserId].ToString());
+            try
+            {
 
+                OwnerDAO ownerDao = new OwnerDAO();
+                if (string.IsNullOrWhiteSpace(content))
+                {
+                    obj.Status = 2;
+                    obj.Message = "Xin hãy nhập tên nội dung.";
+                    return Json(obj);
+                }
+
+                var mem = memberDao.GetMemberbyID(UserID);
+                var koiName = db.Kois.Find(koiId).KoiName;
+
+                Notification notification = new Notification(ToMember, UserID,1,koiId,DateTime.Now,content,"",false,true);
+
+                NotificationDAO noDao = new NotificationDAO();
+                if (noDao.AddNotification(notification))
+                {
+                    obj.Status = 1;
+                    obj.Message = "Bạn đã gửi tin nhắn đến "+ mem.Name +"thành công.";
+                    return Json(obj);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Common.Logger.LogException(ex);
+                obj.Status = 0;
+                obj.RedirectTo = this.Url.Action("SystemError", "Error");
+                return Json(obj);
+            }
+            return Json(obj);
+        }
+        
         [HttpPost]
         public JsonResult ChangeOwnerConfirm(int NotID, int userid, string koiId)
         {
@@ -560,7 +606,7 @@ namespace KoiManagement.Controllers
         }
 
         [HttpPost]
-        public JsonResult Rating(int koiID,float RateNum,string content)
+        public JsonResult Rating(int koiID,string RateNum,string content)
         {
             StatusObjForJsonResult obj = new StatusObjForJsonResult();
 
@@ -568,17 +614,30 @@ namespace KoiManagement.Controllers
             {
                 if (Session[SessionAccount.SessionUserId] == null)
                 {
-                    obj.Status = 0;
-                    obj.Message = "Xin hãy đăng nhập để đánh giá";
+                    obj.Status =2;
+                    obj.Message = "Xin hãy đăng nhập để đánh giá.";
                     return Json(obj);
                 }
-
-                //if (koiDao.ToDead(int.Parse(KoiId), DeadReason) > 0)
-                //{
-                //    obj.Status = 1;
-                //    obj.Message = "Bạn đã khai tử thành công";
-                //    return Json(obj);
-                //}
+                if (string.IsNullOrWhiteSpace(content))
+                {
+                    obj.Status = 2;
+                    obj.Message = "Xin hãy nhập nội dung đánh giá.";
+                    return Json(obj);
+                }
+                if (!Validate.CheckIsDouble(RateNum))
+                {
+                    obj.Status = 2;
+                    obj.Message = "Xin hãy chọn sao đánh giá.";
+                    return Json(obj);
+                }
+                decimal sao = decimal.Parse(RateNum);
+                Comment c = new Comment(int.Parse(Session[SessionAccount.SessionUserId].ToString()), koiID,DateTime.Now, null,sao,content,null,true);
+                if (commentDao.addComment(c))
+                {
+                    obj.Status = 1;
+                    obj.Message = "Bạn đã gửi đánh giá thành công!";
+                    return Json(obj);
+                }
 
             }
             catch (Exception ex)
