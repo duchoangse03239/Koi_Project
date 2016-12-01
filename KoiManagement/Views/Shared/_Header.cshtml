@@ -79,8 +79,14 @@
                         </li>
                         <li>
                             <a href="@Url.Action("ListNotification","Notification")" class="button-notification">
-                                <i class="fa fa-bell fa-lg"></i>
+                                <i class="fa fa-bell-o fa-lg"></i>
                                 <span class="button__badge" id="Notification">@ViewBag.NotiCount</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("ListNotification","Notification")" class="button-notification">
+                                <i class="fa fa-envelope-o fa-lg"></i>
+                                <span class="button__badge" id="Notification1">@ViewBag.NotiCount</span>
                             </a>
                         </li>
                     }
@@ -144,7 +150,12 @@
                                 </li>
                                 <li>
                                     <a href="@Url.Action("ListNotification","Notification")" class="button-notification">
-                                        <i class="fa fa-bell fa-lg"></i>
+                                        <i class="fa fa-bell-o fa-lg"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("ListNotification","Notification")" class="button-notification">
+                                        <i class="fa fa-envelope-o fa-lg"></i>
                                     </a>
                                 </li>
                             }
