@@ -995,6 +995,7 @@
     <Content Include="Views\Shared\_Header.cshtml" />
     <Content Include="Views\Notification\ListNotification.cshtml" />
     <Content Include="Views\Notification\View.cshtml" />
+    <Content Include="Views\QuestionAnswer\CreateQuestion.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
