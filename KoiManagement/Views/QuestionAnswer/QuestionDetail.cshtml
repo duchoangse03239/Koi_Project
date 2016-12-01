@@ -1,7 +1,101 @@
 ﻿
 @{
-    ViewBag.Title = "QuestionDetail";
+    ViewBag.Title = "Hỏi đáp chi tiết";
+    Layout = "~/Views/Layout/KoiLayout.cshtml";
+    PagedList.IPagedList questiondetail = ViewBag.questionDetail;
 }
 
-<h2>QuestionDetail</h2>
 
+<div class="section site-header">
+
+
+    <div class="container">
+        <div style="margin-top: 20px;" class="row">
+            <div class="col-md-12 column  top-msg breadcrumb">
+                <span id="breadcrumb">
+                    <a style="text-decoration: none;" href="#"><i class="fa fa-home"></i></a>
+                    <a style="text-decoration: none;" href="#">some category</a>
+                    <a style="text-decoration: none;" href="#">some topic</a>
+                </span>
+            </div>
+        </div>
+        <div class="row" style="background-color: #fafafa;">
+            <div class="col-md-12" style="background-color: #000055;">
+                <div class="col-md-10"><h4 style="color: white;">Tiêu đề</h4></div>
+                <div class="col-md-2"><h5 style="color: white; float: right;">08-29-2013 7:29PM</h5></div>
+            </div>
+            <div class="row">
+                <div class="col-md-2">
+                    <img style="margin: 15px;" src="images/avatar2.png">
+                </div>
+                <div class="col-md-10" style="padding-top: 15px;">
+                    <a style="color: #397ab2;" href="">Admin</a>
+                    <h5>0898 090 678</h5>
+                </div>
+            </div>
+            <hr>
+            <div>
+                <h1>Content</h1>
+            </div>
+            <div class="col-md-12" style="background-color: #f5f5f5; margin-top: 10px;">
+                <div class="col-md-2">
+                    <label style="float: right;">Đánh giá:</label>
+                </div>
+                <div class="col-md-2"><input type="number" name="your_awesome_parameter" id="rating-default" class="rating" value="3" /></div>
+                <div class="col-md-1"><a href="">Trả lời</a></div>
+                <div class="col-md-2"><a href="">Báo cáo</a></div>
+            </div>
+        </div>
+        <div class="row" style="background-color: #fafafa; margin-top: 15px;">
+            <div class="col-md-12" style="background-color: #000055;">
+
+                <div class="col-md-2 col-md-offset-10"><h5 style="color: white; float: right;">08-29-2013 7:29PM</h5></div>
+            </div>
+            <div class="row">
+                <div class="col-md-2">
+                    <img style="margin: 15px;" src="images/avatar2.png">
+                </div>
+                <div class="col-md-10" style="padding-top: 15px;">
+                    <a style="color: #397ab2;" href="">Admin</a>
+                    <h5>0898 090 678</h5>
+                </div>
+            </div>
+            <hr>
+            <div>
+                <h1>Content</h1>
+            </div>
+            <div class="col-md-12" style="background-color: #f5f5f5;">
+                <div class="col-md-2">
+                    <label style="float: right;">Đánh giá:</label>
+                </div>
+                <div class="col-md-2"><input type="number" name="your_awesome_parameter" id="rating-default" class="rating" value="3" /></div>
+                <div class="col-md-1"><a href="">Trả lời</a></div>
+                <div class="col-md-2"><a href="">Báo cáo</a></div>
+            </div>
+        </div>
+        <div class="row" style="background-color: #fafafa; margin-top: 15px;">
+            <div class="col-md-12" style="background-color: #000055;">
+                <h4 style="color: white;">Trả lời bài viết</h4>
+            </div>
+            <div class="col-md-12">
+                <div>
+                    <p style="color: red; margin-top: 10px;">Chú ý: Bài viết sẽ bị xóa nếu:</p>
+                    <p style="color: red;">1. Tiêu đề và nội dung nhập tiếng việt không dấu.</p>
+                    <p style="color: red;">2. Sử dụng lời lẽ thô tục, vi phạm các quy định của nhà nước.</p>
+                </div>
+                <hr>
+            </div>
+            <div class="col-md-12">
+                <textarea type="text" class="form-control" placeholder="" id="content" name="content"></textarea>
+            </div>
+            <div class="col-md-12">
+                <div style="float: right;margin-top: 15px; margin-bottom: 15px;">
+                    <a href="#" class="btn btn-primary" role="button">Gửi trả lời</a>
+                    <a href="#" class="btn btn-primary" role="button">Hủy</a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
