@@ -466,9 +466,9 @@ namespace KoiManagement.Controllers
             return Json(new { result = true });
         }
         [HttpPost]
-        public ActionResult DeActiveReportKoiFarm(string KoiFarmID)
+        public ActionResult DeActiveReportKoiFarm(string KoifarmID)
         {
-            int id = int.Parse(KoiFarmID);
+            int id = int.Parse(KoifarmID);
             var listReport = db.Reports.Where(p => p.ObjectType == "KoiFarm" && p.ObjectId == id && p.Status);
             using (var dbContextTransaction = db.Database.BeginTransaction())
             {
@@ -489,7 +489,7 @@ namespace KoiManagement.Controllers
                     dbContextTransaction.Rollback(); //Required according to MSDN article 
                 }
             }
-            DeActiveKoiFarm(KoiFarmID);
+            DeActiveKoiFarm(KoifarmID);
             return Json(new { result = true });
         }
 
@@ -564,6 +564,43 @@ namespace KoiManagement.Controllers
             // Member = Member.OrderBy(p => p.Name);
             //search
             Koi = adminDao.KoiReport(searchString, sortOrder);
+            int pageSize = 7;
+            int pageNumber = (page ?? 1);
+            ViewBag.ListMember = Koi.ToList().ToPagedList(pageNumber, pageSize);
+            return View();
+        }
+        public ActionResult KoiFarmReport(string sortOrder, string currentFilter, string searchString, int? page)
+        {
+            ////kiem tra phan quyen
+            //if (Session[SessionAccount.SessionUserId] == null)
+            //{
+            //    return RedirectToAction("Login", "Account");
+            //}
+            //var mem = memberDao.GetMemberbyID(int.Parse(Session[SessionAccount.SessionUserId].ToString()));
+            //if (mem.Role != 1)
+            //{
+            //    return RedirectToAction("Index", "Home");
+            //}
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewBag.Date = String.IsNullOrEmpty(sortOrder) ? "Date_desc" : "";
+            ViewBag.UserName = sortOrder == "UserName" ? "UserName_desc" : "UserName";
+            ViewBag.KoiFarmID = sortOrder == "KoiFarmID" ? "KoiFarmID_desc" : "KoiFarmID";
+            ViewBag.Status = sortOrder == "Status" ? "AllStatus" : "Status";
+
+            ViewBag.CurrentFilter = searchString;
+            ViewBag.CurrentSort = sortOrder;
+            IQueryable<Report> Koi = db.Reports.AsQueryable();
+            // Member = Member.OrderBy(p => p.Name);
+            //search
+            Koi = adminDao.KoiFarmReport(searchString, sortOrder);
             int pageSize = 7;
             int pageNumber = (page ?? 1);
             ViewBag.ListMember = Koi.ToList().ToPagedList(pageNumber, pageSize);

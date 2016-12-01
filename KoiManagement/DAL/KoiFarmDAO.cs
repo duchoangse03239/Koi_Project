@@ -32,6 +32,11 @@ namespace KoiManagement.DAL
             return listKoi;
         }
 
+        public KoiFarm GetKoiFarmById(int koifarmId)
+        {
+            return db.KoiFarms.Find(koifarmId);
+        }
+
         public KoiFarm GetKoiFarmDetail(int id)
         {
             return db.KoiFarms.Find(id);

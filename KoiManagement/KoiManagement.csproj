@@ -952,6 +952,7 @@
     <Content Include="Views\Admin\Home.cshtml" />
     <Content Include="Views\Admin\MemberReport.cshtml" />
     <Content Include="Views\Admin\KoiReport.cshtml" />
+    <Content Include="Views\Admin\KoiFarmReport.cshtml" />
     <None Include="Views\InfoDetail\timeline.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
