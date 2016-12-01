@@ -97,19 +97,10 @@
                     <!-- /.dropdown-tasks -->
                 </li>
                 <!-- /.dropdown -->
-                <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                        <span>Tin tức </span> </i> <i class="fa fa-caret-down"></i>
+                <li >
+                    <a   href="@Url.Action("ListArticle","Admin")">
+                        <span>Tin tức </span> 
                     </a>
-                    <ul class="dropdown-menu">
-                        <li>
-                            <a href="">Cẩm Nang</a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a href="">Giải thưởng</a>
-                        </li>
-                    </ul>
                     <!-- /.dropdown-alerts -->
                 </li>
                 <!-- /.dropdown -->
@@ -166,16 +157,7 @@
                             <!-- /.nav-second-level -->
                         </li>
                         <li>
-                            <a href="#"><i class="fa fa-newspaper-o fa-fw"></i> Tin tức<span class="fa arrow"></span></a>
-                            <!-- /.nav-second-level -->
-                            <ul class="nav nav-second-level">
-                                <li>
-                                    <a href="">Cẩm Nang</a>
-                                </li>
-                                <li>
-                                    <a href="">Giải thưởng</a>
-                                </li>
-                            </ul>
+                            <a href="@Url.Action("ListArticle","Admin")"><i class="fa fa-newspaper-o fa-fw"></i> Tin tức</a>
                         </li>
                     </ul>
                 </div>

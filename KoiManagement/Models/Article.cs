@@ -20,7 +20,7 @@ namespace KoiManagement.Models
         public Nullable<System.DateTime> Date { get; set; }
         public Nullable<int> MemberID { get; set; }
         public string Content { get; set; }
-        public Nullable<bool> Status { get; set; }
+        public bool Status { get; set; }
         public string ShortDes { get; set; }
         public string Image { get; set; }
     

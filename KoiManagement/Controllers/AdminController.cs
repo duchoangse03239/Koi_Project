@@ -18,6 +18,7 @@ namespace KoiManagement.Controllers
         MemberDAO memberDao = new MemberDAO();
         KoiDAO koiDao = new KoiDAO();
         KoiFarmDAO koiFarmDao = new KoiFarmDAO();
+        ArticleDAO articleDao = new ArticleDAO();
         // GET: Admin
         public ActionResult Index()
         {
@@ -606,6 +607,111 @@ namespace KoiManagement.Controllers
             ViewBag.ListMember = Koi.ToList().ToPagedList(pageNumber, pageSize);
             return View();
         }
+
+        public ActionResult ListArticle(string sortOrder, string currentFilter, string searchString, int? page)
+        {
+            ////kiem tra phan quyen
+            //if (Session[SessionAccount.SessionUserId] == null)
+            //{
+            //    return RedirectToAction("Login", "Account");
+            //}
+            //var mem = memberDao.GetMemberbyID(int.Parse(Session[SessionAccount.SessionUserId].ToString()));
+            //if (mem.Role != 1)
+            //{
+            //    return RedirectToAction("Index", "Home");
+            //}
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewBag.KoiId = String.IsNullOrEmpty(sortOrder) ? "koiID_desc" : "";
+            ViewBag.Variety = sortOrder == "Variety" ? "Variety_desc" : "Variety";
+            ViewBag.KoiName = sortOrder == "KoiName" ? "KoiName_desc" : "KoiName";
+            ViewBag.Dob = sortOrder == "Dob" ? "Dob_desc" : "Dob";
+            ViewBag.Owner = sortOrder == "Owner" ? "Owner_desc" : "Owner";
+            ViewBag.Status = sortOrder == "Status" ? "AllStatus" : "Status";
+
+            ViewBag.CurrentSort = sortOrder;
+            ViewBag.CurrentFilter = searchString;
+
+            IQueryable<Article> Koi = db.Articles.AsQueryable();
+            // Member = Member.OrderBy(p => p.Name);
+            //search
+            Koi = adminDao.getlistArticle(searchString, sortOrder);
+            int pageSize = 7;
+            int pageNumber = (page ?? 1);
+            ViewBag.ListKoi = Koi.ToList().ToPagedList(pageNumber, pageSize);
+            return View();
+        }
+        [HttpPost]
+        public ActionResult DeActiveArticle(string koifarmId)
+        {
+            //kiem tra phan quyen
+            if (Session[SessionAccount.SessionUserId] == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            var mem1 = memberDao.GetMemberbyID(int.Parse(Session[SessionAccount.SessionUserId].ToString()));
+            if (mem1.Role != 1)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            Article mem = db.Articles.Find(int.Parse(koifarmId));
+            mem.Status = false;
+            db.Articles.Attach(mem);
+            db.Entry(mem).Property(x => x.Status).IsModified = true;
+            int result = db.SaveChanges();
+            //return View();
+            if (result == 1)
+            {
+                return Json(new { result = true });
+            }
+            else
+            {
+                return Json(new
+                {
+                    result = false
+                });
+            }
+        }
+
+        [HttpPost]
+        public ActionResult ActiveArticle(string koifarmId)
+        {
+            //kiem tra phan quyen
+            if (Session[SessionAccount.SessionUserId] == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            var mem1 = memberDao.GetMemberbyID(int.Parse(Session[SessionAccount.SessionUserId].ToString()));
+            if (mem1.Role != 1)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            Article mem = db.Articles.Find(int.Parse(koifarmId));
+            mem.Status = false;
+            db.Articles.Attach(mem);
+            db.Entry(mem).Property(x => x.Status).IsModified = true;
+            int result = db.SaveChanges();
+            //return View();
+            if (result == 1)
+            {
+                return Json(new { result = true });
+            }
+            else
+            {
+                return Json(new
+                {
+                    result = false
+                });
+            }
+        }
+        
 
     }
 }

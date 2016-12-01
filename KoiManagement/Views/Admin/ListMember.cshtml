@@ -46,8 +46,8 @@
                     {
                         <tr>
                             <td>@Convert.ToInt32(@item + @ListMember.FirstItemOnPage - 1)</td>
-                            <td>@ViewBag.ListMember[item].Name</td>
                             <td>@ViewBag.ListMember[item].UserName</td>
+                            <td>@ViewBag.ListMember[item].Name</td>
                             <td>@ViewBag.ListMember[item].Phone</td>
                             <td>@ViewBag.ListMember[item].Email</td>
                             @if (ViewBag.ListMember[item].Status)
