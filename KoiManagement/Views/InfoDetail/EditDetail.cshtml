@@ -47,7 +47,7 @@
                             <div class="imageBlock" id="tl_@i">
                                 <img class="thumb" src="~/Content/Image/Detail/@Image.ElementAt(i).LinkImage" alt="images" />
                                 <div class="deleteDiv">
-                                    <img class="deleteIcon" src="~/Content/deleteImage.png" title="Delete Image" onclick="deleteImage('@Image.ElementAt(i).MediaID','@i');" />
+                                    <img class="deleteIcon" src="~/Content/deleteImage.png" title="Xóa ảnh" onclick="deleteImage('@Image.ElementAt(i).MediaID','@i');" />
 
                                 </div>
                                 @if (i == 0)
@@ -67,7 +67,7 @@
             </output>
         </div>
     </div>
-    <div class="row add-button">
+    <div class="row add-button" style="margin-bottom:10px;">
         <div class="col-sm-6 col-sm-offset-3 align-right">
             <input type="hidden" name="DetailID" value="@Model.DetailID">
             <input type="hidden" name="Image" value="@Model.Image">
