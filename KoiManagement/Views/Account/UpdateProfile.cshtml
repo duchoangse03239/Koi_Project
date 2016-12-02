@@ -79,8 +79,7 @@
                     <label for="phone">Ảnh đại diện</label>
                     <input type="file" accept="image/png, image/jpeg, image/gif" name="file" id="file" class="img" onchange="loadFile(event)"/>
                     <br/>
-                    <div><img id="imagePreview" src="~/Content/Image/Member/@Model.Image" alt=""/>
-                    </div>
+                    <div><img id="imagePreview" src="~/Content/Image/Member/@Model.Image" alt=""/></div>
                     <script>
                         var loadFile = function(event) {
                             var output = document.getElementById('imagePreview');
