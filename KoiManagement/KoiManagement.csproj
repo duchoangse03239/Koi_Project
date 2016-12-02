@@ -260,10 +260,12 @@
     <Compile Include="Controllers\KoiFarmController.cs" />
     <Compile Include="Controllers\LayoutController.cs" />
     <Compile Include="Controllers\NotificationController.cs" />
+    <Compile Include="Controllers\QuestionAnswerController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Controllers\VarietyController.cs" />
     <Compile Include="DAL\AchievementDAO.cs" />
     <Compile Include="DAL\ActiveCodeDAO.cs" />
+    <Compile Include="DAL\QuestionAnswerDAO.cs" />
     <Compile Include="DAL\ReportDAO.cs" />
     <Compile Include="DAL\InfoDetailDAO.cs" />
     <Compile Include="DAL\CommentDAO.cs" />
@@ -1019,6 +1021,7 @@
     <Content Include="Views\Notification\View.cshtml" />
     <Content Include="Views\Layout\AdminLayout.cshtml" />
     <Content Include="Views\QuestionAnswer\CreateQuestion.cshtml" />
+    <Content Include="Views\QuestionAnswer\QuestionDetail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
