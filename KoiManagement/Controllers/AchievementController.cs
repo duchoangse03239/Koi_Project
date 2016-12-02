@@ -215,10 +215,7 @@ namespace KoiManagement.Controllers
         public ActionResult ListAchievement(int? id)
         {
             AchievementDAO AchiDao = new AchievementDAO();
-            if (Session[SessionAccount.SessionUserId] == null)
-            {
-                return RedirectToAction("Login", "Account");
-            }
+
             ViewBag.listIAchi = AchiDao.GetListAchievements(id.Value);
             ViewBag.koiId = id;
             return View();

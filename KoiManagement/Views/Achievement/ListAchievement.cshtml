@@ -1,4 +1,5 @@
-﻿@using KoiManagement.Models
+﻿@using KoiManagement.Common
+@using KoiManagement.Models
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Layout/KoiLayout.cshtml";
@@ -19,12 +20,18 @@
                 <option value="@Url.Action("ListAchievement/"+ViewBag.koiId , "Achievement")" selected>Giải thưởng</option>
             </select>
         </div>
+@{
+    if (listIAchi.Count > 0)
+    {
+        if (Session[SessionAccount.SessionUserId] != null && Session[SessionAccount.SessionUserId].ToString().Equals(listIAchi.ElementAt(0).Koi.Owners.Where(p => p.Status).FirstOrDefault().Member.MemberID.ToString()))
+        {
         <div class="col-md-6" style="padding-bottom:15px;">
             <span style="float:right;">
                 <a class="btn btn-success" href="@Url.Action("AddAchievement/"+ViewBag.koiId, "Achievement")">Thêm giải thưởng </a>
             </span>
         </div>
-
+        }
+    }}
     </div>
     <ul class="timeline">
         @if (listIAchi != null) { 
