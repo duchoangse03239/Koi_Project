@@ -33,6 +33,7 @@
                 </div>
                 <div class="modal-body">
                     <label>Chủ sở hữu mới</label>
+                    <p>Xin hãy nhập tên đăng nhập chủ sở hữu mới</p>
                     <input type="text" id="username" name="username"placeholder="Nhập tên tài khoản"/>
                     <a onclick="ChangeOwner(@Model.KoiID)" class="btn btn-primary btn-sm">Lưu</a>
                     <label id="lbl_username_fail" class="label-error"></label>
@@ -240,12 +241,18 @@
                                 <label><span class="fa fa-home"></span> Chủ sở hữu:</label>
                                 @if (owner != null)
                                 {
-                                     <span><a href="/Account/profile/@owner.Member.MemberID">@owner.Member.Name</a></span>
+                                    <span><a href="/Account/profile/@owner.Member.MemberID">@owner.Member.Name</a></span>
                                     if (Session[SessionAccount.SessionUserId] != null && @owner.Member.MemberID.ToString().Equals(Session[SessionAccount.SessionUserId].ToString()))
                                     {
-                                    <span style="float:right;"><a  class="btn btn-embossed btn-primary btn-sm" role="button" data-toggle="modal" data-target="#trade">Đổi chủ</a></span>}
+                                        <span style="float:right;"><a  class="btn btn-embossed btn-primary btn-sm" role="button" data-toggle="modal" data-target="#trade">Đổi chủ</a></span>}
                                 }
                             </div>
+                            @if (owner != null&& @owner.KoiFarmID!=null)
+                            {
+                                <div class="line">
+                                    <label><span class="fa fa-users"></span> Trang trại:</label> <a href="@Url.Action("KoiFarmDetail/"+@owner.KoiFarmID, "KoiFarm")">@owner.KoiFarm.FarmName <span class="fa fa-angle-double-right"></span></a>
+                                </div>
+                            }
                             <div class="line">
                                 <label><span class="fa fa-trophy"></span> Thành tích:</label> <a href="@Url.Action("ListAchievement/"+Model.KoiID , "Achievement")">Chi tiết <span class="fa fa-angle-double-right"></span></a>
                             </div>
