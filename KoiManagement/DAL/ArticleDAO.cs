@@ -14,6 +14,7 @@ namespace KoiManagement.DAL
         {
             db = new KoiManagementEntities();
         }
+
         public bool AddArticle(Article Article)
         {
             try
@@ -25,6 +26,24 @@ namespace KoiManagement.DAL
             catch
             {
                 return false;
+            }
+        }
+
+        public int EditArticle(Article article)
+        {
+            try
+            {
+                db.Articles.Attach(article);
+                var entry = db.Entry(article);
+                entry.State = EntityState.Modified;
+                // Set column not change
+                entry.Property(e => e.Status).IsModified = false;
+                entry.Property(e => e.MemberID).IsModified = false;
+                return db.SaveChanges();
+            }
+            catch
+            {
+                return 0;
             }
         }
 
