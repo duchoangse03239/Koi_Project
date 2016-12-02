@@ -565,7 +565,7 @@ namespace KoiManagement.Controllers
                 }
                 if (size > 150)
                 {
-                    return "Kích thươc phải nhỏ hơn 150cm tại hàng " + row + " cột E.";
+                    return "Kích thước phải nhỏ hơn 150cm tại hàng " + row + " cột E.";
                 }
 
                 else if (string.IsNullOrWhiteSpace(ListKoi.Rows[i][6].ToString()))
