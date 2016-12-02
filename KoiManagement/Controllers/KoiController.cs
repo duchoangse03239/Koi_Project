@@ -473,13 +473,19 @@ namespace KoiManagement.Controllers
             if (string.IsNullOrWhiteSpace(username))
             {
                 obj.Status = 2;
-                obj.Message = "Xin hãy nhập tên đăng nhập";
+                obj.Message = "Xin hãy nhập tên đăng nhập.";
                 return Json(obj);
             }
-            if (memberDao.CheckExistUserName(username))
+                if (username.Equals(memberDao.GetMemberbyID(UserID).UserName))
+                {
+                    obj.Status = 3;
+                    obj.Message = "Bạn không thể tự chuyển nhượng cá cho chính mình.";
+                    return Json(obj);
+                }
+                if (memberDao.CheckExistUserName(username))
             {
                 obj.Status = 3;
-                obj.Message = "Tên đăng nhập không tồn tại";
+                obj.Message = "Tên đăng nhập không tồn tại.";
                 return Json(obj);
             }
                 var koiID = int.Parse(koiId);

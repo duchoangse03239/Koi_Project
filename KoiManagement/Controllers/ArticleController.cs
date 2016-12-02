@@ -57,7 +57,6 @@ namespace KoiManagement.Controllers
         public ActionResult AddArticle(string title, string typeid, string content, string shortdesription)
         {
             ViewBag.Message = string.Empty;
-            string Imagename = String.Empty;
             var fullpath = new List<string>();
             var MaxArticleID = articleDao.GetMaxAchiID();
             StatusObjForJsonResult obj = new StatusObjForJsonResult();
@@ -144,6 +143,61 @@ namespace KoiManagement.Controllers
             ViewBag.Article = articledetail;
             var type = db.Types.ToList();
             return View(type);
+        }
+
+        /// <summary>
+        /// EditArticle
+        /// </summary>
+        /// <param name="title">title</param>
+        /// <param name="typeid">typeid</param>
+        /// <param name="content">content</param>
+        /// <param name="shortdesription">shortdesription</param>
+        /// <returns></returns>
+        [HttpPost, ValidateInput(false)]
+        public ActionResult EditArticle(string title, string typeid, string content, string shortdesription)
+        {
+            ViewBag.Message = string.Empty;
+            StatusObjForJsonResult obj = new StatusObjForJsonResult();
+            if (Session[SessionAccount.SessionUserId] == null)
+            {
+                RedirectToAction("Login", "Account");
+                return Json(obj);
+            }
+            // lấy id người đang đăng nhập
+            int id = int.Parse(Session[SessionAccount.SessionUserId].ToString());
+            //Viewbag cho patialView _Manager
+            ViewBag.Member = memberDao.GetMemberbyID(id);
+            try
+            {
+                Article article = new Article();
+                article.Title = title;
+                article.TypeID = int.Parse(typeid);
+                article.Date = DateTime.Now;
+                article.MemberID = id;
+                article.ShortDes = shortdesription;
+                article.Content = content;
+                article.Status = true;
+               
+                if (articleDao.EditArticle(article) > 0)
+                {
+                    ViewBag.Message = "Bạn đã sửa thành công!";
+                    obj.RedirectTo = this.Url.Action("ListArticle", "Article");
+                }
+                else
+                {
+                    ViewBag.Message = "Có lỗi xảy ra xin hãy thử lại";
+                    obj.RedirectTo = this.Url.Action("SystemError", "Error");
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Common.Logger.LogException(ex);
+                obj.Status = 0;
+                obj.RedirectTo = this.Url.Action("SystemError", "Error");
+                return Json(obj);
+            }
+            return Json(obj);
         }
 
         public ActionResult ArticleDetail(int? id)
