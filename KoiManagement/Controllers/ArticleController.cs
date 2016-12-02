@@ -91,7 +91,7 @@ namespace KoiManagement.Controllers
                     //Save file to local
                     if (file != null && i == 0)
                     {
-                        var filename = Path.GetFileName("Article" + typeid + MaxArticleID + file.FileName.Substring(file.FileName.LastIndexOf('.')));
+                        var filename = Path.GetFileName("Article" + MaxArticleID + file.FileName.Substring(file.FileName.LastIndexOf('.')));
                         article.Image = filename;
                         fullpath.Add(Server.MapPath("~/Content/Image/Article/" + filename));
                         var path = Path.Combine(Server.MapPath("~/Content/Image/Article"), filename);
@@ -99,7 +99,7 @@ namespace KoiManagement.Controllers
                     }
                     else if (file != null)
                     {
-                        var filename = Path.GetFileName("Article" + typeid + MaxArticleID + file.FileName.Substring(file.FileName.LastIndexOf('.')));
+                        var filename = Path.GetFileName("Article" + MaxArticleID + file.FileName.Substring(file.FileName.LastIndexOf('.')));
                         article.Image = filename;
                         fullpath.Add(Server.MapPath("~/Content/Image/Article/" + filename));
                         var path = Path.Combine(Server.MapPath("~/Content/Image/Article"), filename);
@@ -109,7 +109,7 @@ namespace KoiManagement.Controllers
                 if (articleDao.AddArticle(article))
                 {
                     ViewBag.Message = "Bạn đã thêm thành công!";
-                    obj.RedirectTo = this.Url.Action("ListArticle", "Article");
+                    obj.RedirectTo = this.Url.Action("ListArticle", "Admin");
                 }
                 else
                 {
@@ -154,7 +154,7 @@ namespace KoiManagement.Controllers
         /// <param name="shortdesription">shortdesription</param>
         /// <returns></returns>
         [HttpPost, ValidateInput(false)]
-        public ActionResult EditArticle(string title, string typeid, string content, string shortdesription)
+        public ActionResult EditArticle(string title, string typeid, string content, string shortdesription, string articleid, string image)
         {
             ViewBag.Message = string.Empty;
             StatusObjForJsonResult obj = new StatusObjForJsonResult();
@@ -177,11 +177,45 @@ namespace KoiManagement.Controllers
                 article.ShortDes = shortdesription;
                 article.Content = content;
                 article.Status = true;
-               
+                article.ArticleID = int.Parse(articleid);
+                article.Image = image;
+
+                string filename;
+                //Lấy file ảnh
+                HttpFileCollectionBase files = Request.Files;
+                HttpPostedFileBase file = null;
+                //Trường hợp chỉ  có 1 file
+                for (int i = 0; i < files.Count; i++)
+                {
+                    //string filename = Path.GetFileName(Request.Files[i].FileName);  
+                    file = files[i];
+                }
+
+                //Edit file to local
+                if (file != null)
+                {
+                    if (string.IsNullOrWhiteSpace(article.Image))
+                    {
+                        filename = Path.GetFileName("Article" + articleid + file.FileName.Substring(file.FileName.LastIndexOf('.')));
+                        article.Image = filename;
+                    }
+                    else
+                    {
+                        filename = article.Image;
+                    }
+                    var fullpath = Server.MapPath("~/Content/Image/Article/" + filename);
+                    var path = Path.Combine(Server.MapPath("~/Content/Image/Article"), filename);
+                    if (System.IO.File.Exists(fullpath))
+                    {
+                        System.IO.File.Delete(fullpath);
+                    }
+                    file.SaveAs(path);
+                }
+
                 if (articleDao.EditArticle(article) > 0)
                 {
                     ViewBag.Message = "Bạn đã sửa thành công!";
-                    obj.RedirectTo = this.Url.Action("ListArticle", "Article");
+                    obj.RedirectTo = this.Url.Action("ListArticle", "Admin");
                 }
                 else
                 {

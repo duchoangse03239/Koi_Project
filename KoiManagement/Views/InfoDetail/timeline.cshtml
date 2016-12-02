@@ -1,7 +1,7 @@
 ﻿@using KoiManagement.Common
 @using KoiManagement.Models
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Dòng đời";
     Layout = "~/Views/Layout/KoiLayout.cshtml";
     List<InfoDetail> listInfo = ViewBag.ListInfo;
 
@@ -97,9 +97,6 @@
                         </p>
                         <label style="margin-left: 10px;">@listInfo.ElementAt(item).DetailID </label>
                         <p>
-                            Cân Nặng: <label>@listInfo.ElementAt(item).Size kg</label>
-                        </p>
-                        <p>
                             Kích thước: <label>@listInfo.ElementAt(item).Size cm</label>
                         </p>
                         <p>
@@ -185,9 +182,6 @@
                                                     </small>
                                                 </p>
                                                 <label style="margin-left: 10px;">@listInfo.ElementAt(item).DetailID </label>
-                                                <p>
-                                                    Cân Nặng: <label>@listInfo.ElementAt(item).Size kg</label>
-                                                </p>
                                                 <p>
                                                     Kích thước: <label>@listInfo.ElementAt(item).Size cm</label>
                                                 </p>

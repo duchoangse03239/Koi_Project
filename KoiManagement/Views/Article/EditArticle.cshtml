@@ -1,6 +1,6 @@
 ﻿@using KoiManagement.Models
 @{
-    ViewBag.Title = "AddArticle";
+    ViewBag.Title = "Chỉnh sửa bài viết";
     Layout = "~/Views/Layout/AdminLayout.cshtml";
     Article Article = ViewBag.Article;
 }
@@ -136,6 +136,8 @@
         fileData.append('shortdesription', $('#shortdesription').val());
         var content = window.parent.tinymce.get('content').getContent();
         fileData.append('content', content);
+        fileData.append('articleid', '@Article.ArticleID');
+        fileData.append('image', '@Article  .Image');
 
         $.ajax({
             type: "POST",

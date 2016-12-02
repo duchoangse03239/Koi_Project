@@ -1,9 +1,9 @@
 ﻿@using KoiManagement.DAL
 @using PagedList.Mvc;
 @{
-    ViewBag.Title = "ListKoi";
+    ViewBag.Title = "ListArticle";
     Layout = "~/Views/Layout/AdminLayout.cshtml";
-    PagedList.IPagedList ListKoi = ViewBag.ListKoi;
+    PagedList.IPagedList ListArticle = ViewBag.ListArticle;
     OwnerDAO oDao = new OwnerDAO();
 }
 
@@ -41,17 +41,17 @@
                         </tr>
                     </thead>
                     <tbody>
-                    @if (ViewBag.ListKoi != null)
+                    @if (ViewBag.ListArticle != null)
                     {
-                        for (var item = 0; item < ViewBag.ListKoi.Count; item++)
+                        for (var item = 0; item < ViewBag.ListArticle.Count; item++)
                         {
                             <tr>
-                                <td>@Convert.ToInt32(@item + @ListKoi.FirstItemOnPage - 1)</td>
-                                <td>@ViewBag.ListKoi[item].Type.Name</td>
-                                <td>@(ViewBag.ListKoi[item].Date != null ? ViewBag.ListKoi[item].Date.ToString("dd/MM/yyyy") : "Chưa biết")</td>
-                                <td>@ViewBag.ListKoi[item].Title</td>
+                                <td>@Convert.ToInt32(@item + @ListArticle.FirstItemOnPage - 1)</td>
+                                <td>@ViewBag.ListArticle[item].Type.Name</td>
+                                <td>@(ViewBag.ListArticle[item].Date != null ? ViewBag.ListArticle[item].Date.ToString("dd/MM/yyyy") : "Chưa biết")</td>
+                                <td>@ViewBag.ListArticle[item].Title</td>
 
-                                @if (ViewBag.ListKoi[item].Status)
+                                @if (ViewBag.ListArticle[item].Status)
                                 {
                                     <td>Hoạt động</td>
                                 }
@@ -61,17 +61,17 @@
                                 }
                                 <td>
                                     <div style="float: right;">
-                                        <span><a href="@Url.Action("EditArticle/"+@ViewBag.ListKoi[item].ArticleID,"Article")" class="btn btn-warning btn-sm" role="button">Sửa</a></span>
-                                        @if (ViewBag.ListKoi[item].Status)
+                                        <span><a href="@Url.Action("EditArticle/"+@ViewBag.ListArticle[item].ArticleID,"Article")" class="btn btn-warning btn-sm" role="button">Sửa</a></span>
+                                        @if (ViewBag.ListArticle[item].Status)
                                         {
-                                            <span><a href="#" class="btn btn-danger btn-sm" onclick="Active(@ViewBag.ListKoi[item].ArticleID, '@ViewBag.ListKoi[item].ArticleID');" role="button">Xóa</a></span>
-                                            @*<td class="col-md-1"><a class="btn btn-danger btn-sm" onclick="Delete(@ViewBag.ListKoi[item].ArticleID, '@ViewBag.ListKoi[item].ArticleID');" role="button">Khóa</a></td>*@
+                                            <span><a href="#" class="btn btn-danger btn-sm" onclick="Active(@ViewBag.ListArticle[item].ArticleID, '@ViewBag.ListArticle[item].ArticleID');" role="button">Xóa</a></span>
+                                            @*<td class="col-md-1"><a class="btn btn-danger btn-sm" onclick="Delete(@ViewBag.ListArticle[item].ArticleID, '@ViewBag.ListArticle[item].ArticleID');" role="button">Khóa</a></td>*@
                                         }
 
                                         else
                                         {
-                                            <span><a href="#" class="btn btn-danger btn-sm" onclick="Active(@ViewBag.ListKoi[item].ArticleID, '@ViewBag.ListKoi[item].ArticleID');" role="button">Khôi phục</a></span>
-                                            @*<td class="col-md-1"><a class="btn btn-danger btn-sm" onclick="Active(@ViewBag.ListKoi[item].ArticleID, '@ViewBag.ListKoi[item].ArticleID');" role="button">Mở khóa</a></td>*@
+                                            <span><a href="#" class="btn btn-danger btn-sm" onclick="Active(@ViewBag.ListArticle[item].ArticleID, '@ViewBag.ListArticle[item].ArticleID');" role="button">Khôi phục</a></span>
+                                            @*<td class="col-md-1"><a class="btn btn-danger btn-sm" onclick="Active(@ViewBag.ListArticle[item].ArticleID, '@ViewBag.ListArticle[item].ArticleID');" role="button">Mở khóa</a></td>*@
                                         }
                                     </div>
                                 </td>
@@ -80,8 +80,8 @@
                     }
                     </tbody>
                 </table>
-                Page @(ListKoi.PageCount < ListKoi.PageNumber ? 0 : ListKoi.PageNumber) of @ListKoi.PageCount
-                @Html.PagedListPager(ListKoi, page => Url.Action("ListArticle", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+                Page @(ListArticle.PageCount < ListArticle.PageNumber ? 0 : ListArticle.PageNumber) of @ListArticle.PageCount
+                @Html.PagedListPager(ListArticle, page => Url.Action("ListArticle", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
             </div>
             <!-- /.col-lg-8 -->
         </div>

@@ -1,6 +1,6 @@
 ﻿@using KoiManagement.Models
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Cập nhật trạng thái";
     List<InfoDetail> listInfo = ViewBag.ListInfo1;
     List<string> listanh = ViewBag.ListAnh1;
 }
@@ -65,9 +65,6 @@
                             </small>
                         </p>
                         <label>@listInfo.ElementAt(item).DetailID </label>
-                        <p>
-                            Cân Nặng: <label>@listInfo.ElementAt(item).Size kg</label>
-                        </p>
                         <p>
                             Kích thước: <label>@listInfo.ElementAt(item).Size cm</label>
                         </p>
@@ -156,9 +153,6 @@
                             </small>
                         </p>
                         <label>@listInfo.ElementAt(item).DetailID </label>
-                        <p>
-                            Cân Nặng: <label>@listInfo.ElementAt(item).Size kg</label>
-                        </p>
                         <p>
                             Kích thước: <label>@listInfo.ElementAt(item).Size cm</label>
                         </p>
