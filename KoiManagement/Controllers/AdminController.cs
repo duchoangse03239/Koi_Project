@@ -645,11 +645,11 @@ namespace KoiManagement.Controllers
             Koi = adminDao.getlistArticle(searchString, sortOrder);
             int pageSize = 7;
             int pageNumber = (page ?? 1);
-            ViewBag.ListKoi = Koi.ToList().ToPagedList(pageNumber, pageSize);
+            ViewBag.ListArticle = Koi.ToList().ToPagedList(pageNumber, pageSize);
             return View();
         }
         [HttpPost]
-        public ActionResult DeActiveArticle(string koifarmId)
+        public ActionResult DeActiveArticle(string ArticleID)
         {
             //kiem tra phan quyen
             if (Session[SessionAccount.SessionUserId] == null)
@@ -661,7 +661,7 @@ namespace KoiManagement.Controllers
             {
                 return RedirectToAction("Index", "Home");
             }
-            Article mem = db.Articles.Find(int.Parse(koifarmId));
+            Article mem = db.Articles.Find(int.Parse(ArticleID));
             mem.Status = false;
             db.Articles.Attach(mem);
             db.Entry(mem).Property(x => x.Status).IsModified = true;
@@ -681,7 +681,7 @@ namespace KoiManagement.Controllers
         }
 
         [HttpPost]
-        public ActionResult ActiveArticle(string koifarmId)
+        public ActionResult ActiveArticle(string ArticleID)
         {
             //kiem tra phan quyen
             if (Session[SessionAccount.SessionUserId] == null)
@@ -693,7 +693,7 @@ namespace KoiManagement.Controllers
             {
                 return RedirectToAction("Index", "Home");
             }
-            Article mem = db.Articles.Find(int.Parse(koifarmId));
+            Article mem = db.Articles.Find(int.Parse(ArticleID));
             mem.Status = false;
             db.Articles.Attach(mem);
             db.Entry(mem).Property(x => x.Status).IsModified = true;
