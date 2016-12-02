@@ -176,7 +176,7 @@ namespace KoiManagement.Controllers
         public JsonResult AddKoi(string KoiName, string Size, string VarietyID, string Gender, string DoB, string Temperament, string Origin)
         {
             StatusObjForJsonResult obj = new StatusObjForJsonResult();
-            DateTime? dateOfBirth = new DateTime();
+            DateTime? dateOfBirth = null;
 
             // check login
             if (Session[SessionAccount.SessionUserId] == null)
@@ -194,16 +194,10 @@ namespace KoiManagement.Controllers
             //validate
             try
             {
-                if (!Validate.CheckLengthInput(KoiName, 0, 100))
+                if (!Validate.CheckLengthInput(KoiName, 1, 100))
                 {
                     obj.Status = 2;
                     obj.Message = "Vui lòng nhập tên Koi!(Không quá 100 ký tự)";
-                    return Json(obj);
-                }
-                if (!Validate.CheckSpecialCharacterInput(KoiName, @"^[0-9_a-zA-Z_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ]+$/"))
-                {
-                    obj.Status = 2;
-                    obj.Message = "Vui lòng không nhập ký tự đặc biệt cho tên Koi";
                     return Json(obj);
                 }
 
@@ -219,6 +213,7 @@ namespace KoiManagement.Controllers
                     obj.Message = "Vui lòng nhập kiểu số cho kích thước của Koi";
                     return Json(obj);
                 }
+                if (!string.IsNullOrWhiteSpace(DoB)) { 
                 if (!Validate.ValidateDate(DoB))
                 {
                     obj.Status = 4;
@@ -228,6 +223,7 @@ namespace KoiManagement.Controllers
                 else
                 {
                     dateOfBirth = Validate.ConverDateTime(DoB);
+                }
                 }
 
                 //Lấy file ảnh

@@ -334,7 +334,12 @@ namespace KoiManagement.Controllers
 
                     var adapter = new OleDbDataAdapter("SELECT * FROM [ImportData$]", connectionString);
                     var ds = new DataSet();
-
+                    if (!ds.Tables.Cast<DataTable>().Any(x => x.DefaultView.Count > 0))
+                    {
+                        obj.Message = "Tập tin không đúng mẫu.";
+                        obj.Status = 0;
+                        return Json(obj);
+                    }
                     adapter.Fill(ds, "ExcelTable");
 
                     DataTable dataTableImport = ds.Tables["ExcelTable"];
@@ -347,6 +352,12 @@ namespace KoiManagement.Controllers
                     if (dataTableImport.Columns.Count != 11)
                     {
                         obj.Message = "Tập tin không đúng mẫu.";
+                        obj.Status = 0;
+                        return Json(obj);
+                    }
+                    if (dataTableImport.Rows.Count == 0)
+                    {
+                        obj.Message = "Xin hãy nhập dữ liệu.";
                         obj.Status = 0;
                         return Json(obj);
                     }
