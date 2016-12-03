@@ -21,7 +21,7 @@ namespace KoiManagement.Models
         public Nullable<int> AnswerID { get; set; }
     
         public virtual Answer Answer { get; set; }
-        public virtual Question Question { get; set; }
         public virtual Member Member { get; set; }
+        public virtual Question Question { get; set; }
     }
 }

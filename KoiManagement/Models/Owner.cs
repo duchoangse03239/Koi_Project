@@ -15,8 +15,8 @@ namespace KoiManagement.Models
     public partial class Owner
     {
         public int OwnerID { get; set; }
-        public Nullable<int> MemberID { get; set; }
-        public Nullable<int> KoiID { get; set; }
+        public int MemberID { get; set; }
+        public int KoiID { get; set; }
         public Nullable<int> KoiFarmID { get; set; }
         public System.DateTime DateOwerFrom { get; set; }
         public Nullable<System.DateTime> DateOwerTo { get; set; }
@@ -31,7 +31,6 @@ namespace KoiManagement.Models
             this.DateOwerTo = DateOwerTo;
             this.Status = Status;
         }
-
         public virtual Koi Koi { get; set; }
         public virtual KoiFarm KoiFarm { get; set; }
         public virtual Member Member { get; set; }
