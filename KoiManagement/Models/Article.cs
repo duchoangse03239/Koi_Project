@@ -15,16 +15,16 @@ namespace KoiManagement.Models
     public partial class Article
     {
         public int ArticleID { get; set; }
+        public int TypeID { get; set; }
         public string Title { get; set; }
-        public Nullable<int> TypeID { get; set; }
-        public Nullable<System.DateTime> Date { get; set; }
-        public Nullable<int> MemberID { get; set; }
-        public string Content { get; set; }
-        public bool Status { get; set; }
         public string ShortDes { get; set; }
         public string Image { get; set; }
+        public System.DateTime Date { get; set; }
+        public int MemberID { get; set; }
+        public string Content { get; set; }
+        public bool Status { get; set; }
     
-        public virtual Type Type { get; set; }
         public virtual Member Member { get; set; }
+        public virtual Type Type { get; set; }
     }
 }

@@ -24,7 +24,7 @@ namespace KoiManagement.DAL
 
         public List<Variety> getListMainVariety()
         {
-           return  db.Varieties.Where(p => p.VarietyDetailID == null).ToList();
+           return  db.Varieties.Where(p=>p.VarietyName!="Chưa rõ").ToList();
         }
 
     }
