@@ -781,6 +781,11 @@ body a {
     display: block;
     margin: auto 15px auto 10px;
 }
+.img-farm-list {
+        height: 180px;
+        width: 180px;
+        margin-left: 10px;
+    }
 
 .section-heading {
     margin-bottom: 20px;
