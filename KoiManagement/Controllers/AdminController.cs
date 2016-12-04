@@ -694,7 +694,7 @@ namespace KoiManagement.Controllers
                 return RedirectToAction("Index", "Home");
             }
             Article mem = db.Articles.Find(int.Parse(ArticleID));
-            mem.Status = false;
+            mem.Status = true;
             db.Articles.Attach(mem);
             db.Entry(mem).Property(x => x.Status).IsModified = true;
             int result = db.SaveChanges();

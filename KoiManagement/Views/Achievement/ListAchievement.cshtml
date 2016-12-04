@@ -21,9 +21,9 @@
             </select>
         </div>
 @{
-    if (listIAchi.Count > 0)
+    if (ViewBag.OwnerID != null)
     {
-        if (Session[SessionAccount.SessionUserId] != null && Session[SessionAccount.SessionUserId].ToString().Equals(listIAchi.ElementAt(0).Koi.Owners.Where(p => p.Status).FirstOrDefault().Member.MemberID.ToString()))
+        if (Session[SessionAccount.SessionUserId] != null && Session[SessionAccount.SessionUserId].ToString().Equals(ViewBag.OwnerID.ToString()))
         {
         <div class="col-md-6" style="padding-bottom:15px;">
             <span style="float:right;">
