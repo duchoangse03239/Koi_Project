@@ -138,28 +138,37 @@
         $('#lblMessage_address_fail').text("");
         $('#lblMessage_phone_fail').text("");
 
-        if (name.length < 6 || name.length > 50) {
-            $('#lblMessage_name_fail').text("Họ tên phải chứa từ 6 đến 50 ký tự");
+        if (name == "") {
+            $('#lblMessage_name_fail').text("Vui lòng nhập họ và tên.");
             $('#name').focus();
             return false;
         }
-        if (phone.length < 10 || phone.length > 11) {
-            $('#lblMessage_phone_fail').text("Số điện thoại phải từ 10 đến 11 số");
-            $('#phone').focus();
+        if (name.length < 6 || name.length > 50) {
+            $('#lblMessage_name_fail').text("Họ tên phải chứa từ 6 đến 50 ký tự.");
+            $('#name').focus();
             return false;
         }
-        //if (!isSpecialCharacter(phone)) {
-        //    $('#lblMessage_phone_fail').text("Số điện thoại không đúng định dạng");
-        //    $('#lblMessage_phone_fail').focus;
-        //    return false;
-        //}
+        if (phone != "") {
+            if (phone.length < 10 || phone.length > 11) {
+                $('#lblMessage_phone_fail').text("Số điện thoại phải từ 10 đến 11 số.");
+                $('#phone').focus();
+                return false;
+            }
+            if (!isSpecialCharacter(phone)) {
+                $('#lblMessage_phone_fail').text("Số điện thoại không đúng định dạng");
+                $('#lblMessage_phone_fail').focus;
+                return false;
+            }
 
+        }
+
+        
         if (dob != "") {
             if (!validateDate(dob)) {
-                $('#lblmessage_dob_fail').text('Xin hãy nhập định dạng DD-MM-YYYY');
+                $('#lblMessage_dob_fail').text('Xin hãy nhập định dạng DD-MM-YYYY.');
                 return false;
             } else if (!validateDateRangeMax(dob)) {
-                $('#lblmessage_dob_fail').text('Ngày sinh nhỏ hơn ngày hiện tại!');
+                $('#lblMessage_dob_fail').text('Ngày sinh nhỏ hơn ngày hiện tại.');
                 return false;
             }
         }
