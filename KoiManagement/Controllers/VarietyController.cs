@@ -21,8 +21,7 @@ namespace KoiManagement.Controllers
         public ActionResult Index()
         {
             
-            var varieties = db.Varieties.Include(v => v.Variety1).Include(v => v.Variety2);
-            return View(varieties.ToList());
+            return View();
         }
 
         // GET: /List Variety/

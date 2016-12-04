@@ -1,4 +1,5 @@
-﻿@using KoiManagement.Models
+﻿@using KoiManagement.Common
+@using KoiManagement.Models
 @{
     ViewBag.Title = "Cập nhật trạng thái";
     List<InfoDetail> listInfo = ViewBag.ListInfo1;
@@ -14,16 +15,24 @@
                     <a><i class="glyphicon glyphicon-record" rel="tooltip" title="11 hours ago via Twitter" id=""></i></a>
                 </div>
                 <div class="timeline-panel">
-                    <div class="dropdown">
-                        <button class="setting-icon dropdown-toggle" type="button" data-toggle="dropdown">
-                            <span class="caret"></span>
-                        </button>
-                        <ul class="dropdown-menu dropdown-menu-right">
-                            <li><a href="@Url.Action("EditDetail/"+ @listInfo.ElementAt(item).DetailID, "InfoDetail")">Sửa</a></li>
-                            <li><a onclick="DeleteDetail(@listInfo.ElementAt(item).DetailID)">Xóa</a></li>
-                        </ul>
-                    </div>
-                    <div class="timeline-heading">
+                    @{
+                        if (listInfo.Count > 0)
+                        {
+                            if (Session[SessionAccount.SessionUserId] != null && Session[SessionAccount.SessionUserId].ToString().Equals(listInfo.ElementAt(0).Koi.Owners.Where(p => p.Status).FirstOrDefault().Member.MemberID.ToString()))
+                            {
+                                <div class="dropdown">
+                                    <button class="setting-icon dropdown-toggle" type="button" data-toggle="dropdown">
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-right">
+                                        <li><a href="@Url.Action("EditDetail/" + @listInfo.ElementAt(item).DetailID, "InfoDetail")">Sửa</a></li>
+                                        <li><a onclick="DeleteDetail(@listInfo.ElementAt(item).DetailID)">Xóa</a></li>
+                                    </ul>
+                                </div>
+                            }
+                        }
+                    }
+                        <div class="timeline-heading">
                         <div class="jquery-script-ads" style="margin: 30px auto;" align="center">
                             <!--Image-->
                             <div id="@item+@ViewBag.Skip"></div>
@@ -106,16 +115,24 @@
                     <a><i class="glyphicon glyphicon-record invert" rel="tooltip" title="11 hours ago via Twitter" id=""></i></a>
                 </div>
                 <div class="timeline-panel">
-                    <div class="dropdown">
-                        <button class="setting-icon dropdown-toggle" type="button" data-toggle="dropdown">
-                            <span class="caret"></span>
-                        </button>
-                        <ul class="dropdown-menu dropdown-menu-right">
-                            <li><a href="@Url.Action("EditDetail/"+ @listInfo.ElementAt(item).DetailID, "InfoDetail")">Sửa</a></li>
-                            <li><a onclick="DeleteDetail(@listInfo.ElementAt(item).DetailID)">Xóa</a></li>
-                        </ul>
-                    </div>
-                    <div class="timeline-heading">
+                    @{
+                        if (listInfo.Count > 0)
+                        {
+                            if (Session[SessionAccount.SessionUserId] != null && Session[SessionAccount.SessionUserId].ToString().Equals(listInfo.ElementAt(0).Koi.Owners.Where(p => p.Status).FirstOrDefault().Member.MemberID.ToString()))
+                            {
+                                <div class="dropdown">
+                                    <button class="setting-icon dropdown-toggle" type="button" data-toggle="dropdown">
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-right">
+                                        <li><a href="@Url.Action("EditDetail/" + @listInfo.ElementAt(item).DetailID, "InfoDetail")">Sửa</a></li>
+                                        <li><a onclick="DeleteDetail(@listInfo.ElementAt(item).DetailID)">Xóa</a></li>
+                                    </ul>
+                                </div>
+                            }
+                        }
+                    }
+                        <div class="timeline-heading">
                         <!--Image-->
                         <div style="padding-top: 20px !important" id="@item+@ViewBag.Skip"></div>
                     </div>

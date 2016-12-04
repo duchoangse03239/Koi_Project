@@ -12,6 +12,8 @@ namespace KoiManagement.Controllers
 {
     public class AchievementController : Controller
     {
+        KoiDAO koiDao = new KoiDAO();
+        OwnerDAO ownerDao = new OwnerDAO();
         /// <summary>
         /// Add Achievemnt
         /// </summary>
@@ -218,6 +220,8 @@ namespace KoiManagement.Controllers
 
             ViewBag.listIAchi = AchiDao.GetListAchievements(id.Value);
             ViewBag.koiId = id;
+            var owner = ownerDao.GetOwner(id.Value);
+            ViewBag.OwnerID = owner.MemberID;
             return View();
 
         }

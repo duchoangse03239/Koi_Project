@@ -15,7 +15,7 @@ namespace KoiManagement.Models
     public partial class ActiveCode
     {
         public int ActiveCodeID { get; set; }
-        public Nullable<int> MemberID { get; set; }
+        public int MemberID { get; set; }
         public string ActCode { get; set; }
         public System.DateTime ExpireOn { get; set; }
         public bool Status { get; set; }

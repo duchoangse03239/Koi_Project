@@ -17,7 +17,6 @@ namespace KoiManagement.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Variety()
         {
-            this.Variety1 = new HashSet<Variety>();
             this.Kois = new HashSet<Koi>();
         }
     
@@ -25,12 +24,8 @@ namespace KoiManagement.Models
         public string VarietyName { get; set; }
         public string Description { get; set; }
         public string Image { get; set; }
-        public Nullable<int> VarietyDetailID { get; set; }
         public bool Status { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Variety> Variety1 { get; set; }
-        public virtual Variety Variety2 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Koi> Kois { get; set; }
     }

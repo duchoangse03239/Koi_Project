@@ -22,7 +22,7 @@ namespace KoiManagement.Models
         }
     
         public int KoifarmID { get; set; }
-        public Nullable<int> MemberID { get; set; }
+        public int MemberID { get; set; }
         public string FarmName { get; set; }
         public string Address { get; set; }
         public string Description { get; set; }
@@ -30,8 +30,8 @@ namespace KoiManagement.Models
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Comment> Comments { get; set; }
+        public virtual Member Member { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Owner> Owners { get; set; }
-        public virtual Member Member { get; set; }
     }
 }

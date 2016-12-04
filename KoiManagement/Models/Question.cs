@@ -22,19 +22,19 @@ namespace KoiManagement.Models
         }
     
         public int QuestionID { get; set; }
-        public Nullable<int> TypeID { get; set; }
-        public Nullable<int> MemberID { get; set; }
+        public int TypeID { get; set; }
+        public int MemberID { get; set; }
         public string Title { get; set; }
         public string Content { get; set; }
-        public Nullable<System.DateTime> Datetime { get; set; }
+        public System.DateTime Datetime { get; set; }
         public bool IsClose { get; set; }
         public bool Status { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Answer> Answers { get; set; }
+        public virtual Member Member { get; set; }
         public virtual Type Type { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Rate> Rates { get; set; }
-        public virtual Member Member { get; set; }
     }
 }

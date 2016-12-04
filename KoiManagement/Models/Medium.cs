@@ -17,7 +17,7 @@ namespace KoiManagement.Models
         public int MediaID { get; set; }
         public string LinkImage { get; set; }
         public string LinkVideo { get; set; }
-        public Nullable<int> ModelId { get; set; }
+        public int ModelId { get; set; }
         public bool Status { get; set; }
         public Medium() { }
         public Medium(string LinkImage, string LinkVideo, int ModelId, bool Status)
