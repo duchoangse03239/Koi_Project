@@ -44,9 +44,14 @@ namespace KoiManagement.DAL
             }
         }
 
-        public List<Notification> GetListNotifications(int memberID)
+        public List<Notification> GetListNoCF(int memberID)
         {
-            return db.Notifications.Where(p => p.MemberID == memberID && p.status).ToList();
+            return db.Notifications.Where(p => p.MemberID == memberID && p.ObjectID!=null&&p.status).OrderBy(p=>p.Datetime).ToList();
+        }
+
+        public List<Notification> GetListNo(int memberID)
+        {
+            return db.Notifications.Where(p => p.MemberID == memberID  && p.status).OrderBy(p => p.Datetime).ToList();
         }
     }
 }

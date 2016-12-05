@@ -11,11 +11,6 @@
     if (ViewBag.Size == null) { ViewBag.Size = 0; }
     List<Comment> ListComment = ViewBag.ListComment;
     List<List<Comment>> ListCommentDetail = ViewBag.ListCommentDetail;
-    Comment newComment = ViewBag.NewComment;
-    if (newComment == null)
-    {
-        newComment = new Comment();
-    }
 
 }
 
@@ -287,22 +282,26 @@
                                         <div class="comment-body">
                                             <div class="comment-heading">
                                                 <a class="pull-left" href="@Url.Action("Profile/" + @ListComment.ElementAt(i).MemberID, "Account")"></a>
-                                                    <h4 class="user"><a>@ListComment.ElementAt(i).Member.Name</a></h4>
-                                                    <input type="number" name="your_awesome_parameter" id="rating-readonly" class="rating star" value="@Convert.ToInt32(ListComment.ElementAt(i).Rating)" data-readonly />
-                                                    <h5 class="time">@ListComment.ElementAt(i).DateTime</h5>
-                                                <span id="ed-button" style="float:right;">
+                                                <h4 class="user"><a>@ListComment.ElementAt(i).Member.Name</a></h4>
+                                                <input type="number" name="your_awesome_parameter" id="rating-readonly" class="rating star" value="@Convert.ToInt32(ListComment.ElementAt(i).Rating)" data-readonly />
+                                                <h5 class="time">@ListComment.ElementAt(i).DateTime</h5>
+                                                @{ var editComment = "editCmt" + i; }
+                                                @if (Session[SessionAccount.SessionUserId] != null && Session[SessionAccount.SessionUserId].ToString().Equals(ListComment.ElementAt(i).Member.MemberID.ToString()))
+                                                {
+                                                    <span id="ed-button" style="float: right;">
                                                     <div class="dropdown">
                                                         <a class="dropdown-toggle" data-toggle="dropdown">
                                                             <span class="fa fa-edit" title="Sửa hoặc xóa"></span>
                                                         </a>
                                                         <ul class="dropdown-menu dropdown-menu-right">
-                                                            <li><a id="buttonid" name="buttonid" data-p="@i">Sửa</a></li>
-                                                            <li><a id="delete-comment">Xóa</a></li>
+                                                            <li><a id="buttonid" name="buttonid" data-p="@editComment">Sửa</a></li>
+                                                            <li><a id="delete-comment" onclick="DeleteComment(@ListComment.ElementAt(i).CommentID)"  >Xóa</a></li>
                                                         </ul>
                                                     </div>
                                                 </span>
-                                                </div>
-                                            <p for="@i">@ListComment.ElementAt(i).Content</p>
+                                                }
+                                            </div>
+                                            <p for="@editComment">@ListComment.ElementAt(i).Content</p>
                                             @{var replyID= "reply"+ i;}
                                             <a id="@replyID"  onmouseover="this.style.cursor='pointer';" onclick="ReplyFunction(this.id);" style="font-size: 13px;">Trả lời</a>
                                         </div>
@@ -317,18 +316,24 @@
                                                             <a class="pull-left" href="@Url.Action("Profile/" + @ListCommentDetail.ElementAt(i).ElementAt(item).MemberID, "Account")"></a>
                                                                 <h4 class="user"><a>@ListCommentDetail.ElementAt(i).ElementAt(item).Member.Name</a></h4>
                                                                 <h5 class="time">@ListCommentDetail.ElementAt(i).ElementAt(item).DateTime</h5>
-                                                                <span id="ed-button" style="float:right;">
+                                                            @{ var editCommentSon = "editCmtSon" + i + @item; }
+
+                                                             @if (Session[SessionAccount.SessionUserId] != null && Session[SessionAccount.SessionUserId].ToString().Equals(@ListCommentDetail.ElementAt(i).ElementAt(item).Member.MemberID.ToString()))
+                                                            {
+                                                                <span id="ed-button" style="float: right;">
                                                                     <div class="dropdown">
                                                                         <a class="dropdown-toggle" data-toggle="dropdown">
                                                                             <span class="fa fa-edit" title="Sửa hoặc xóa"></span>
                                                                         </a>
                                                                         <ul class="dropdown-menu dropdown-menu-right">
-                                                                            <li><a id="buttonid" name="buttonid" data-p="@i+@item">Sửa</a></li>
-                                                                            <li><a id="delete-comment">Xóa</a></li>
+                                                                            <li><a id="buttonid" name="buttonid"onclick="comSonID(@ListCommentDetail.ElementAt(i).ElementAt(item).CommentID)" data-p="@editCommentSon">Sửa</a></li>
+                                                                            <li><a id="delete-comment" onclick="DeleteComment(@ListCommentDetail.ElementAt(i).ElementAt(item).CommentID)">Xóa</a></li>
                                                                         </ul>
+                                                                        <input type="hidden" id="comSonID" name="comSonID" >
                                                                     </div>
                                                                 </span>
-                                                            <p for="@i+@item">@ListCommentDetail.ElementAt(i).ElementAt(item).Content</p>
+                                                            }
+                                                            <p for="@editCommentSon">@ListCommentDetail.ElementAt(i).ElementAt(item).Content</p>
                                                         </div>   
                                                     </div> 
                                                 </li>
@@ -404,10 +409,10 @@
         var content = $('#content').val();
         $('#lbl_Content_fail').text("");
 
-            $.ajax({
-                type: "POST",
-                url: "@Url.Action("SentMessage")",
-                datatype: "JSON",
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("SentMessage")",
+            datatype: "JSON",
             data: {
                 koiId: parameter1,
                 content: content,
@@ -443,14 +448,14 @@
         var content = $('#contentReport').val();
         $('#lbl_Report_fail').text("");
 
-            $.ajax({
-                type: "POST",
-                url: "@Url.Action("ReportKoi","Report")",
-                datatype: "JSON",
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("ReportKoi","Report")",
+            datatype: "JSON",
             data: {
                 koiId: parameter1,
                 content: content,
-                },
+            },
             success: function (res) {
                 switch (res.Status) {
                     case 2:
@@ -518,28 +523,28 @@
         }
     }
     var id1;
-             function ReplyFunction(id) {
-            @{
+    function ReplyFunction(id) {
+        @{
                 for (var i = 0; i <= ListComment.Count; i++)
                 {
                     <text>
 
-                     var ele1 = document.getElementById("input-reply"+@i);
-                      //  ele1.style.cursor = "pointer";
-                 id1 = "reply" + @i;
-                 if(id==id1){
-                     var input ="#input-reply"+@i;
-                     var ele = document.getElementById("input-reply"+@i);
-                     if(ele.style.display == "block") {
-                         ele.style.display = "none";
-                     }
-                     else {
-                         ele.style.display = "block";
-                         var m="#comment" + @i;
-                         $(m).focus();
-                     }
-                 }
-                </text>
+        var ele1 = document.getElementById("input-reply"+@i);
+        //  ele1.style.cursor = "pointer";
+        id1 = "reply" + @i;
+        if(id==id1){
+            var input ="#input-reply"+@i;
+            var ele = document.getElementById("input-reply"+@i);
+            if(ele.style.display == "block") {
+                ele.style.display = "none";
+            }
+            else {
+                ele.style.display = "block";
+                var m="#comment" + @i;
+                $(m).focus();
+            }
+        }
+        </text>
             }
             }
     }
@@ -560,11 +565,35 @@
 
         return true;
     }
+    //get comment sonid
+    function DeleteComment(parameter1) {
+        if (confirm("Bạn có chắc chắn muốn xóa?")) {
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("DeleteComment", "Comment")",
+                datatype: "JSON",
+                data: {
+                    commentid: parameter1
+                },
+                success: function (res) {
+                    if (res) {
 
+                        window.location.reload();
+                        // $('#test').html();
+                        alert("Xóa thành công");
+                    }
+                }
+            }); // end ajax
+        }
+    }
+    function comSonID(comid) {
+        $("#comSonID").val(comid);
+    }
     function AddComment() {
         //ẩn hiện textbox
         var activeInput = document.activeElement.id;
         var id = activeInput.substr(activeInput.length - 1);
+        var sonId= activeInput.substr(activeInput.length - 2);
 
         //lấy ID theo active
         if(activeInput=="MainComment"){
@@ -578,63 +607,135 @@
                 data: JSON.stringify({
                     Comment: TextComment,
                     koiID: koiId,
-                    RateNum:RateNum
-            }),
+                    RateNum: RateNum
+                }),
                 contentType: 'application/json; charset=utf-8',
-            success: function (result) {
-                //switch (res.Status) {
-                //    case 2:
-                //        $('#lbl_username_fail').text(res.Message);
-                //        $('#username').focus();
-                //        break;
-                //    case 3:
-                //        $('#lbl_username_fail').text(res.Message);
-                //        $('#username').focus();
-                //        break;
-                //    case 1:
-                DisplayListItems(result);
-                //        break;
-                //}
+                success: function(res) {
+                    switch (res.Status) {
+                        case 2:
+                            $('#lbl_username_fail').text(res.Message);
+                            $('#username').focus();
+                            break;
+                        case 3:
+                            alert(res.Message);
+                            break;
+                        case 1:
+                            window.location.reload();
+                            // xuw ly realtime
+                            // DisplayListItems(result);
+                            break;
+                    }
+                }
+            });
+        } else {
+            //ẩn input
+            var textSonComment = $('#comment' + id).val();
+            var textEditCmt = $('#editCmt' + id).val();
+            var textEditCmtSon = $('#editCmtSon' + sonId).val();
+            var Commmentid = $('#com' + id).val();
+            var koiId1 = @Model.KoiID;
+            if (textSonComment != "") {
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("AddSonCommentKoi", "Comment")",
+                    datatype: "JSON",
+                    data: {
+                        commentId: Commmentid,
+                        comment: textSonComment,
+                        koiID: koiId1
+                    },
+                    success: function (res) {
+                        switch (res.Status) {
+                            case 2:
+                                $('#lbl_username_fail').text(res.Message);
+                                $('#username').focus();
+                                break;
+                            case 3:
+                                alert(res.Message);
+                                break;
+                            case 1:
+                                window.location.reload();
+                                // Declare a proxy to reference the hub.
+                                var notifications = $.connection.notificationsHub;
+                                // Create a function that the hub can call to broadcast messages.
+                                $.connection.hub.start()
+                                    .done(function () {
+                                        notifications.server.sendNotification(res.JsonObject, "doi chu", "koi");
+                                    });
+                                break;
+                        }
+                    }
+                });
+                $("#input-reply" + id).hide();
+
+            }else if (textEditCmt !=null &&textEditCmt != "") {
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("EditComment", "Comment")",
+                    datatype: "JSON",
+                    data: {
+                        commentId: Commmentid,
+                        comment: textEditCmt,
+                    },
+                    success: function (res) {
+                        switch (res.Status) {
+                            case 2:
+                                $('#lbl_username_fail').text(res.Message);
+                                $('#username').focus();
+                                break;
+                            case 3:
+                                alert(res.Message);
+                                break;
+                            case 1:
+                                window.location.reload();
+                                // Declare a proxy to reference the hub.
+                                var notifications = $.connection.notificationsHub;
+                                // Create a function that the hub can call to broadcast messages.
+                                $.connection.hub.start()
+                                    .done(function () {
+                                        notifications.server.sendNotification(res.JsonObject, "doi chu", "koi");
+                                    });
+                                break;
+                        }
+                    }
+                });
+
+            }else if (textEditCmtSon !=null &&textEditCmtSon != "") {
+                var comsonid = $('#comSonID').val();
+
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("EditComment", "Comment")",
+                    datatype: "JSON",
+                    data: {
+                        commentId: comsonid,
+                        comment: textEditCmtSon,
+                    },
+                    success: function (res) {
+                        switch (res.Status) {
+                            case 2:
+                                $('#lbl_username_fail').text(res.Message);
+                                $('#username').focus();
+                                break;
+                            case 3:
+                                $('#lbl_username_fail').text(res.Message);
+                                $('#username').focus();
+                                break;
+                            case 1:
+                                window.location.reload();
+                                // Declare a proxy to reference the hub.
+                                var notifications = $.connection.notificationsHub;
+                                // Create a function that the hub can call to broadcast messages.
+                                $.connection.hub.start()
+                                    .done(function () {
+                                        notifications.server.sendNotification(res.JsonObject, "doi chu", "koi");
+                                    });
+                                break;
+                        }
+                    }
+                });
+
             }
-        });
-    } else{
-        //ẩn input
-            var textSonComment = $('#comment' +id).val();
-            var Commmentid = $('#com' +id).val();
-       var koiId1= @Model.KoiID;
-       $.ajax({
-           type: "POST",
-           url: "@Url.Action("AddSonCommentKoi", "Comment")",
-           datatype: "JSON",
-           data: {
-               commentId: Commmentid,
-               comment: textSonComment,
-               koiID: koiId1
-           },
-           success: function (res) {
-               switch (res.Status) {
-                   case 2:
-                       $('#lbl_username_fail').text(res.Message);
-                       $('#username').focus();
-                       break;
-                   case 3:
-                       $('#lbl_username_fail').text(res.Message);
-                       $('#username').focus();
-                       break;
-                   case 1:
-                       alert(res.Message);
-                       // Declare a proxy to reference the hub.
-                       var notifications = $.connection.notificationsHub;
-                       // Create a function that the hub can call to broadcast messages.
-                       $.connection.hub.start()
-                           .done(function () {
-                               notifications.server.sendNotification(res.JsonObject, "doi chu", "koi");
-                           });
-                       break;
-               }
-           }
-       });
-        $("#input-reply" + id).hide();
         }
 
     }
@@ -642,8 +743,8 @@
     function Rating(koiID) {
         RateNum = $('#rating-default').val();
         $("label[for='TextComment']").text(RateNum + "Sao");
-         // Disable #x
-         $( "#MainComment" ).prop( "disabled", false );
+        // Disable #x
+        $( "#MainComment" ).prop( "disabled", false );
     }// end ajax
 
     // Create list items and append them inside <ul> element
@@ -690,17 +791,17 @@
         var itemHTML = ["<ul class='comments-list'>",
                                     "<li class='comment'>",
                                         "<a class='pull-left'  href='@Url.Action("Profile", "Account")'>",
-                                            "<img class='avatar' src='/Content/Image/Member/anh' alt='avatar'>",
+                                            "<img class='avatar' src='/Content/Image/Member/@ViewBag.UsercommentImage' alt='avatar'>",
                                         "</a>",
                                         "<div class='comment-body'>",
                                             "<div class='comment-heading'>",
                                                 "<a class='pull-left' href='@Url.Action("Profile", "Account")'>","</a>",
-                                                    "<h4 class='user'>","<a>",Com.Member+"</a>","</h4>",
+                                                    "<h4 class='user'>","<a>",Com.Name+"</a>","</h4>",
                                                           //"<div class='rating star'>"+
 										                  //  "<i class='glyphicon glyphicon-star' data-value='1'>"+
 										                  //  "</i><i class='glyphicon glyphicon-star' data-value='2'></i><i class='glyphicon glyphicon-star' data-value='3'></i><i class='glyphicon glyphicon-star' data-value='4'></i><i class='glyphicon glyphicon-star' data-value='5'></i></div>",
                                                           // "</div>"+
-                                                    "<h5 class='time'>",Com.DateTime+"</h5>",
+                                                    "<h5 class='time'>",Com.Date+"</h5>",
                                                 "<span id='ed-button' style='float:right;'>",
                                                     "<div class='dropdown'>",
                                                         "<a class='dropdown-toggle' data-toggle='dropdown'>",
@@ -757,9 +858,9 @@
                                                 "</div>",
                                             "</li>",
                                         "</ul>"].join('\n');
-            var $tbl = $('#CommentMore');
-            $tbl.append(itemHTML);
-        }
+        var $tbl = $('#CommentMore');
+        $tbl.append(itemHTML);
+    }
 </script>
 <script src="~/Scripts/jquery.signalR-2.2.1.js"></script>
 <!--Reference the autogenerated SignalR hub script. -->

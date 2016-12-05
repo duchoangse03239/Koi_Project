@@ -3,7 +3,7 @@
     Layout = "~/Views/Layout/KoiLayout.cshtml";
 }
 <script src="~/Scripts/jquery-2.1.4.min.js"></script>
-@model IEnumerable<KoiManagement.Models.Notification>
+
 
 <!-- Modal Trade-->
 <div id="chat" class="modal fade" role="dialog">
@@ -105,18 +105,21 @@
             <div id="menu1" class="tab-pane fade in active">
                 <table style="margin-top:15px;" class="table">
                     <tbody>
-                        <tr>
-                            <td class="col-md-3">Thời gian</td>
-                            <td class="col-md-6"><a href="#">Nội dung</a></td>
-                            <td class="col-md-3"><a style="float: right;" href="#" class="btn btn-xs btn-info" role="button">Đánh dấu đã đọc</a></td>
-                        </tr>
+                        @foreach (var item in ViewBag.ListNo)
+                        {
+                            <tr>
+                                <td class="col-md-3">@item.Datetime</td>
+                                <td class="col-md-6"><a href="@item.url">@item.Content</a></td>
+                                <td class="col-md-3"><a style="float: right;" href="#" class="btn btn-xs btn-info" role="button">Đánh dấu đã đọc</a></td>
+                            </tr>
+                        }
                     </tbody>
                 </table>
             </div>
             <div id="menu2" class="tab-pane fade">
                 <table style="margin-top:15px;" class="table">
                     <tbody>
-                        @foreach (var item in Model)
+                        @foreach (var item in ViewBag.ListNoCF)
                         {
                             <tr>
                                 <td class="col-md-3">@item.Datetime</td>
@@ -132,7 +135,6 @@
                                 </td>
                             </tr>
                         }
-
                     </tbody>
                 </table>
             </div>
