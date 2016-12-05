@@ -32,6 +32,31 @@ namespace KoiManagement.DAL
             return Owner;
         }
 
+        public Owner GetCurrentOwner(int DetailID, DateTime date)
+        {
+            var t = db.Owners.AsQueryable();
+           // var Owner = db.Owners.Where(p => p.Koi.InfoDetails.Any(a=>a.DetailID == DetailID&&p.DateOwerFrom< date&& p.DateOwerTo.HasValue ? date < p.DateOwerTo : true ) ).ToList();
+           // var m = Owner.FirstOrDefault();
+            t = t.Where(p => p.Koi.InfoDetails.Any(a => a.DetailID == DetailID));
+            t = t.Where(p => p.DateOwerFrom < date && p.DateOwerTo.HasValue ? date < p.DateOwerTo : true);
+            var b = t.ToList();
+
+
+            var Owner = db.Owners.Where(p => p.Koi.InfoDetails.Any(a => a.DetailID == DetailID));
+            foreach (var item in Owner)
+            {
+                if (item.DateOwerTo == null)
+                {
+                    return item;
+                }
+                else if(item.DateOwerFrom< date&&item.DateOwerTo>date)
+                {
+                    return item;
+                }
+            }
+            return b.FirstOrDefault();
+        }
+
 
         public bool ChangeOwner(int notiID ,int memberid, int koiID)
         {

@@ -91,8 +91,8 @@
                                 <label id="lbl-size">Kích thước (cm)</label>
                             </div>
                             <div class="col-md-7">
-                                <input class="koi-size" min="0" name="SizeFrom" id="sizeFrom" value="@filter.SizeFrom" type="text" placeholder="From"><span> - </span>
-                                <input class="koi-size" name="SizeTo" id="sizeTo" value="@filter.SizeTo" type="text" placeholder="To">
+                                <input class="koi-size"  name="SizeFrom" id="sizeFrom" value="@filter.SizeFrom" type="text" placeholder="From"  onkeypress="return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57" maxlength="3" ><span> - </span>
+                                <input class="koi-size" name="SizeTo" id="sizeTo" value="@filter.SizeTo" type="text" placeholder="To" onkeypress="return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57" maxlength="3">
                             </div>
 
                         </div>
@@ -102,8 +102,8 @@
                                 <label id="lbl-year-old">Tuổi (tháng)</label>
                             </div>
                             <div class="col-md-7">
-                                <input class="koi-year-old" type="text" name="AgeFrom" id="AgeFrom" value="@filter.AgeFrom" placeholder="From"><span> - </span>
-                                <input class="koi-year-old" type="text" name="AgeTo" id="AgeTo" value="@filter.AgeTo" placeholder="To">
+                                <input class="koi-year-old" type="text" name="AgeFrom" id="AgeFrom" value="@filter.AgeFrom" placeholder="From" onkeypress="return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57" maxlength="4"><span> - </span>
+                                <input class="koi-year-old" type="text" name="AgeTo" id="AgeTo" value="@filter.AgeTo" placeholder="To" onkeypress="return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57" maxlength="4">
                             </div>
                         </div>
                         <hr />
