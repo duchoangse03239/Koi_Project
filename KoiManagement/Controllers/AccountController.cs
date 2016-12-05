@@ -632,7 +632,9 @@ namespace KoiManagement.Controllers
                 //2.1 Input Check
                 if (string.IsNullOrWhiteSpace(name))
                 {
-                    name = String.Empty;
+                    obj.Status = 1;
+                    obj.Message = "Vui lòng nhập họ và tên.";
+                    return Json(obj);
                 }
                 else if (!Validate.CheckLengthInput(name, 6, 50))
                 {
