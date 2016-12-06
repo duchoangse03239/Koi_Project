@@ -36,7 +36,7 @@
 
     $.fn.imagesGrid.defaults = {
         images: [],
-        cells: 5,
+        cells: 4,
         align: false,
         nextOnClick: true,
         getViewAllText: function(imagesCount) {

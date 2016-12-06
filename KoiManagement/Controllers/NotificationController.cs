@@ -36,8 +36,8 @@ namespace KoiManagement.Controllers
                 }
                 memberId = int.Parse(Session[SessionAccount.SessionUserId].ToString());
 
-            var list = notificationDao.GetListNotifications(memberId);
-
+            ViewBag.ListNoCF = notificationDao.GetListNoCF(memberId).ToList();
+            ViewBag.ListNo = notificationDao.GetListNo(memberId).ToList();
             MemberDAO MDao = new MemberDAO();
             KoiDAO koiDao = new KoiDAO();
             MemberDAO mDAO = new MemberDAO();
@@ -46,7 +46,9 @@ namespace KoiManagement.Controllers
             ViewBag.CountKoi = koiDao.CountKoibyOwnerId(memberId);
             ViewBag.CountKoiFarm = koiFarmDao.CountKoiFarmbyOwnerId(memberId);
 
-            return View(list);
+            return View();
         }
+
+
     }
 }

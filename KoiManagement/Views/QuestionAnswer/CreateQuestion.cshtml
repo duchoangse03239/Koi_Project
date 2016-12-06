@@ -28,10 +28,9 @@
                                 </div>
                                 <br />
                                 <div class="col-md-12" style="margin-top: 15px;">
-                                    <label style="margin-right:20px;">Chọn loại</label>
+                                    <label id="lblMessage_type_fail" style="margin-right:20px;">Chọn loại</label>
                                     <span>
                                         <select class="form-control" style="min-width: 150px;" name="type" id="typeid">
-                                            <option value="0">Tin tức</option>
                                             @foreach (var item in Model)
                                             {
                                                 <option value="@item.TypeID">@item.Name</option>
@@ -93,6 +92,20 @@
         var typeid = $('#typeid').val();
         var content = window.parent.tinymce.get('content').getContent();
 
+        $('#lblMessage_title_fail').text("");
+        $('#lblMessage_type_fail').text("");
+        $('#lblMessage_content_fail').text("");
+
+        if (title == "") {
+            $('#lblMessage_title_fail').text("Vui lòng nhập tiêu đề cho câu hỏi.");
+            $('#title').focus();
+            return false;
+        }
+        if (typeid.value == 0) {
+            $('#lblMessage_type_fail').text("Vui lòng chọn chủ đề cho câu hỏi.");
+            $('#typeid').focus();
+            return false;
+        }
 
         return true;
     }

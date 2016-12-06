@@ -149,6 +149,11 @@
             $('#Size').focus();
             return false;
         }
+        if (INT.parse(Size)<1) {
+            $('#lblMessage_koi_size_fail').text("Kích thước phải lớn hơn 0");
+            $('#Size').focus();
+            return false;
+        }
 
         if (files == "") {
             $('#lblMessage_file_fail').text("Xin hãy chọn ảnh.");

@@ -360,7 +360,7 @@
     <Compile Include="Models\Type.cs">
       <DependentUpon>KoiContext.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\User.cs" />
+    <Compile Include="Models\UserComment.cs" />
     <Compile Include="Models\Variety.cs">
       <DependentUpon>KoiContext.tt</DependentUpon>
     </Compile>

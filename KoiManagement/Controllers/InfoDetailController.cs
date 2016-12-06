@@ -111,7 +111,7 @@ namespace KoiManagement.Controllers
                 t = string.Empty;
                 foreach (var item in subList)
                 {
-                    t = t + "\'" + @Url.Content("~/Content/Image/Detail/" + item.LinkImage) + "\',\n";
+                    t = t + "\'" + @Url.Content("~/Content/Image/Detail/" + item.LinkImage.Trim()) + "\',\n";
                 }
                 ListImage.Add(t);
             }

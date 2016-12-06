@@ -7,19 +7,27 @@ using KoiManagement.Models;
 
 namespace KoiManagement.DAL
 {
+    /// <summary>
+    /// Handle with database
+    /// </summary>
     public class ArticleDAO
     {
-        KoiManagementEntities db = null;
+        KoiManagementEntities db;
          public ArticleDAO()
         {
             db = new KoiManagementEntities();
         }
 
-        public bool AddArticle(Article Article)
+        /// <summary>
+        /// Handle to add article
+        /// </summary>
+         /// <param name="article">Article</param>
+        /// <returns>Bool</returns>
+        public bool AddArticle(Article article)
         {
             try
             {
-                db.Articles.Add(Article);
+                db.Articles.Add(article);
                 db.SaveChanges();
                 return true;
             }
@@ -29,6 +37,11 @@ namespace KoiManagement.DAL
             }
         }
 
+        /// <summary>
+        /// Handle to edit article
+        /// </summary>
+        /// <param name="article">article</param>
+        /// <returns>int</returns>
         public int EditArticle(Article article)
         {
             try
@@ -47,12 +60,21 @@ namespace KoiManagement.DAL
             }
         }
 
+        /// <summary>
+        /// Handle to get list of article
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public List<Article> GetListArticle(int id)
         {
             return db.Articles.Where(p => p.TypeID == id).ToList();
         }
 
-        public int GetMaxAchiID()
+        /// <summary>
+        /// Get max index of achievement id
+        /// </summary>
+        /// <returns></returns>
+        public int GetMaxAchiId()
         {
             var count = db.Articles.Count();
 
@@ -63,6 +85,11 @@ namespace KoiManagement.DAL
             return db.Articles.Max(g => g.ArticleID) + 1; ;
         }
 
+        /// <summary>
+        /// Handle to get list of article
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public Article GetArticleDetail(int id)
         {
             return db.Articles.Find(id);

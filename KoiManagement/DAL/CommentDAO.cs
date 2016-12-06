@@ -32,6 +32,38 @@ namespace KoiManagement.DAL
             }
         }
 
+        public bool CheckRatingKoi(int Memberid,int koiId)
+        {
+            try
+            {
+                var t = db.Comments.Count(p => p.MemberID == Memberid && p.KoiID == koiId);
+                if (t > 0)
+                {
+                    return false;
+                }
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+        public bool editComment(int commentID, string content)
+        {
+            try
+            {
+                var comt = db.Comments.Find(commentID);
+                comt.Content = content;
+                db.Comments.Attach(comt);
+                db.Entry(comt).Property(x => x.Content).IsModified = true;
+                int result = db.SaveChanges();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
         public Comment GetCommentbyId(int CommentID)
         {
             return db.Comments.Find(CommentID);

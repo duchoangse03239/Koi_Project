@@ -58,7 +58,7 @@ namespace KoiManagement.Controllers
         {
             ViewBag.Message = string.Empty;
             var fullpath = new List<string>();
-            var MaxArticleID = articleDao.GetMaxAchiID();
+            var MaxArticleID = articleDao.GetMaxAchiId();
             StatusObjForJsonResult obj = new StatusObjForJsonResult();
             if (Session[SessionAccount.SessionUserId] == null)
             {

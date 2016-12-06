@@ -73,16 +73,21 @@
                                 }
                             </small>
                         </p>
-                        <label>@listInfo.ElementAt(item).DetailID </label>
                         <p>
                             Kích thước: <label>@listInfo.ElementAt(item).Size cm</label>
                         </p>
-                        <p>
-                            Trạng thái sức khỏe: <label>@listInfo.ElementAt(item).HeathyStatus </label>
-                        </p>
-                        <p>
-                            Mô tả: <label>@listInfo.ElementAt(item).Description </label>
-                        </p>
+                        @if (!string.IsNullOrWhiteSpace(@listInfo.ElementAt(item).HeathyStatus))
+                        {
+                            <p>
+                                Trạng thái sức khỏe: <label>@listInfo.ElementAt(item).HeathyStatus </label>
+                            </p>
+                        }
+                        @if (!string.IsNullOrWhiteSpace(@listInfo.ElementAt(item).Description))
+                        {
+                            <p>
+                                Mô tả: <label>@listInfo.ElementAt(item).Description </label>
+                            </p>
+                        }
                     </div>
 
                     <div class="timeline-footer">
@@ -169,16 +174,21 @@
                                 }
                             </small>
                         </p>
-                        <label>@listInfo.ElementAt(item).DetailID </label>
                         <p>
                             Kích thước: <label>@listInfo.ElementAt(item).Size cm</label>
                         </p>
-                        <p>
-                            Trạng thái sức khỏe: <label>@listInfo.ElementAt(item).HeathyStatus</label>
-                        </p>
-                        <p>
-                            Mô tả: <label>@listInfo.ElementAt(item).Description</label>
-                        </p>
+                        @if (!string.IsNullOrWhiteSpace(@listInfo.ElementAt(item).HeathyStatus))
+                        {
+                            <p>
+                                Trạng thái sức khỏe: <label>@listInfo.ElementAt(item).HeathyStatus </label>
+                            </p>
+                        }
+                        @if (!string.IsNullOrWhiteSpace(@listInfo.ElementAt(item).Description))
+                        {
+                            <p>
+                                Mô tả: <label>@listInfo.ElementAt(item).Description </label>
+                            </p>
+                        }
                     </div>
 
                     <div class="timeline-footer">
