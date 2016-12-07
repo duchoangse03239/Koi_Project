@@ -25,6 +25,7 @@ namespace KoiManagement.Controllers
         InfoDetailDAO DetailDao = new InfoDetailDAO();
         MemberDAO memberDao = new MemberDAO();
         CommentDAO commentDao = new CommentDAO();
+        MessageDAO messageDao = new MessageDAO();
         /// <summary>
         /// List Koi
         /// </summary>
@@ -513,7 +514,7 @@ namespace KoiManagement.Controllers
             return Json(obj);
         }
         [HttpPost]
-        public JsonResult SentMessage(int koiId, string content,int ToMember)
+        public JsonResult SentMessage(int koiId,string Title, string content,int ToMember)
         {
             StatusObjForJsonResult obj = new StatusObjForJsonResult();
             // check login
@@ -523,7 +524,8 @@ namespace KoiManagement.Controllers
             //    obj.Message = "Xin hãy đăng nhập.";
             //    return Json(obj);
             //}
-            int UserID = int.Parse(Session[SessionAccount.SessionUserId].ToString());
+            //int UserID = int.Parse(Session[SessionAccount.SessionUserId].ToString());
+            int UserID = 2;
             try
             {
 
@@ -535,16 +537,15 @@ namespace KoiManagement.Controllers
                     return Json(obj);
                 }
 
-                var mem = memberDao.GetMemberbyID(UserID);
+                var mem = memberDao.GetMemberbyID(ToMember);
                 var koiName = db.Kois.Find(koiId).KoiName;
 
-                Notification notification = new Notification(ToMember, UserID,1,koiId,DateTime.Now,content,"",false,true);
-
+                Models.Message me = new Models.Message(content,DateTime.Now,UserID, ToMember,content,null,true);
                 NotificationDAO noDao = new NotificationDAO();
-                if (noDao.AddNotification(notification))
+                if (messageDao.AddMessage(me))
                 {
                     obj.Status = 1;
-                    obj.Message = "Bạn đã gửi tin nhắn đến "+ mem.Name +"thành công.";
+                    obj.Message = "Bạn đã gửi tin nhắn đến "+ mem.Name +" thành công.";
                     return Json(obj);
                 }
 
@@ -654,3 +655,4 @@ namespace KoiManagement.Controllers
 
     }
 }
+

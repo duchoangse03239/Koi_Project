@@ -860,7 +860,7 @@ body a {
 }
 .post-footer .comments-list .comment .avatar {
   width: 35px;
-  height: 35px;
+      height: 28px;
 }
 .post-footer .comments-list .comment .comment-heading {
   display: block;
@@ -897,11 +897,9 @@ body a {
   margin-left: 50px;
 }
 .comment-body #ed-button {
-    display: none;
-}
-.comment-body:hover #ed-button {
     display: block;
 }
+
 /*END KOI DETAIL*/
 /*LIST KOI*/
 .glyphicon-star {

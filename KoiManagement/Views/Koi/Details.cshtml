@@ -59,6 +59,11 @@
                     }
                 </div>
                 <div>
+                    <label>Tiêu đề:</label>
+                    <input type="text" class="form-control" placeholder="Xin hãy nhập tiêu đề" id="Title" name="Title" />
+                    <label id="lblmessage_Title_fail" class="label-error"></label>
+                </div>
+                <div>
                     <label>Nội dung:</label>
                 </div>
                 <div>
@@ -93,6 +98,12 @@
                     {
                         <a href="/Account/profile/@owner.Member.MemberID">@owner.Member.Name</a>
                     }
+                </div>
+                <div>
+                    <label>Tiêu đề:</label>
+                </div>
+                <div>
+                    <input type="text" id="title" name = "title"placeholder="Nhập tiêu đề" >
                 </div>
                 <div>
                     <label>Nội dung:</label>
@@ -339,11 +350,12 @@
                                                 </li>
                                             }
                                             @{ var inputReply = "input-reply" + i;}
+                                             @if (Session[SessionAccount.SessionUserId] != null) { 
                                             <li class="comment" id="@inputReply" style="display: none;">
                                                 <div class="input-group">
-                                                    <span class="input-group-addon">
+                                                    <span class="input-group-addon" style="padding: 2px 2px;">
                                                     <a class="pull-left" href="#">
-                                                        <img class="avatar" src="http://bootdey.com/img/Content/user_3.jpg" alt="avatar">
+                                                        <img class="avatar" src="/Content/Image/Member/@Session[SessionAccount.SessionImage].ToString()" alt="avatar">
                                                     </a>
                                                 </span>
                                                     @{
@@ -354,7 +366,7 @@
                                                     <input class="form-control" id="@CommentId" placeholder="Add a comment" type="text">
                                                     <input type="hidden" id="@ComName" value ="@ComId" placeholder="Add a comment" type="text">
                                                 </div>
-                                            </li>
+                                            </li>}
                                         </ul>
                                     </li>
                                 </ul>
@@ -408,6 +420,7 @@
     function SentMessage(parameter1) {
         var content = $('#content').val();
         $('#lbl_Content_fail').text("");
+        var Title =$('#Title').val();
 
         $.ajax({
             type: "POST",
@@ -415,6 +428,7 @@
             datatype: "JSON",
             data: {
                 koiId: parameter1,
+                Title:Title,
                 content: content,
                 ToMember: @owner.Member.MemberID,
             },
@@ -742,7 +756,7 @@
 
     function Rating(koiID) {
         RateNum = $('#rating-default').val();
-        $("label[for='TextComment']").text(RateNum + "Sao");
+        $("label[for='TextComment']").text(RateNum + " Sao");
         // Disable #x
         $( "#MainComment" ).prop( "disabled", false );
     }// end ajax

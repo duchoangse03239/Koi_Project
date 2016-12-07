@@ -22,7 +22,20 @@ namespace KoiManagement.Models
         public string Content { get; set; }
         public Nullable<int> ReplyID { get; set; }
         public bool status { get; set; }
-    
+        public Message() { }
+
+        public Message(string Title, DateTime Datetime, int SenderID, int MemberID, string Content, int? ReplyID,
+            bool status)
+        {
+            this.Title = Title;
+            this.Datetime = Datetime;
+            this.SenderID = SenderID;
+            this.MemberID = MemberID;
+            this.Content = Content;
+            this.ReplyID = ReplyID;
+            this.status = status;
+        }
+
         public virtual Member Member { get; set; }
         public virtual Member Member1 { get; set; }
     }

@@ -265,6 +265,7 @@
     <Compile Include="Controllers\VarietyController.cs" />
     <Compile Include="DAL\AchievementDAO.cs" />
     <Compile Include="DAL\ActiveCodeDAO.cs" />
+    <Compile Include="DAL\MessageDAO.cs" />
     <Compile Include="DAL\QuestionAnswerDAO.cs" />
     <Compile Include="DAL\ReportDAO.cs" />
     <Compile Include="DAL\InfoDetailDAO.cs" />
