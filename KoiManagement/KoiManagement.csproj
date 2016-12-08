@@ -401,7 +401,6 @@
     <Content Include="Content\css\jquery.filer-dragdropbox-theme.css" />
     <Content Include="Content\css\jquery.filer.css" />
     <Content Include="Content\css\main.css" />
-    <Content Include="Content\Image\Achievement\Achievement0.jpg" />
     <Content Include="Content\Image\Detail\Detail01.jpg" />
     <Content Include="Content\Image\Detail\Detail04.jpg" />
     <Content Include="Content\Image\Detail\Detail05.jpg" />
@@ -879,6 +878,7 @@
     <Content Include="Models\KoiContext.edmx.diagram">
       <DependentUpon>KoiContext.edmx</DependentUpon>
     </Content>
+    <None Include="Properties\PublishProfiles\a.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\custom.js" />
     <Content Include="Scripts\flickity.pkgd.min.js" />
@@ -1180,6 +1180,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\Image\Achievement\" />
     <Folder Include="Content\Image\Article\" />
     <Folder Include="Content\Image\Avatar\" />
     <Folder Include="Content\Image\Media\" />

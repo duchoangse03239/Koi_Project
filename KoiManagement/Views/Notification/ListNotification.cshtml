@@ -143,9 +143,17 @@
                     <tbody>
                         <tr>
                             <td class="col-md-3">Thời gian</td>
-                            <td class="col-md-2"><a href="#">Người gửi</a></td>
-                            <td class="col-md-7"><a href="#" data-toggle="modal" data-target="#chat">Tiêu đề</a></td>
+                            <td class="col-md-2">Người gửi</td>
+                            <td class="col-md-7">Tiêu đề</td>
                         </tr>
+                    @foreach (var item in ViewBag.listMe)
+                    {
+                        <tr>
+                            <td class="col-md-3">@item.Datetime</td>
+                            <td class="col-md-2"><a href="@Url.Action("Profile/"+@item.SenderID,"Account")">@item.SenderID</a></td>
+                            <td class="col-md-7"><a href="#" data-toggle="modal" data-target="#chat">@item.Title</a></td>
+                        </tr>
+                    }
                     </tbody>
                 </table>
             </div>

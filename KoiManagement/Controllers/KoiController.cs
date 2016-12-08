@@ -147,6 +147,11 @@ namespace KoiManagement.Controllers
             {
                 KoiDeatail.First();
             }
+            else
+            {
+                return RedirectToAction("PageNotFound", "Error");
+                 
+            }
             if (koi.KoiMom != null)
             {
             ViewBag.KoiMomName = db.Kois.Find(koi.KoiMom).KoiName;

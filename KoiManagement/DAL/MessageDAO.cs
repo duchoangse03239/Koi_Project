@@ -37,5 +37,10 @@ namespace KoiManagement.DAL
             }
         }
 
+        public List<Message> GetListMessage(int memberID)
+        {
+            return db.Messages.Where(p =>p.MemberID==memberID ).ToList();
+        }
+
     }
 }

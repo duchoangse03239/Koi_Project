@@ -13,6 +13,7 @@ namespace KoiManagement.Controllers
     {
         private KoiManagementEntities db = new KoiManagementEntities();
         NotificationDAO notificationDao = new NotificationDAO();
+        MessageDAO messageDao = new MessageDAO();
         // GET: Notification
         public ActionResult Index()
         {
@@ -38,6 +39,7 @@ namespace KoiManagement.Controllers
 
             ViewBag.ListNoCF = notificationDao.GetListNoCF(memberId).ToList();
             ViewBag.ListNo = notificationDao.GetListNo(memberId).ToList();
+            ViewBag.listMe = messageDao.GetListMessage(memberId);
             MemberDAO MDao = new MemberDAO();
             KoiDAO koiDao = new KoiDAO();
             MemberDAO mDAO = new MemberDAO();

@@ -60,7 +60,6 @@
                                         <a href="@Url.Action("ListMember", "Admin",new {searchstring= @owner.Member.UserName  })">@owner.Member.Name</a>
                                     }
                                 }
-                                <td>@ViewBag.ListKoi[item].Image</td>
                                 @if (ViewBag.ListKoi[item].Status == 1)
                                 {
                                     <td>Hoạt động</td>
