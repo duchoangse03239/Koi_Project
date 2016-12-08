@@ -523,14 +523,13 @@ namespace KoiManagement.Controllers
         {
             StatusObjForJsonResult obj = new StatusObjForJsonResult();
             // check login
-            //if (Session[SessionAccount.SessionUserId] == null)
-            //{
-            //    obj.Status = 2;
-            //    obj.Message = "Xin hãy đăng nhập.";
-            //    return Json(obj);
-            //}
-            //int UserID = int.Parse(Session[SessionAccount.SessionUserId].ToString());
-            int UserID = 2;
+            if (Session[SessionAccount.SessionUserId] == null)
+            {
+                obj.Status = 2;
+                obj.Message = "Xin hãy đăng nhập.";
+                return Json(obj);
+            }
+            int UserID = int.Parse(Session[SessionAccount.SessionUserId].ToString());
             try
             {
 
@@ -545,7 +544,7 @@ namespace KoiManagement.Controllers
                 var mem = memberDao.GetMemberbyID(ToMember);
                 var koiName = db.Kois.Find(koiId).KoiName;
 
-                Models.Message me = new Models.Message(content,DateTime.Now,UserID, ToMember,content,null,true);
+                Models.Message me = new Models.Message(content,DateTime.Now,UserID, ToMember,content,null,false, true);
                 NotificationDAO noDao = new NotificationDAO();
                 if (messageDao.AddMessage(me))
                 {

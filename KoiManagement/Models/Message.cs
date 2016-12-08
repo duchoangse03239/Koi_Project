@@ -17,15 +17,16 @@ namespace KoiManagement.Models
         public int MessageID { get; set; }
         public string Title { get; set; }
         public System.DateTime Datetime { get; set; }
-        public int SenderID { get; set; }
-        public int MemberID { get; set; }
+        public Nullable<int> SenderID { get; set; }
+        public Nullable<int> MemberID { get; set; }
         public string Content { get; set; }
         public Nullable<int> ReplyID { get; set; }
-        public bool status { get; set; }
+        public bool IsRead { get; set; }
+        public bool Status { get; set; }
         public Message() { }
 
-        public Message(string Title, DateTime Datetime, int SenderID, int MemberID, string Content, int? ReplyID,
-            bool status)
+        public Message(string Title, DateTime Datetime, int? SenderID, int? MemberID, string Content, int? ReplyID, bool IsRead,
+            bool Status)
         {
             this.Title = Title;
             this.Datetime = Datetime;
@@ -33,9 +34,9 @@ namespace KoiManagement.Models
             this.MemberID = MemberID;
             this.Content = Content;
             this.ReplyID = ReplyID;
-            this.status = status;
+            this.IsRead = IsRead;
+            this.Status = Status;
         }
-
         public virtual Member Member { get; set; }
         public virtual Member Member1 { get; set; }
     }

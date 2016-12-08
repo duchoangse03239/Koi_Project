@@ -259,6 +259,7 @@
     <Compile Include="Controllers\KoiController.cs" />
     <Compile Include="Controllers\KoiFarmController.cs" />
     <Compile Include="Controllers\LayoutController.cs" />
+    <Compile Include="Controllers\MessageController.cs" />
     <Compile Include="Controllers\NotificationController.cs" />
     <Compile Include="Controllers\QuestionAnswerController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
@@ -1113,6 +1114,7 @@
     <Content Include="Views\Article\ArticleDetail.cshtml" />
     <Content Include="Views\Admin\ListArticle.cshtml" />
     <None Include="Views\InfoDetail\timeline.cshtml" />
+    <Content Include="Views\Message\ListMessage.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -1173,10 +1175,10 @@
     <Content Include="Views\KoiFarm\Import.cshtml" />
     <Content Include="Views\Shared\_Header.cshtml" />
     <Content Include="Views\Notification\ListNotification.cshtml" />
-    <Content Include="Views\Notification\View.cshtml" />
     <Content Include="Views\Layout\AdminLayout.cshtml" />
     <Content Include="Views\QuestionAnswer\CreateQuestion.cshtml" />
     <Content Include="Views\QuestionAnswer\QuestionDetail.cshtml" />
+    <Content Include="Views\Message\MessageDetail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
