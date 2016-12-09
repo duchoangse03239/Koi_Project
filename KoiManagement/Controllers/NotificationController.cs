@@ -40,7 +40,6 @@ namespace KoiManagement.Controllers
             ViewBag.ListNoCF = notificationDao.GetListNoCF(memberId).ToList();
             ViewBag.ListNo = notificationDao.GetListNo(memberId).ToList();
             ViewBag.listMe = messageDao.GetListMessage(memberId);
-            ViewBag.listMeDetail = messageDao.GetListMessageDetail(memberId);
 
             MemberDAO MDao = new MemberDAO();
             KoiDAO koiDao = new KoiDAO();
