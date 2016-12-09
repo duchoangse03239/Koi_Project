@@ -30,16 +30,18 @@ namespace KoiManagement.Controllers
         }
         public ActionResult ListNotification()
         {
-            int memberId=0;
-                if (Session[SessionAccount.SessionUserId] == null)
-                {
-                    return RedirectToAction("Login", "Account");
-                }
-                memberId = int.Parse(Session[SessionAccount.SessionUserId].ToString());
+            int memberId=12;
+            if (Session[SessionAccount.SessionUserId] == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            memberId = int.Parse(Session[SessionAccount.SessionUserId].ToString());
 
             ViewBag.ListNoCF = notificationDao.GetListNoCF(memberId).ToList();
             ViewBag.ListNo = notificationDao.GetListNo(memberId).ToList();
             ViewBag.listMe = messageDao.GetListMessage(memberId);
+            ViewBag.listMeDetail = messageDao.GetListMessageDetail(memberId);
+
             MemberDAO MDao = new MemberDAO();
             KoiDAO koiDao = new KoiDAO();
             MemberDAO mDAO = new MemberDAO();
@@ -47,9 +49,22 @@ namespace KoiManagement.Controllers
             ViewBag.Member = mDAO.GetMemberbyID(memberId);
             ViewBag.CountKoi = koiDao.CountKoibyOwnerId(memberId);
             ViewBag.CountKoiFarm = koiFarmDao.CountKoiFarmbyOwnerId(memberId);
-
             return View();
         }
+
+        //public JsonResult getDetailMessage(int messageid)
+        //{
+        //    int memberId = 0;
+        //    if (Session[SessionAccount.SessionUserId] == null)
+        //    {
+        //        return RedirectToAction("Login", "Account");
+        //    }
+
+        //    memberId = int.Parse(Session[SessionAccount.SessionUserId].ToString());
+        //    StatusObjForJsonResult obj = new StatusObjForJsonResult();
+        //    ViewBag.meDetail = messageDao.GetListMeDetail(messageid);
+        //    return Json(obj);
+        //}
 
 
     }

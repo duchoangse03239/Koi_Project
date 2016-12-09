@@ -268,5 +268,24 @@ namespace KoiManagement.Common
             t = Validate.ConverDateTime(date);
             return t;
         }
+
+        public static int getindex(string origin, string text)
+        {
+            var s1 = origin.ToCharArray();
+            var s2 = text.ToCharArray();
+            for (int i = 0; i < s1.Length; i++)
+            {
+                if (s2.Length > i)
+                {
+                    if (!s1[i].Equals(s2[i]))
+                        return s1.Length - i;
+                }
+                else
+                {
+                    break;
+                }
+            }
+            return s2.Length;
+        }
     }
 }
