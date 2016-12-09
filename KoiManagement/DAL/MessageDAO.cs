@@ -39,7 +39,7 @@ namespace KoiManagement.DAL
 
         public List<Message> GetListMessage(int memberID)
         {
-            return db.Messages.Where(p =>(p.MemberID==memberID||p.SenderID==memberID) &&p.ReplyID==null).ToList();
+            return db.Messages.Where(p =>(p.MemberID==memberID||p.SenderID==memberID) &&p.ReplyID==null&&p.Status).OrderBy(p=>p.Datetime).ToList();
         }
         public List<List<Message>> GetListMessageDetail(int memberid)
         {
@@ -57,11 +57,13 @@ namespace KoiManagement.DAL
         {
             return db.Messages.Where(p => p.ReplyID == messageID).OrderBy(p=>p.Datetime).ToList();
         }
-        public Message getOwner(int messageID)
+        public Message getMeByID(int messageID)
         {
             var m= db.Messages.Find(messageID);
             return m;
         }
+
+
 
     }
 }

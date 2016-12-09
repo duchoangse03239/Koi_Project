@@ -229,7 +229,7 @@
                                 <label><span class="fa fa-hand-rock-o"></span> Tính cách:</label> <span>@Model.Temperament</span>
                             </div>
                             <div class="line">
-                                <label><span class="fa fa-user"></span>  Bố - Mẹ:</label> @{
+                                <label><span class="fa fa-user"></span>  Koi Mẹ:</label> @{
                                     if (ViewBag.KoiMomName != null)
                                     {
                                         <a href="/Koi/Details/@Model.KoiMom">@ViewBag.KoiMomName <span class="fa fa-angle-double-right"></span></a>
@@ -451,7 +451,8 @@
                             .done(function () {
                                 notifications.server.sendNotification(res.JsonObject, "doi chu", "koi");
                             });
-                        window.location.reload();
+                        $('#content').val('');
+                        $('#Title').val('');
                         break;
                 }
             }

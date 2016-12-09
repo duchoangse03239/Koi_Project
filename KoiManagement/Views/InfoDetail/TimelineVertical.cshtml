@@ -1,9 +1,12 @@
-﻿@using KoiManagement.Models
+﻿@using System.Web.UI.WebControls
+@using KoiManagement.Common
+@using KoiManagement.Models
 
 @{
     ViewBag.Title = "Ảnh sinh trưởng";
     Layout = "~/Views/Layout/KoiLayout.cshtml";
     List<InfoDetail> listYear = ViewBag.listYear;
+    List<InfoDetail> listMonth = ViewBag.listMonth;
 }
 
 
@@ -203,11 +206,12 @@
                 <option value="@Url.Action("timeline/"+ViewBag.koiId, "InfoDetail")">Dòng thời gian</option>
                 <option value="@Url.Action("TimelineVertical/"+ViewBag.koiId , "InfoDetail" )" selected>Ảnh sinh trưởng</option>
                 <option value="@Url.Action("ListAchievement/"+ViewBag.koiId , "Achievement")">Giải thưởng</option>
+                <option value="@Url.Action("ParentTree/"+ViewBag.koiId , "InfoDetail")">Cây phả hệ</option>
+                <option value="@Url.Action("AllOWner/"+ViewBag.koiId, "InfoDetail")">Chủ đã sở hữu</option>
             </select>
         </div>
     </div>
 </div>
-
 <div class="container">
     @if (ViewBag.year != null)
             {
@@ -215,16 +219,29 @@
     }
     <div class="bar"></div>
     <div class="timeline-horizontal">
-
-        @foreach (var item in listYear)
+        @if(listYear.Count>0)
         {
+            foreach (var item in listYear)
+            {
             <div class="entry">
                 <h1><a href="@Url.Action("TimelineVertical/" + ViewBag.koiId, "InfoDetail", new {year = @item.Date.Year})" class="alert-warning" role="button">@item.Date.Year</a>
                 </h1>
-                <h1>@item.Date.ToString("dd/MM/yyyy") : @item.Size cm</h1>
+                <h1>Kích thước  @item.Size cm</h1>
                 <img src="@Url.Content("~/Content/Image/Detail/" + item.Image)"/>
-                Here's the info about this date
+                @item.Date.ToString("dd/MM/yyyy")
             </div>
-        }
+            }
+        }else if(listMonth != null) { 
+        foreach (var item in listMonth)
+        {
+            <div class="entry">
+                <h1>
+                    <a href="@Url.Action("TimelineVertical/" + ViewBag.koiId, "InfoDetail", new {year = @item.Date.Year})" class="alert-warning" role="button">@item.Date.Year</a>
+                </h1>
+                <h1>@CommonFunction.calculateAge(@item.Date)  @item.Size cm</h1>
+                <img src="@Url.Content("~/Content/Image/Member/" + item.Image)" />
+                @item.Date.ToString("dd/MM/yyyy")
+            </div>
+        }}
     </div>
 </div>

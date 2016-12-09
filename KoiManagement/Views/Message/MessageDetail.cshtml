@@ -1,4 +1,5 @@
-﻿@using KoiManagement.Common
+﻿@using System.Diagnostics
+@using KoiManagement.Common
 @using KoiManagement.DAL
 @using KoiManagement.Models
 @using Message = KoiManagement.Models.Message
@@ -17,32 +18,54 @@
 <div class="section site-main">
     <div class="container">
         <div class="row">
-            @{if (Session[SessionAccount.SessionUserId].ToString().Equals(Owner.MemberID.Value.ToString()))
+
+
+            @{if (Owner.MemberID.HasValue)
                 {
-                    tomember = Owner.SenderID.Value;
-                    frommember = Owner.MemberID.Value;
-                }
-                else
-                {
-                    tomember = Owner.MemberID.Value;
-                    frommember = Owner.SenderID.Value;
+                    if (Session[SessionAccount.SessionUserId].ToString().Equals(Owner.MemberID.Value.ToString()))
+                    {
+                        tomember = Owner.SenderID.Value;
+                        frommember = Owner.MemberID.Value;
+                    }
+                    else
+                    {
+                        tomember = Owner.MemberID.Value;
+                        frommember = Owner.SenderID.Value;
+                    }
                 }}
             <div class="col-md-10 col-md-offset-1" style="padding: 20px; border: 1px solid #d9d9d9; font-size: 14px;">
                 <div>
                     <div class="col-md-12" style="overflow: auto; height: 250px;">
+                        <div class="row">
+                            @if (Owner.SenderID != null)
+                            {
+                                <div class="col-md-3">
+                                    <a href="@Url.Action("Profile/"+ @Owner.MemberID, "Account")"><b>@Owner.Member1.Name:</b></a>
+                                </div>
+                            }
+                            <div class="col-md-5">
+                                <span>@Owner.Content</span>
+                            </div>
+                            <div class="col-md-4">
+                                <span style="float: right;">@Owner.Datetime.ToString("MM/dd/yyyy HH:mm:ss")</span>
+                            </div>
+                        </div>
+
+
+
                         @for (int i = 0; i < listMe.Count; i++)
                         {
                             <div class="row">
                                 @if (listMe.ElementAt(i).MemberID != null)
                                 {
                                     <div class="col-md-3">
-                                        <a><b style="background-color: #4080ff; color: White">@listMe.ElementAt(i).Member.Name:</b></a>
+                                        <a href="@Url.Action("Profile/"+ @listMe.ElementAt(i).Member.MemberID, "Account")"><b>@listMe.ElementAt(i).Member.Name:</b></a>
                                     </div>
                                 }
                                 else if (listMe.ElementAt(i).SenderID != null)
                                 {
                                     <div class="col-md-3">
-                                        <a><b>@listMe.ElementAt(i).Member1.Name:</b></a>
+                                        <a href="@Url.Action("Profile/"+ @listMe.ElementAt(i).Member1.MemberID, "Account")"><b>@listMe.ElementAt(i).Member1.Name:</b></a>
                                     </div>
                                 }
                                 <div class="col-md-5">

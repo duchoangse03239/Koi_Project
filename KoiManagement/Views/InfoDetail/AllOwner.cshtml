@@ -1,0 +1,246 @@
+﻿@using KoiManagement.Common
+@using KoiManagement.Models
+
+@{
+    ViewBag.Title = "AllOwner";
+    Layout = "~/Views/Layout/KoiLayout.cshtml";
+    List<Owner> ListOwner = ViewBag.ListOwner;
+    Koi koi = ViewBag.Koi;
+}
+<style type="text/css">
+    ol {
+        position: relative;
+        display: block;
+        margin: 100px;
+        height: 4px;
+        background: #31708F;
+    }
+
+        ol::before,
+        ol::after {
+            content: "";
+            position: absolute;
+            top: -8px;
+            display: block;
+            width: 0;
+            height: 0;
+            border-radius: 10px;
+            border: 10px solid #31708F;
+        }
+
+        ol::before {
+            left: -5px;
+        }
+
+        ol::after {
+            right: -10px;
+            border: 10px solid transparent;
+            border-right: 0;
+            border-left: 20px solid #31708F;
+            border-radius: 3px;
+        }
+
+    /* ---- Timeline elements ---- */
+    .li-year {
+        position: relative;
+        display: inline-block;
+        float: left;
+        width: 150px;
+        font: bold 14px arial;
+        height: 50px;
+    }
+
+        .li-year .diplome {
+            position: absolute;
+            top: -47px;
+            left: 36%;
+            color: #000000;
+        }
+
+        .li-year .point {
+            content: "";
+            top: -4px;
+            left: 43%;
+            display: block;
+            width: 12px;
+            height: 12px;
+            border: 4px solid #31708F;
+            border-radius: 10px;
+            background: #fff;
+            position: absolute;
+        }
+
+        .li-year .description {
+            display: none;
+            background-color: #f4f4f4;
+            padding: 10px;
+            margin-top: 20px;
+            position: relative;
+            font-weight: normal;
+            z-index: 1;
+        }
+
+    .description::before {
+        content: '';
+        width: 0;
+        height: 0;
+        border-left: 5px solid transparent;
+        border-right: 5px solid transparent;
+        border-bottom: 5px solid #f4f4f4;
+        position: absolute;
+        top: -5px;
+        left: 43%;
+    }
+
+    /* ---- Hover effects ---- */
+    .li-year:hover {
+        cursor: pointer;
+        color: #48A4D2;
+    }
+
+        .li-year:hover .description {
+            display: block;
+        }
+
+    /*TIMELINE horizontal*/
+    .timeline-horizontal {
+        padding: 25px;
+        white-space: nowrap;
+        overflow-x: scroll;
+        padding: 30px 0 10px 0;
+        position: relative;
+    }
+
+    .entry {
+        display: inline-block;
+        vertical-align: top;
+        background: #1fadc5;
+        color: #fff;
+        padding: 10px;
+        font-size: 12px;
+        text-align: center;
+        position: relative;
+        border-top: 4px solid #dff0d8;
+        border-radius: 3px;
+        min-width: 200px;
+        max-width: 500px;
+    }
+
+        .entry img {
+            display: block;
+            max-width: 250px;
+            height: auto;
+            margin: 10px auto 10px auto;
+            align: middle;
+        }
+
+        .entry:after {
+            content: '';
+            display: block;
+            background: #eee;
+            width: 9px;
+            height: 9px;
+            border-radius: 6px;
+            border: 3px solid #dff0d8;
+            position: absolute;
+            left: 51%;
+            top: -28px;
+            margin-left: -7px;
+        }
+
+        .entry:before {
+            content: '';
+            display: block;
+            background: #06182E;
+            width: 5px;
+            height: 20px;
+            position: absolute;
+            left: 50%;
+            top: -20px;
+            margin-left: -2px;
+        }
+
+        .entry h1 {
+            color: #fff;
+            font-size: 18px;
+            font-family: Georgia, serif;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .entry h2 {
+            letter-spacing: .2em;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+    .bar {
+        height: 4px;
+        background: #04B404;
+        width: 100%;
+        position: relative;
+        top: 13px;
+        left: 0;
+    }
+
+    .setting-icon {
+        background: url("../images/setting.png") no-repeat scroll 0 0 transparent;
+        color: #000000;
+        border: 0px;
+        cursor: pointer;
+        height: 20px;
+        width: 20px;
+        float: right;
+        margin-right: 20px;
+        margin-top: -10px;
+    }
+</style>
+
+<div class="container">
+    <div class="page-header row">
+        <div class="col-md-6">
+            <span>Chọn mục xem:</span>
+            <select class="selectpicker" data-style="btn-primary" onchange="location = this.options[this.selectedIndex].value;">
+                <option value="@Url.Action("timeline/"+ViewBag.koiId, "InfoDetail")">Dòng thời gian</option>
+                <option value="@Url.Action("TimelineVertical/"+ViewBag.koiId , "InfoDetail" )">Ảnh sinh trưởng</option>
+                <option value="@Url.Action("ListAchievement/"+ViewBag.koiId , "Achievement")">Giải thưởng</option>
+                <option value="@Url.Action("ParentTree/"+ViewBag.koiId , "InfoDetail")">Cây phả hệ</option>
+                <option value="@Url.Action("AllOWner/"+ViewBag.koiId , "InfoDetail")" selected>Chủ đã sở hữu</option>
+            </select>
+        </div>
+    </div>
+</div>
+
+
+<div class="container">
+    <div class="bar"></div>
+    <div class="timeline-horizontal">
+        <div class="entry">
+            <h1>
+                <a href="@Url.Action("Details/"+@koi.KoiID , "Koi")" class="alert-warning" role="button">Koi: @koi.KoiName</a>
+            </h1>
+            <h1>@CommonFunction.calculateAge(koi.DoB.Value) </h1>
+            <img src="@Url.Content("~/Content/Image/Koi/" + koi.Image)" />
+            Here's the info about this date
+        </div>
+        @foreach (var item in ListOwner)
+        {
+            <div class="entry">
+                <h1>
+                    <a href="@Url.Action("Profile/"+@item.MemberID , "Account")" class="alert-warning" role="button">@item.Member.Name</a>
+                </h1>
+                @if (@item.KoiFarm != null)
+                {
+                    <h1>Trang trại: <a href="@Url.Action("KoiFarmDetail/"+ @item.KoiFarm.KoifarmID, "KoiFarm")">@item.KoiFarm.FarmName</a> </h1>}
+                <h1>Từ @item.DateOwerFrom.ToString("dd/MM/yyyy") </h1>
+                @if (@item.DateOwerTo.HasValue)
+                {
+                    <h1>Đến @item.DateOwerTo.Value.ToString("dd/MM/yyyy") </h1>
+                }
+               
+                <img src="@Url.Content("~/Content/Image/Member/" + item.Member.Image)" />
+                Here's the info about this date
+            </div>
+        }
+    </div>
+</div>

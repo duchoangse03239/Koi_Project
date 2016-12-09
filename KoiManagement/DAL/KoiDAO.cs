@@ -355,5 +355,22 @@ namespace KoiManagement.DAL
                 }
             }
         }
+
+        public List<Koi> getListKoiSonByKoiID(int koiID)
+        {
+            return db.Kois.Where(p => p.KoiMom == koiID && p.Status==1).Take(20).ToList();
+        }
+
+        public int? GetKoimombykoiID(int koiid)
+        {
+            var t = db.Kois.Find(koiid).KoiMom;
+            if (t.HasValue)
+            {
+                return t.Value;
+            }
+            return null;
+        }
+
+
     }
 }

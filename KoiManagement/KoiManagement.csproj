@@ -883,6 +883,7 @@
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\custom.js" />
     <Content Include="Scripts\flickity.pkgd.min.js" />
+    <Content Include="Scripts\go.js" />
     <Content Include="Scripts\images-grid.js" />
     <Content Include="Scripts\imagesloaded.pkgd.min.js" />
     <Content Include="Scripts\infiniteScroll.js" />
@@ -1113,6 +1114,8 @@
     <Content Include="Views\Admin\KoiFarmReport.cshtml" />
     <Content Include="Views\Article\ArticleDetail.cshtml" />
     <Content Include="Views\Admin\ListArticle.cshtml" />
+    <Content Include="Views\InfoDetail\ParentTree.cshtml" />
+    <Content Include="Views\InfoDetail\AllOwner.cshtml" />
     <None Include="Views\InfoDetail\timeline.cshtml" />
     <Content Include="Views\Message\ListMessage.cshtml" />
     <Content Include="Web.config">

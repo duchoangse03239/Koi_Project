@@ -5,12 +5,15 @@ using System.Web;
 using System.Web.Mvc;
 using KoiManagement.Common;
 using KoiManagement.DAL;
+using KoiManagement.Models;
+using Message = KoiManagement.Common.Message;
 
 namespace KoiManagement.Controllers
 {
     public class MessageController : Controller
     {
         // GET: Message
+        KoiManagementEntities db = new KoiManagementEntities();
         public ActionResult Index()
         {
             return View();
@@ -77,14 +80,14 @@ namespace KoiManagement.Controllers
             //    RedirectToAction("PageNotFound", "Error");
             //}
             ViewBag.messageID = id;
-            ViewBag.Ownerid = messageDao.getOwner(id);
+            ViewBag.Ownerid = messageDao.getMeByID(id);
             return View();
         }
 
          public JsonResult AddMessage(int messageid, string content,int tomember)
         {
             StatusObjForJsonResult obj = new StatusObjForJsonResult();
-            var ownerid = messageDao.getOwner(messageid);
+            var ownerid = messageDao.getMeByID(messageid);
             try
             {
 
@@ -128,6 +131,35 @@ namespace KoiManagement.Controllers
             }
             return Json(obj);
         }
+        
 
+       [HttpPost]
+        public ActionResult DeleteMessage(string Meid)
+        {
+            //kiem tra phan quyen
+            if (Session[SessionAccount.SessionUserId] == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            
+            Models.Message mem = db.Messages.Find(int.Parse(Meid));
+            mem.Status = false;
+            db.Messages.Attach(mem);
+            db.Entry(mem).Property(x => x.Status).IsModified = true;
+            int result = db.SaveChanges();
+            //return View();
+            if (result == 1)
+            {
+                return Json(new { result = true });
+            }
+            else
+            {
+                return Json(new
+                {
+                    result = false
+                });
+            }
+        }
     }
+    
 }

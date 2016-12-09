@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using KoiManagement.Models;
@@ -110,6 +111,11 @@ namespace KoiManagement.DAL
                 return koifarmid.First();
             }
             return 0;
+        }
+
+        public List<Owner> GetAllOwnersByKoiID(int KoiID)
+        {
+            return db.Owners.Where(p => p.KoiID == KoiID).ToList();
         }
     }
 }
