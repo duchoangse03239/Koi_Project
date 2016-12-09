@@ -37,9 +37,9 @@ namespace KoiManagement.DAL
             }
         }
 
-        public List<Question> GetListQuestion(int id)
+        public List<Question> GetListQuestion()
         {
-            return db.Questions.Where(p => p.TypeID == id).ToList();
+            return db.Questions.ToList();
         }
 
         public Question GetQuestionDetail(int id)

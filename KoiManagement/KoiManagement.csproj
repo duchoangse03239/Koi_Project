@@ -1177,6 +1177,7 @@
     <Content Include="Views\Layout\AdminLayout.cshtml" />
     <Content Include="Views\QuestionAnswer\CreateQuestion.cshtml" />
     <Content Include="Views\QuestionAnswer\QuestionDetail.cshtml" />
+    <Content Include="Views\QuestionAnswer\ListQA.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
