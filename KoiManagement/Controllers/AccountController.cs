@@ -82,7 +82,7 @@ namespace KoiManagement.Controllers
                 {
                     obj.Status = 4;
                     // khong ton tai
-                    obj.Message = "Mật khẩu hoặc tài khoản sai.";
+                    obj.Message = "Tên Đăng nhập hoặc Mật khẩu không đúng.";
                     return Json(obj);
                 }
                 else

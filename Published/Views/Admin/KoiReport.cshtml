@@ -1,0 +1,151 @@
+﻿@using KoiManagement.DAL
+@using KoiManagement.Models
+@using PagedList.Mvc;
+@{
+    ViewBag.Title = "Báo cáo vi phạm";
+    Layout = "~/Views/Layout/AdminLayout.cshtml";
+    PagedList.IPagedList ListMember = ViewBag.ListMember;
+    MemberDAO memDao = new MemberDAO();
+    KoiDAO koiDao = new KoiDAO();
+    ReportDAO reportDao = new ReportDAO();
+}
+
+<div id="page-wrapper">
+    <form style="margin-top:10px;" class="searchForm" action="" method="get">
+        <div class="row">
+            <div class="col-md-8">
+                <h1 class="page-header">Report - Koi</h1>
+            </div>
+            <div class="col-md-4">
+                <div class="input-group custom-search-form" style="margin-top: 50px;">
+                    <input type="text" name="searchString" id="searchString" value="@ViewBag.CurrentFilter" class="form-control" placeholder="Search...">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="submit">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </span>
+                </div>
+            </div>
+            <!-- /.col-lg-12 -->
+        </div>
+    </form>
+    <!-- /.row -->
+    <div class="row">
+        <div class="col-lg-12">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>@Html.ActionLink("Thời gian	", "KoiReport", new { sortOrder = ViewBag.Date, currentFilter = ViewBag.CurrentFilter })</th>
+                        <th>@Html.ActionLink("Tài khoản report", "KoiReport", new { sortOrder = ViewBag.UserName, currentFilter = ViewBag.CurrentFilter })</th>
+                        <th style="background-color:yellow">@Html.ActionLink("Cá bị report", "KoiReport", new { sortOrder = ViewBag.KoiID, currentFilter = ViewBag.CurrentFilter })</th>
+                        <th>Nội dung</th>
+                        <th>Số lần bị report</th>
+                        <th>@Html.ActionLink("Trạng thái", "KoiReport", new { sortOrder = ViewBag.Status, currentFilter = ViewBag.CurrentFilter })</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                    @{if (ViewBag.ListMember != null)
+                        {
+                            for (var item = 0; item < ViewBag.ListMember.Count; item++)
+                            {
+                                var ObjectID = koiDao.getKoiById(ViewBag.ListMember[item].ObjectId);
+                            <tr>
+                                <td>@(ViewBag.ListMember[item].DateTime != null ? ViewBag.ListMember[item].DateTime.ToString("dd/MM/yyyy") : "Chưa biết")</td>
+                                <td><a href="@Url.Action("ListMember", "Admin",new {searchstring= @memDao.GetMemberbyID(ViewBag.ListMember[item].MemberID).UserName})">@memDao.GetMemberbyID(ViewBag.ListMember[item].MemberID).UserName</a></td>
+                                <td style="background-color:yellow "><a href="@Url.Action("ListKoi", "Admin",new {searchstring= @ObjectID.KoiID})">@ObjectID.KoiID</a></td>
+                                <td>@ViewBag.ListMember[item].Content</td>
+                                <th>@reportDao.CountKoiReport(ViewBag.ListMember[item].ObjectId)</th>
+                                @if (ViewBag.ListMember[item].Status)
+                                {
+                                    <td><a onclick="DeActiveReport(@ViewBag.ListMember[item].ReportID)" class="btn btn-success btn-sm" role="button">Đánh dấu đã xem</a></td>
+                                }
+                                else
+                                {
+                                    <td>Đã xử lý</td>
+                                }
+
+                                @if (ObjectID.Status==1)
+                                {
+                                    <td class="col-md-1"><a class="btn btn-danger btn-sm" onclick="Delete(@ViewBag.ListMember[item].ObjectId, '@ObjectID.KoiName');" role="button">Khóa</a></td>
+                                }
+
+                                else
+                                {
+                                    <td class="col-md-1"><a class="btn btn-danger btn-sm" onclick="Active(@ViewBag.ListMember[item].ObjectId, '@ObjectID.KoiName');" role="button">Mở khóa</a></td>
+                                }
+                            </tr>
+                        }}
+                    }
+                </tbody>
+            </table>
+            Page @(ListMember.PageCount < ListMember.PageNumber ? 0 : ListMember.PageNumber) of @ListMember.PageCount
+            @Html.PagedListPager(ListMember, page => Url.Action("ListMember", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+        </div>
+        <!-- /.col-lg-8 -->
+    </div>
+    <!-- /.row -->
+</div>
+<script type="text/javascript">
+    function Delete(KoiID, username) {
+        if (confirm("Bạn có chắc chắn muốn khóa  " + username + "?")) {
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("DeActiveReportKoi")",
+                datatype: "JSON",
+            data: {
+                KoiID: KoiID
+            },
+            success: function (res) {
+                if (res) {
+
+                    window.location.reload();
+                    // $('#test').html();
+                    alert("Khóa thành công");
+                }
+            }
+        }); // end ajax
+    }
+    }
+
+    function Active(KoiID, username) {
+        if (confirm("Bạn có chắc chắn muốn mở khóa  " + username + "?")) {
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("ActiveKoi")",
+                datatype: "JSON",
+            data: {
+                KoiID: KoiID
+            },
+            success: function (res) {
+                if (res) {
+
+                    window.location.reload();
+                    // $('#test').html();
+                    alert("Mở khóa thành công");
+                }
+            }
+        }); // end ajax
+    }
+    }
+
+    function DeActiveReport(ReportID) {
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("DeActiveReport")",
+                datatype: "JSON",
+            data: {
+                ReportID: ReportID
+            },
+            success: function (res) {
+                if (res) {
+
+                    window.location.reload();
+                    // $('#test').html();
+                    alert("Đánh dấu khóa thành công");
+                }
+            }
+        }); // end ajax
+    }
+</script>

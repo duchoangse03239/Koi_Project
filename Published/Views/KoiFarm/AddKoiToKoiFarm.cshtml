@@ -1,0 +1,69 @@
+﻿@model IEnumerable<KoiManagement.Models.Koi>
+
+@{
+    ViewBag.Title = "Thêm cá vào trang trại";
+    Layout = "~/Views/Layout/KoiLayout.cshtml";
+}
+
+
+<section class="container" id="list-koi">
+    <h2>Hãy chọn cá bạn muốn thêm vào trang trại</h2>
+    <div class="button-header text-right" style="margin:0 0 15px 0;">
+        <a class="btn btn-success" href="@Url.Action("AddKoiToKoiFarm", "KoiFarm")">Thêm cá vào trang trại</a>
+    </div>
+    <table class="table">
+        <tr>
+            <th>
+               Hình ảnh
+            </th>
+            <th>
+                Chủng loại
+            </th>
+            <th>
+               Tên cá
+            </th>
+            <th>
+               Ngày sinh
+            </th>
+            <th>
+                Giới tính
+            </th>
+
+            <th>
+                Nguồn gốc
+            </th>
+            <th>
+                Thêm vào trang trại
+            </th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <img class="img-koi-list " src="/Content/Image/Koi/@item.Image" alt="">
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Variety.VarietyName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.KoiName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DoB)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Gender)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Origin)
+                </td>
+
+                <td >
+                    <label><input type="checkbox" value="" >Chọn</label>
+                </td>
+            </tr>
+        }
+
+    </table>
+</section>

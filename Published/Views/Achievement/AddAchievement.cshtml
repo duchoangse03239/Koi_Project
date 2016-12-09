@@ -1,0 +1,202 @@
+﻿
+@{
+    ViewBag.Title = "Thêm thành tích";
+    Layout = "~/Views/Layout/KoiLayout.cshtml";
+}
+
+<div class="container" id="add-achievment">
+    <form>
+        <h2 id="form-title" class="align-center">THÊM GIẢI THƯỞNG</h2>
+        <div class="">
+            <div class="row">
+                <div class="col-sm-6 col-sm-offset-3">
+                    <label>Thời gian</label>
+                    <input type="text" class="form-control" placeholder="DD-MM-YYYY" id="Time" name="Time" />
+                    <label id="lblmessage_time_fail" class="label-error"></label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6 col-sm-offset-3">
+                    <label for="description">Mô tả</label>
+                    <textarea class="form-control" placeholder="Mô tả giải thưởng" id="Description" name="description"></textarea>
+                    <label id="lblMessage_description_fail" class="label-error"></label>
+                </div>
+            </div>
+            <br />
+            <div class="col-sm-6 col-sm-offset-3" style="margin-top: 15px;">
+                <label>Ảnh mô tả</label>
+                <input type="file" accept="image/png, image/jpeg, image/gif" name="file" id="file" class="img" onchange="loadFile(event)" />
+                <br />
+                <div><img id="imagePreview" src="~/Content/Image/Common/blank.jpg" alt="" /></div>
+                <script>
+                    var loadFile = function (event) {
+                        var output = document.getElementById('imagePreview');
+                        imagePreview.src = URL.createObjectURL(event.target.files[0]);
+                    };
+                </script>
+            </div>
+
+            <div class="row" id="add-Achievement-btn">
+                <div class="col-sm-6 col-sm-offset-3 align-right">
+                    <button class="btn btn-primary" id="btnAddAchievement">Thêm mới</button>
+                    <a class="btn btn-primary" id="btnCancel" href='javascript:history.go(-1)'>Đóng</a>
+                </div>
+            </div>
+
+        </div>
+    </form>
+</div>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $(function () {
+            $("#description").focus();
+        });
+    });
+
+    $(document).keypress(function (event) {
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        if (keycode == "13") {
+            if (Validate()) {
+                AddAchievement();
+            } else {
+
+                return false;
+            }
+        }
+    });
+
+
+    $("#btnAddAchievement").click(function () {
+        if (Validate()) {
+            AddAchievement();
+        } else {
+
+            return false;
+        }
+    });
+
+    function Validate() {
+        var Time = $('#Time').val();
+        var Description = $('#Description').val();
+        
+        $('#lblmessage_time_fail').text("");
+        $('#lblMessage_description_fail').text("");
+
+        if (Time != "") {
+            if (!validateDate(Time)) {
+                $('#lblmessage_time_fail').text("Xin hãy nhập định dạng DD-MM-YYYY!");
+                $('#Time').focus();
+                return false;
+            }
+            if (!validateDateRangeMax(Time)) {
+                $('#lblmessage_time_fail').text("Ngày đoạt giải không thể vượt quá ngày hiện tại!");
+                $('#Time').focus();
+                return false;
+            }
+        }
+
+        if (Description.length > 1000) {
+            $('#lblMessage_description_fail').text("Bạn đã nhập quá 1000 ký tự!");
+            $('#Description').focus();
+            return false;
+        }
+        if (Description == "") {
+            $('#lblMessage_description_fail').text("Bạn hãy nhập mô tả cho giải thưởng này!");
+            $('#Description').focus();
+            return false;
+        }
+
+        function validateDate(date) {
+            return (/^\d{2}-\d{2}-\d{4}$/).test(date);
+        }
+
+        function validateDateRangeMax(inputDate) {
+            var now = new Date();
+            var dateParts = inputDate.split("-");
+            var date = new Date(dateParts[2], dateParts[1] - 1, dateParts[0]); // month is 0-based
+            return date < now;
+        }
+
+
+
+        return true;
+    }
+
+    function AddAchievement() {
+        var fileUpload = $("#file").get(0);
+        var files = fileUpload.files;
+        // Looping over all files and add it to FormData object
+        var fileData = new FormData();
+
+        for (var i = 0; i < files.length; i++) {
+            fileData.append(files[i].name, files[i]);
+        }
+
+        // Adding one more key to FormData object
+        fileData.append('Time', $('#Time').val());
+        fileData.append('Description', $('#Description').val());
+
+        $('#lblMessage_time_fail').text("");
+        $('#lblMessage_description_fail').text("");
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("AddAchievement")",
+            contentType: false, // Not to set any content header
+            processData: false,
+            data: fileData,
+            dataType: "Json",
+        success: function(res) {
+            switch (res.Status) {
+                case 2:
+                    break;
+                case 3:
+                    break;
+                case 4:
+                    break;
+                case 1:
+                    alert(res.Message);
+                    window.location.href = res.RedirectTo;
+                    break;
+                case 0:
+                    window.location.href = res.RedirectTo;
+                    break;
+            }
+        }
+    });
+    }
+
+    $(document).ready(function () {
+        if (window.File && window.FileList && window.FileReader) {
+            $("#files").on("change", function (e) {
+                var files = e.target.files,
+                  filesLength = files.length;
+                for (var i = 0; i < filesLength; i++) {
+                    var f = files[i]
+                    var fileReader = new FileReader();
+                    fileReader.onload = (function (e) {
+                        var file = e.target;
+                        $("<span class=\"pip\">" +
+                          "<img class=\"imageThumb\" src=\"" + e.target.result + "\" title=\"" + file.name + "\"/>" +
+                          "<br/><span class=\"remove\">X</span>" +
+                          "</span>").insertAfter("#files");
+                        $(".remove").click(function () {
+                            $(this).parent(".pip").remove();
+                        });
+                    });
+                    fileReader.readAsDataURL(f);
+                }
+            });
+        } else {
+            alert("Your browser doesn't support to File API")
+        }
+    });
+</script>
+@*<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>*@
+
+
+
+
+  
+

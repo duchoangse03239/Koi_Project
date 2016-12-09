@@ -1,0 +1,895 @@
+﻿@using KoiManagement.Common
+@using KoiManagement.Models
+@model KoiManagement.Models.Koi
+
+@{
+    ViewBag.Title = "Chi tiết cá Koi";
+    Layout = "~/Views/Layout/KoiLayout.cshtml";
+    Owner owner = ViewBag.Owner;
+    List<Medium> listImage = ViewBag.listImage;
+    if (ViewBag.NewMemberID == null) { ViewBag.NewMemberID = 0; }
+    if (ViewBag.Size == null) { ViewBag.Size = 0; }
+    List<Comment> ListComment = ViewBag.ListComment;
+    List<List<Comment>> ListCommentDetail = ViewBag.ListCommentDetail;
+
+}
+
+<body>
+
+    <!-- Modal Trade-->
+    <div id="trade" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Chuyển chủ sở hữu</h4>
+                </div>
+                <div class="modal-body">
+                    <label>Chủ sở hữu mới</label>
+                    <p>Xin hãy nhập tên đăng nhập chủ sở hữu mới</p>
+                    <input type="text" id="username" name="username"placeholder="Nhập tên tài khoản"/>
+                    <a onclick="ChangeOwner(@Model.KoiID)" class="btn btn-primary btn-sm">Lưu</a>
+                    <label id="lbl_username_fail" class="label-error"></label>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- Modal Contact-->
+<div id="contact" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Liên hệ với chủ sở hữu</h4>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <label>Gửi tin nhắn đến:</label>
+                    @if (owner != null)
+                    {
+                        <a href="/Account/profile/@owner.Member.MemberID">@owner.Member.Name</a>
+                    }
+                </div>
+                <div>
+                    <label>Tiêu đề:</label>
+                    <input type="text" class="form-control" placeholder="Xin hãy nhập tiêu đề" id="Title" name="Title" />
+                    <label id="lblmessage_Title_fail" class="label-error"></label>
+                </div>
+                <div>
+                    <label>Nội dung:</label>
+                </div>
+                <div>
+                    <textarea rows="4" cols="69" id="content" name ="content" placeholder="Nhập nội dung tin nhắn"></textarea>
+                    <label id="lbl_Content_fail" class="label-error"></label>
+                </div>
+                <div style="margin-top:10px;">
+                    <a onclick="SentMessage(@Model.KoiID)" class="btn btn-primary">Gửi</a>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+    
+        <!-- Modal Contact-->
+<div id="contact" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Liên hệ với chủ sở hữu</h4>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <label>Gửi tin nhắn đến:</label>
+                    @if (owner != null)
+                    {
+                        <a href="/Account/profile/@owner.Member.MemberID">@owner.Member.Name</a>
+                    }
+                </div>
+                <div>
+                    <label>Tiêu đề:</label>
+                </div>
+                <div>
+                    <input type="text" id="title" name = "title"placeholder="Nhập tiêu đề" >
+                </div>
+                <div>
+                    <label>Nội dung:</label>
+                </div>
+                <div>
+                    <textarea rows="4" cols="69" id="content" name ="content" placeholder="Nhập nội dung tin nhắn"></textarea>
+                    <label id="lbl_Content_fail" class="label-error"></label>
+                </div>
+                <div style="margin-top:10px;">
+                    <a onclick="SentMessage(@Model.KoiID)" class="btn btn-primary">Gửi</a>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+    <!-- Modal Report-->
+    <div id="report" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Báo cáo vi phạm</h4>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        <label>Nội dung vi phạm:</label>
+                    </div>
+                    <div>
+                        <textarea rows="4" cols="69" id="contentReport" name="content" placeholder="Nhập nội dung vi phạm"></textarea>
+                        <label id="lbl_report_fail" class="label-error"></label>
+                    </div>
+                    <div style="margin-top:10px;">
+                        <a onclick="ReportKoi(@Model.KoiID)" class="btn btn-primary">Gửi</a>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+<div class="section site-main">
+    <div class="container">
+        <div class="koi-detail">
+            <div class="row">
+                <div class="col-md-5 col-md-offset-1">
+                    <div class="image-slider">
+                        
+                        <div id="jssor_1" style="position: relative; margin: 0 auto; top: 0px; left: 0px; width: 300px; height: 456px; overflow: hidden; visibility: hidden; background-color: #24262e;">
+                            <!-- Loading Screen -->
+                            <div data-u="loading" style="position: absolute; top: 0px; left: 0px;">
+                                <div style="filter: alpha(opacity=70); opacity: 0.7; position: absolute; display: block; top: 0px; left: 0px; width: 100%; height: 100%;"></div>
+                                <div style="position: absolute; display: block; background: url('images/loading.gif') no-repeat center center; top: 0px; left: 0px; width: 20%; height: 100%;"></div>
+                            </div>
+                            <div data-u="slides" style="cursor: default; position: relative; top: 0px; left: 0px; width: 300px; height: 375px; overflow: hidden;">
+                                <div data-p="144.50">
+                                    <img data-u="image" src="~/Content/Image/Koi/@Model.Image"/>
+                                    <img data-u="thumb" src="~/Content/Image/Koi/@Model.Image"/>
+                                </div>
+                                @{
+                                    if (listImage.Count > 0)
+                                    {
+                                        foreach (var image in listImage)
+                                        {
+                                            <div data-p="144.50" style="display: none;">
+                                                <img data-u="image" src="~/Content/Image/Detail/@image.LinkImage.Trim()" />
+                                                <img data-u="thumb" src="~/Content/Image/Detail/@image.LinkImage.Trim()" />
+                                            </div>
+                                        }
+                                    }
+
+                                }
+                            </div>
+                            <!-- Thumbnail Navigator -->
+                            <div data-u="thumbnavigator" class="jssort01" style="position: absolute; left: 0px; bottom: 0px; width: 300px; height: 80px;" data-autocenter="1">
+                                <!-- Thumbnail Item Skin Begin -->
+                                <div data-u="slides" style="cursor: default;">
+                                    <div data-u="prototype" class="p">
+                                        <div class="w">
+                                            <div data-u="thumbnailtemplate" class="t"></div>
+                                        </div>
+                                        <div class="c"></div>
+                                    </div>
+                                </div>
+                                <!-- Thumbnail Item Skin End -->
+                            </div>
+                            <!-- Arrow Navigator -->
+                            <span data-u="arrowleft" class="jssora05l" style="top: 158px; left: 8px; width: 40px; height: 40px;"></span>
+                            <span data-u="arrowright" class="jssora05r" style="top: 158px; right: 8px; width: 40px; height: 40px;"></span>
+                        </div>
+                        <!-- #endregion Jssor Slider End -->
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <div class="item">
+                        <div class="item-attr">
+                            <div class="line item-name">
+                                <h1>@Model.KoiName</h1>
+                            </div>
+                            <div class="line">
+                                <label><span class="fa fa-cubes"></span> Chủng loại:</label> <span>@Model.Variety.VarietyName</span>
+                            </div>
+                            <div class="line">
+                                <label><span class="fa fa-calendar"></span> Ngày sinh:</label> <span>@(Model.DoB != null ? Model.DoB.Value.ToString("dd/MM/yyyy") : "Chưa biết")</span>
+                            </div>
+                            <div class="line">
+                                <label><span class="fa fa-adjust"></span> Giới tính:</label> <span>@CommonFunction.ReturnGenderKoi(@Model.Gender)</span>
+                            </div>
+                            <div class="line">
+                                <label><span class="fa fa-arrows-h"></span> Kích thước:</label> <span>@ViewBag.Size cm</span>
+                            </div>
+                            <div class="line">
+                                <label><span class="fa fa-bullseye"></span> Xuất xứ:</label> <span>@Model.Origin</span>
+                            </div>
+                            <div class="line">
+                                <label><span class="fa fa-hand-rock-o"></span> Tính cách:</label> <span>@Model.Temperament</span>
+                            </div>
+                            <div class="line">
+                                <label><span class="fa fa-user"></span>  Bố - Mẹ:</label> @{
+                                    if (ViewBag.KoiMomName != null)
+                                    {
+                                        <a href="/Koi/Details/@Model.KoiMom">@ViewBag.KoiMomName <span class="fa fa-angle-double-right"></span></a>
+                                    }
+                                    else if (@owner != null)
+                                    {
+                                        if (Session[SessionAccount.SessionUserId] != null && @owner.Member.MemberID.ToString().Equals(Session[SessionAccount.SessionUserId].ToString()))
+                                        {
+                                            <span><a href="@Url.Action("AddParent/"+ Model.KoiID, "InfoDetail")" class="btn btn-embossed btn-primary btn-sm" role="button">Thêm bố - mẹ</a></span>
+                                        }
+                                    }
+                                }
+                            </div>
+                            <div class="line">
+                                <label><span class="fa fa-home"></span> Chủ sở hữu:</label>
+                                @if (owner != null)
+                                {
+                                    <span><a href="/Account/profile/@owner.Member.MemberID">@owner.Member.Name</a></span>
+                                    if (Session[SessionAccount.SessionUserId] != null && @owner.Member.MemberID.ToString().Equals(Session[SessionAccount.SessionUserId].ToString()))
+                                    {
+                                        <span style="float:right;"><a  class="btn btn-embossed btn-primary btn-sm" role="button" data-toggle="modal" data-target="#trade">Đổi chủ</a></span>}
+                                }
+                            </div>
+                            @if (owner != null&& @owner.KoiFarmID!=null)
+                            {
+                                <div class="line">
+                                    <label><span class="fa fa-users"></span> Trang trại:</label> <a href="@Url.Action("KoiFarmDetail/"+@owner.KoiFarmID, "KoiFarm")">@owner.KoiFarm.FarmName <span class="fa fa-angle-double-right"></span></a>
+                                </div>
+                            }
+                            <div class="line">
+                                <label><span class="fa fa-trophy"></span> Thành tích:</label> <a href="@Url.Action("ListAchievement/"+Model.KoiID , "Achievement")">Chi tiết <span class="fa fa-angle-double-right"></span></a>
+                            </div>
+                            <div class="line">
+                                <label><span class="fa fa-clock-o"></span> Thông tin sinh trưởng:</label> <a href="@Url.Action("timeline/"+@Model.KoiID, "InfoDetail")">Chi tiết <span class="fa fa-angle-double-right"></span></a>
+                            </div>
+                            <div class="line">
+                                <a href="#" class="btn btn-embossed btn-primary" role="button" data-toggle="modal" data-target="#contact">Liên hệ</a>
+                                <a href="#" class="btn btn-embossed btn-primary" role="button" data-toggle="modal" data-target="#report" style="float: right;">Báo cáo vi phạm</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-10 col-md-offset-1" style="margin-top: 40px;">
+                    <div class="ratings" onclick="Rating(this.id)" style="margin-top: 13px;">
+                        <input  type="number" name="your_awesome_parameter" id="rating-default" class="rating" value="3" />
+                        <label for="TextComment" style="vertical-align: middle"></label>
+                    </div>
+                        <div class="post-footer" style="margin-top: 20px">
+                            <div class="">
+                                <input id="MainComment"class="form-control" placeholder="Add a comment" type="text" disabled>
+                            </div>
+                            @for (int i = 0; i < ListComment.Count; i++)
+                            {
+                                <ul class="comments-list">
+                                    <li class="comment">
+                                        <a class="pull-left"  href="@Url.Action("Profile/" + @ListComment.ElementAt(i).MemberID, "Account")">
+                                            <img class="avatar" src="/Content/Image/Member/@ListComment.ElementAt(i).Member.Image" alt="avatar">
+                                        </a>
+                                        <div class="comment-body">
+                                            <div class="comment-heading">
+                                                <a class="pull-left" href="@Url.Action("Profile/" + @ListComment.ElementAt(i).MemberID, "Account")"></a>
+                                                <h4 class="user"><a>@ListComment.ElementAt(i).Member.Name</a></h4>
+                                                <input type="number" name="your_awesome_parameter" id="rating-readonly" class="rating star" value="@Convert.ToInt32(ListComment.ElementAt(i).Rating)" data-readonly />
+                                                <h5 class="time">@ListComment.ElementAt(i).DateTime</h5>
+                                                @{ var editComment = "editCmt" + i; }
+                                                @if (Session[SessionAccount.SessionUserId] != null && Session[SessionAccount.SessionUserId].ToString().Equals(ListComment.ElementAt(i).Member.MemberID.ToString()))
+                                                {
+                                                    <span id="ed-button" style="float: right;">
+                                                    <div class="dropdown">
+                                                        <a class="dropdown-toggle" data-toggle="dropdown">
+                                                            <span class="fa fa-edit" title="Sửa hoặc xóa"></span>
+                                                        </a>
+                                                        <ul class="dropdown-menu dropdown-menu-right">
+                                                            <li><a id="buttonid" name="buttonid" data-p="@editComment">Sửa</a></li>
+                                                            <li><a id="delete-comment" onclick="DeleteComment(@ListComment.ElementAt(i).CommentID)"  >Xóa</a></li>
+                                                        </ul>
+                                                    </div>
+                                                </span>
+                                                }
+                                            </div>
+                                            <p for="@editComment">@ListComment.ElementAt(i).Content</p>
+                                            @{var replyID= "reply"+ i;}
+                                            <a id="@replyID"  onmouseover="this.style.cursor='pointer';" onclick="ReplyFunction(this.id);" style="font-size: 13px;">Trả lời</a>
+                                        </div>
+                                        <ul class="comments-list">
+                                            @for (var item = 0; item< @ListCommentDetail.ElementAt(i).Count; item++) { 
+                                                <li class="comment">
+                                                    <a class="pull-left"  href="@Url.Action("Profile/" + @ListCommentDetail.ElementAt(i).ElementAt(item).MemberID, "Account")">
+                                                        <img class="avatar" src="/Content/Image/Member/@ListCommentDetail.ElementAt(i).ElementAt(item).Member.Image" alt="avatar">
+                                                    </a>
+                                                    <div class="comment-body">
+                                                        <div class="comment-heading">
+                                                            <a class="pull-left" href="@Url.Action("Profile/" + @ListCommentDetail.ElementAt(i).ElementAt(item).MemberID, "Account")"></a>
+                                                                <h4 class="user"><a>@ListCommentDetail.ElementAt(i).ElementAt(item).Member.Name</a></h4>
+                                                                <h5 class="time">@ListCommentDetail.ElementAt(i).ElementAt(item).DateTime</h5>
+                                                            @{ var editCommentSon = "editCmtSon" + i + @item; }
+
+                                                             @if (Session[SessionAccount.SessionUserId] != null && Session[SessionAccount.SessionUserId].ToString().Equals(@ListCommentDetail.ElementAt(i).ElementAt(item).Member.MemberID.ToString()))
+                                                            {
+                                                                <span id="ed-button" style="float: right;">
+                                                                    <div class="dropdown">
+                                                                        <a class="dropdown-toggle" data-toggle="dropdown">
+                                                                            <span class="fa fa-edit" title="Sửa hoặc xóa"></span>
+                                                                        </a>
+                                                                        <ul class="dropdown-menu dropdown-menu-right">
+                                                                            <li><a id="buttonid" name="buttonid"onclick="comSonID(@ListCommentDetail.ElementAt(i).ElementAt(item).CommentID)" data-p="@editCommentSon">Sửa</a></li>
+                                                                            <li><a id="delete-comment" onclick="DeleteComment(@ListCommentDetail.ElementAt(i).ElementAt(item).CommentID)">Xóa</a></li>
+                                                                        </ul>
+                                                                        <input type="hidden" id="comSonID" name="comSonID" >
+                                                                    </div>
+                                                                </span>
+                                                            }
+                                                            <p for="@editCommentSon">@ListCommentDetail.ElementAt(i).ElementAt(item).Content</p>
+                                                        </div>   
+                                                    </div> 
+                                                </li>
+                                            }
+                                            @{ var inputReply = "input-reply" + i;}
+                                             @if (Session[SessionAccount.SessionUserId] != null) { 
+                                            <li class="comment" id="@inputReply" style="display: none;">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon" style="padding: 2px 2px;">
+                                                    <a class="pull-left" href="#">
+                                                        <img class="avatar" src="/Content/Image/Member/@Session[SessionAccount.SessionImage].ToString()" alt="avatar">
+                                                    </a>
+                                                </span>
+                                                    @{
+                                                        var CommentId = "comment" + i;
+                                                        var ComId = ListComment.ElementAt(i).CommentID;
+                                                        var ComName = "com" + i;
+                                                    }
+                                                    <input class="form-control" id="@CommentId" placeholder="Add a comment" type="text">
+                                                    <input type="hidden" id="@ComName" value ="@ComId" placeholder="Add a comment" type="text">
+                                                </div>
+                                            </li>}
+                                        </ul>
+                                    </li>
+                                </ul>
+                            }
+                            <div id="CommentMore">
+                            </div>
+                        </div>
+                  </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+
+<script src="~/Scripts/slider.js"></script>
+<script src="~/Scripts/jssor.slider-21.1.6.mini.js"></script>
+
+
+<script type="text/javascript">
+    $(document)
+        .ready(function() {
+            $("a")
+                .click(function() {
+                    var tar_id = $(this).attr("data-p");
+                    var tar = $("p[for='" + tar_id + "']");
+                    var val = tar.text();
+                    tar.replaceWith("<input style='width:100%;' type='text' name='" +
+                        tar_id +
+                        "' id='" +
+                        tar_id +
+                        "' value='" +
+                        val +
+                        "' /><br/>");
+                });
+        });
+
+    $('.comments-list')
+        .on('click',
+            '#delete-comment',
+            function() {
+                $(this).closest('li').remove();
+            });
+
+    //$('.comments-list a#delete-comment').live('click', function(){
+    //    $(this).parent().remove();
+    //});
+
+    var RateNum;
+
+    function SentMessage(parameter1) {
+        var content = $('#content').val();
+        $('#lbl_Content_fail').text("");
+        var Title =$('#Title').val();
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("SentMessage")",
+            datatype: "JSON",
+            data: {
+                koiId: parameter1,
+                Title:Title,
+                content: content,
+                ToMember: @owner.Member.MemberID,
+            },
+            success: function (res) {
+                switch (res.Status) {
+                    case 2:
+                        $('#lbl_username_fail').text(res.Message);
+                        $('#username').focus();
+                        break;
+                    case 3:
+                        $('#lbl_username_fail').text(res.Message);
+                        $('#username').focus();
+                        break;
+                    case 1:
+                        alert(res.Message);
+                        // Declare a proxy to reference the hub.
+                        var notifications = $.connection.notificationsHub;
+                        // Create a function that the hub can call to broadcast messages.
+                        $.connection.hub.start()
+                            .done(function () {
+                                notifications.server.sendNotification(res.JsonObject, "doi chu", "koi");
+                            });
+                        window.location.reload();
+                        break;
+                }
+            }
+        }); // end ajax
+    }
+
+    function ReportKoi(parameter1) {
+        var content = $('#contentReport').val();
+        $('#lbl_Report_fail').text("");
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("ReportKoi","Report")",
+            datatype: "JSON",
+            data: {
+                koiId: parameter1,
+                content: content,
+            },
+            success: function (res) {
+                switch (res.Status) {
+                    case 2:
+                        $('#lbl_username_fail').text(res.Message);
+                        $('#username').focus();
+                        break;
+                    case 3:
+                        $('#lbl_username_fail').text(res.Message);
+                        $('#username').focus();
+                        break;
+                    case 1:
+                        alert(res.Message);
+                        // Declare a proxy to reference the hub.
+                        var notifications = $.connection.notificationsHub;
+                        // Create a function that the hub can call to broadcast messages.
+                        $.connection.hub.start()
+                            .done(function () {
+                                notifications.server.sendNotification(res.JsonObject, "doi chu", "koi");
+                            });
+                        window.location.reload();
+                        break;
+                }
+            }
+        }); // end ajax
+    }
+
+    function ChangeOwner(parameter1) {
+        var username = $('#username').val();
+        $('#lbl_username_fail').text("");
+
+        if (confirm("Bạn có chắc chắn muốn đổi chủ?")) {
+
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("ChangeOwner")",
+                datatype: "JSON",
+                data: {
+                    koiId: parameter1,
+                    username: username
+                },
+                success: function (res) {
+                    switch (res.Status) {
+                        case 2:
+                            $('#lbl_username_fail').text(res.Message);
+                            $('#username').focus();
+                            break;
+                        case 3:
+                            $('#lbl_username_fail').text(res.Message);
+                            $('#username').focus();
+                            break;
+                        case 1:
+                            alert(res.Message);
+                            // Declare a proxy to reference the hub.
+                            var notifications = $.connection.notificationsHub;
+                            // Create a function that the hub can call to broadcast messages.
+                            $.connection.hub.start()
+                                .done(function () {
+                                    notifications.server.sendNotification(res.JsonObject, "doi chu", "koi");
+                                });
+                            window.location.reload();
+                            break;
+                    }
+                }
+            }); // end ajax
+        }
+    }
+    var id1;
+    function ReplyFunction(id) {
+        @{
+                for (var i = 0; i <= ListComment.Count; i++)
+                {
+                    <text>
+
+        var ele1 = document.getElementById("input-reply"+@i);
+        //  ele1.style.cursor = "pointer";
+        id1 = "reply" + @i;
+        if(id==id1){
+            var input ="#input-reply"+@i;
+            var ele = document.getElementById("input-reply"+@i);
+            if(ele.style.display == "block") {
+                ele.style.display = "none";
+            }
+            else {
+                ele.style.display = "block";
+                var m="#comment" + @i;
+                $(m).focus();
+            }
+        }
+        </text>
+            }
+            }
+    }
+
+    $(document)
+        .keypress(function(event) {
+            var keycode = (event.keyCode ? event.keyCode : event.which);
+            if (keycode == "13") {
+                if (Validate()) {
+                    AddComment();
+                } else {
+                    return false;
+                }
+            }
+        });
+
+    function Validate() {
+
+        return true;
+    }
+    //get comment sonid
+    function DeleteComment(parameter1) {
+        if (confirm("Bạn có chắc chắn muốn xóa?")) {
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("DeleteComment", "Comment")",
+                datatype: "JSON",
+                data: {
+                    commentid: parameter1
+                },
+                success: function (res) {
+                    if (res) {
+
+                        window.location.reload();
+                        // $('#test').html();
+                        alert("Xóa thành công");
+                    }
+                }
+            }); // end ajax
+        }
+    }
+    function comSonID(comid) {
+        $("#comSonID").val(comid);
+    }
+    function AddComment() {
+        //ẩn hiện textbox
+        var activeInput = document.activeElement.id;
+        var id = activeInput.substr(activeInput.length - 1);
+        var sonId= activeInput.substr(activeInput.length - 2);
+
+        //lấy ID theo active
+        if(activeInput=="MainComment"){
+            //ajax thêm comment chính
+            var TextComment = $('#MainComment').val();
+            var koiId= @Model.KoiID;
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("AddCommentKoi", "Comment")",
+                datatype: "JSON",
+                data: JSON.stringify({
+                    Comment: TextComment,
+                    koiID: koiId,
+                    RateNum: RateNum
+                }),
+                contentType: 'application/json; charset=utf-8',
+                success: function(res) {
+                    switch (res.Status) {
+                        case 2:
+                            $('#lbl_username_fail').text(res.Message);
+                            $('#username').focus();
+                            break;
+                        case 3:
+                            alert(res.Message);
+                            break;
+                        case 1:
+                            window.location.reload();
+                            // xuw ly realtime
+                            // DisplayListItems(result);
+                            break;
+                    }
+                }
+            });
+        } else {
+            //ẩn input
+            var textSonComment = $('#comment' + id).val();
+            var textEditCmt = $('#editCmt' + id).val();
+            var textEditCmtSon = $('#editCmtSon' + sonId).val();
+            var Commmentid = $('#com' + id).val();
+            var koiId1 = @Model.KoiID;
+            if (textSonComment != "") {
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("AddSonCommentKoi", "Comment")",
+                    datatype: "JSON",
+                    data: {
+                        commentId: Commmentid,
+                        comment: textSonComment,
+                        koiID: koiId1
+                    },
+                    success: function (res) {
+                        switch (res.Status) {
+                            case 2:
+                                $('#lbl_username_fail').text(res.Message);
+                                $('#username').focus();
+                                break;
+                            case 3:
+                                alert(res.Message);
+                                break;
+                            case 1:
+                                window.location.reload();
+                                // Declare a proxy to reference the hub.
+                                var notifications = $.connection.notificationsHub;
+                                // Create a function that the hub can call to broadcast messages.
+                                $.connection.hub.start()
+                                    .done(function () {
+                                        notifications.server.sendNotification(res.JsonObject, "doi chu", "koi");
+                                    });
+                                break;
+                        }
+                    }
+                });
+                $("#input-reply" + id).hide();
+
+            }else if (textEditCmt !=null &&textEditCmt != "") {
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("EditComment", "Comment")",
+                    datatype: "JSON",
+                    data: {
+                        commentId: Commmentid,
+                        comment: textEditCmt,
+                    },
+                    success: function (res) {
+                        switch (res.Status) {
+                            case 2:
+                                $('#lbl_username_fail').text(res.Message);
+                                $('#username').focus();
+                                break;
+                            case 3:
+                                alert(res.Message);
+                                break;
+                            case 1:
+                                window.location.reload();
+                                // Declare a proxy to reference the hub.
+                                var notifications = $.connection.notificationsHub;
+                                // Create a function that the hub can call to broadcast messages.
+                                $.connection.hub.start()
+                                    .done(function () {
+                                        notifications.server.sendNotification(res.JsonObject, "doi chu", "koi");
+                                    });
+                                break;
+                        }
+                    }
+                });
+
+            }else if (textEditCmtSon !=null &&textEditCmtSon != "") {
+                var comsonid = $('#comSonID').val();
+
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("EditComment", "Comment")",
+                    datatype: "JSON",
+                    data: {
+                        commentId: comsonid,
+                        comment: textEditCmtSon,
+                    },
+                    success: function (res) {
+                        switch (res.Status) {
+                            case 2:
+                                $('#lbl_username_fail').text(res.Message);
+                                $('#username').focus();
+                                break;
+                            case 3:
+                                $('#lbl_username_fail').text(res.Message);
+                                $('#username').focus();
+                                break;
+                            case 1:
+                                window.location.reload();
+                                // Declare a proxy to reference the hub.
+                                var notifications = $.connection.notificationsHub;
+                                // Create a function that the hub can call to broadcast messages.
+                                $.connection.hub.start()
+                                    .done(function () {
+                                        notifications.server.sendNotification(res.JsonObject, "doi chu", "koi");
+                                    });
+                                break;
+                        }
+                    }
+                });
+
+            }
+        }
+
+    }
+
+    function Rating(koiID) {
+        RateNum = $('#rating-default').val();
+        $("label[for='TextComment']").text(RateNum + " Sao");
+        // Disable #x
+        $( "#MainComment" ).prop( "disabled", false );
+    }// end ajax
+
+    // Create list items and append them inside <ul> element
+    function DisplayListItems(Com) {
+        @*var t = Com;
+        var replyID= "reply"+ @ListComment.Count;
+        var  inputReply = 'input-reply' + @ListComment.Count;
+        var CommentId = 'comment' + @ListComment.Count;
+        var ComId = Com.CommentID;
+        var ComName = 'com' + +@ListComment.Count;
+        var itemHTML = ["<ul class='comments-list'>",
+                                    " <li class='comment'>",
+                                        "<a class='pull-left' href='#'>",
+                                            "<img class='avatar' src='/Content/Image/Member/"+ "duc"+" alt='avatar'>",
+                                         "</a>",
+                                       " <div class='comment-body'>",
+                                           "<div class='comment-heading'>",
+                                               "<h4 class='user'>"+Com.Member+"</h4>",
+                                               " <h5 class='time'>"+Com.DateTime+"</h5>",
+                                               "<div class='rating-input star'>"+
+										"<i class='glyphicon glyphicon-star' data-value='1'>"+
+										"</i><i class='glyphicon glyphicon-star' data-value='2'></i><i class='glyphicon glyphicon-star' data-value='3'></i><i class='glyphicon glyphicon-star' data-value='4'></i><i class='glyphicon glyphicon-star' data-value='5'></i></div>",
+                                            "</div>"+
+                                            "<p>"+Com.Content+"</p>",
+                                            "<a id='"+replyID+"'  onmouseover='this.style.cursor='pointer';' onclick='ReplyFunction(this.id);' style='font-size: 13px;'>Trả lời</a>",
+                                            "</div>",
+                                           " <li class='comment' id='"+inputReply+"' style='display: none;'>",
+                                                "<div class='input-group'>",
+                                                    "<span class='input-group-addon'>",
+                                                   " <a class='pull-left' href='#'>",
+                                                        "<img class='avatar' src='http://bootdey.com/img/Content/user_3.jpg' alt='avatar'>",
+                                                   " </a>",
+                                                "</span>",
+                                                    "<input class='form-control' id='"+CommentId+"' placeholder='Add a comment' type='text'>",
+                                                    "<input type='hidden' id='"+ComName+"' value ='"+ComId+"' placeholder='Add a comment' type='text'>",
+                                                "</div>",
+                                    "</li>",
+                                "</ul>"].join('\n');*@
+        var CommentId = 'comment' + @ListComment.Count;
+        var ComId = Com.CommentID;
+        var ComName = 'com' + +@ListComment.Count;
+        var replyID= "reply"+ @ListComment.Count;
+        var inputReply = 'input-reply' + @ListComment.Count;
+        var itemHTML = ["<ul class='comments-list'>",
+                                    "<li class='comment'>",
+                                        "<a class='pull-left'  href='@Url.Action("Profile", "Account")'>",
+                                            "<img class='avatar' src='/Content/Image/Member/@ViewBag.UsercommentImage' alt='avatar'>",
+                                        "</a>",
+                                        "<div class='comment-body'>",
+                                            "<div class='comment-heading'>",
+                                                "<a class='pull-left' href='@Url.Action("Profile", "Account")'>","</a>",
+                                                    "<h4 class='user'>","<a>",Com.Name+"</a>","</h4>",
+                                                          //"<div class='rating star'>"+
+										                  //  "<i class='glyphicon glyphicon-star' data-value='1'>"+
+										                  //  "</i><i class='glyphicon glyphicon-star' data-value='2'></i><i class='glyphicon glyphicon-star' data-value='3'></i><i class='glyphicon glyphicon-star' data-value='4'></i><i class='glyphicon glyphicon-star' data-value='5'></i></div>",
+                                                          // "</div>"+
+                                                    "<h5 class='time'>",Com.Date+"</h5>",
+                                                "<span id='ed-button' style='float:right;'>",
+                                                    "<div class='dropdown'>",
+                                                        "<a class='dropdown-toggle' data-toggle='dropdown'>",
+                                                            "<span class='fa fa-edit' title='Sửa hoặc xóa'>","</span>",
+                                                        "</a>",
+                                                        "<ul class='dropdown-menu dropdown-menu-right'>",
+                                                           "<li><a id='buttonid' name='buttonid' data-p=''>Sửa</a></li>",
+                                                            "<li><a id='delete-comment'>Xóa</a></li>",
+                                                        "</ul>",
+                                                    "</div>",
+                                                "</span>",
+                                                "</div>",
+                                            "<p for=''>"+Com.Content+"</p>",
+                                            "<a id='"+replyID+"'    onclick='ReplyFunction(this.id);' style='font-size: 13px;'>Trả lời</a>",
+                                       "</div>",
+                                        "<ul class='comments-list'>",
+                                            @*@for (var item = 0; item"< @ListCommentDetail.ElementAt(i).Count; item++) {
+                                                "<li class='comment'>",
+                                                    "<a class='pull-left'  href='@Url.Action('Profile/' + @ListCommentDetail.ElementAt(i).ElementAt(item).MemberID, 'Account')'>",
+                                                        "<img class='avatar' src='/Content/Image/Member/@ListCommentDetail.ElementAt(i).ElementAt(item).Member.Image' alt='avatar'>",
+                                                    "</a>",
+                                                    "<div class='comment-body'>",
+                                                        "<div class='comment-heading'>",
+                                                            "<a class='pull-left' href='@Url.Action('Profile/' + @ListCommentDetail.ElementAt(i).ElementAt(item).MemberID, 'Account')'>","</a>",
+                                                                "<h4 class='user'>","<a>",@ListCommentDetail.ElementAt(i).ElementAt(item).Member.Name"</a>","</h4>",
+                                                                "<h5 class='time'>",@ListCommentDetail.ElementAt(i).ElementAt(item).DateTime"</h5>",
+                                                                "<span id='ed-button' style='float:right;'>",
+                                                                    "<div class='dropdown'>",
+                                                                        "<a class='dropdown-toggle' data-toggle='dropdown'>",
+                                                                            "<span class='fa fa-edit' title='Sửa hoặc xóa'>","</span>",
+                                                                        "</a>",
+                                                                        "<ul class='dropdown-menu dropdown-menu-right'>",
+                                                                            "<li>","<a id='buttonid' name='buttonid' data-p='@i+@item'>",Sửa"</a>","</li>",
+                                                                            "<li>","<a id='delete-comment'>",Xóa"</a>","</li>",
+                                                                        "</ul>",
+                                                                    "</div>",
+                                                                "</span>",
+                                                            "<p for='@i+@item'>",@ListCommentDetail.ElementAt(i).ElementAt(item).Content"</p>",
+                                                        "</div>",
+                                                    "</div>",
+                                                "</li>",
+                                        }*@
+                                            @*@{ var inputReply = 'input-reply' + i;}*@
+                                            "<li class='comment' id='"+inputReply+"' style='display: none;'>",
+                                                "<div class='input-group'>",
+                                                    "<span class='input-group-addon'>",
+                                                    "<a class='pull-left' href='#'>",
+                                                        "<img class='avatar' src='http://bootdey.com/img/Content/user_3.jpg' alt='avatar'>",
+                                                    "</a>",
+                                                "</span>",
+
+                                                    "<input class='form-control' id='"+CommentId+"' placeholder='Add a comment' type='text'>",
+                                                    "<input type='hidden' id='"+ComId+"' value ='"+ComName+"' placeholder='Add a comment' type='text'>",
+                                                "</div>",
+                                            "</li>",
+                                        "</ul>"].join('\n');
+        var $tbl = $('#CommentMore');
+        $tbl.append(itemHTML);
+    }
+</script>
+<script src="~/Scripts/jquery.signalR-2.2.1.js"></script>
+<!--Reference the autogenerated SignalR hub script. -->
+<script src="/signalr/hubs"></script>
+<style>
+    .input-group-addon {
+    padding: 0px 12px;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1;
+    color: #555;
+    text-align: center;
+    background-color: #eee;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+</style>
