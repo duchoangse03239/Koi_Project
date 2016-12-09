@@ -1,0 +1,276 @@
+﻿@model KoiManagement.Models.Member
+@{
+    ViewBag.Title = "Cập nhật thông tin cá nhân";
+    Layout = "~/Views/Layout/KoiLayout.cshtml";
+    string date;
+}
+
+<div class="section site-main">
+    <div class="container">
+        <div class="row">
+            @Html.Partial("_Manager")
+            <div class="col-md-6 col-md-offset-1">
+                <h1>Thay đổi thông tin</h1>
+                <div class="form-group">
+                    <label for="email">Email*</label>
+                    <input type="email" class="form-control" id="email" name="email" value="@Model.Email" placeholder="Email" disabled>
+                </div>
+                <div class="form-group">
+                    <label for="username">Tên đăng nhập*</label>
+                    <input type="text" class="form-control" id="username" name="username" value="@Model.UserName" placeholder="Tên đăng nhập" disabled>
+                </div>
+                <div class="form-group">
+                    <label for="name">Họ và tên</label>
+                    <input type="text" class="form-control" id="name" name="name" value="@Model.Name" placeholder="Họ và tên">
+                    <label id="lblMessage_name_fail" class="label-error"></label>
+                </div>
+                <div class="form-group">
+                    <label>Giới tính:</label>
+                    <select class="form-control" id="gender" name="gender">
+                        @if (@Model.Gender.Equals("M"))
+                        {
+                            <option value="N">Không xác định</option>
+                            <option value="M" selected>Nam</option>
+                            <option value="F">Nữ</option>
+                        }
+                        else if (@Model.Gender.Equals("F"))
+                        {
+                            <option value="N">Không xác định</option>
+                            <option value="M">Nam</option>
+                            <option value="F" selected>Nữ</option>
+                        }
+                        else
+                        {
+                            <option value="N" selected>Không xác định</option>
+                            <option value="M">Nam</option>
+                            <option value="F">Nữ</option>
+                        }
+                    </select>
+                </div>
+                <div class="form-group">
+                    <!-- <label>Ngày sinh</label>
+                    <div>
+                        <select>
+                            <option>Ngày</option>
+                        </select>
+                        <select>
+                            <option>Tháng</option>
+                        </select>
+                        <select>
+                            <option>Năm</option>
+                        </select>
+                    </div> -->
+                    <label for="dob">Ngày Sinh</label>
+                    @{ date = Model.Dob != null ? Model.Dob.Value.ToString("dd-MM-yyyy") : string.Empty;}
+                    <input type="text" class="form-control" id="dob" name="dob" value="@date" placeholder="DD-MM-YYYY">
+                    <label id="lblMessage_dob_fail" class="label-error"></label>
+                </div>
+                <div class="form-group">
+                    <label for="address">Địa chỉ</label>
+                    <input type="text" class="form-control" id="address" name="address" value="@Model.Address" placeholder="Địa chỉ">
+                    <label id="lblMessage_address_fail" class="label-error"></label>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Số điện thoại</label>
+                    <input type="text" class="form-control" id="phone" name="phone" value="@Model.Phone" placeholder="Số điện thoại">
+                    <label id="lblMessage_phone_fail" class="label-error"></label>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Ảnh đại diện</label>
+                    <input type="file" accept="image/png, image/jpeg, image/gif" name="file" id="file" class="img" onchange="loadFile(event)"/>
+                    <br/>
+                    <div><img id="imagePreview" src="~/Content/Image/Member/@Model.Image" alt=""/></div>
+                    <script>
+                        var loadFile = function(event) {
+                            var output = document.getElementById('imagePreview');
+                            imagePreview.src = URL.createObjectURL(event.target.files[0]);
+                        };
+                    </script>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-primary" id="btnSaveProfile">Lưu</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+            $(function () {
+                $("#phone").focus();
+            });
+        });
+
+    $(document)
+        .keypress(function (event) {
+            var keycode = (event.keyCode ? event.keyCode : event.which);
+            if (keycode == "13") {
+                if (Validate()) {
+                    UpdateProfile();
+                } else {
+                    return false;
+                }
+            }
+        });
+
+    $("#btnSaveProfile").click(function () {
+        if (Validate()) {
+            UpdateProfile();
+        } else {
+            return false;
+        }
+    });
+
+    function isSpecialCharacter(phone) {
+        var regex = /^(01[2689]|09)[0-9]{8}$/;
+        return regex.test(phone);
+    };
+
+    function Validate() {
+        var name = $('#name').val();
+        var dob = $('#dob').val();
+        var address = $('#address').val();
+        var phone = $('#phone').val();
+
+        $('#lblMessage_name_fail').text("");
+        $('#lblMessage_dob_fail').text("");
+        $('#lblMessage_address_fail').text("");
+        $('#lblMessage_phone_fail').text("");
+
+        if (name == "") {
+            $('#lblMessage_name_fail').text("Vui lòng nhập họ và tên.");
+            $('#name').focus();
+            return false;
+        }
+        if (name.length < 6 || name.length > 50) {
+            $('#lblMessage_name_fail').text("Họ tên phải chứa từ 6 đến 50 ký tự.");
+            $('#name').focus();
+            return false;
+        }
+        if (phone != "") {
+            if (phone.length < 10 || phone.length > 11) {
+                $('#lblMessage_phone_fail').text("Số điện thoại phải từ 10 đến 11 số.");
+                $('#phone').focus();
+                return false;
+            }
+            if (!isSpecialCharacter(phone)) {
+                $('#lblMessage_phone_fail').text("Số điện thoại không đúng định dạng");
+                $('#lblMessage_phone_fail').focus;
+                return false;
+            }
+
+        }
+
+        
+        if (dob != "") {
+            if (!validateDate(dob)) {
+                $('#lblMessage_dob_fail').text('Xin hãy nhập định dạng DD-MM-YYYY.');
+                return false;
+            } else if (!validateDateRangeMax(dob)) {
+                $('#lblMessage_dob_fail').text('Ngày sinh nhỏ hơn ngày hiện tại.');
+                return false;
+            }
+        }
+        return true;
+        }
+
+
+        function validateDate(date) {
+            return (/^\d{2}-\d{2}-\d{4}$/).test(date);
+        }
+
+        function validateDateRangeMax(inputDate) {
+            var now = new Date();
+            var dateParts = inputDate.split("-");
+            var date = new Date(dateParts[2], dateParts[1] - 1, dateParts[0]); // month is 0-based
+            return date < now;
+        }
+
+        function UpdateProfile() {
+            var fileUpload = $("#file").get(0);
+            var files = fileUpload.files;
+            // Looping over all files and add it to FormData object
+            var fileData = new FormData();
+
+            for (var i = 0; i < files.length; i++) {
+                fileData.append(files[i].name, files[i]);
+            }
+
+            // Adding one more key to FormData object
+            fileData.append('name', $('#name').val());
+            fileData.append('gender', $('#gender').val());
+            fileData.append('dob', $('#dob').val());
+            fileData.append('address', $('#address').val());
+            fileData.append('phone', $('#phone').val());
+            fileData.append('memberid', '@Model.MemberID');
+            fileData.append('image', '@Model.Image');
+
+            $('#lblMessage_name_fail').text("");
+            $('#lblMessage_dob_fail').text("");
+            $('#lblMessage_address_fail').text("");
+            $('#lblMessage_phone_fail').text("");
+            $('#errorMessage').text("");
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("UpdateProfile")",
+                contentType: false, // Not to set any content header
+                processData: false,
+                data: fileData,
+                dataType: "Json",
+                success: function (res) {
+                    switch (res.Status) {
+                        case 1:
+                            break;
+                        case 2:
+                            break;
+                        case 3:
+                            break;
+                        case 4:
+                            break;
+                        case 5:
+                            break;
+                        case 6:
+                            break;
+                        case 7:
+                            break;
+                        case 8:
+                            break;
+                        case 9:
+                            alert("Lưu Thông Tin Thành Công!");
+                            window.location.href = res.RedirectTo;
+                            break;
+                    }
+                }
+            });
+        }
+
+
+        $(document).ready(function () {
+            if (window.File && window.FileList && window.FileReader) {
+                $("#files").on("change", function (e) {
+                    var files = e.target.files,
+                      filesLength = files.length;
+                    for (var i = 0; i < filesLength; i++) {
+                        var f = files[i]
+                        var fileReader = new FileReader();
+                        fileReader.onload = (function (e) {
+                            var file = e.target;
+                            $("<span class=\"pip\">" +
+                              "<img class=\"imageThumb\" src=\"" + e.target.result + "\" title=\"" + file.name + "\"/>" +
+                              "<br/><span class=\"remove\">X</span>" +
+                              "</span>").insertAfter("#files");
+                            $(".remove").click(function () {
+                                $(this).parent(".pip").remove();
+                            });
+                        });
+                        fileReader.readAsDataURL(f);
+                    }
+                });
+            } else {
+                alert("Your browser doesn't support to File API")
+            }
+        });
+    
+</script>
+@*<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>*@

@@ -1,0 +1,110 @@
+﻿
+    @{
+        ViewBag.Title = "Danh sách chủng loại";
+        Layout = "~/Views/Layout/KoiLayout.cshtml";
+    }
+
+    <section id="titleArea">
+        <div class="container">
+            <div class="row">
+            </div>@Model
+        </div>
+    </section>
+    <div class="container list-variety">
+        <div class="row list-box">
+            <div class="col-md-3">
+                <ul>
+                    <li><a href="">Kohaku</a></li>
+                    <li><a href="">Shiro Usturi</a></li>
+                    <li><a href="">Shusui</a></li>
+                    <li><a href="">Kujaku</a></li>
+                    <li><a href="">Beni Kumonryu</a></li>
+                    <li><a href="">Goromo</a></li>
+                </ul>
+            </div>
+            <div class="col-md-3">
+                <ul>
+                    <li><a href="">Taisho Sanke</a></li>
+                    <li><a href="">Hi Usturi</a></li>
+                    <li><a href="">Matsuba</a></li>
+                    <li><a href="">Hariwake</a></li>
+                    <li><a href="">Chagoi</a></li>
+                    <li><a href="">Goshiki</a></li>
+                </ul>
+            </div>
+            <div class="col-md-3">
+                <ul>
+                    <li><a href="">Showa Sanshoku</a></li>
+                    <li><a href="">Ki Usturi</a></li>
+                    <li><a href="">Platium Agon</a></li>
+                    <li><a href="">Kikusui</a></li>
+                    <li><a href="">Soragoi</a></li>
+                    <li><a href="">Kikokuryu</a></li>
+                </ul>
+            </div>
+            <div class="col-md-3">
+                <ul>
+                    <li><a href="">Tancho</a></li>
+                    <li><a href="">Asagi</a></li>
+                    <li><a href="">Yamabuki Ogon</a></li>
+                    <li><a href="">Kumonryu</a></li>
+                    <li><a href="">Ochiba Shigure</a></li>
+                    <li><a href="">Kin Kikokuryu</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    @for (var item = 0; item < ViewBag.Varieties.Count; item++)
+    {
+        <!-- Use it -->
+    <div class="container content-section-a">
+
+        <div class="container">
+            <a name="item-1"></a>
+            <div class="row">
+                <div class="col-md-9 wow data-animation-delay=" 200">
+                    <h3 class="section-heading">@ViewBag.Varieties[item].VarietyName</h3>
+
+                    <p class="lead">
+                        @ViewBag.Varieties[item].Description
+                    </p>
+                    <div class="sub-title lead3"></div>
+                    <p><a class="btn btn-embossed btn-primary" href="/Koi/ListKoi/@ViewBag.Varieties[item].VarietyID" role="button">Xem thêm @ViewBag.Varieties[item].VarietyName</a></p>
+                </div>
+                <div class="col-md-3 wow">
+                    <img style="float:right;" class="img-koi-variety" src="/Content/Image/Variety/@ViewBag.Varieties[item].Image" alt="">
+                </div>
+            </div>
+        </div>
+        <!-- /.container -->
+    </div><div>
+            @if (item < Enumerable.Count(ViewBag.Varieties) - 1) { item++; } else { break; }
+        </div>
+                <div class="container content-section-b">
+
+            <div class="container">
+
+                <div class="row">
+
+                    <div class="col-md-3 wow">
+                        <img class="img-koi-variety" src="/Content/Image/Variety/@ViewBag.Varieties[item].Image" alt="">
+                    </div>
+
+                    <div class="col-md-9 wow pull-right" data-animation-delay="200">
+                        <h3 class="section-heading">@ViewBag.Varieties[item].VarietyName</h3>
+
+                        <p class="lead">
+                            @ViewBag.Varieties[item].Description
+                        </p>
+                        <div class="sub-title lead3"></div>
+                        <p><a class="btn btn-embossed btn-primary" href="/Koi/ListKoi/@ViewBag.Varieties[item].VarietyID" role="button">Xem thêm @ViewBag.Varieties[item].VarietyName</a></p>
+                    </div>
+                </div>
+            </div> </div>
+            <!-- /.container -->
+       
+    }
+
+
+
+

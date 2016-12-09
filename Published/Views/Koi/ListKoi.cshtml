@@ -1,0 +1,293 @@
+﻿@using KoiManagement.Common
+@using KoiManagement.DAL
+@using KoiManagement.Models
+@using PagedList.Mvc;
+@{
+    ViewBag.Title = "Danh sách cá koi";
+    Layout = "~/Views/Layout/KoiLayout.cshtml";
+    PagedList.IPagedList ListKoi = ViewBag.Listkoi;
+    KoiFilterModel filter = ViewBag.Filter;
+    CommentDAO cmDao = new CommentDAO();
+    OwnerDAO oDao = new OwnerDAO();
+    InfoDetailDAO infoDao = new InfoDetailDAO();
+    List<Variety> listVariety = ViewBag.listVariety;
+    //filter.VarietyId = ViewBag.VarietyId.ToString();
+
+}
+<body>
+    <!-- Modal Vote-->
+    <div id="vote" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Gửi đánh giá về Koi</h4>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        <label>Tên cá Koi:</label>
+                        <a href="">Đẹp</a>
+                    </div>
+                    <div>
+                        <input type="number" name="your_awesome_parameter" id="rating-default0" class="rating" value="4" disabled="disabled" />
+                    </div>
+                    <div>
+                        <label>Nội dung</label>
+                    </div>
+                    <div>
+                        <textarea rows="4" cols="69" id ="content" name ="content" placeholder="Nhập nội dung tin nhắn"></textarea>
+                    </div>
+                    <label id="lbl_Rating_fail" class="label-error"></label>
+                    <div style="margin-top:10px;">
+                        <a class="btn btn-primary" onclick="Rating()">Gửi</a>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--End vote modal-->
+    <section id="titleArea">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6">
+                    <h2>Danh sách cá Koi</h2>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="container" id="list-koi">
+        <div class="row">
+            <div class="col-md-4">
+                <!-- Form Search -->
+                <form class="searchForm" action="/Koi/ListKoi/4" method="post">
+                    <div id="parent">
+                        <h3>Tìm kiếm</h3>
+                        <hr />
+                        <div class="row">
+                            <div class="col-md-5">
+                                <label id="lbl-variety">Loại</label>
+                            </div>
+                            <div class="col-md-7">
+                                <select name="variety" id="variety">
+                                    <option value="0">Tất cả</option>
+                                    @foreach (var item in listVariety)
+                                    {
+                                        <option value="@item.VarietyID">@item.VarietyName</option>
+                                    }
+                                </select>
+                            </div>
+                            <script type="text/javascript">
+                                var $opt1 = $('#variety').children(('option[value=' + @filter.VarietyId + ']'));
+                                $opt1.attr('selected', 'selected');
+                            </script>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-5">
+                                <label id="lbl-size">Kích thước (cm)</label>
+                            </div>
+                            <div class="col-md-7">
+                                <input class="koi-size"  name="SizeFrom" id="sizeFrom" value="@filter.SizeFrom" type="text" placeholder="From"  onkeypress="return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57" maxlength="3" ><span> - </span>
+                                <input class="koi-size" name="SizeTo" id="sizeTo" value="@filter.SizeTo" type="text" placeholder="To" onkeypress="return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57" maxlength="3">
+                            </div>
+
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-5">
+                                <label id="lbl-year-old">Tuổi (tháng)</label>
+                            </div>
+                            <div class="col-md-7">
+                                <input class="koi-year-old" type="text" name="AgeFrom" id="AgeFrom" value="@filter.AgeFrom" placeholder="From" onkeypress="return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57" maxlength="4"><span> - </span>
+                                <input class="koi-year-old" type="text" name="AgeTo" id="AgeTo" value="@filter.AgeTo" placeholder="To" onkeypress="return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57" maxlength="4">
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="row">
+                            <div class="col-md-5">
+                                <label id="lbl-gender">Giới tính</label>
+                            </div>
+                            <div class="col-md-7">
+                                <select name="gender" id="gender">
+                                    <option value="" selected>Tất cả</option>
+                                    <option value="M">Đực</option>
+                                    <option value="F">Cái</option>
+                                </select>
+                            </div>
+                        </div>
+                        <hr />
+                        <script type="text/javascript">
+                            var $opt = $('#gender option[value="@filter.Gender"]');
+                            $opt.attr('selected', 'selected');
+                        </script>
+                        <div class="row">
+                            <div class="col-md-5">
+                                <label id="lbl-koi-name">Tên cá Koi</label>
+                            </div>
+                            <div class="col-md-7">
+                                <input class="input-search" name="nameKoi" id="nameKoi" type="text" value="@filter.KoiName" placeholder="">
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="row">
+                            <div class="col-md-5">
+                                <label id="lbl-owner">Người sở hữu</label>
+                            </div>
+                            <div class="col-md-7">
+                                <input class="input-search" type="text" name="owner" id="owner" value="@filter.Owner" placeholder="">
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="row">
+                            <div class="col-md-5">
+                                <label id="lbl-user-name">Tên đăng nhập</label>
+                            </div>
+                            <div class="col-md-7">
+                                <input class="input-search" name="username" id="username" type="text" value="@filter.Username" placeholder="">
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="align-center">
+                            <button class="btn btn-primary" type="submit" id="btnSearch" name="btnSearch">Tìm kiếm</button>
+                            <span><a class="btn btn-primary" href="/Koi/ListKoi/0"> <span>Xóa</span> </a></span>
+                        </div>
+                    </div>
+
+                </form>
+                    @*</form>*@
+                    <!-- END form Search -->
+        </div>
+            <div class="col-md-8">
+                <div class="btn-group">
+                    <a class="btn btn-filter" id="order1" href="@Url.Action("ListKoi", "Koi", new {orderby ="newest",username =filter.Username, nameKoi= filter.KoiName  , variety= filter.VarietyId , sizeFrom= filter.SizeFrom , sizeTo= filter.SizeTo ,gender= filter.Gender ,owner=  filter.Owner } )">Mới nhất</a>
+                    <a class="btn btn-filter" id="order2" href="@Url.Action("ListKoi", "Koi", new {orderby ="review",username =filter.Username, nameKoi= filter.KoiName  , variety= filter.VarietyId , sizeFrom= filter.SizeFrom , sizeTo= filter.SizeTo ,gender= filter.Gender ,owner=  filter.Owner } )">Nhiều đánh giá</a>
+                    <script>
+
+                         @{
+                             if (filter.orderby !=null&& filter.orderby.Equals("newest"))
+                             {
+                                <text> 
+                                        $('#order1').addClass("active");
+                                        $('#order2').removeClass("active");
+                                </text>
+                             }else if (filter.orderby != null && filter.orderby.Equals("review"))
+                             {
+                               <text> 
+                                        $('#order1').removeClass("active");
+                                        $('#order2').addClass("active");
+                                </text>
+                             }
+                        }
+  
+                    </script>
+                </div>
+                <div id="Main-ListKoi">
+                    @for (var item = 0; item < ViewBag.Listkoi.Count; item++)
+                    {
+                        <div class="content-section-a">
+                            <input type="hidden" id="koiID" name="koiID" value="@ViewBag.Listkoi[item].KoiID">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <img class="img-koi-list " src="/Content/Image/Koi/@ViewBag.Listkoi[item].Image" alt="">
+                                </div>
+                                <div class="col-md-6">
+                                    <p class="title-koi-name" href="/Koi/Details/@ViewBag.Listkoi[item].KoiID">@ViewBag.Listkoi[item].KoiName</p>
+                                    <h4 style="margin-top:25px;">
+                                        Chủ sở hữu:@{
+                                                       var owner = oDao.GetOwner(ViewBag.Listkoi[item].KoiID);
+                                                       if (owner != null)
+                                                       {
+                                                           <a href="/Account/profile/@owner.Member.MemberID">@owner.Member.Name</a>
+                                                       }
+                                                   } 
+                                    </h4>
+                                    <h4>Kích thước: @infoDao.GetLastSize(ViewBag.Listkoi[item].KoiID) (cm) </h4>
+                                    <p class=""><a style="color: #3377ff;" href="@Url.Action("Timeline/"+@ViewBag.Listkoi[item].KoiID, "InfoDetail")">Thông tin sinh trưởng </a>
+                                    </p>
+                                    <p><a class="btn btn-embossed btn-primary" href="/Koi/Details/@ViewBag.Listkoi[item].KoiID" role="button">Chi tiết</a>
+                                    </p>
+                                </div>
+                                <input type="hidden" name="KoiId" id="KoiId">
+                                <div class="col-md-3">
+                                    @if (Session[SessionAccount.SessionUserId] != null)
+                                    {
+                                        <div class="ratings" data-toggle="modal" data-target="#vote" onclick="Rate(@ViewBag.Listkoi[item].KoiID, @item)" style="margin-top: 13px;">
+                                            @{ var id = "rating-default" + @item; }
+                                            <input type="number" name="your_awesome_parameter" id="@id" class="rating" value="@cmDao.getRate(ViewBag.Listkoi[item].KoiID)" disabled="disabled"/>
+                                        </div>
+                                                }
+                                                else
+                                                {
+                                                    <input type="number" name="your_awesome_parameter" id="rating-readonly" class="rating" value="@cmDao.getRate(ViewBag.Listkoi[item].KoiID)"  data-readonly/>
+                                                }
+                                        <h5 style="margin-left: 5px;">@cmDao.CountCommentByKoiID(ViewBag.Listkoi[item].KoiID) đánh giá</h5>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <br />
+
+                Page @(ListKoi.PageCount < ListKoi.PageNumber ? 0 : ListKoi.PageNumber) of @ListKoi.PageCount
+
+                @Html.PagedListPager(ListKoi, page => Url.Action("ListKoi/"+ @ViewBag.VarietyId,
+    new { page, orderby = filter.orderby, nameKoi = filter.KoiName, variety = filter.VarietyId, sizeFrom = filter.SizeFrom, sizeTo = filter.SizeTo, gender = filter.Gender, owner = filter.Owner  }))
+            </div>
+        </div>
+    </section>
+    
+</body>
+    <script type="text/javascript">
+        function Rate(koiID, index) {
+            //set koi ID
+            $("#KoiId").val(koiID);
+            var RateNum = $('#rating-default' + index).val();
+            var m = $("#rating-default0");
+            var num = parseInt(RateNum);
+            //m.val(num);
+            m.attr('value', num);
+
+
+        }
+        function Rating() {
+            
+            $('#lbl_Rating_fail').text("");
+            var RateNum = $('#rating-default0').val();
+            var content = $('#content').val();
+            //m.val(num);
+            var koiID = $('#KoiId').val();
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("Rating")",
+                datatype: "JSON",
+            data: {
+                koiID: koiID,
+                RateNum: RateNum,
+                content: content
+            },
+            success: function(res) {
+                switch (res.Status) {
+                    case 2:
+                        $('#lbl_Rating_fail').text(res.Message);
+                        break;
+                    case 1:
+                        alert(res.Message);
+                        window.location.reload();
+                        break;
+                    case 0:
+                        alert(res.Message);
+                        window.location.href = res.RedirectTo;
+                        break;
+ 
+
+                }
+            }
+            }); // end ajax
+            //clear data
+        }
+    </script>

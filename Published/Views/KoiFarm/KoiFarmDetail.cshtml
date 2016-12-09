@@ -1,0 +1,178 @@
+﻿@using KoiManagement.Common
+@using KoiManagement.Models
+
+
+@{
+    ViewBag.Title = "Giới thiệu trang trại";
+    KoiFarm koifarm = ViewBag.koiFarm;
+    Layout = "~/Views/Layout/KoiLayout.cshtml";
+    List<Koi> listKoi=ViewBag.listKoi;
+
+}
+
+<div class="container">
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#home">Thông tin trang trại</a></li>
+        <li><a data-toggle="tab" href="#menu1">Cá của trang trại</a></li>
+        @if (Session[SessionAccount.SessionUserId] != null && Session[SessionAccount.SessionUserId].ToString().Equals(@koifarm.MemberID.ToString()))
+        {
+            <li style="float: right; margin-left: 5px;">
+                <div class="button-header align-right">
+                    <a class="btn btn-success" href="@Url.Action("AddKoiToKoiFarm/"+Session[SessionAccount.SessionUserId], "KoiFarm")">Thêm cá vào trang trại</a>
+                </div>
+            </li>
+            <li style="float: right;">
+                <div class="button-header text-right">
+                    <a class="btn btn-success" href="@Url.Action("Import", "KoiFarm")">Thêm bằng file excel</a>
+                </div>
+            </li>
+        }
+
+</ul>
+
+    <div class="tab-content">
+        <div id="home" class="tab-pane fade in active koi-detail">
+            <div class="row">
+
+                <div class="col-md-6 col-md-offset-3">
+                    <div class="item">
+                        <div class="item-attr">
+                            <div class="line item-name">
+                                <h1>@koifarm.FarmName</h1>
+                            </div>
+                            <div class="line">
+                                <label><span class="fa fa-user"></span> Chủ trang trại:</label> <a href="/Account/profile/@koifarm.Member.MemberID">@koifarm.Member.Name</a>
+                            </div>
+                            <div class="line">
+                                <label><span class="fa fa-map-marker"></span> Địa chỉ:</label> <span>@koifarm.Address</span>
+                            </div>
+                            <div class="line">
+                                <label><span class="fa fa-phone"></span> Số điện thoại:</label> <span>@koifarm.Member.Phone</span>
+                            </div>
+                            <div class="line">
+                                <label><span class="fa fa-cubes"></span> Chủng loại chính:</label> <span>Kohaku</span>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @Html.Raw(@koifarm.Description)
+        </div>
+        <div id="menu1" class="tab-pane fade">
+            <div class="row">
+                <div class="col-md-4">
+                    <form class="searchForm" action="/Koi/ListKoi/4" method="get">
+                        <div id="parent">
+                            <h3>Tìm kiếm</h3>
+                            <hr />
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <label id="lbl-variety">Loại</label>
+                                </div>
+                                <div class="col-md-7">
+                                    <select name="variety" id="variety">
+                                        <option value="0">Tất cả</option>
+                                        @*@foreach (var item in listVariety)
+                            {
+                                <option value="@item.VarietyID">@item.VarietyName</option>
+                            }*@
+                                    </select>
+                                </div>
+                                <script type="text/javascript">
+                                    var $opt1 = $('#variety').children(('option[value=' + @*@filter.VarietyId*@ + ']'));
+                                    $opt1.attr('selected', 'selected');
+                                </script>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <label id="lbl-size">Kích thước (cm)</label>
+                                </div>
+                                <div class="col-md-7">
+                                    <input class="koi-size" name="SizeFrom" id="sizeFrom" value="" type="text" placeholder="From"><span> - </span>
+                                    <input class="koi-size" name="SizeTo" id="sizeTo" value="" type="text" placeholder="To">
+                                </div>
+
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <label id="lbl-year-old">Tuổi (tháng)</label>
+                                </div>
+                                <div class="col-md-7">
+                                    <input class="koi-year-old" type="text" placeholder="From"><span> - </span>
+                                    <input class="koi-year-old" type="text" placeholder="To">
+                                </div>
+                            </div>
+                            <hr />
+                            <div class="align-center">
+                                <button class="btn btn-primary" type="submit" id="btnSearch" name="btnSearch">Tìm kiếm</button>
+                                <span><a class="btn btn-primary" href="#"> <span>Xóa</span> </a></span>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-md-8">
+                    <div>
+                        <div>
+                            <a class="btn btn-filter" href="#">Mới nhất</a>
+                            <a class="btn btn-filter" href="#">Nhiều đánh giá</a>
+                        </div>
+                    </div>
+                    <div>
+                        @foreach (var item in listKoi)
+                        {
+                            <div style="margin-top:10px;" class="content-section-a">
+                                <input type="hidden" id="koiID" name="koiID" value="@item.KoiID">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <img class="img-koi-list " src="/Content/Image/Koi/@item.Image" alt="">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <a class="title-koi-name" href="/Koi/Details/@item.KoiID">@item.KoiName</a>
+                                        <h4 class="">
+                                            @*Chủ sở hữu: <a href="/Account/profile/@oDao.GetOwnerID(ViewBag.Listkoi[item].KoiID)">Tên chủ sở hữu</a>*@
+                                        </h4>
+                                        <p class="">
+                                            <a style="border-bottom: solid 1px #3377ff; color: #3377ff;" href="@Url.Action("Timeline/"+@item.KoiID, "InfoDetail")">Thông tin sinh trưởng </a>
+                                        </p>
+                                        <p>
+                                            <a class="btn btn-embossed btn-primary" href="/Koi/Details/@item.KoiID" role="button">Chi tiết</a>
+                                        </p>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="ratings" style="margin-top: 13px;">
+                                            <a style="text-decoration:none;">
+                                                <span class="glyphicon glyphicon-star"></span>
+                                                <span class="glyphicon glyphicon-star"></span>
+                                                <span class="glyphicon glyphicon-star"></span>
+                                                <span class="glyphicon glyphicon-star"></span>
+                                                <span class="glyphicon glyphicon-star"></span>
+                                            </a>
+                                            <br />
+                                            <br />
+                                            @*<a href=""> @cmDao.CountCommentByKoiID(ViewBag.Listkoi[item].KoiID)  đánh giá</a>*@
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                    
+                </div>
+
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+<style type="text/css">
+    .nav-tabs {
+        margin: 40px auto 50px auto;
+    }
+    .btnFilter:active {
+        background-color: #fff;
+    }
+</style>

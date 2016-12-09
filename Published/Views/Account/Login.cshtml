@@ -1,0 +1,155 @@
+﻿@using Microsoft.Owin.Security
+
+@{
+    ViewBag.Title = "Đăng nhập";
+    Layout = "~/Views/Layout/KoiLayout.cshtml";
+    var loginProviders = Context.GetOwinContext().Authentication.GetExternalAuthenticationTypes();
+}
+
+<div class="section site-main">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 col-md-offset-4">
+                <div class="panel panel-info">
+                    <div class="login-block">
+                        <h1>Đăng nhập</h1>
+                        <div class="form-group">
+                            <label id="errorMessage" class="label-error"></label>
+                        </div>
+                        <div class="form-group">
+                            <label for="username">Tên đăng nhập (<span style="color:red;">*</span>)</label>
+                            <input type="text" class="form-control" id="username" name="username" placeholder="Tên đăng nhập">
+                            <label id="lbl_username_fail" class="label-error"></label>
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Mật khẩu (<span style="color:red;">*</span>)</label>
+                            <input type="password" class="form-control" id="password" name="password" placeholder="Mật khẩu">
+                            <label id="lbl_password_fail" class="label-error"></label>
+                        </div>
+                        <div class="form-group">
+                            <a href="/Account/forgotpassword">Quên mật khẩu?</a> &nbsp; &nbsp;<a href="/Account/Register">Đăng ký</a>
+                        </div>
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label id="lblMessage_login_fail" class="label-error"></label>
+                                    <button class="btn btn-primary btn-block" id="btnLogin">Đăng nhập</button>
+                                </div>
+                                <div class="col-md-6"></div>
+                            </div>
+                        </div>
+
+                        @using (Html.BeginForm("ExternalLogin", "Account", new { ReturnUrl = "/" }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            <div id="socialLoginList">
+                                <p class="center">
+                                    @foreach (AuthenticationDescription p in loginProviders)
+                                    {
+                                        if (p.AuthenticationType.Equals("Facebook"))
+                                        {
+                                            <Button Class="btn btn-default btn-block fb-button" name="provider" value="Facebook">
+                                                <span Class="fa fa-facebook"></span> Đăng nhập với Facebook
+                                            </Button>
+
+                                        }
+                                        else
+                                        {
+                                            <Button Class="btn btn-default btn-block gplus-button" name="provider" value="Google">
+                                                <span Class="fa fa-google-plus"></span> Đăng nhập với Google
+                                            </Button>
+                                        }
+                                    }
+                                </p>
+                            </div>
+                        }
+         
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+
+        $(document).ready(function () {
+            $(function () {
+                $("#username").focus();
+            });
+        });
+
+        $(document).keypress(function (event) {
+            var keycode = (event.keyCode ? event.keyCode : event.which);
+            if (keycode == "13") {
+                if (Validate()) {
+                    Login();
+                } else {
+                    return false;
+                }
+            }
+        });
+
+        $("#btnLogin").click(function () {
+            if (Validate()) {
+                Login();
+            } else {
+
+                return false;
+            }
+        });
+        function Validate() {
+            var username = $("#username").val();
+            var password = $("#password").val();
+            $("#lbl_username_fail").text("");
+            $("#lbl_password_fail").text("");
+            if (username == "") {
+                $("#lbl_username_fail").text("Vui lòng nhập tên đăng nhập");
+                $("#username").focus();
+                return false;
+            } else if (password == "") {
+                $("#errorMessage").text("");
+                $("#lbl_password_fail").text("Vui lòng nhập mật khẩu");
+                $("#password").focus();
+                return false;
+            }
+            return true;
+        }
+
+        function Login() {
+            var username = $('#username').val();
+            var userpass = $('#password').val();
+            $('#lbl_username_fail').text("");
+            $('#lbl_password_fail').text("");
+            $('#errorMessage').text("");
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("Login")",
+                data: {
+                    username: username,
+                    password: userpass
+                },
+                dataType: "Json",
+                success: function(res) {
+                    switch (res.Status) {
+                    case 2:
+                        $('#lbl_username_fail').text(res.Message);
+                        $('#username').focus();
+                        break;
+                    case 3:
+                        $('#lbl_password_fail').text(res.Message);
+                        $('#password').focus();
+                        break;
+                    case 4:
+                        $('#errorMessage').text(res.Message);
+                        $('#username').focus();
+                        break;
+                    case 1:
+                        window.location.href = res.RedirectTo;
+                        break;
+                    }
+                }
+            });
+        }
+</script>
+
+
