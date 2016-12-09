@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="KoiManagementModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="KoiManagementModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Achievement">
           <Key>
             <PropertyRef Name="AchievementID" />
@@ -143,11 +143,12 @@
           <Property Name="MessageID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Title" Type="nvarchar" MaxLength="1000" />
           <Property Name="Datetime" Type="datetime" Nullable="false" />
-          <Property Name="SenderID" Type="int" Nullable="false" />
-          <Property Name="MemberID" Type="int" Nullable="false" />
+          <Property Name="SenderID" Type="int" />
+          <Property Name="MemberID" Type="int" />
           <Property Name="Content" Type="nvarchar(max)" Nullable="false" />
           <Property Name="ReplyID" Type="int" />
-          <Property Name="status" Type="bit" Nullable="false" />
+          <Property Name="IsRead" Type="bit" Nullable="false" />
+          <Property Name="Status" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Notification">
           <Key>
@@ -421,7 +422,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK__Message__MemberI__6E565CE8">
-          <End Role="Member" Type="Self.Member" Multiplicity="1" />
+          <End Role="Member" Type="Self.Member" Multiplicity="0..1" />
           <End Role="Message" Type="Self.Message" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Member">
@@ -433,7 +434,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK__Message__SenderI__6F4A8121">
-          <End Role="Member" Type="Self.Member" Multiplicity="1" />
+          <End Role="Member" Type="Self.Member" Multiplicity="0..1" />
           <End Role="Message" Type="Self.Message" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Member">
@@ -756,8 +757,7 @@
             <End Role="Report" EntitySet="Report" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="KoiManagementModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -923,29 +923,14 @@
           <NavigationProperty Name="Articles" Relationship="Self.FK__Article__MemberI__3C69FB99" FromRole="Member" ToRole="Article" />
           <NavigationProperty Name="Comments" Relationship="Self.FK__Comment__MemberI__2D27B809" FromRole="Member" ToRole="Comment" />
           <NavigationProperty Name="KoiFarms" Relationship="Self.FK__KoiFarm__MemberI__21B6055D" FromRole="Member" ToRole="KoiFarm" />
-          <NavigationProperty Name="Messages" Relationship="Self.FK__Message__MemberI__6E565CE8" FromRole="Member" ToRole="Message" />
-          <NavigationProperty Name="Messages1" Relationship="Self.FK__Message__SenderI__6F4A8121" FromRole="Member" ToRole="Message" />
           <NavigationProperty Name="Notifications" Relationship="Self.FK__Notificat__Membe__41B8C09B" FromRole="Member" ToRole="Notification" />
           <NavigationProperty Name="Notifications1" Relationship="Self.FK__Notificat__Sende__42ACE4D4" FromRole="Member" ToRole="Notification" />
           <NavigationProperty Name="Owners" Relationship="Self.FK__Owner__MemberID__286302EC" FromRole="Member" ToRole="Owner" />
           <NavigationProperty Name="Questions" Relationship="Self.FK__Question__Member__3AA1AEB8" FromRole="Member" ToRole="Question" />
           <NavigationProperty Name="Rates" Relationship="Self.FK__Rate__MemberID__4242D080" FromRole="Member" ToRole="Rate" />
           <NavigationProperty Name="Reports" Relationship="Self.FK_Report_MemberID_1" FromRole="Member" ToRole="Report" />
-        </EntityType>
-        <EntityType Name="Message">
-          <Key>
-            <PropertyRef Name="MessageID" />
-          </Key>
-          <Property Name="MessageID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Title" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Name="Datetime" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="SenderID" Type="Int32" Nullable="false" />
-          <Property Name="MemberID" Type="Int32" Nullable="false" />
-          <Property Name="Content" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="ReplyID" Type="Int32" />
-          <Property Name="status" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Member" Relationship="Self.FK__Message__MemberI__6E565CE8" FromRole="Message" ToRole="Member" />
-          <NavigationProperty Name="Member1" Relationship="Self.FK__Message__SenderI__6F4A8121" FromRole="Message" ToRole="Member" />
+          <NavigationProperty Name="Messages" Relationship="KoiManagementModel.FK__Message__MemberI__6E565CE8" FromRole="Member" ToRole="Message" />
+          <NavigationProperty Name="Messages1" Relationship="KoiManagementModel.FK__Message__SenderI__6F4A8121" FromRole="Member" ToRole="Message" />
         </EntityType>
         <EntityType Name="Notification">
           <Key>
@@ -1282,30 +1267,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Message__MemberI__6E565CE8">
-          <End Role="Member" Type="Self.Member" Multiplicity="1" />
-          <End Role="Message" Type="Self.Message" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Member">
-              <PropertyRef Name="MemberID" />
-            </Principal>
-            <Dependent Role="Message">
-              <PropertyRef Name="MemberID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__Message__SenderI__6F4A8121">
-          <End Role="Member" Type="Self.Member" Multiplicity="1" />
-          <End Role="Message" Type="Self.Message" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Member">
-              <PropertyRef Name="MemberID" />
-            </Principal>
-            <Dependent Role="Message">
-              <PropertyRef Name="SenderID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK__Notificat__Membe__41B8C09B">
           <End Role="Member" Type="Self.Member" Multiplicity="1" />
           <End Role="Notification" Type="Self.Notification" Multiplicity="*" />
@@ -1413,7 +1374,6 @@
           <EntitySet Name="KoiFarms" EntityType="Self.KoiFarm" />
           <EntitySet Name="Media" EntityType="Self.Medium" />
           <EntitySet Name="Members" EntityType="Self.Member" />
-          <EntitySet Name="Messages" EntityType="Self.Message" />
           <EntitySet Name="Notifications" EntityType="Self.Notification" />
           <EntitySet Name="Owners" EntityType="Self.Owner" />
           <EntitySet Name="Questions" EntityType="Self.Question" />
@@ -1498,14 +1458,6 @@
             <End Role="KoiFarm" EntitySet="KoiFarms" />
             <End Role="Owner" EntitySet="Owners" />
           </AssociationSet>
-          <AssociationSet Name="FK__Message__MemberI__6E565CE8" Association="Self.FK__Message__MemberI__6E565CE8">
-            <End Role="Member" EntitySet="Members" />
-            <End Role="Message" EntitySet="Messages" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Message__SenderI__6F4A8121" Association="Self.FK__Message__SenderI__6F4A8121">
-            <End Role="Member" EntitySet="Members" />
-            <End Role="Message" EntitySet="Messages" />
-          </AssociationSet>
           <AssociationSet Name="FK__Notificat__Membe__41B8C09B" Association="Self.FK__Notificat__Membe__41B8C09B">
             <End Role="Member" EntitySet="Members" />
             <End Role="Notification" EntitySet="Notifications" />
@@ -1568,6 +1520,15 @@
             <Parameter Name="new_diagramname" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_upgraddiagrams" />
+          <EntitySet Name="Messages" EntityType="KoiManagementModel.Message" />
+          <AssociationSet Name="FK__Message__MemberI__6E565CE8" Association="KoiManagementModel.FK__Message__MemberI__6E565CE8">
+            <End Role="Member" EntitySet="Members" />
+            <End Role="Message" EntitySet="Messages" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Message__SenderI__6F4A8121" Association="KoiManagementModel.FK__Message__SenderI__6F4A8121">
+            <End Role="Member" EntitySet="Members" />
+            <End Role="Message" EntitySet="Messages" />
+          </AssociationSet>
         </EntityContainer>
         <ComplexType Name="sp_helpdiagramdefinition_Result">
           <Property Type="Int32" Name="version" Nullable="true" />
@@ -1580,6 +1541,46 @@
           <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
           <Property Type="Int32" Name="OwnerID" Nullable="false" />
         </ComplexType>
+        <EntityType Name="Message">
+          <Key>
+            <PropertyRef Name="MessageID" />
+          </Key>
+          <Property Name="MessageID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="Datetime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="SenderID" Type="Int32" />
+          <Property Name="MemberID" Type="Int32" />
+          <Property Name="Content" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ReplyID" Type="Int32" />
+          <Property Name="IsRead" Type="Boolean" Nullable="false" />
+          <Property Name="Status" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Member" Relationship="KoiManagementModel.FK__Message__MemberI__6E565CE8" FromRole="Message" ToRole="Member" />
+          <NavigationProperty Name="Member1" Relationship="KoiManagementModel.FK__Message__SenderI__6F4A8121" FromRole="Message" ToRole="Member" />
+        </EntityType>
+        <Association Name="FK__Message__MemberI__6E565CE8">
+          <End Type="KoiManagementModel.Member" Role="Member" Multiplicity="0..1" />
+          <End Type="KoiManagementModel.Message" Role="Message" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="MemberID" />
+            </Principal>
+            <Dependent Role="Message">
+              <PropertyRef Name="MemberID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Message__SenderI__6F4A8121">
+          <End Type="KoiManagementModel.Member" Role="Member" Multiplicity="0..1" />
+          <End Type="KoiManagementModel.Message" Role="Message" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="MemberID" />
+            </Principal>
+            <Dependent Role="Message">
+              <PropertyRef Name="SenderID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1727,20 +1728,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Messages">
-            <EntityTypeMapping TypeName="KoiManagementModel.Message">
-              <MappingFragment StoreEntitySet="Message">
-                <ScalarProperty Name="MessageID" ColumnName="MessageID" />
-                <ScalarProperty Name="Title" ColumnName="Title" />
-                <ScalarProperty Name="Datetime" ColumnName="Datetime" />
-                <ScalarProperty Name="SenderID" ColumnName="SenderID" />
-                <ScalarProperty Name="MemberID" ColumnName="MemberID" />
-                <ScalarProperty Name="Content" ColumnName="Content" />
-                <ScalarProperty Name="ReplyID" ColumnName="ReplyID" />
-                <ScalarProperty Name="status" ColumnName="status" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Notifications">
             <EntityTypeMapping TypeName="KoiManagementModel.Notification">
               <MappingFragment StoreEntitySet="Notification">
@@ -1864,6 +1851,21 @@
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="KoiManagementModel.Store.sp_renamediagram" />
           <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="KoiManagementModel.Store.sp_upgraddiagrams" />
+          <EntitySetMapping Name="Messages">
+            <EntityTypeMapping TypeName="KoiManagementModel.Message">
+              <MappingFragment StoreEntitySet="Message">
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="IsRead" ColumnName="IsRead" />
+                <ScalarProperty Name="ReplyID" ColumnName="ReplyID" />
+                <ScalarProperty Name="Content" ColumnName="Content" />
+                <ScalarProperty Name="MemberID" ColumnName="MemberID" />
+                <ScalarProperty Name="SenderID" ColumnName="SenderID" />
+                <ScalarProperty Name="Datetime" ColumnName="Datetime" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="MessageID" ColumnName="MessageID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

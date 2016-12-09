@@ -861,6 +861,7 @@ body a {
 .post-footer .comments-list .comment .avatar {
   width: 35px;
       height: 28px;
+          margin-top: 10px;
 }
 .post-footer .comments-list .comment .comment-heading {
   display: block;

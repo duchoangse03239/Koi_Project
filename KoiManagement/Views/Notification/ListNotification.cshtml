@@ -1,98 +1,73 @@
-﻿@{
+﻿@using KoiManagement.Common
+@using Message = KoiManagement.Models.Message
+@{
     ViewBag.Title = "Danh sách thông báo";
     Layout = "~/Views/Layout/KoiLayout.cshtml";
+    List<List<Message>> ListMeDetail = ViewBag.listMeDetail;
+    List<Message> Listme = ViewBag.listMe;
 }
 <script src="~/Scripts/jquery-2.1.4.min.js"></script>
 
 
 <!-- Modal Trade-->
-<div id="chat" class="modal fade" role="dialog">
-    <div class="modal-dialog">
+  @* @for (int me = 0; me < Listme.Count; me++)
+    {
+        <div class="modal-1212">
+            @{var m = "chat" +me;}
+        </div>
+        <div id="@m" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
 
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Trả lời tin nhắn</h4>
-            </div>
-            <div class="modal-body">
-                <div>
-                    <label>Người gửi:</label>
-                    <a href="#">Đức</a>
-                </div>
-                <div>
-                        <div class="post-footer"> 
-                            <ul class="comments-list" style="overflow:auto;height:250px;">
-                                <li class="comment">
-                                    <a class="pull-left" href="#">
-                                        <img class="avatar" src="http://bootdey.com/img/Content/user_1.jpg" alt="avatar">
-                                    </a>
-                                    <div class="comment-body">
-                                        <div class="comment-heading">
-                                            <h4 class="user">Gavino Free</h4>
-                                            <h5 class="time">5 minutes ago</h5>
-                                        </div>
-                                        <p>Sure, oooooooooooooooohhhhhhhhhhhhhhhh</p>
-                                    </div>
-                                    <a class="pull-left" href="#">
-                                        <img class="avatar" src="http://bootdey.com/img/Content/user_1.jpg" alt="avatar">
-                                    </a>
-                                    <div class="comment-body">
-                                        <div class="comment-heading">
-                                            <h4 class="user">Gavino Free</h4>
-                                            <h5 class="time">5 minutes ago</h5>
-                                        </div>
-                                        <p>Sure, oooooooooooooooohhhhhhhhhhhhhhhh</p>
-                                    </div>
-                                    <a class="pull-left" href="#">
-                                        <img class="avatar" src="http://bootdey.com/img/Content/user_1.jpg" alt="avatar">
-                                    </a>
-                                    <div class="comment-body">
-                                        <div class="comment-heading">
-                                            <h4 class="user">Gavino Free</h4>
-                                            <h5 class="time">5 minutes ago</h5>
-                                        </div>
-                                        <p>Sure, oooooooooooooooohhhhhhhhhhhhhhhh</p>
-                                    </div>
-                                    <a class="pull-left" href="#">
-                                        <img class="avatar" src="http://bootdey.com/img/Content/user_1.jpg" alt="avatar">
-                                    </a>
-                                    <div class="comment-body">
-                                        <div class="comment-heading">
-                                            <h4 class="user">Gavino Free</h4>
-                                            <h5 class="time">5 minutes ago</h5>
-                                        </div>
-                                        <p>Sure, oooooooooooooooohhhhhhhhhhhhhhhh</p>
-                                    </div>
-                                    <a class="pull-left" href="#">
-                                        <img class="avatar" src="http://bootdey.com/img/Content/user_1.jpg" alt="avatar">
-                                    </a>
-                                    <div class="comment-body">
-                                        <div class="comment-heading">
-                                            <h4 class="user">Gavino Free</h4>
-                                            <h5 class="time">5 minutes ago</h5>
-                                        </div>
-                                        <p>Sure, oooooooooooooooohhhhhhhhhhhhhhhh</p>
-                                    </div>
-                                </li>
-                            </ul>
-                            <div class="input-group">
-                                <input class="form-control" placeholder="Add a comment" type="text">
-                                <span class="input-group-addon">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Trả lời tin nhắn</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div>
+                                <label>Người gửi:@me</label>
+                                <a href="#">Đức</a>
+                            </div>
+                            <div>
+                                <div class="post-footer">
+                                    <ul class="comments-list" style="overflow: auto; height: 250px;">
+                                        <li class="comment">
+                                            @for (int i = 0; i < ListMeDetail.ElementAt(me).Count; i++)
+                                            {
+                                                <a class="pull-left" href="@Url.Action("Profile/" + @ListMeDetail.ElementAt(me).ElementAt(i).Member.MemberID, "Account")">
+                                                    <img class="avatar" src="/Content/Image/Member/@ListMeDetail.ElementAt(me).ElementAt(i).Member.Image" alt="avatar">
+                                                </a>
+                                                <div class="comment-body">
+                                                    <div class="comment-heading">
+                                                        <h4 class="user">@ListMeDetail.ElementAt(me).ElementAt(i).Member.Name</h4>
+                                                        <h5 class="time">@ListMeDetail.ElementAt(me).ElementAt(i).Datetime</h5>
+                                                    </div>
+                                                    <p>@ListMeDetail.ElementAt(me).ElementAt(i).Content</p>
+                                                </div>
+                                            }
+
+                                        </li>
+                                    </ul>
+                                    <div class="input-group">
+                                        @{
+                                            var Message = "comment" + me;
+                                        }
+                                        <input class="form-control" id="@Message" placeholder="Add a comment" type="text">
+                                        <span class="input-group-addon">
                                     <a href="#"><i class="fa fa-edit"></i></a>
                                 </span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
                     </div>
-                </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
             </div>
         </div>
-
-    </div>
-</div>
-
+    }*@
 <div class="section site-main">
     <div class="container">
         <ul class="nav nav-tabs">
@@ -141,24 +116,31 @@
             <div id="menu3" class="tab-pane fade">
                 <table style="margin-top:15px;" class="table">
                     <tbody>
-                        <tr>
-                            <td class="col-md-3">Thời gian</td>
-                            <td class="col-md-2">Người gửi</td>
-                            <td class="col-md-7">Tiêu đề</td>
-                        </tr>
-                    @foreach (var item in ViewBag.listMe)
+                    <tr>
+                        <td class="col-md-3">Thời gian</td>
+                        <td class="col-md-2">Người gửi</td>
+                        <td class="col-md-7">Tiêu đề</td>
+                    </tr>
+                        @for(int i=0;i< Listme.Count;i++)
+                    //@foreach (var item in ViewBag.listMe)
                     {
                         <tr>
-                            <td class="col-md-3">@item.Datetime</td>
-                            <td class="col-md-2"><a href="@Url.Action("Profile/"+@item.SenderID,"Account")">@item.SenderID</a></td>
-                            <td class="col-md-7"><a href="#" data-toggle="modal" data-target="#chat">@item.Title</a></td>
+                            <td class="col-md-3">@Listme.ElementAt(i).Datetime</td>
+                            <td class="col-md-2"><a href="@Url.Action("Profile/"+@Listme.ElementAt(i).SenderID,"Account")">@Listme.ElementAt(i).SenderID</a></td>
+                            @{
+                                var chat = "#chat" + i;
+                                var cmID = "CommentID" + i;
+                            }
+                            <input type="hidden" name="CommentID" id="@cmID" value ="@Listme.ElementAt(i).MemberID">
+                            <td class="col-md-7"><a  href="@Url.Action("MessageDetail/"+@Listme.ElementAt(i).MessageID, "Message")" >@Listme.ElementAt(i).Title</a></td>
+                @*<td class="col-md-7"><a data-url="@Url.Action("chat")" onclick="DetailMessage(@Listme.ElementAt(i).MessageID)" data-toggle="modal" data-target="@chat">@Listme.ElementAt(i).Title</a></td>*@
+
                         </tr>
                     }
                     </tbody>
                 </table>
             </div>
         </div>
-
     </div>
 </div>
 
@@ -167,39 +149,66 @@
 <!--Reference the autogenerated SignalR hub script. -->
 <script src="/signalr/hubs"></script>
 <script type="text/javascript">
-    function test(userid) {
-        var t = userid;
-        if (confirm("Bạn có chắc chắn muốn đổi chủ?")) {
-            
+    $(document)
+    .keypress(function (event) {
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        if (keycode == "13") {
+            if (true) {
+                AddComment();
+            } else {
+                return false;
+            }
         }
+    });
+    function DetailMessage(messageid) {
+        var url = $(this).data(url);
+        $('#chat').load(url);
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("ListMessage1","Message")",
+
+            datatype: "JSON",
+            data: {
+                messageid: messageid,
+
+            },
+            success: function(res) {
+
+            }
+        });
     }
 
-    function Confirm(Model,NotID,userid, koiid) {
-        if (Model == 'ChangeOwner'){
-        if (confirm("Bạn có chắc chắn muốn nhận koi?")) {
-            $.ajax({
-                type: "POST",
-                url: "@Url.Action("ChangeOwnerConfirm", "Koi")",
-                datatype: "JSON",
-                data: {
-                    NotID:NotID,
-                    koiId: koiid,
-                    userid: userid
-                },
-                success: function(res) {
-                    switch (res.Status) {
-                    case 1:
-                        alert(res.Message);
-                        window.location.reload();
-                        break;
+    function Confirm(Model, NotID, userid, koiid) {
+        if (Model == 'ChangeOwner') {
+            if (confirm("Bạn có chắc chắn muốn nhận koi?")) {
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("ChangeOwnerConfirm", "Koi")",
+                    datatype: "JSON",
+                    data: {
+                        NotID: NotID,
+                        koiId: koiid,
+                        userid: userid
+                    },
+                    success: function(res) {
+                        switch (res.Status) {
+                        case 1:
+                            alert(res.Message);
+                            window.location.reload();
+                            break;
+                        }
                     }
-                }
-            });
-        }
+                });
+            }
         }
     }
 
-
+    function AddComment() {
+        //ẩn hiện textbox
+        var activeInput = document.activeElement.id;
+        @*@{ var t = activeInput;}
+       var id = @CommonFunction.getindex(activeInput, "Message");*@
+    }
 
 </script>
 

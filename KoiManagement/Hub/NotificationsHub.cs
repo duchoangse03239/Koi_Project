@@ -26,7 +26,13 @@ namespace KoiManagement.Hub
 
         public void SendNotification(string userid, string author, string message)
         {
-             Clients.All.broadcastNotification(userid, author, message);
+
+            Clients.All.broadcastNotification(userid, author, message);
+        }
+
+        public void SendMessage(string userid,  string message)
+        {
+            Clients.All.ReceiveMessage(userid,  message);
         }
 
         public void AddComment()
