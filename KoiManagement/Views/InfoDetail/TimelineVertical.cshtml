@@ -145,7 +145,7 @@
                     <a href="@Url.Action("TimelineVertical/" + ViewBag.koiId, "InfoDetail", new {year = @item.Date.Year})" class="alert-warning" role="button">@item.Date.Year</a>
                 </h1>
                 <h1>@CommonFunction.calculateAge(@item.Date)  @item.Size cm</h1>
-                <img src="@Url.Content("~/Content/Image/Member/" + item.Image)" />
+                <img src="@Url.Content("~/Content/Image/Detail/" + item.Image)" />
                 @item.Date.ToString("dd/MM/yyyy")
             </div>
         }}

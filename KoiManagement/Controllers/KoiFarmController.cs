@@ -37,6 +37,10 @@ namespace KoiManagement.Controllers
             }
             var listkoi = koiFarmDao.GetListKoiByKoiFarmId((int)id);
             var koifarm = koiFarmDao.GetKoiFarmDetail((int)id);
+            if (koifarm == null)
+            {
+                return RedirectToAction("PageNotFound", "Error");
+            }
             ViewBag.koiFarm = koifarm;
             ViewBag.listKoi = listkoi;
             return View();
@@ -610,6 +614,30 @@ namespace KoiManagement.Controllers
                 return "Xin hãy chọn đủ số lượng "+ count + " ảnh tương ứng với tập tin excel.";
             }
             return "";
+        }
+
+
+        
+
+         public ActionResult DeleteKoiFarm(string KoiFarmId)
+        {
+            KoiFarm koiFarm = db.KoiFarms.Find(int.Parse(KoiFarmId));
+            koiFarm.Status = -1;
+            db.KoiFarms.Attach(koiFarm);
+            db.Entry(koiFarm).Property(x => x.Status).IsModified = true;
+            int result = db.SaveChanges();
+            //return View();
+            if (result == 1)
+            {
+                return Json(new { result = true });
+            }
+            else
+            {
+                return Json(new
+                {
+                    result = false
+                });
+            }
         }
 
     }
