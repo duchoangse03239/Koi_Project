@@ -29,8 +29,8 @@
                 <div class="modal-body">
                     <label>Chủ sở hữu mới</label>
                     <p>Xin hãy nhập tên đăng nhập chủ sở hữu mới</p>
-                    <input type="text" id="username" name="username"placeholder="Nhập tên tài khoản"/>
-                    <a onclick="ChangeOwner(@Model.KoiID)" class="btn btn-primary btn-sm">Lưu</a>
+                    <input type="text" id="username" name="username"placeholder="Nhập tên tài khoản" style="width:80%;"/>
+                    <a onclick="ChangeOwner(@Model.KoiID)" class="btn btn-primary btn-sm">Chuyển</a>
                     <label id="lbl_username_fail" class="label-error"></label>
                 </div>
                 <div class="modal-footer">
@@ -67,7 +67,7 @@
                     <label>Nội dung:</label>
                 </div>
                 <div>
-                    <textarea rows="4" cols="69" id="content" name ="content" placeholder="Nhập nội dung tin nhắn"></textarea>
+                    <textarea rows="4" id="content" name ="content" placeholder="Nhập nội dung tin nhắn" style="width:100%;"></textarea>
                     <label id="lbl_Content_fail" class="label-error"></label>
                 </div>
                 <div style="margin-top:10px;">
@@ -109,7 +109,7 @@
                     <label>Nội dung:</label>
                 </div>
                 <div>
-                    <textarea rows="4" cols="69" id="content" name ="content" placeholder="Nhập nội dung tin nhắn"></textarea>
+                    <textarea rows="4" id="content" name ="content" placeholder="Nhập nội dung tin nhắn" style="width:100%;"></textarea>
                     <label id="lbl_Content_fail" class="label-error"></label>
                 </div>
                 <div style="margin-top:10px;">
@@ -137,7 +137,7 @@
                         <label>Nội dung vi phạm:</label>
                     </div>
                     <div>
-                        <textarea rows="4" cols="69" id="contentReport" name="content" placeholder="Nhập nội dung vi phạm"></textarea>
+                        <textarea rows="4" id="contentReport" name="content" placeholder="Nhập nội dung vi phạm" style="width:100%;"></textarea>
                         <label id="lbl_report_fail" class="label-error"></label>
                     </div>
                     <div style="margin-top:10px;">
@@ -281,7 +281,7 @@
                     </div>
                         <div class="post-footer" style="margin-top: 20px">
                             <div class="">
-                                <input id="MainComment"class="form-control" placeholder="Add a comment" type="text" disabled>
+                                <input id="MainComment"class="form-control" placeholder="Viết bình luận..." type="text" disabled>
                             </div>
                             @for (int i = 0; i < ListComment.Count; i++)
                             {

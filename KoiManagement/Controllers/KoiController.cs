@@ -475,7 +475,7 @@ namespace KoiManagement.Controllers
             if (string.IsNullOrWhiteSpace(username))
             {
                 obj.Status = 2;
-                obj.Message = "Xin hãy nhập tên đăng nhập.";
+                obj.Message = "Xin hãy nhập tên đăng nhập của chủ sở hữu mới.";
                 return Json(obj);
             }
                 if (username.Equals(memberDao.GetMemberbyID(UserID).UserName))
