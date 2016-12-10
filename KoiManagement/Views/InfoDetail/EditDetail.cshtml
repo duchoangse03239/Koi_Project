@@ -14,7 +14,7 @@
         <div class="col-sm-6 col-sm-offset-3">
             <hr />
             <label>Kích thước hiện tại</label>
-            <input type="text" class="form-control" placeholder="Kích Thước" name="Size" id="Size" value="@Model.Size">
+            <input type="text" class="form-control" placeholder="Kích Thước" name="Size" id="Size" onkeypress="return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57" maxlength="3" value="@Model.Size">
             <label id="lblMessage_koi_size_fail" class="label-error"></label>
         </div>
     </div>
@@ -73,7 +73,7 @@
             <input type="hidden" name="Image" value="@Model.Image">
             <input type="hidden" name="KoiID" value="@Model.KoiID">
             <button id="btnEditDetail" class="btn btn-primary">Cập nhật</button>
-            <button type="button" class="btn btn-primary" onclick="location.href='/Koi/edit/@Model.DetailID';">Hủy</button>
+            <a type="button" class="btn btn-primary" href='javascript:history.go(-1)'>Quay lại</a>
         </div>
     </div>
     <input type="hidden" id="Avatar" name="Avatar" value="change" />
@@ -166,10 +166,17 @@
         var files = $('#files').val();
         if (Size == "") {
             $('#lblMessage_koi_size_fail').text("Vui lòng nhập kích thước");
+            $('#Size').focus();
             return false;
         }
         else if (!isPositiveNumber(Size)) {
             $('#lblMessage_koi_size_fail').text("Vui lòng nhập số cho kích thước của Koi!");
+            $('#Size').focus();
+            return false;
+        }
+        if (parseInt(Size) > 150) {
+            $('#lblMessage_koi_size_fail').text("Kích thước phải nhỏ hơn 150cm");
+            $('#Size').focus();
             return false;
         }
 

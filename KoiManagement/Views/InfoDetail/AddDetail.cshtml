@@ -10,7 +10,7 @@
             <div class="col-sm-6 col-sm-offset-3">
                 <hr />
                 <label>Kích thước hiện tại</label>
-                <input type="text" class="form-control" placeholder="Kích Thước" name="Size" id="Size">
+                <input type="text" class="form-control" placeholder="Kích Thước" onkeypress="return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57" maxlength="3" name="Size" id="Size">
                 <label id="lblMessage_koi_size_fail" class="label-error"></label>
             </div>
         </div>
@@ -85,12 +85,20 @@
         };
         if (Size == "") {
             $('#lblMessage_koi_size_fail').text("Vui lòng nhập kích thước");
+            $('#Size').focus();
             return false;
         }
         else if (!isPositiveNumber(Size)) {
             $('#lblMessage_koi_size_fail').text("Vui lòng nhập số cho kích thước của Koi!");
+            $('#Size').focus();
             return false;
         }
+        if (parseInt(Size) > 150) {
+            $('#lblMessage_koi_size_fail').text("Kích thước phải nhỏ hơn 150cm");
+            $('#Size').focus();
+            return false;
+        }
+
         if (files == "") {
             $('#lblMessage_file_fail').text("Xin hãy chọn ảnh.");
             return false;

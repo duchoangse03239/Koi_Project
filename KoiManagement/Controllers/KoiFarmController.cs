@@ -616,5 +616,29 @@ namespace KoiManagement.Controllers
             return "";
         }
 
+
+        
+
+         public ActionResult DeleteKoiFarm(string KoiFarmId)
+        {
+            KoiFarm koiFarm = db.KoiFarms.Find(int.Parse(KoiFarmId));
+            koiFarm.Status = -1;
+            db.KoiFarms.Attach(koiFarm);
+            db.Entry(koiFarm).Property(x => x.Status).IsModified = true;
+            int result = db.SaveChanges();
+            //return View();
+            if (result == 1)
+            {
+                return Json(new { result = true });
+            }
+            else
+            {
+                return Json(new
+                {
+                    result = false
+                });
+            }
+        }
+
     }
 }

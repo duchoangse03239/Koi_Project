@@ -36,7 +36,7 @@
                         <label>Nội dung</label>
                     </div>
                     <div>
-                        <textarea rows="4" cols="69" id ="content" name ="content" placeholder="Nhập nội dung tin nhắn"></textarea>
+                        <textarea rows="4" cols="69" id ="content" name ="content" placeholder="Nhập nội dung đánh giá"></textarea>
                     </div>
                     <label id="lbl_Rating_fail" class="label-error"></label>
                     <div style="margin-top:10px;">
@@ -274,6 +274,9 @@
                 switch (res.Status) {
                     case 2:
                         $('#lbl_Rating_fail').text(res.Message);
+                        break;
+                    case 3:
+                        alert(res.Message);
                         break;
                     case 1:
                         alert(res.Message);

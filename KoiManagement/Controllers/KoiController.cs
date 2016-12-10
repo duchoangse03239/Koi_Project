@@ -161,7 +161,6 @@ namespace KoiManagement.Controllers
             else
             {
                 return RedirectToAction("PageNotFound", "Error");
-                 
             }
             if (koi.KoiMom != null)
             {
@@ -543,11 +542,17 @@ namespace KoiManagement.Controllers
             int UserID = int.Parse(Session[SessionAccount.SessionUserId].ToString());
             try
             {
+                if (ToMember == UserID)
+                {
+                    obj.Status = 2;
+                    obj.Message = "Bạn không thể liên hệ đến chính mình.";
+                    return Json(obj);
+                }
 
                 OwnerDAO ownerDao = new OwnerDAO();
                 if (string.IsNullOrWhiteSpace(content))
                 {
-                    obj.Status = 2;
+                    obj.Status = 3;
                     obj.Message = "Xin hãy nhập tên nội dung.";
                     return Json(obj);
                 }
@@ -636,6 +641,7 @@ namespace KoiManagement.Controllers
                     obj.Message = "Xin hãy đăng nhập để đánh giá.";
                     return Json(obj);
                 }
+                var UserID = int.Parse(Session[SessionAccount.SessionUserId].ToString());
                 if (string.IsNullOrWhiteSpace(content))
                 {
                     obj.Status = 2;
@@ -646,6 +652,12 @@ namespace KoiManagement.Controllers
                 {
                     obj.Status = 2;
                     obj.Message = "Xin hãy chọn sao đánh giá.";
+                    return Json(obj);
+                }
+                if (!commentDao.CheckRatingKoi(UserID, koiID))
+                {
+                    obj.Status = 3;
+                    obj.Message = "Bạn đã đánh giá cá Koi này rồi.";
                     return Json(obj);
                 }
                 decimal sao = decimal.Parse(RateNum);
