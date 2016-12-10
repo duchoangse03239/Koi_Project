@@ -94,15 +94,15 @@ namespace KoiManagement.Controllers
         }
 
         // GET: /Koi/ListKoi/5
-        public ActionResult KoiUser(int id=0)
+        public ActionResult KoiUser(int? id)
         {
             // Lấy KoiId theo người sở hưu
-            if (id == 0)
+            if (id == null)
             {
                return RedirectToAction("ListKoi", "Koi");
             }
             // check exist id
-            var mem = memberDao.GetMemberbyID(id);
+            var mem = memberDao.GetMemberbyID(id.Value);
             if (mem == null)
             {
                  return RedirectToAction("PageNotFound", "Error");
@@ -112,10 +112,10 @@ namespace KoiManagement.Controllers
                 // id = int.Parse(Session[SessionAccount.SessionUserId].ToString());
                 KoiDAO koiDao = new KoiDAO();
                 MemberDAO mDAO=  new MemberDAO();
-                ListKois = koiDao.GetListKoiByMember(id);
-                ViewBag.Member = mDAO.GetMemberbyID(id);
-                ViewBag.CountKoi = koiDao.CountKoibyOwnerId(id);
-                ViewBag.CountKoiFarm = koiFarmDao.CountKoiFarmbyOwnerId(id);
+                ListKois = koiDao.GetListKoiByMember(id.Value);
+                ViewBag.Member = mDAO.GetMemberbyID(id.Value);
+                ViewBag.CountKoi = koiDao.CountKoibyOwnerId(id.Value);
+                ViewBag.CountKoiFarm = koiFarmDao.CountKoiFarmbyOwnerId(id.Value);
                 if (ListKois != null)
                 {
                     return View(ListKois);
@@ -136,16 +136,21 @@ namespace KoiManagement.Controllers
 
 
         // GET: /Koi/Details/5
-        public ActionResult Details(int id=0)
+        public ActionResult Details(int? id)
         {
-            if (id == 0)
+            if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("PageNotFound", "Error");
             }
             OwnerDAO ownDao= new OwnerDAO();
             Koi koi = db.Kois.Find(id);
+            //check exist
+            if (koi == null)
+            {
+                return RedirectToAction("PageNotFound", "Error");
+            }
                 // return name of owner
-            ViewBag.Owner = ownDao.GetOwner(id);
+            ViewBag.Owner = ownDao.GetOwner(id.Value);
             // Lấy giá trị deatail cuối cùng
             var KoiDeatail = db.InfoDetails.Where(p => p.KoiID == id&&p.Status).OrderByDescending(p => p.Date);
             ViewBag.listImage =  db.Media.Where(p =>p.ModelId == KoiDeatail.FirstOrDefault().DetailID && p.Status).ToList();
@@ -163,8 +168,8 @@ namespace KoiManagement.Controllers
             ViewBag.KoiMomName = db.Kois.Find(koi.KoiMom).KoiName;
             }
             ViewBag.Size = KoiDeatail.FirstOrDefault().Size;
-            ViewBag.ListComment = commentDao.GetListCommentKoi(id);
-            ViewBag.ListCommentDetail = commentDao.GetListCommentKoiDetail(id);
+            ViewBag.ListComment = commentDao.GetListCommentKoi(id.Value);
+            ViewBag.ListCommentDetail = commentDao.GetListCommentKoiDetail(id.Value);
 
             return View(koi);
         }
