@@ -8,26 +8,22 @@
     <div class="ten wide column">
         <div class="ui icon floating message">
             <i class="warning circle icon"></i>
-            <div class="content">
+            <div class="container">
                 <div class="header">
-                    Lỗi!
+                    <h1>Lỗi!</h1>
                 </div>
-               
                         <p>Chúng tôi không thể tìm thấy trang bạn yêu cầu, vui lòng kiểm tra lại đường dẫn của bạn!</p>
-                <div class="media">
-                    <a href='javascript:history.go(-1)' class="btn btn-primary btn-lg">
+                <div class="media" style="margin-bottom:20px;">
+                    <a href='javascript:history.go(-1)' class="btn btn-primary">
                         <span class="glyphicon "></span>
                         Trang trước
                     </a>
-                    <a href="@Url.Action("Index", "Home")" class="btn btn-primary btn-lg">
+                    <a href="@Url.Action("Index", "Home")" class="btn btn-primary">
                         <span class="glyphicon glyphicon-home"></span>
                         Quay về trang chủ
                     </a>
                 </div>
-                   
-               
             </div>
-
         </div>
     </div>
 </div>
