@@ -265,7 +265,7 @@ namespace KoiManagement.Controllers
                 {
                     //success
                     obj.Status = 1;
-                    obj.Message = "Bạn đã thêm";
+                    obj.Message = "Bạn đã thêm thành công.";
                     obj.RedirectTo = Url.Action("timeline/" + KoiID, "InfoDetail");
                     return Json(obj);
                 }
