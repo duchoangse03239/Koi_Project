@@ -242,6 +242,10 @@ namespace KoiManagement.Controllers
                 return View();
             }
             var articledetail = articleDao.GetArticleDetail((int)id);
+            if (articledetail == null)
+            {
+                return RedirectToAction("PageNotFound", "Error");
+            }
             ViewBag.articleDetail = articledetail;
             return View();
         }

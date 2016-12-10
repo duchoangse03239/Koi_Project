@@ -37,6 +37,10 @@ namespace KoiManagement.Controllers
             }
             var listkoi = koiFarmDao.GetListKoiByKoiFarmId((int)id);
             var koifarm = koiFarmDao.GetKoiFarmDetail((int)id);
+            if (koifarm == null)
+            {
+                return RedirectToAction("PageNotFound", "Error");
+            }
             ViewBag.koiFarm = koifarm;
             ViewBag.listKoi = listkoi;
             return View();

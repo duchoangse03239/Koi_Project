@@ -299,12 +299,12 @@ namespace KoiManagement.Controllers
             SessionInfoDetail.listRemoveImage.Clear();
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("PageNotFound", "Error");
             }
             InfoDetail infoDetail = db.InfoDetails.Find(id);
-            if (infoDetail == null || infoDetail.DetailID ==null)
+            if (infoDetail == null )
             {
-                return HttpNotFound();
+                return RedirectToAction("PageNotFound", "Error");
             }
             ViewBag.KoiID = infoDetail.KoiID;
             List<Medium> listImage = new List<Medium>();

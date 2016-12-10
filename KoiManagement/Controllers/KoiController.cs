@@ -101,6 +101,12 @@ namespace KoiManagement.Controllers
             {
                return RedirectToAction("ListKoi", "Koi");
             }
+            // check exist id
+            var mem = memberDao.GetMemberbyID(id);
+            if (mem == null)
+            {
+                 return RedirectToAction("PageNotFound", "Error");
+            }
             try
             {
                 // id = int.Parse(Session[SessionAccount.SessionUserId].ToString());
@@ -336,7 +342,7 @@ namespace KoiManagement.Controllers
             Koi koi = db.Kois.Find(id);
             if (koi == null)
             {
-                return HttpNotFound();
+                return RedirectToAction("PageNotFound", "Error");
             }
             ViewBag.VarietyID = db.Varieties;
 
