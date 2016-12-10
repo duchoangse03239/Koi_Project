@@ -121,7 +121,7 @@
 <div class="container">
     @if (ViewBag.year != null)
             {
-        @Html.ActionLink("Quay lại", null, null, null, new { href = Request.UrlReferrer })
+        <a href='javascript:history.go(-1)'> Quay lại</a>
     }
     <div class="bar"></div>
     <div class="timeline-horizontal">
@@ -142,7 +142,7 @@
         {
             <div class="entry">
                 <h1>
-                    <a href="@Url.Action("TimelineVertical/" + ViewBag.koiId, "InfoDetail", new {year = @item.Date.Year})" class="alert-warning" role="button">@item.Date.Year</a>
+                    @item.Date.Year
                 </h1>
                 <h1>@CommonFunction.calculateAge(@item.Date)  @item.Size cm</h1>
                 <img src="@Url.Content("~/Content/Image/Detail/" + item.Image)" />

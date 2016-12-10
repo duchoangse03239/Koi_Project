@@ -89,7 +89,9 @@ namespace KoiManagement.Controllers
         }
         public ActionResult UpdateTimeLine(int? id, int? pageNum, int? filterVa)
         {
-            List<List<Medium>> myList = new List<List<Medium>>();
+            try
+            {
+                List<List<Medium>> myList = new List<List<Medium>>();
             string t = "";
             BaseFilter filter;
             pageNum = pageNum ?? 1;
@@ -122,11 +124,19 @@ namespace KoiManagement.Controllers
             ViewBag.Skip = filter.Skip;
 
             return View();
+            }
+            catch (Exception ex)
+            {
+                Common.Logger.LogException(ex);
+                return RedirectToAction("SystemError", "Error");
+            }
         }
         public ActionResult timeline(int? id, int? pageNum, int? filterVal)
         {
-            //check id null
-            List<List<Medium>> myList = new List<List<Medium>>();
+            try
+            {
+                //check id null
+                List<List<Medium>> myList = new List<List<Medium>>();
             string t = "";
             BaseFilter filter;
             pageNum = pageNum ?? 1;
@@ -158,6 +168,12 @@ namespace KoiManagement.Controllers
             ViewBag.koiId = id;
 
             return View();
+             }
+            catch (Exception ex)
+            {
+                Common.Logger.LogException(ex);
+                return RedirectToAction("SystemError", "Error");
+            }
         }
 
         // GET: InfoDetail/add new koi
