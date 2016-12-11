@@ -251,17 +251,20 @@ namespace KoiManagement.Controllers
             return View(koifarm);
         }
 
-        public ActionResult AddKoiToKoiFarm(int? id)
+        public ActionResult AddKoiToKoiFarm(int? id, int? page)
         {
             //kiểm tra đăng nhập
-            if (Session[SessionAccount.SessionUserId] == null)
-            {
-                return RedirectToAction("Login", "Account");
-            }
-            var ad = db.Kois.Where(cu => cu.Owners.Any(c => c.MemberID == id));
-            return View(ad);
+            //if (Session[SessionAccount.SessionUserId] == null)
+            //{
+            //    return RedirectToAction("Login", "Account");
+            //}
+            var ad = db.Kois.Where(cu => cu.Owners.Any(c => c.MemberID == id&&c.KoiFarmID==null));
+            int pageSize = 3;
+            int pageNumber = (page ?? 1);
+            ViewBag.ListKoi = ad.ToList().ToPagedList(pageNumber, pageSize);
+            ViewBag.KoiFarmID = id;
+            return View();
         }
-
 
 
         /// <summary>  
@@ -638,6 +641,21 @@ namespace KoiManagement.Controllers
                     result = false
                 });
             }
+        }
+
+        [HttpPost]
+        public JsonResult AddToKoiFarm(string KoiID, int koiFarmId)
+        {
+            StatusObjForJsonResult obj = new StatusObjForJsonResult();
+            var myListKoi = KoiID.Split(',').Select(x => Int32.Parse(x)).ToArray();
+
+            if (ownerDao.AddListKoiToKoiFarm(myListKoi, koiFarmId))
+            {
+                obj.Status = 1;
+                obj.Message = "Thêm thành công.";
+                return Json(obj);
+            }
+            return Json(obj);
         }
 
     }

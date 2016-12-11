@@ -1,29 +1,32 @@
-﻿@model IEnumerable<KoiManagement.Models.Koi>
+﻿@using KoiManagement.Common
+@using PagedList.Mvc
+@model IEnumerable<KoiManagement.Models.Koi>
 
 @{
     ViewBag.Title = "Thêm cá vào trang trại";
     Layout = "~/Views/Layout/KoiLayout.cshtml";
+    PagedList.IPagedList ListKoi= ViewBag.ListKoi;
 }
 
 
 <section class="container" id="list-koi">
-    <h2>Hãy chọn cá bạn muốn thêm vào trang trại</h2>
+    <h2>Hãy chọn cá bạn muốn thêm vào trang trại<h3>(Bạn chỉ được thêm theo từng trang.)</h3></h2>
     <div class="button-header text-right" style="margin:0 0 15px 0;">
-        <a class="btn btn-success" href="@Url.Action("AddKoiToKoiFarm", "KoiFarm")">Thêm cá vào trang trại</a>
+        <a class="btn btn-success" id="btnAddKoi" >Thêm cá vào trang trại</a>
     </div>
-    <table class="table">
+    <table class="table" id="find-table">
         <tr>
             <th>
-               Hình ảnh
+                Hình ảnh
             </th>
             <th>
                 Chủng loại
             </th>
             <th>
-               Tên cá
+                Tên cá
             </th>
             <th>
-               Ngày sinh
+                Ngày sinh
             </th>
             <th>
                 Giới tính
@@ -37,33 +40,89 @@
             </th>
         </tr>
 
-        @foreach (var item in Model)
+        @for (int item = 0; item < ViewBag.ListKoi.Count; item++)
         {
             <tr>
                 <td>
-                    <img class="img-koi-list " src="/Content/Image/Koi/@item.Image" alt="">
+                    <img class="img-koi-list " src="/Content/Image/Koi/@ViewBag.ListKoi[item].Image" alt="">
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Variety.VarietyName)
+                    @ViewBag.ListKoi[item].Variety.VarietyName
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.KoiName)
+                    @ViewBag.ListKoi[item].KoiName
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.DoB)
+                    @(@ViewBag.ListKoi[item].DoB != null ? @ViewBag.ListKoi[item].DoB.ToString("dd/MM/yyyy") : "Chưa biết")
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Gender)
+                    @CommonFunction.ReturnGenderKoi(ViewBag.ListKoi[item].Gender)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Origin)
+                    @ViewBag.ListKoi[item].Origin
                 </td>
 
-                <td >
-                    <label><input type="checkbox" value="" >Chọn</label>
+                <td>
+                    <label><input type="checkbox" value="@ViewBag.ListKoi[item].KoiID" checked>Chọn</label>
                 </td>
             </tr>
         }
 
     </table>
+    Page @(ListKoi.PageCount < ListKoi.PageNumber ? 0 : ListKoi.PageNumber) of @ListKoi.PageCount
+    @Html.PagedListPager(ListKoi, page => Url.Action("AddkoiToKoiFarm/" + @ViewBag.KoiFarmID, "KoiFarm", new { page }))
 </section>
+
+<script>
+
+    $("#btnAddKoi")
+        .click(function() {
+            if (Validate()) {
+                AddKoi();
+            } else {
+
+                return false;
+            }
+        });
+
+    function Validate() {
+        return true;
+    }
+
+    function AddKoi() {
+        var searchIDs = [];
+
+        $("#find-table input:checkbox:checked").map(function () {
+            searchIDs.push($(this).val());
+        });
+
+        var t = searchIDs.join();
+        if (t == "") {
+            alert("Vui lòng nhập chọn koi.");
+            return ;
+        }
+
+        $.ajax({
+
+            type: "POST",
+            url: "@Url.Action("AddToKoiFarm")",
+            data: {
+                KoiID: t,
+                koiFarmId: @ViewBag.KoiFarmID,
+            },
+         dataType: "Json",
+        success: function(res) {
+            switch (res.Status) {
+               
+                case 1:
+                    alert(res.Message);
+                    window.location.reload();
+                    break;
+                case 0:
+                    window.location.href = res.RedirectTo;
+                    break;
+            }
+        }
+    });
+    }
+</script>
