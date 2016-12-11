@@ -263,7 +263,7 @@ namespace KoiManagement.Controllers
                 return RedirectToAction("Login", "Account");
             }
             KoiFarmDAO koiFarmDao = new KoiFarmDAO();
-            var check = koiFarmDao.GetKoiFarmById(id.Value);
+            var check = memberDao.GetMemberbyID(id.Value);
             if (check == null)
             {
                 return RedirectToAction("PageNotFound", "Error");
