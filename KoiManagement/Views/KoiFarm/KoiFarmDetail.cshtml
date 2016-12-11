@@ -1,12 +1,22 @@
 ﻿@using KoiManagement.Common
+@using KoiManagement.DAL
 @using KoiManagement.Models
+@using PagedList.Mvc
 
 
 @{
     ViewBag.Title = "Giới thiệu trang trại";
     KoiFarm koifarm = ViewBag.koiFarm;
     Layout = "~/Views/Layout/KoiLayout.cshtml";
-    List<Koi> listKoi=ViewBag.listKoi;
+    //List<Koi> listKoi=ViewBag.listKoi;
+
+
+    PagedList.IPagedList ListKoi = ViewBag.Listkoi;
+    KoiFilterModel filter = ViewBag.Filter;
+    CommentDAO cmDao = new CommentDAO();
+    OwnerDAO oDao = new OwnerDAO();
+    InfoDetailDAO infoDao = new InfoDetailDAO();
+    List<Variety> listVariety = ViewBag.listVariety;
 
 }
     <!-- Modal Report-->
@@ -107,14 +117,14 @@
                                 <div class="col-md-7">
                                     <select name="variety" id="variety">
                                         <option value="0">Tất cả</option>
-                                        @*@foreach (var item in listVariety)
+                                        @foreach (var item in listVariety)
                             {
                                 <option value="@item.VarietyID">@item.VarietyName</option>
-                            }*@
+                            }
                                     </select>
                                 </div>
                                 <script type="text/javascript">
-                                    var $opt1 = $('#variety').children(('option[value=' + @*@filter.VarietyId*@ + ']'));
+                                    var $opt1 = $('#variety').children(('option[value=' + @filter.VarietyId + ']'));
                                     $opt1.attr('selected', 'selected');
                                 </script>
                             </div>
@@ -124,8 +134,8 @@
                                     <label id="lbl-size">Kích thước (cm)</label>
                                 </div>
                                 <div class="col-md-7">
-                                    <input class="koi-size" name="SizeFrom" id="sizeFrom" value="" type="text" placeholder="From"><span> - </span>
-                                    <input class="koi-size" name="SizeTo" id="sizeTo" value="" type="text" placeholder="To">
+                                    <input class="koi-year-old" type="text" name="SizeFrom" id="SizeFrom" value="@filter.SizeFrom" placeholder="From" onkeypress="return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57" maxlength="4"><span> - </span>
+                                    <input class="koi-year-old" type="text" name="SizeTo" id="SizeTo" value="@filter.SizeTo" placeholder="To" onkeypress="return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57" maxlength="4">
                                 </div>
 
                             </div>
@@ -135,8 +145,8 @@
                                     <label id="lbl-year-old">Tuổi (tháng)</label>
                                 </div>
                                 <div class="col-md-7">
-                                    <input class="koi-year-old" type="text" placeholder="From"><span> - </span>
-                                    <input class="koi-year-old" type="text" placeholder="To">
+                                    <input class="koi-year-old" type="text" name="AgeFrom" id="AgeFrom" value="@filter.AgeFrom" placeholder="From" onkeypress="return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57" maxlength="4"><span> - </span>
+                                    <input class="koi-year-old" type="text" name="AgeTo" id="AgeTo" value="@filter.AgeTo" placeholder="To" onkeypress="return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57" maxlength="4">
                                 </div>
                             </div>
                             <hr />
@@ -147,7 +157,7 @@
                         </div>
                     </form>
                 </div>
-                <div class="col-md-8">
+                @*<div class="col-md-8">
                     <div>
                         <div>
                             <a class="btn btn-filter" href="#">Mới nhất</a>
@@ -166,7 +176,7 @@
                                     <div class="col-md-6">
                                         <a class="title-koi-name" href="/Koi/Details/@item.KoiID">@item.KoiName</a>
                                         <h4 class="">
-                                            @*Chủ sở hữu: <a href="/Account/profile/@oDao.GetOwnerID(ViewBag.Listkoi[item].KoiID)">Tên chủ sở hữu</a>*@
+                                            Chủ sở hữu: <a href="/Account/profile/@oDao.GetOwnerID(ViewBag.Listkoi[item].KoiID)">Tên chủ sở hữu</a>
                                         </h4>
                                         <p class="">
                                             <a style="border-bottom: solid 1px #3377ff; color: #3377ff;" href="@Url.Action("Timeline/"+@item.KoiID, "InfoDetail")">Thông tin sinh trưởng </a>
@@ -186,7 +196,7 @@
                                             </a>
                                             <br />
                                             <br />
-                                            @*<a href=""> @cmDao.CountCommentByKoiID(ViewBag.Listkoi[item].KoiID)  đánh giá</a>*@
+                                            <a href=""> @cmDao.CountCommentByKoiID(ViewBag.Listkoi[item].KoiID)  đánh giá</a>
                                         </div>
                                     </div>
                                 </div>
@@ -194,10 +204,69 @@
                         }
                     </div>
                     
+                </div>*@
+                
+                
+                <div class="col-md-8">
+
+                    <div id="Main-ListKoi">
+                        @for (var item = 0; item < ViewBag.Listkoi.Count; item++)
+                        {
+                            <div class="content-section-a">
+                                <input type="hidden" id="koiID" name="koiID" value="@ViewBag.Listkoi[item].KoiID">
+                                <input type="hidden" id="KoiName" name="KoiName" value="@ViewBag.Listkoi[item].KoiName">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <img class="img-koi-list " src="/Content/Image/Koi/@ViewBag.Listkoi[item].Image" alt="">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p class="title-koi-name" href="/Koi/Details/@ViewBag.Listkoi[item].KoiID">@ViewBag.Listkoi[item].KoiName</p>
+                                        <h4 style="margin-top:25px;">
+                                            Chủ sở hữu:@{
+                                                var owner = oDao.GetOwner(ViewBag.Listkoi[item].KoiID);
+                                                if (owner != null)
+                                                {
+                                                    <a href="/Account/profile/@owner.Member.MemberID">@owner.Member.Name</a>
+                                                }
+                                            }
+                                        </h4>
+                                        <h4>Kích thước: @infoDao.GetLastSize(ViewBag.Listkoi[item].KoiID) (cm) </h4>
+                                        <p class="">
+                                            <a style="color: #3377ff;" href="@Url.Action("Timeline/"+@ViewBag.Listkoi[item].KoiID, "InfoDetail")">Thông tin sinh trưởng </a>
+                                        </p>
+                                        <p>
+                                            <a class="btn btn-embossed btn-primary" href="/Koi/Details/@ViewBag.Listkoi[item].KoiID" role="button">Chi tiết</a>
+                                        </p>
+                                    </div>
+                                    <input type="hidden" name="KoiId" id="KoiId">
+                                    <div class="col-md-3">
+                                        @if (Session[SessionAccount.SessionUserId] != null)
+                                        {
+                                            <div class="ratings" data-toggle="modal" data-target="#vote" onclick="Rate(@ViewBag.Listkoi[item].KoiID, @item,'@ViewBag.Listkoi[item].KoiName')" style="margin-top: 13px;">
+                                                @{ var id = "rating-default" + @item; }
+                                                <input type="number" name="your_awesome_parameter" id="@id" class="rating" value="@cmDao.getRate(ViewBag.Listkoi[item].KoiID)" disabled="disabled" data-readonly />
+                                            </div>
+                                                    }
+                                                    else
+                                                    {
+                                                        <input type="number" name="your_awesome_parameter" id="rating-readonly" class="rating" value="@cmDao.getRate(ViewBag.Listkoi[item].KoiID)" data-readonly />
+                                                    }
+                                        <h5 style="margin-left: 5px;">@cmDao.CountCommentByKoiID(ViewBag.Listkoi[item].KoiID) đánh giá</h5>
+                                    </div>
+                                </div>
+                            </div>
+                                                    }
+                    </div>
+                    <br />
+
+                    Page @(ListKoi.PageCount < ListKoi.PageNumber ? 0 : ListKoi.PageNumber) of @ListKoi.PageCount
+
+                    @Html.PagedListPager(ListKoi, page => Url.Action("ListKoi/" + @ViewBag.VarietyId,
+    new { page, orderby = filter.orderby, nameKoi = filter.KoiName, variety = filter.VarietyId, sizeFrom = filter.SizeFrom, sizeTo = filter.SizeTo, gender = filter.Gender, owner = filter.Owner }))
                 </div>
+                
 
             </div>
-            
         </div>
     </div>
 </div>
@@ -213,41 +282,49 @@
 
 
 <script>
-    //$('#btnSearch').click(function (e) {
-    //    e.preventDefault();
-    //    $('#mytabs a[href="#menu1"]').tab('show');
-    //})
 
-    function ReportKoiFarm(parameter1) {
-        var content = $('#contentReport').val();
+     @if (@filter.VarietyId != null||  filter.SizeFrom != null || filter.SizeTo != null || filter.AgeTo != null || filter.AgeFrom != null)
+     {
+         <text>
+    $(document).ready(function () {
+        $(function () {
+
+            $('#mytabs a[href="#menu1"]').tab('show');
+
+             });
+
+         });</text>
+     }
+     function ReportKoiFarm(parameter1) {
+         var content = $('#contentReport').val();
         $('#lbl_Report_fail').text("");
 
         $.ajax({
-            type: "POST",
+             type: "POST",
             url: "@Url.Action("ReportKoiFarm", "Report")",
             datatype: "JSON",
         data: {
-            koiFarmId: parameter1,
+                 koiFarmId: parameter1,
             content: content,
             },
         success: function (res) {
-            switch (res.Status) {
-                case 2:
-                    alert(res.Message);
+                 switch (res.Status) {
+                     case 2:
+                         alert(res.Message);
                     $('#username').focus();
-                    break;
-                case 3:
+                         break;
+                     case 3:
                     $('#lbl_report_fail').text(res.Message);
                     $('#username').focus();
-                    break;
-                case 1:
-                    alert(res.Message);
-                    // Declare a proxy to reference the hub.
+                         break;
+                     case 1:
+                         alert(res.Message);
+                         // Declare a proxy to reference the hub.
 
-                    window.location.reload();
-                    break;
-            }
-        }
-    }); // end ajax
-    }
+                         window.location.reload();
+                         break;
+                 }
+             }
+         }); // end ajax
+     }
 </script>

@@ -94,7 +94,7 @@ namespace KoiManagement.Controllers
         }
 
         // GET: /Koi/ListKoi/5
-        public ActionResult KoiUser(int? id, int? page)
+        public ActionResult KoiUser(int? id, int? page, string txtSearch)
         {
             // Lấy KoiId theo người sở hưu
             if (id == null)
@@ -113,12 +113,29 @@ namespace KoiManagement.Controllers
                 KoiDAO koiDao = new KoiDAO();
                 MemberDAO mDAO=  new MemberDAO();
                 ListKois = koiDao.GetListKoiByMember(id.Value);
+                var list = new List<Koi>();
+                if (!string.IsNullOrWhiteSpace(txtSearch))
+                {
+                    foreach (var item in ListKois)
+                    {
+                        if (item.KoiName.Contains(txtSearch))
+                        {
+                            list.Add(item);
+                        }
+                    }
+                }
+                else
+                {
+                    list = ListKois;
+                }
 
 
+
+                ViewBag.txtSearch = txtSearch;
                 // phân trang 6 item 1trang
                 int pageSize = 10;
                 int pageNumber = (page ?? 1);
-                ViewBag.Listkoi = ListKois.ToList().ToPagedList(pageNumber, pageSize);
+                ViewBag.Listkoi = list.ToList().ToPagedList(pageNumber, pageSize);
                 //user profile
                 ViewBag.Member = mDAO.GetMemberbyID(id.Value);
                 ViewBag.CountKoi = koiDao.CountKoibyOwnerId(id.Value);

@@ -29,11 +29,11 @@ namespace KoiManagement.Controllers
             return View();
         }
 
-        public ActionResult KoiFarmDetail(int? id)
+        public ActionResult KoiFarmDetail(int? id, int? page, string orderby, string nameKoi, string username, string variety, string sizeFrom, string sizeTo, string gender, string owner, string AgeFrom, string AgeTo)
         {
-            if (id == 0)
+            if (id == null)
             {
-                return View();
+                return RedirectToAction("PageNotFound", "Error");
             }
             var listkoi = koiFarmDao.GetListKoiByKoiFarmId((int)id);
             var koifarm = koiFarmDao.GetKoiFarmDetail((int)id);
@@ -42,7 +42,31 @@ namespace KoiManagement.Controllers
                 return RedirectToAction("PageNotFound", "Error");
             }
             ViewBag.koiFarm = koifarm;
-            ViewBag.listKoi = listkoi;
+            //ViewBag.listKoi = listkoi;
+            VarietyDAO varietyDao= new VarietyDAO();
+            KoiDAO kDao = new KoiDAO();
+            //list koi
+
+                        if (!String.IsNullOrEmpty(variety)&&variety.Equals("0"))
+            {
+                variety ="";
+            }
+            variety = variety;
+            //ViewBag.VarietyId = id;
+            KoiFilterModel filter = new KoiFilterModel(orderby, nameKoi, username, variety, sizeFrom, sizeTo, gender, owner, AgeFrom, AgeTo);
+            ViewBag.Filter = filter;
+            ViewBag.listVariety = varietyDao.getListMainVariety();
+
+            var koi = db.Kois.AsQueryable();
+
+            koi = koiFarmDao.KoiFilterByKoiFarm(filter, (int)id);
+
+            // phân trang 6 item 1trang
+            int pageSize = 10;
+            int pageNumber = (page ?? 1);
+            ViewBag.Listkoi = koi.ToList().ToPagedList(pageNumber, pageSize);
+
+
             return View();
         }
 

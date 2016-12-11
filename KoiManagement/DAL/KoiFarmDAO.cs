@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Web;
+using KoiManagement.Common;
 using KoiManagement.Models;
 
 namespace KoiManagement.DAL
@@ -40,6 +41,93 @@ namespace KoiManagement.DAL
         public KoiFarm GetKoiFarmDetail(int id)
         {
             return db.KoiFarms.Find(id);
+        }
+
+          public IQueryable<Koi> KoiFilterByKoiFarm(KoiFilterModel searchModel, int koifarmId)
+        {
+            var koi = db.Kois.AsQueryable();
+            koi= db.Kois.Where(cu => cu.Owners.Any(c => c.KoiFarmID == koifarmId));
+            if (searchModel != null)
+            {
+                if (!string.IsNullOrEmpty(searchModel.KoiName))
+                {
+                    string koiname = CommonFunction.convertToNormalString(searchModel.KoiName);
+                    koi = koi.Where(p => p.KoiName.Contains(searchModel.KoiName));
+                }
+                if (!string.IsNullOrEmpty(searchModel.Username))
+                {
+                    koi = koi.Where(p => p.Owners.Where(o => o.Status).FirstOrDefault().Member.UserName.Equals(searchModel.Username));
+                }
+                if (!string.IsNullOrEmpty(searchModel.VarietyId))
+                {
+                    int? variety = CommonFunction.ToNullableInt(searchModel.VarietyId);
+                    koi = koi.Where(p => p.VarietyID == variety);
+                }
+                if (!string.IsNullOrEmpty(searchModel.SizeFrom))
+                {
+                    decimal? size = CommonFunction.ToNullableDecimal(searchModel.SizeFrom);
+                    koi = koi.Where(p => p.InfoDetails.OrderBy(u => u.Date).FirstOrDefault().Size >= size);
+                }
+                if (!string.IsNullOrWhiteSpace(searchModel.SizeTo))
+                {
+                    decimal? size = CommonFunction.ToNullableDecimal(searchModel.SizeTo);
+                    koi = koi.Where(p => p.InfoDetails.OrderBy(u => u.Date).FirstOrDefault().Size <= size);
+                }
+                if (!string.IsNullOrEmpty(searchModel.Gender))
+                {
+                    koi = koi.Where(p => p.Gender == searchModel.Gender);
+                }
+                if (!string.IsNullOrEmpty(searchModel.Owner))
+                {
+                    //@@
+                    // koi = koi.Where(p => p.KoiName.Contains(searchModel.KoiName));
+                    koi = koi.Where(p => p.Owners.Where(o => o.Status).FirstOrDefault().Member.Name.Contains(searchModel.Owner));
+                }
+                if (!string.IsNullOrEmpty(searchModel.AgeFrom))
+                {
+                    int? age = CommonFunction.ToNullableInt(searchModel.AgeFrom);
+                    if (age.HasValue)
+                    {
+                        DateTime? Month = CommonFunction.getDateFromMonth(age.Value);
+                        if (Month != null)
+                        {
+                            koi = koi.Where(p => p.DoB >= Month);
+                        }
+                    }
+                }
+                if (!string.IsNullOrEmpty(searchModel.AgeTo))
+                {
+                    int? age = CommonFunction.ToNullableInt(searchModel.AgeTo);
+                    if (age.HasValue)
+                    {
+                        DateTime? Month = CommonFunction.getDateFromMonth(age.Value);
+                        if (Month != null)
+                        {
+                            koi = koi.Where(p => p.DoB <= Month);
+                        }
+                    }
+                }
+                if (!string.IsNullOrEmpty(searchModel.orderby))
+                {
+                    switch (searchModel.orderby)
+                    {
+                        case "newest":
+                            koi = koi.OrderBy(p => p.InfoDetails.OrderBy(v => v.Date).Select(v => v.DetailID).FirstOrDefault());
+                            break;
+                        case "review":
+                            koi = koi.Include(p => p.Comments).OrderByDescending(p => p.Comments.Count);
+                            break;
+                        case "date_desc":
+                            break;
+                        default:  // Name ascending 
+                            break;
+                    }
+                }
+                // kiểm tra tồn tại koi
+                koi = koi.Where(p => p.Status == 1);
+            }
+            else { return null; }
+            return koi;
         }
 
         public int CountKoiFarmbyOwnerId(int id)
