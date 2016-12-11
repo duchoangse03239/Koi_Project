@@ -39,7 +39,7 @@
 </div>
 
 <div class="container">
-    <ul class="nav nav-tabs">
+    <ul id="mytabs" class="nav nav-tabs">
         <li class="active"><a data-toggle="tab" href="#home">Thông tin trang trại</a></li>
         <li><a data-toggle="tab" href="#menu1">Cá của trang trại</a></li>
         @if (Session[SessionAccount.SessionUserId] != null && Session[SessionAccount.SessionUserId].ToString().Equals(@koifarm.MemberID.ToString()))
@@ -213,6 +213,10 @@
 
 
 <script>
+    //$('#btnSearch').click(function (e) {
+    //    e.preventDefault();
+    //    $('#mytabs a[href="#menu1"]').tab('show');
+    //})
 
     function ReportKoiFarm(parameter1) {
         var content = $('#contentReport').val();
