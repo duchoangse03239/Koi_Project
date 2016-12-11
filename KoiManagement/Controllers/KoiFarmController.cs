@@ -254,12 +254,18 @@ namespace KoiManagement.Controllers
         public ActionResult AddKoiToKoiFarm(int? id, int? page)
         {
             //kiểm tra đăng nhập
-            //if (Session[SessionAccount.SessionUserId] == null)
-            //{
-            //    return RedirectToAction("Login", "Account");
-            //}
+            if (Session[SessionAccount.SessionUserId] == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            KoiFarmDAO koiFarmDao = new KoiFarmDAO();
+            var check = koiFarmDao.GetKoiFarmById(id.Value);
+            if (check == null)
+            {
+                return RedirectToAction("PageNotFound", "Error");
+            }
             var ad = db.Kois.Where(cu => cu.Owners.Any(c => c.MemberID == id&&c.KoiFarmID==null));
-            int pageSize = 3;
+            int pageSize = 10;
             int pageNumber = (page ?? 1);
             ViewBag.ListKoi = ad.ToList().ToPagedList(pageNumber, pageSize);
             ViewBag.KoiFarmID = id;
