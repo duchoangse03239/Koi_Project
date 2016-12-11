@@ -486,22 +486,16 @@
             success: function (res) {
                 switch (res.Status) {
                     case 2:
-                        $('#lbl_username_fail').text(res.Message);
+                        alert(res.Message);
                         $('#username').focus();
                         break;
                     case 3:
-                        $('#lbl_username_fail').text(res.Message);
+                        $('#lbl_report_fail').text(res.Message);
                         $('#username').focus();
                         break;
                     case 1:
                         alert(res.Message);
                         // Declare a proxy to reference the hub.
-                        var notifications = $.connection.notificationsHub;
-                        // Create a function that the hub can call to broadcast messages.
-                        $.connection.hub.start()
-                            .done(function () {
-                                notifications.server.sendNotification(res.JsonObject, "doi chu", "koi");
-                            });
                         window.location.reload();
                         break;
                 }

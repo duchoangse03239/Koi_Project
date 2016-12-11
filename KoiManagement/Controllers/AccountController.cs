@@ -592,7 +592,9 @@ namespace KoiManagement.Controllers
             }
             MemberDAO MDao = new MemberDAO();
             KoiDAO kDao= new KoiDAO();
+            KoiFarmDAO koiFarmDao = new KoiFarmDAO();
             ViewBag.CountKoi = kDao.CountKoibyOwnerId(id.Value);
+            ViewBag.CountKoiFarm = koiFarmDao.CountKoiFarmbyOwnerId(id.Value);
             var mem = MDao.GetMemberbyID(id.Value);
             if (mem == null)
             {
