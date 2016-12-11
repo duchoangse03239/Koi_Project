@@ -3,6 +3,7 @@ body {
     font-family: 'Open Sans', sans-serif;
     background: #fff;
     position: relative;
+    padding-bottom: 19rem;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -552,6 +553,22 @@ body a {
 
 #btnSaveProfile {
     width: 100px;
+}
+#footer {
+  position: absolute;
+  right: 0;
+  bottom: 35px;
+  left: 0;
+  padding: 1rem;
+  text-align: center;
+}
+#footer1 {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: 1rem;
+  text-align: center;
 }
 /*manage account  */
 /*.box_left {
