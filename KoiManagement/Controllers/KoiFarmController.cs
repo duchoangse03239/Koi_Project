@@ -145,6 +145,10 @@ namespace KoiManagement.Controllers
                     t += v.Value + ", ";
                 }
                 t = CommonFunction.Trim2LastCharacter(t);
+                if (string.IsNullOrEmpty(t))
+                {
+                    t = " ";
+                }
                 listVariety.Add(t);
             }
             int pageSize = 7;
@@ -659,6 +663,58 @@ namespace KoiManagement.Controllers
             {
                 obj.Status = 1;
                 obj.Message = "Thêm thành công.";
+                return Json(obj);
+            }
+            return Json(obj);
+        }
+        [HttpPost]
+        public JsonResult Rating(int koifarmID, string RateNum, string content)
+        {
+            StatusObjForJsonResult obj = new StatusObjForJsonResult();
+
+            try
+            {
+                CommentDAO commentDao = new CommentDAO();
+                if (Session[SessionAccount.SessionUserId] == null)
+                {
+                    obj.Status = 2;
+                    obj.Message = "Xin hãy đăng nhập để đánh giá.";
+                    return Json(obj);
+                }
+                var UserID = int.Parse(Session[SessionAccount.SessionUserId].ToString());
+                if (string.IsNullOrWhiteSpace(content))
+                {
+                    obj.Status = 2;
+                    obj.Message = "Xin hãy nhập nội dung đánh giá.";
+                    return Json(obj);
+                }
+                if (!Validate.CheckIsDouble(RateNum))
+                {
+                    obj.Status = 2;
+                    obj.Message = "Xin hãy chọn sao đánh giá.";
+                    return Json(obj);
+                }
+                if (!commentDao.CheckRatingKoiFarm(UserID, koifarmID))
+                {
+                    obj.Status = 3;
+                    obj.Message = "Bạn đã đánh giá cá Koi này rồi.";
+                    return Json(obj);
+                }
+                decimal sao = decimal.Parse(RateNum);
+                Comment c = new Comment(int.Parse(Session[SessionAccount.SessionUserId].ToString()),null, DateTime.Now, koifarmID, sao, content, null, true);
+                if (commentDao.addComment(c))
+                {
+                    obj.Status = 1;
+                    obj.Message = "Bạn đã gửi đánh giá thành công!";
+                    return Json(obj);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Common.Logger.LogException(ex);
+                obj.Status = 0;
+                obj.RedirectTo = this.Url.Action("SystemError", "Error");
                 return Json(obj);
             }
             return Json(obj);

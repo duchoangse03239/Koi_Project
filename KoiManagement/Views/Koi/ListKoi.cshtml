@@ -27,8 +27,7 @@
                 <div class="modal-body">
                     <div>
                         <label>Tên cá Koi:</label>
-                        <a href="">Đẹp</a>
-                    </div>
+                    </div>  
                     <div>
                         <input type="number" name="your_awesome_parameter" id="rating-default0" class="rating" value="4" disabled="disabled" />
                     </div>
@@ -44,7 +43,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" onclick="Close()" class="btn btn-default" data-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
@@ -190,6 +189,7 @@
                     {
                         <div class="content-section-a">
                             <input type="hidden" id="koiID" name="koiID" value="@ViewBag.Listkoi[item].KoiID">
+                            <input type="hidden" id="KoiName" name="KoiName" value="@ViewBag.Listkoi[item].KoiName">
                             <div class="row">
                                 <div class="col-md-3">
                                     <img class="img-koi-list " src="/Content/Image/Koi/@ViewBag.Listkoi[item].Image" alt="">
@@ -215,9 +215,9 @@
                                 <div class="col-md-3">
                                     @if (Session[SessionAccount.SessionUserId] != null)
                                     {
-                                        <div class="ratings" data-toggle="modal" data-target="#vote" onclick="Rate(@ViewBag.Listkoi[item].KoiID, @item)" style="margin-top: 13px;">
+                                        <div class="ratings" data-toggle="modal" data-target="#vote" onclick="Rate(@ViewBag.Listkoi[item].KoiID, @item,'@ViewBag.Listkoi[item].KoiName')" style="margin-top: 13px;">
                                             @{ var id = "rating-default" + @item; }
-                                            <input type="number" name="your_awesome_parameter" id="@id" class="rating" value="@cmDao.getRate(ViewBag.Listkoi[item].KoiID)" disabled="disabled"/>
+                                            <input type="number" name="your_awesome_parameter" id="@id" class="rating" value="@cmDao.getRate(ViewBag.Listkoi[item].KoiID)" disabled="disabled" data-readonly/>
                                         </div>
                                                 }
                                                 else
@@ -225,7 +225,6 @@
                                                     <input type="number" name="your_awesome_parameter" id="rating-readonly" class="rating" value="@cmDao.getRate(ViewBag.Listkoi[item].KoiID)"  data-readonly/>
                                                 }
                                         <h5 style="margin-left: 5px;">@cmDao.CountCommentByKoiID(ViewBag.Listkoi[item].KoiID) đánh giá</h5>
-                                    
                                 </div>
                             </div>
                         </div>
@@ -243,7 +242,7 @@
     
 </body>
     <script type="text/javascript">
-        function Rate(koiID, index) {
+        function Rate(koiID, index, koiName) {
             //set koi ID
             $("#KoiId").val(koiID);
             var RateNum = $('#rating-default' + index).val();
@@ -252,7 +251,12 @@
             //m.val(num);
             m.attr('value', num);
 
+        var $tbl = $("#koiname");
+        $tbl.append("Tên cá Koi: " + koiName);
 
+        }
+        function Close() {
+            $('#koiname').text("");
         }
         function Rating() {
             
@@ -286,8 +290,6 @@
                         alert(res.Message);
                         window.location.href = res.RedirectTo;
                         break;
- 
-
                 }
             }
             }); // end ajax

@@ -1,4 +1,6 @@
-﻿@using KoiManagement.Models
+﻿@using KoiManagement.Common
+@using KoiManagement.DAL
+@using KoiManagement.Models
 @using PagedList.Mvc
 
 @{
@@ -7,6 +9,7 @@
     PagedList.IPagedList ListKoiFarm = ViewBag.ListKoiFarm;
     KoiFarmFilterModel filter = ViewBag.Filter;
     List<string> listVariety = ViewBag.listVariety;
+    CommentDAO cmDao = new CommentDAO();
 }
 
 <style type="text/css">
@@ -15,7 +18,40 @@
         margin: 40px 0 20px;
     }
 </style>
-
+    <!-- Modal Vote-->
+<div id="vote" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Gửi đánh giá về Koi</h4>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <label id="koiname"></label>
+                    
+                </div>
+                <div>
+                    <input type="number" name="your_awesome_parameter" id="rating-default0" class="rating" value="4" disabled="disabled" />
+                </div>
+                <div>
+                    <label>Nội dung</label>
+                </div>
+                <div>
+                    <textarea rows="4" id="content" name="content" placeholder="Nhập nội dung đánh giá" style="width:100%"></textarea>
+                </div>
+                <label id="lbl_Rating_fail" class="label-error"></label>
+                <div style="margin-top:10px;">
+                    <a class="btn btn-primary" onclick="Rating()">Gửi</a>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" onclick="Close()" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="container">
     <div class="row" style="margin-top:20px;">
         <div class="col-md-4">
@@ -75,13 +111,23 @@
                             <h4>Chủng loại chính:@listVariety.ElementAt(item + ListKoiFarm.FirstItemOnPage - 1)</h4>
                             <a class="btn btn-embossed btn-primary" href="@Url.Action("KoiFarmDetail/"+ @ViewBag.ListKoiFarm[item].KoifarmID, "KoiFarm")" role="button">Xem thêm</a>
                         </div>
+                        <input type="hidden" id="KoifarmID" name="KoifarmID" value="@ViewBag.ListKoiFarm[item].KoifarmID">
+                        <input type="hidden" id="KoiName" name="KoiName" value="@ViewBag.ListKoiFarm[item].FarmName">
                         <div class="col-md-3">
-                            <div class="ratings" style="margin-top: 13px;">
-                                <input type="number" name="your_awesome_parameter" id="rating-default" class="rating" value="3" />
-                                <br />                                
-                                <a style="margin-left:10px;" href="#"> đánh giá</a>
-                            </div>
+                            @if (Session[SessionAccount.SessionUserId] != null)
+                            {
+                                <div class="ratings" data-toggle="modal" data-target="#vote" onclick="Rate(@ViewBag.ListKoiFarm[item].KoifarmID, @item,'@ViewBag.ListKoiFarm[item].FarmName')" style="margin-top: 13px;">
+                                    @{ var id = "rating-default" + @item; }
+                                    <input type="number" name="your_awesome_parameter" id="@id" class="rating" value="@cmDao.getRateKoiFarm(ViewBag.ListKoiFarm[item].KoifarmID)" disabled="disabled" data-readonly />
+                                </div>
+                            }
+                            else
+                            {
+                                <input type="number" name="your_awesome_parameter" id="rating-readonly" class="rating" value="@cmDao.getRateKoiFarm(ViewBag.ListKoiFarm[item].KoifarmID)" data-readonly />
+                            }
+                            <h5 style="margin-left: 5px;">@cmDao.CountCommentByKoiFarmID(ViewBag.ListKoiFarm[item].KoifarmID) đánh giá</h5>
                         </div>
+
                     </div>
                 </div>
             }
@@ -90,3 +136,59 @@
         </div>
     </div>
 </div>
+<script type="text/javascript">
+    function Rate(koiID, index, koiName) {
+            //set koi ID
+            $("#KoifarmID").val(koiID);
+ 
+            
+            var RateNum = $('#rating-default' + index).val();
+            var m = $("#rating-default0");
+            var num = parseInt(RateNum);
+            //m.val(num);
+            m.attr('value', num);
+
+
+            var $tbl = $("#koiname");
+            $tbl.append(koiName);
+    }
+    function Close() {
+        $('#koiname').text("");
+    }
+        function Rating() {
+            $('#lbl_Rating_fail').text("");
+            var RateNum = $('#rating-default0').val();
+            var content = $('#content').val();
+            //m.val(num);
+            var koifarmID = $('#KoifarmID').val();
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("Rating")",
+                datatype: "JSON",
+            data: {
+                koifarmID: koifarmID,
+                RateNum: RateNum,
+                content: content
+            },
+            success: function(res) {
+                switch (res.Status) {
+                    case 2:
+                        $('#lbl_Rating_fail').text(res.Message);
+                        break;
+                    case 3:
+                        alert(res.Message);
+                        break;
+                    case 1:
+                        alert(res.Message);
+                        window.location.reload();
+                        break;
+                    case 0:
+                        alert(res.Message);
+                        window.location.href = res.RedirectTo;
+                        break;
+                }
+            }
+            }); // end ajax
+            //clear data
+        }
+</script>
