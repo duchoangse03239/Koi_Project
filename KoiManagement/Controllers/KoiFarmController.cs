@@ -29,16 +29,44 @@ namespace KoiManagement.Controllers
             return View();
         }
 
-        public ActionResult KoiFarmDetail(int? id)
+        public ActionResult KoiFarmDetail(int? id, int? page, string orderby, string nameKoi, string username, string variety, string sizeFrom, string sizeTo, string gender, string owner, string AgeFrom, string AgeTo)
         {
-            if (id == 0)
+            if (id == null)
             {
-                return View();
+                return RedirectToAction("PageNotFound", "Error");
             }
             var listkoi = koiFarmDao.GetListKoiByKoiFarmId((int)id);
             var koifarm = koiFarmDao.GetKoiFarmDetail((int)id);
+            if (koifarm == null)
+            {
+                return RedirectToAction("PageNotFound", "Error");
+            }
             ViewBag.koiFarm = koifarm;
-            ViewBag.listKoi = listkoi;
+            //ViewBag.listKoi = listkoi;
+            VarietyDAO varietyDao= new VarietyDAO();
+            KoiDAO kDao = new KoiDAO();
+            //list koi
+
+                        if (!String.IsNullOrEmpty(variety)&&variety.Equals("0"))
+            {
+                variety ="";
+            }
+            variety = variety;
+            //ViewBag.VarietyId = id;
+            KoiFilterModel filter = new KoiFilterModel(orderby, nameKoi, username, variety, sizeFrom, sizeTo, gender, owner, AgeFrom, AgeTo);
+            ViewBag.Filter = filter;
+            ViewBag.listVariety = varietyDao.getListMainVariety();
+
+            var koi = db.Kois.AsQueryable();
+
+            koi = koiFarmDao.KoiFilterByKoiFarm(filter, (int)id);
+
+            // phân trang 6 item 1trang
+            int pageSize = 10;
+            int pageNumber = (page ?? 1);
+            ViewBag.Listkoi = koi.ToList().ToPagedList(pageNumber, pageSize);
+
+
             return View();
         }
 
@@ -141,6 +169,10 @@ namespace KoiManagement.Controllers
                     t += v.Value + ", ";
                 }
                 t = CommonFunction.Trim2LastCharacter(t);
+                if (string.IsNullOrEmpty(t))
+                {
+                    t = " ";
+                }
                 listVariety.Add(t);
             }
             int pageSize = 7;
@@ -247,17 +279,26 @@ namespace KoiManagement.Controllers
             return View(koifarm);
         }
 
-        public ActionResult AddKoiToKoiFarm(int? id)
+        public ActionResult AddKoiToKoiFarm(int? id, int? page)
         {
             //kiểm tra đăng nhập
             if (Session[SessionAccount.SessionUserId] == null)
             {
                 return RedirectToAction("Login", "Account");
             }
-            var ad = db.Kois.Where(cu => cu.Owners.Any(c => c.MemberID == id));
-            return View(ad);
+            KoiFarmDAO koiFarmDao = new KoiFarmDAO();
+            var check = memberDao.GetMemberbyID(id.Value);
+            if (check == null)
+            {
+                return RedirectToAction("PageNotFound", "Error");
+            }
+            var ad = db.Kois.Where(cu => cu.Owners.Any(c => c.MemberID == id&&c.KoiFarmID==null));
+            int pageSize = 10;
+            int pageNumber = (page ?? 1);
+            ViewBag.ListKoi = ad.ToList().ToPagedList(pageNumber, pageSize);
+            ViewBag.KoiFarmID = id;
+            return View();
         }
-
 
 
         /// <summary>  
@@ -610,6 +651,97 @@ namespace KoiManagement.Controllers
                 return "Xin hãy chọn đủ số lượng "+ count + " ảnh tương ứng với tập tin excel.";
             }
             return "";
+        }
+
+
+        
+
+         public ActionResult DeleteKoiFarm(string KoiFarmId)
+        {
+            KoiFarm koiFarm = db.KoiFarms.Find(int.Parse(KoiFarmId));
+            koiFarm.Status = -1;
+            db.KoiFarms.Attach(koiFarm);
+            db.Entry(koiFarm).Property(x => x.Status).IsModified = true;
+            int result = db.SaveChanges();
+            //return View();
+            if (result == 1)
+            {
+                return Json(new { result = true });
+            }
+            else
+            {
+                return Json(new
+                {
+                    result = false
+                });
+            }
+        }
+
+        [HttpPost]
+        public JsonResult AddToKoiFarm(string KoiID, int koiFarmId)
+        {
+            StatusObjForJsonResult obj = new StatusObjForJsonResult();
+            var myListKoi = KoiID.Split(',').Select(x => Int32.Parse(x)).ToArray();
+
+            if (ownerDao.AddListKoiToKoiFarm(myListKoi, koiFarmId))
+            {
+                obj.Status = 1;
+                obj.Message = "Thêm thành công.";
+                return Json(obj);
+            }
+            return Json(obj);
+        }
+        [HttpPost]
+        public JsonResult Rating(int koifarmID, string RateNum, string content)
+        {
+            StatusObjForJsonResult obj = new StatusObjForJsonResult();
+
+            try
+            {
+                CommentDAO commentDao = new CommentDAO();
+                if (Session[SessionAccount.SessionUserId] == null)
+                {
+                    obj.Status = 2;
+                    obj.Message = "Xin hãy đăng nhập để đánh giá.";
+                    return Json(obj);
+                }
+                var UserID = int.Parse(Session[SessionAccount.SessionUserId].ToString());
+                if (string.IsNullOrWhiteSpace(content))
+                {
+                    obj.Status = 2;
+                    obj.Message = "Xin hãy nhập nội dung đánh giá.";
+                    return Json(obj);
+                }
+                if (!Validate.CheckIsDouble(RateNum))
+                {
+                    obj.Status = 2;
+                    obj.Message = "Xin hãy chọn sao đánh giá.";
+                    return Json(obj);
+                }
+                if (!commentDao.CheckRatingKoiFarm(UserID, koifarmID))
+                {
+                    obj.Status = 3;
+                    obj.Message = "Bạn đã đánh giá cá Koi này rồi.";
+                    return Json(obj);
+                }
+                decimal sao = decimal.Parse(RateNum);
+                Comment c = new Comment(int.Parse(Session[SessionAccount.SessionUserId].ToString()),null, DateTime.Now, koifarmID, sao, content, null, true);
+                if (commentDao.addComment(c))
+                {
+                    obj.Status = 1;
+                    obj.Message = "Bạn đã gửi đánh giá thành công!";
+                    return Json(obj);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Common.Logger.LogException(ex);
+                obj.Status = 0;
+                obj.RedirectTo = this.Url.Action("SystemError", "Error");
+                return Json(obj);
+            }
+            return Json(obj);
         }
 
     }

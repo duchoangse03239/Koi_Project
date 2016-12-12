@@ -1,0 +1,305 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Layout/KoitLayout.cshtml";
+    List<InfoDetail> listInfo = ViewBag.ListInfo;
+
+    List<string> listanh = ViewBag.ListAnh;
+}
+
+<script src="~/Scripts/images-grid.js"></script>
+<link href="~/Content/css/images-grid.css" rel="stylesheet" />
+
+<div class="container">
+
+    <div class="page-header row">
+        <div class="col-md-6">
+            <span>Chọn mục xem:</span>
+            <select class="selectpicker" data-style="btn-primary" onchange="location = this.options[this.selectedIndex].value;">
+                <option value="@Url.Action("timeline/"+ViewBag.koiId, "InfoDetail")">Dòng thời gian</option>
+                <option value="@Url.Action("TimelineVertical/"+ViewBag.koiId , "InfoDetail")">Ảnh sinh trưởng</option>
+                <option value="@Url.Action("Index/"+ViewBag.koiId , "Achievement")">Giải thưởng</option>
+            </select>
+        </div>
+        <div class="col-md-6" style="padding-bottom:15px;">
+            <span style="float:right;">
+                <a class="btn btn-success" href="@Url.Action("AddAchievement/" + ViewBag.koiId, "Achievement")">Thêm giải thưởng </a>
+            </span>
+        </div>
+
+    </div>
+    <ul class="timeline">
+        @for (int item = 0; item < listInfo.Count; item++)
+        {
+            <li>
+                <div class="timeline-badge primary">
+                    <a><i class="glyphicon glyphicon-record" rel="tooltip" title="11 hours ago via Twitter" id=""></i></a>
+                </div>
+                <div class="timeline-panel">
+                    <div class="dropdown">
+                        <button class="setting-icon dropdown-toggle" type="button" data-toggle="dropdown">
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-right">
+                            <li><a href="@Url.Action("EditDetail/"+ @listInfo.ElementAt(item).DetailID, "InfoDetail")">Sửa</a></li>
+                            <li><a href="#">Xóa</a></li>
+                        </ul>
+                    </div>
+                    <div class="timeline-heading">
+                        <div class="jquery-script-ads" style="margin: 30px auto;" align="center">
+                            <!--Image-->
+                            <div id="@item"></div>
+
+                        </div>
+                    </div>
+                    <div class="timeline-body">
+                        <p>
+                            <small class="text-muted">
+                                <i class="glyphicon glyphicon-time"></i>
+                                @{
+                                    // Do some work
+                                    TimeSpan timeDiff = DateTime.Now - listInfo.ElementAt(item).Date;
+                                }
+                                @{
+
+                                    if (timeDiff.TotalDays >= 30)
+                                    {
+                                        <span>  Tạo ngày @listInfo.ElementAt(item).Date </span>
+                                    }
+                                    else if (timeDiff.TotalHours >= 24)
+                                    {
+                                        <span>@Math.Round(timeDiff.TotalDays) ngày trước </span>
+                                    }
+                                    else if (timeDiff.TotalMinutes >= 60)
+                                    {
+                                        <span>@Math.Round(timeDiff.TotalHours) giờ trước </span>
+                                    }
+                                    else if (timeDiff.TotalSeconds >= 60)
+                                    {
+                                        <span>@Math.Round(timeDiff.TotalMinutes) phút trước </span>
+                                    }
+                                    else
+                                    {
+                                        <span>Vừa xong </span>
+                                    }
+
+                                }
+                            </small>
+                        </p>
+                        <label style="margin-left: 10px;">@listInfo.ElementAt(item).DetailID </label>
+                        <p>
+                            Cân Nặng: <label>@listInfo.ElementAt(item).Size kg</label>
+                        </p>
+                        <p>
+                            Kích thước: <label>@listInfo.ElementAt(item).Size cm</label>
+                        </p>
+                        <p>
+                            Trạng thái sức khỏe: <label>@listInfo.ElementAt(item).HeathyStatus </label>
+                        </p>
+                        <p>
+                            Mô tả: <label>@listInfo.ElementAt(item).Description </label>
+                        </p>
+                    </div>
+
+                    <div class="timeline-footer">
+                        <a href="#">Continuar Lendo</a>
+                    </div>
+                </div>
+            </li>
+            <script>
+                var hello1 = document.getElementById('@item');
+                $(hello1)
+                    .imagesGrid({
+                        images: [
+                            @Html.Raw(listanh.ElementAt(item))
+                        ],
+
+                    });
+            </script>
+                                    if (item < listInfo.Count - 1)
+                                    {
+                                        item++;
+                                    }
+                                    else
+                                    {
+                                        break;
+                                    }
+                                    <li class="timeline-inverted">
+                                        <div class="timeline-badge primary">
+                                            <a><i class="glyphicon glyphicon-record invert" rel="tooltip" title="11 hours ago via Twitter" id=""></i></a>
+                                        </div>
+                                        <div class="timeline-panel">
+                                            <div class="dropdown">
+                                                <button class="setting-icon dropdown-toggle" type="button" data-toggle="dropdown">
+                                                    <span class="caret"></span>
+                                                </button>
+                                                <ul class="dropdown-menu dropdown-menu-right">
+                                                    <li><a href="@Url.Action("EditDetail/"+ @listInfo.ElementAt(item).DetailID, "InfoDetail")">Sửa</a></li>
+                                                    <li><a href="#">Xóa</a></li>
+                                                </ul>
+                                            </div>
+                                            <div class="timeline-heading">
+                                                <!--Image-->
+                                                <div style="padding-top:20px!important" id="@item"></div>
+                                            </div>
+                                            <div class="timeline-body">
+                                                <p>
+                                                    <small class="text-muted">
+                                                        <i class="glyphicon glyphicon-time"></i> @{
+                                                            // Do some work
+                                                            TimeSpan timeDiff1 = DateTime.Now - listInfo.ElementAt(item).Date;
+                                                        }
+                                                        @{
+
+                                                            if (timeDiff1.TotalDays >= 30)
+                                                            {
+                                                                <span>  Tạo ngày @listInfo.ElementAt(item).Date </span>
+                                                            }
+                                                            else if (timeDiff1.TotalHours >= 24)
+                                                            {
+                                                                <span>@Math.Round(timeDiff.TotalDays) ngày trước </span>
+                                                            }
+                                                            else if (timeDiff1.TotalMinutes >= 60)
+                                                            {
+                                                                <span>@Math.Round(timeDiff.TotalHours) giờ trước </span>
+                                                            }
+                                                            else if (timeDiff1.TotalSeconds >= 60)
+                                                            {
+                                                                <span>@Math.Round(timeDiff.TotalMinutes) phút trước </span>
+                                                            }
+                                                            else
+                                                            {
+                                                                <span>Vừa xong </span>
+                                                            }
+
+                                                        }
+                                                    </small>
+                                                </p>
+                                                <label style="margin-left: 10px;">@listInfo.ElementAt(item).DetailID </label>
+                                                <p>
+                                                    Cân Nặng: <label>@listInfo.ElementAt(item).Size kg</label>
+                                                </p>
+                                                <p>
+                                                    Kích thước: <label>@listInfo.ElementAt(item).Size cm</label>
+                                                </p>
+                                                <p>
+                                                    Trạng thái sức khỏe: <label>@listInfo.ElementAt(item).HeathyStatus</label>
+                                                </p>
+                                                <p>
+                                                    Mô tả: <label>@listInfo.ElementAt(item).Description</label>
+                                                </p>
+                                            </div>
+
+                                            <div class="timeline-footer">
+                                                @*<a><i class="glyphicon glyphicon-thumbs-up"></i></a>
+                                                    <a><i class="glyphicon glyphicon-share"></i></a>*@
+                                                <a href="#">Continuar Lendo</a>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <script>
+                                        var hello1 = document.getElementById('@item');
+                                        $(hello1)
+                                            .imagesGrid({
+                                                images: [
+                                                    @Html.Raw(listanh.ElementAt(item))
+                                                ],
+
+                                            });
+                                    </script>
+                                                            }
+
+        <li class="clearfix" style="float: none;"></li>
+
+    </ul>
+
+    <div class="grids">
+        <div class="grid-sizer"></div>
+        <div class="gutter-sizer"></div>
+        <div class="ui link cards" id="postScroll">
+            <div class="container infinite-scroll" id="gohere"></div>
+        </div>
+        <div id="forAdminPost"></div>
+    </div>
+</div>
+<script type="text/javascript">
+    <!--
+    google_ad_client = "ca-pub-2783044520727903";
+    /* jQuery_demo */
+    google_ad_slot = "2780937993";
+    google_ad_width = 728;
+    google_ad_height = 90;
+    //-->
+</script>
+<script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
+<script type="text/javascript">
+
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-36251023-1']);
+        _gaq.push(['_setDomainName', 'jqueryscript.net']);
+        _gaq.push(['_trackPageview']);
+
+        (function () {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+
+</script>
+<script src="~/Scripts/imagesloaded.pkgd.min.js"></script>
+<script src="~/Scripts/infiniteScroll.js"></script>
+<script src="~/Scripts/isotope.pkgd.min.js"></script>
+<script type="text/javascript">
+    var page = 1,
+    inCallback = false,
+    hasReachedEndOfInfiniteScroll = false;
+    $(".grids").imagesLoaded().progress(function () {
+        $(".grids").isotope('layout');
+    });
+    var forLoad = $(".ui.link.cards");
+    var grid = $(".grids");
+    var filterValue = -1;
+    $(function () {
+        $("div#loading").hide();
+    });
+
+    $(window)
+        .scroll(function() {
+            if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+                var moreRowsUrl = '@Url.Action("UpdateTimeLine/" + @ViewBag.koiId, "InfoDetail")';
+                loadMoreToInfiniteScrollTable(moreRowsUrl);
+            }
+        });
+    function loadMoreToInfiniteScrollTable(loadMoreRowsUrl) {
+        if (page > -1 && !inCallback) {
+            inCallback = true;
+            page++;
+            if (typeof filterValue === 'undefined') filterValue = -1;
+            $.ajax({
+                type: 'GET',
+                url: loadMoreRowsUrl,
+                data: { pageNum: page, filterVal: filterValue },
+                success: function (data, textstatus) {
+                    if (data !== "") {
+                        var $items = $(data);
+                        $(forLoad).append($items);
+                        grid.isotope('appended', $items);
+                        grid.isotope('layout');
+                        grid.imagesLoaded().progress(function () {
+                            grid.isotope('layout');
+                        });
+
+                    }
+                    else {
+                        page = -1;
+                    }
+                    inCallback = false;
+                },
+                async: false,
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    console.log("Can not load more data infiniteScroll");
+                }
+            });
+        }
+    }
+</script>

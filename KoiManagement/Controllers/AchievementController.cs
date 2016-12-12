@@ -12,16 +12,30 @@ namespace KoiManagement.Controllers
 {
     public class AchievementController : Controller
     {
+        KoiDAO koiDao = new KoiDAO();
+        OwnerDAO ownerDao = new OwnerDAO();
+        AchievementDAO achievementDao = new AchievementDAO();
         /// <summary>
         /// Add Achievemnt
         /// </summary>
         /// <returns>View</returns>
-        public ActionResult AddAchievement()
+        public ActionResult AddAchievement(int? id)
         {
             if (Session[SessionAccount.SessionUserId] == null)
             {
                 return RedirectToAction("Login", "Account");
             }
+            if (id == null)
+            {
+               return RedirectToAction("PageNotFound", "Error");
+            }
+            //check exist koi
+            var koi = koiDao.getKoiById(id.Value);
+            if (koi == null)
+            {
+                return RedirectToAction("PageNotFound", "Error");
+            }
+            ViewBag.KoiID = id;
             return View();
         }
 
@@ -37,6 +51,19 @@ namespace KoiManagement.Controllers
                 obj.RedirectTo = Url.Action("Login", "Account");
                 return Json(obj);
             }
+            if (id == null)
+            {
+                 RedirectToAction("PageNotFound", "Error");
+                return Json(obj);
+            }
+            //check exist koi
+            var koi = koiDao.getKoiById(id.Value);
+            if (koi == null)
+            {
+                 RedirectToAction("PageNotFound", "Error");
+                return Json(obj);
+            }
+
             string Imagename = String.Empty;
             var fullpath = new List<string>();
 
@@ -103,7 +130,7 @@ namespace KoiManagement.Controllers
                     obj.RedirectTo = Url.Action("ListAchievement/" + ad.KoiID, "Achievement");
                     return Json(obj);
                 }
-                
+
             }
             catch (Exception ex)
             {
@@ -125,7 +152,11 @@ namespace KoiManagement.Controllers
             {
                 return RedirectToAction("Login", "Account");
             }
-            db.Achievements.Find(id);
+            var ar = db.Achievements.Find(id);
+            if (ar == null)
+            {
+                return RedirectToAction("PageNotFound", "Error");
+            }
             ViewBag.EditAchi = db.Achievements.Find(id);
             return View();
         }
@@ -197,9 +228,15 @@ namespace KoiManagement.Controllers
                 //thanh cong
                 if (AchiDao.EditAchievement(achi) == 1)
                 {
-                    obj.Status = 1;
+                    obj.Status = 9;
                     obj.Message = "Cập nhật thông tin thành công";
-                    obj.RedirectTo = Url.Action("KoiUser/" + Session[SessionAccount.SessionUserId], "Koi");
+                    obj.RedirectTo = Url.Action("ListAchievement/" + koiid, "Achievement");
+                }
+                else
+                {
+                    obj.Status = 8;
+                    obj.Message = "Có lỗi xảy ra";
+                    return Json(obj);
                 }
             }
             catch (Exception ex)
@@ -215,9 +252,19 @@ namespace KoiManagement.Controllers
         public ActionResult ListAchievement(int? id)
         {
             AchievementDAO AchiDao = new AchievementDAO();
-
+            if (Session[SessionAccount.SessionUserId] == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            var ar = db.Achievements.Where(p=>p.KoiID==id);
+            if (ar == null)
+            {
+                return RedirectToAction("PageNotFound", "Error");
+            }
             ViewBag.listIAchi = AchiDao.GetListAchievements(id.Value);
             ViewBag.koiId = id;
+            var owner = ownerDao.GetOwner(id.Value);
+            ViewBag.OwnerID = owner.MemberID;
             return View();
 
         }

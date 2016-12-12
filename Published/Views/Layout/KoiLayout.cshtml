@@ -1,0 +1,159 @@
+﻿@using KoiManagement.Common
+@{
+    MvcHtmlString token = null;
+    try
+    {
+        token = Html.AntiForgeryToken();
+    }
+    catch { }
+}
+<script src="~/Scripts/bootstrap.js"></script>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>@ViewBag.Title</title>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Cá Koi" />
+    <meta name="author" content="Cá Koi" />
+    <meta name="keywords" content="Cá Koi" />
+    <meta name="robots" content="index,follow" />
+    <meta property="og:url" content="http://domain.com" />
+    <meta property="og:image" content="images/logo.png" />
+    <meta property="og:title" content="Cá Koi" />
+    <meta property="og:description" content="Cá Koi" />
+    <link rel="canonical" href="http://domain.com/" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans" type="text/css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto" type="text/css" />
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Sansita+One" type="text/css" />
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Oswald" type="text/css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Forum|Great+Vibes|Handlee|Lalezar" type="text/css" />
+    <link rel="shortcut icon" type="image/png" href="~/favicon.ico">
+
+
+    <link href="~/Content/font-awesome.css" rel="stylesheet" />
+    <link href="~/Content/font-awesome.min.css" rel="stylesheet" />
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="~/Scripts/jquery-1.10.2.js"></script>
+    <script src="~/Scripts/jquery-2.1.4.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/bootstrap-rating-input.min.js"></script>
+    <link href="~/Content/css/main.css" rel="stylesheet" />
+    <div id="fb-root">
+
+        <script>
+    (function (d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.8&appId=216790255407823";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
+    </div>
+</head>
+<body>
+    <div id="wrapper">
+        <div class="section site-header">
+         
+            @{ Html.RenderAction("Header", "Layout"); }
+
+        </div>
+
+        @RenderBody()
+        <!-- start footer area -->
+        <div class="section site-top-12" id="footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-8 col-md-offset-2">
+                        <div class="line1">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <a href="#">
+                                        <div class="footer-item">
+                                            <span class="fa fa-facebook"></span>
+                                            <div class="item-name"><p>Facebook</p></div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="col-md-4">
+                                    <a href="#">
+                                        <div class="footer-item">
+                                            <span class="fa fa-twitter"></span>
+                                            <div class="item-name"><p>Twitter</p></div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="col-md-4">
+                                    <a href="#">
+                                        <div class="footer-item">
+                                            <span class="fa fa-google-plus"></span>
+                                            <div class="item-name"><p>Google Plus</p></div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="line2">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <a href="#">
+                                        <div class="footer-item">
+                                            <span class="fa fa-envelope"></span>
+                                            <div class="item-name"><p>koimanagement2016@gmail.com</p></div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="col-md-4">
+                                    <a href="#">
+                                        <div class="footer-item">
+                                            <span class="fa fa-phone"></span>
+                                            <div class="item-name"><p>0898 090 678</p></div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="col-md-4">
+                                    <a href="#">
+                                        <div class="footer-item">
+                                            <span class="fa fa-map-marker"></span>
+                                            <div class="item-name"><p>Hà Nội, Việt Nam</p></div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="section site-top-13">
+            <div class="container">
+                <p>Copyright 2016 Cá Koi</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+<script>
+    __RequestVerificationToken = '@token';
+    $(document).ready(function () {
+        $.ajaxSetup({
+            data: {
+                __RequestVerificationToken: $("input[name=__RequestVerificationToken]").val()
+            }
+        });
+
+    });
+
+    function DisableAjaxProcessing() {
+        __ShowAjaxProcessing = false;
+    }
+
+</script>

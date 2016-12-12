@@ -259,12 +259,14 @@
     <Compile Include="Controllers\KoiController.cs" />
     <Compile Include="Controllers\KoiFarmController.cs" />
     <Compile Include="Controllers\LayoutController.cs" />
+    <Compile Include="Controllers\MessageController.cs" />
     <Compile Include="Controllers\NotificationController.cs" />
     <Compile Include="Controllers\QuestionAnswerController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Controllers\VarietyController.cs" />
     <Compile Include="DAL\AchievementDAO.cs" />
     <Compile Include="DAL\ActiveCodeDAO.cs" />
+    <Compile Include="DAL\MessageDAO.cs" />
     <Compile Include="DAL\QuestionAnswerDAO.cs" />
     <Compile Include="DAL\ReportDAO.cs" />
     <Compile Include="DAL\InfoDetailDAO.cs" />
@@ -360,7 +362,7 @@
     <Compile Include="Models\Type.cs">
       <DependentUpon>KoiContext.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\User.cs" />
+    <Compile Include="Models\UserComment.cs" />
     <Compile Include="Models\Variety.cs">
       <DependentUpon>KoiContext.tt</DependentUpon>
     </Compile>
@@ -382,6 +384,10 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Common\footerImage.jpg" />
+    <Content Include="Content\Common\sort_asc.png" />
+    <Content Include="Content\Common\sort_both.png" />
+    <Content Include="Content\Common\sort_desc.png" />
+    <Content Include="Content\css\forum.css" />
     <Content Include="Content\css\semantic.css" />
     <Content Include="Content\deleteImage.png" />
     <Content Include="Content\font-awesome.css" />
@@ -397,7 +403,6 @@
     <Content Include="Content\css\jquery.filer-dragdropbox-theme.css" />
     <Content Include="Content\css\jquery.filer.css" />
     <Content Include="Content\css\main.css" />
-    <Content Include="Content\Image\Achievement\Achievement0.jpg" />
     <Content Include="Content\Image\Detail\Detail01.jpg" />
     <Content Include="Content\Image\Detail\Detail04.jpg" />
     <Content Include="Content\Image\Detail\Detail05.jpg" />
@@ -875,9 +880,11 @@
     <Content Include="Models\KoiContext.edmx.diagram">
       <DependentUpon>KoiContext.edmx</DependentUpon>
     </Content>
+    <None Include="Properties\PublishProfiles\a.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\custom.js" />
     <Content Include="Scripts\flickity.pkgd.min.js" />
+    <Content Include="Scripts\go.js" />
     <Content Include="Scripts\images-grid.js" />
     <Content Include="Scripts\imagesloaded.pkgd.min.js" />
     <Content Include="Scripts\infiniteScroll.js" />
@@ -1108,7 +1115,10 @@
     <Content Include="Views\Admin\KoiFarmReport.cshtml" />
     <Content Include="Views\Article\ArticleDetail.cshtml" />
     <Content Include="Views\Admin\ListArticle.cshtml" />
+    <Content Include="Views\InfoDetail\ParentTree.cshtml" />
+    <Content Include="Views\InfoDetail\AllOwner.cshtml" />
     <None Include="Views\InfoDetail\timeline.cshtml" />
+    <Content Include="Views\Message\ListMessage.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -1169,13 +1179,15 @@
     <Content Include="Views\KoiFarm\Import.cshtml" />
     <Content Include="Views\Shared\_Header.cshtml" />
     <Content Include="Views\Notification\ListNotification.cshtml" />
-    <Content Include="Views\Notification\View.cshtml" />
     <Content Include="Views\Layout\AdminLayout.cshtml" />
     <Content Include="Views\QuestionAnswer\CreateQuestion.cshtml" />
     <Content Include="Views\QuestionAnswer\QuestionDetail.cshtml" />
+    <Content Include="Views\Message\MessageDetail.cshtml" />
+    <Content Include="Views\QuestionAnswer\ListQA.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\Image\Achievement\" />
     <Folder Include="Content\Image\Article\" />
     <Folder Include="Content\Image\Avatar\" />
     <Folder Include="Content\Image\Media\" />

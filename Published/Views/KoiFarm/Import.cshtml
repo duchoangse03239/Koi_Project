@@ -1,0 +1,146 @@
+﻿
+@{
+    ViewBag.Title = "Nhập dữ liệu";
+    Layout = "~/Views/Layout/KoiLayout.cshtml";
+}
+<div class="section site-main">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+                <div class="login-block">
+                    
+                    <h1>Import file</h1>
+                    <div>
+                        <h3>Hướng dẫn</h3>
+                        <p>1. Tải file exel mẫu tại tải file mẫu.</p>
+                        <p>2. Điền thông tin theo file mẫu.</p>
+                        <p>3. Nhập tên ảnh tương ứng với koi muốn thêm.</p>
+                        <p>4. Chọn ảnh đã nhập file excel.</p>
+                        <p>5. Tải lên file.</p>
+                    </div>
+                    <div class="form-group">
+                        <a class="btn btn-default" href="/KoiFarm/DownloadExcel/">Tải file mẫu</a>
+                    </div>
+                    <div class="form-group">
+                        <p>Tải lên file(<span style="color: red;">*</span>)
+                        </p>
+                        <input type="file" id="browse" name="fileupload" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" style="display: none" onChange="Handlechange();"/>
+                        <input style="width: 60%;" type="text" id="filename" readonly="true" onclick="HandleBrowseClick();"/>
+                        <input class="btn btn-default btn-xs" type="button" value="Chọn tệp" id="fakeBrowse" onclick="HandleBrowseClick();"/>
+                        <label id="lblMessage_excel_fail" class="label-error"></label>
+                    </div>
+                    
+
+                    <div class="form-group">
+                        <label for="phone">Thêm ảnh cá</label>
+                        <input type="file" accept="image/png, image/jpeg, image/gif" id="files" name="files[]" multiple/>
+                        <label id="lblMessage_file_fail" class="label-error"></label>
+                        @*<script>
+                var loadFile = function (event) {
+                    var output = document.getElementById('imagePreview');
+                    imagePreview.src = URL.createObjectURL(event.target.files[0]);
+                };
+            </script>*@
+                    </div>
+                    <label id="lblMessage_error_fail" class="label-error"></label>
+                    <br>
+                    <div class="form-group">
+                        <button id="btnImport" class="btn btn-primary">Thêm mới</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+} 
+<script type="text/javascript">
+    function HandleBrowseClick()
+    {
+        var fileinput = document.getElementById("browse");
+        fileinput.click();
+    }
+
+    function Handlechange()
+    {
+        var fileinput = document.getElementById("browse");
+        var textinput = document.getElementById("filename");
+        textinput.value = fileinput.value;
+    }
+</script>
+<script>
+
+    $("#btnImport")
+        .click(function() {
+            if (Validate()) {
+                Import();
+            } else {
+
+                return false;
+            }
+        });
+
+    function Validate() {
+        $('#lblMessage_file_fail').text("");
+        $('#lblMessage_error_fail').text("");
+        $('#lblMessage_excel_fail').text("");
+        var files = $('#files').val();
+        var fileExcels = $("#browse").val();
+        if (fileExcels =="") {
+            $('#lblMessage_excel_fail').text("Xin hãy chọn tập tin excel.");
+            return false;
+        }
+        if (files == "") {
+            $('#lblMessage_file_fail').text("Xin hãy nhập ảnh");
+            return false;
+        }
+        return true;
+    }
+
+    function Import() {
+        var fileExcels = $("#browse").get(0);
+        var files2 = fileExcels.files;
+
+        var fileUpload = $("#files").get(0);
+        var files = fileUpload.files;
+        // Looping over all files and add it to FormData object
+        var fileData = new FormData();
+
+        fileData.append(files2[0].name, files2[0]);
+        for (var i = 0; i < files.length; i++) {
+            fileData.append(files[i].name, files[i]);
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("Import")",
+            contentType: false, // Not to set any content header
+        processData: false,
+        data: fileData,
+        dataType: "Json",
+        success: function(res) {
+            switch (res.Status) {
+                case 2:
+                    $('#KoiName').focus();
+                    $('#lblMessage_koi_name_fail').text(res.Message);
+                    break;
+                case 3:
+                    $('#lblMessage_koi_size_fail').text(res.Message);
+                    $('#Size').focus();
+                    break;
+                case 4:
+                    $('#lblmessage_dob_fail').text(res.Message);
+                    $('#DoB').focus();
+                    break;
+                case 1:
+                    alert(res.Message);
+                    window.location.href = res.RedirectTo;
+                    break;
+                case 0:
+                    $('#lblMessage_error_fail').text(res.Message);
+                    break;
+            }
+        }
+    });
+    }
+</script>

@@ -1,0 +1,166 @@
+﻿@using KoiManagement.Models
+@{
+    ViewBag.Title = "Chỉnh sửa trang trại";
+    Layout = "~/Views/Layout/KoiLayout.cshtml";
+    KoiFarm koifarm = ViewBag.Koifarm;
+    if (koifarm == null)
+    {
+        
+    }
+}
+@model IEnumerable<KoiManagement.Models.Notification>
+<script src="~/Scripts/modernizr-2.6.2.js"></script>
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script src="~/Scripts/bootstrap.js"></script>
+<script src="~/Scripts/modernizr-2.6.2.js"></script>
+<div class="section site-main">
+    <div class="container">
+        <div class="row">
+            <h2 id="form-title" class="align-center">Sửa thông tin trang trại</h2>
+            
+            @Html.Partial("~/Views/Account/_Manager.cshtml")
+            <div class="col-md-9">
+                <div class="box_right">
+                    @using (Html.BeginForm())
+                    {
+                        <div class="container">
+                            @if (ViewBag.Message != null) {<label id="lblMessage_form_fail" class="label-error">@ViewBag.Message</label>}
+                            <form id="add-achievment">
+                                <div class="">
+                                    <div class="row">
+                                        <div class="col-sm-6 col-sm-offset-0">
+                                            <hr/>
+                                            <label for="farmName">Tên trang trại</label>
+                                            <input type="text" class="form-control" placeholder="Tên trang trại" id="farmName" name="farmName" value="@koifarm.FarmName">
+                                            <label id="lblMessage_farm_name_fail" class="label-error"></label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-6 col-sm-offset-0">
+                                            <label for="address">Địa chỉ</label>
+                                            <input type="text" class="form-control" placeholder="Địa chỉ trang trại" id="address" name="address" value="@koifarm.Address">
+                                            <label id="lblMessage_address_fail" class="label-error"></label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-9 col-sm-offset-0">
+                                            <label for="description">Mô tả</label>
+                                            <textarea type="text" class="form-control" placeholder="Mô tả giải thưởng" name="description">@koifarm.Description</textarea>
+                                            <label id="lblMessage_description_fail" class="label-error"></label>
+                                        </div>
+                                    </div>
+                                    <br/>
+                                    <input type="hidden" name="KoifarmID" value="@koifarm.KoifarmID">
+                                    <div class="row" id="add-achievement-btn">
+                                        <div class="col-sm-6 col-sm-offset-3 align-right">
+                                            <button class="btn btn-primary" id="btnCreateFarm">Sửa trang trại</button>
+                                            <button class="btn btn-primary" id="btnCancel">Đóng</button>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </form>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+            </div>
+        </div>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/tinymce/tinymce.min.js")"></script>
+
+    <script type="text/javascript">
+        tinymce.init({
+            selector: "textarea",
+            width: '100%',
+            language: 'vi_VN',
+            height: 600,
+            statusbar: false,
+            menubar: false,
+
+            setup: function (ed) {
+                ed.on('init', function () {
+                    this.getDoc().body.style.fontSize = '14px';
+                    this.getDoc().body.style.fontFamily = '"Helvetica Neue", Helvetica, Arial, sans-serif';
+                });
+            },
+
+            paste_data_images: true,
+
+            plugins: [
+                "advlist autolink lists link base64_image charmap hr anchor pagebreak",
+                "searchreplace wordcount visualblocks visualchars code",
+                "insertdatetime media nonbreaking save table contextmenu directionality",
+                "emoticons textcolor colorpicker textpattern "
+            ],
+            toolbar: "undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link base64_image media | forecolor backcolor"
+        });
+
+        // Prevent bootstrap dialog from blocking focusin
+        $(document).on('focusin', function (e) {
+            if ($(e.target).closest(".mce-window").length) {
+                e.stopImmediatePropagation();
+            }
+        });
+    </script>
+
+
+<script>
+
+    $(document).ready(function () {
+        $(function () {
+            $("#farmName").focus();
+        });
+    });
+
+    $(document).keypress(function (event) {
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        if (keycode == "13") {
+            if (Validate()) {
+
+            } else {
+                return false;
+            }
+        }
+    });
+
+
+    $("#btnCreateFarm").click(function () {
+        if (Validate()) {
+
+        } else {
+
+            return false;
+        }
+    });
+    function Validate() {
+        $('#lblMessage_farm_name_fail').text("");
+        $('#lblMessage_address_fail').text("");
+        $('#lblMessage_description_fail').text("");
+        $('#lblMessage_form_fail').text("");
+
+        var farmName = $('#farmName').val();
+        var address = $('#address').val();
+        var description = window.parent.tinymce.get('description').getContent();
+
+
+        if (farmName == "") {
+            $('#lblMessage_farm_name_fail').text("Vui lòng nhập tên trang trại");
+            return false;
+        }
+        else if (farmName.length > 100 || farmName.length < 0) {
+            $('#lblMessage_farm_name_fail').text("Tên trang trại quá dài! Vui lòng không nhập quá 100 ký tự!");
+            return false;
+        }
+         if (address == "") {
+            $('#lblMessage_address_fail').text("Vui lòng nhập địa chỉ!");
+            return false;
+         }
+         if (description == "") {
+             $('#lblMessage_description_fail').text("Vui lòng nhập Mô tả!");
+             return false;
+         }
+
+        return true;
+    }
+</script>

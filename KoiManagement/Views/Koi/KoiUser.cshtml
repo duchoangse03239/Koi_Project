@@ -1,11 +1,16 @@
 ﻿@using KoiManagement.Common
+@using KoiManagement.DAL
 @using KoiManagement.Models
+@using PagedList.Mvc
 @model IEnumerable<KoiManagement.Models.Koi>
 
 @{
     ViewBag.Title = "Cá koi của người dùng";
     Layout = "~/Views/Layout/KoiLayout.cshtml";
     Member member = ViewBag.Member;
+    PagedList.IPagedList ListKoi = ViewBag.ListKoi;
+    OwnerDAO oDao = new OwnerDAO();
+    CommentDAO cmDao = new CommentDAO();
 }
 <script type="text/javascript">
 
@@ -21,9 +26,9 @@
                 success: function (res) {
                     if (res) {
 
-                            window.location.reload();
-                            // $('#test').html();
-                            alert("Xóa thành công");
+                        window.location.reload();
+                        // $('#test').html();
+                        alert("Xóa thành công");
                     }
                 }
             }); // end ajax
@@ -42,12 +47,12 @@
                 type: "POST",
                 url: "@Url.Action("ToDead")",
                 datatype: "JSON",
-            data: {
-                koiId: KoiId,
-                DeadReason: DeadReason
-            },
-            success: function(res) {
-                switch (res.Status) {
+                data: {
+                    koiId: KoiId,
+                    DeadReason: DeadReason
+                },
+                success: function(res) {
+                    switch (res.Status) {
                     case 2:
                         $('#lbl_Deadreasonn_fail').text(res.Message);
                         $('#DeadReason').focus();
@@ -56,10 +61,10 @@
                         alert(res.Message);
                         window.location.reload();
                         break;
+                    }
                 }
-            }
-        }); // end ajax
-    }
+            }); // end ajax
+        }
     }
 </script>
 
@@ -88,60 +93,44 @@
 
     </div>
 </div>
-
+    <!-- Modal Vote-->
+<div id="vote" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Gửi đánh giá về Koi</h4>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <label id="koiname"> </label>
+                </div>
+                <div>
+                    <input type="number" name="your_awesome_parameter" id="rating-default0" class="rating" value="4" disabled="disabled" />
+                </div>
+                <div>
+                    <label>Nội dung</label>
+                </div>
+                <div>
+                    <textarea rows="4" id="content" name="content" placeholder="Nhập nội dung đánh giá" style="width:100%"></textarea>
+                </div>
+                <label id="lbl_Rating_fail" class="label-error"></label>
+                <div style="margin-top:10px;">
+                    <a class="btn btn-primary" onclick="Rating()">Gửi</a>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" onclick="Close()" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="section site-main">
     <div class="container">
         <div class="row">
-            @*@Html.Partial("~/Views/Account/_Manager.cshtml")*@
             @{ Html.RenderAction("Manager", "Account");}
-            @*<div class="col-md-3">
-                <div class="box_left">
-                    <div class="profile_info">
-                        <div class="profile_left">
-                            <a href="#">
-                                <img src="~/Content/Image/Member/@member.MemberID" id="avatar" class="profile_img" alt="">
-                            </a>
-                            <h4><a href="#" class="profile_name">Người dùng</a></h4>
-                        </div>
-                    </div>
-                    @if (Session[SessionAccount.SessionUserId] != null && Session[SessionAccount.SessionUserId].ToString().Equals(member.MemberID.ToString()))
-                    {
-                        <div class="line"></div>
-                        <a href="@Url.Action("UpdateProfile", "Account")" class="profile_link">
-                            <h3 class="profile_item">Thông tin cá nhân</h3>
-                        </a>
-                        <div class="line"></div>
-                        <a href="@Url.Action("ChangePassword", "Account")" class=" profile_link">
-                            <h3 class="profile_item">Đổi mật khẩu</h3>
-                        </a>
-                        <div class="line"></div>
 
-                        <a href="@Url.Action("KoiUser/"+ViewBag.Member.MemberID, "Koi")" class="profile_link">
-                            <h3 class="profile_item">Cá Koi của tôi [<span id="my_koi_count">@ViewBag.CountKoi</span>]</h3>
-                        </a>
-                        <div class="line"></div>
-                        <a href="#" class="profile_link">
-                            <h3 class="profile_item">Trang trại của tôi [<span id="my_farm_count">0</span>]</h3>
-                        </a>
-                    }
-                    else
-                    {
-                        <div class="line"></div>
-                        <a href="@Url.Action("Profile/"+member.MemberID, "Account")" class="profile_link">
-                            <h3 class="profile_item">Thông tin cá nhân</h3>
-                        </a>
-
-                        <div class="line"></div>
-                        <a href="@Url.Action("KoiUser/"+@ViewBag.Member.MemberID, "Koi")" class="profile_link">
-                            <h3 class="profile_item">Cá Koi của @member.UserName [<span id="my_koi_count">@ViewBag.CountKoi</span>]</h3>
-                        </a>
-                        <div class="line"></div>
-                        <a href="#" class="profile_link">
-                            <h3 class="profile_item">Trang trại của @member.UserName [<span id="my_farm_count">0</span>]</h3>
-                        </a>
-                    }
-                </div>
-                </div>*@
             <div class="col-md-9">
                 <div class="box_right">
                     <section id="titleArea">
@@ -158,20 +147,22 @@
                     </section>
                     <section class="" id="list-koi">
                         <div class="row">
-                            <div class="col-md-12">
-                                <div class="title_box">
-                                    <h1 class="title2">Cá Koi của tôi</h1>
-                                    <div id="ContentPlaceHolder1_ContentPlaceHolder1_ContentPlaceHolder2_regPanel" @*onkeypress="javascript:return WebForm_FireDefaultButton(event, &#39;btnSearch&#39;)"*@>
-                                        <input name="txtSearch" type="text" id="txtSearch" class="search_textbox_small search_textbox_small_margin" placeholder="Tìm kiếm">
-                                        <input type="submit" name="btnSearch" value="" id="btnSearch" class="btnSearch_hide">
+                            <form action="" method="get">
+                                <div class="col-md-12">
+                                    <div class="title_box">
+                                        <h1 class="title2">Cá Koi của tôi</h1>
+                                        <div id="ContentPlaceHolder1_ContentPlaceHolder1_ContentPlaceHolder2_regPanel" @*onkeypress="javascript:return WebForm_FireDefaultButton(event, &#39;btnSearch&#39;)"*@>
+                                            <input name="txtSearch" type="text" id="txtSearch" value="@ViewBag.txtSearch" class="search_textbox_small search_textbox_small_margin" placeholder="Tìm kiếm">
+                                            <input type="submit" name="btnSearch" value="" id="btnSearch" class="btnSearch_hide">
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            </form>
                             <div class="col-md-12">
-                                @if (Model != null)
-                                {
-                                    for (var item = 0; item < Model.Count(); item++)
-                                    {
+                               @if (ViewBag.ListKoi != null)
+                               {
+                                   for (var item = 0; item < ViewBag.ListKoi.Count; item++)
+                                   {
                                         <div class="content-section-b">
                                             @if (Session[SessionAccount.SessionUserId] != null && Session[SessionAccount.SessionUserId].ToString().Equals(member.MemberID.ToString()))
                                             {
@@ -180,43 +171,60 @@
                                                         <span class="caret"></span>
                                                     </button>
                                                     <ul class="dropdown-menu dropdown-menu-right">
-                                                        <li><a href="/Koi/editKoi/@Model.ElementAt(item).KoiID">Sửa</a></li>
-                                                        <li><a onclick="GetInfo(@Model.ElementAt(item).KoiID)">Xóa</a></li>
-                                                        <li><a onclick="Dead(@Model.ElementAt(item).KoiID)" data-toggle="modal" data-target="#myModal">Khai tử</a></li>
+                                                        <li><a href="/Koi/editKoi/@ViewBag.ListKoi[item].KoiID">Sửa</a></li>
+                                                        <li><a onclick="GetInfo(@ViewBag.ListKoi[item].KoiID)">Xóa</a></li>
+                                                        <li><a onclick="Dead(@ViewBag.ListKoi[item].KoiID)" data-toggle="modal" data-target="#myModal">Khai tử</a></li>
                                                     </ul>
                                                 </div>}
-                                            <input type="hidden" id="koiID" name="koiID" value="@Model.ElementAt(item).KoiID">
+                                            <input type="hidden" id="koiID" name="koiID" value="@ViewBag.ListKoi[item].KoiID">
+                                            <input type="hidden" id="KoiName" name="KoiName" value="@ViewBag.Listkoi[item].KoiName">
                                             <div class="row">
                                                 <div class="col-md-3">
-                                                    <img class="img-koi-list " src="/Content/Image/Koi/@Model.ElementAt(item).Image" alt="">
+                                                    <img class="img-koi-list " src="/Content/Image/Koi/@ViewBag.ListKoi[item].Image" alt="">
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <a class="title-koi-name" href="/Koi/Details/@Model.ElementAt(item).KoiID">@Model.ElementAt(item).KoiName</a>
+                                                    <a class="title-koi-name" href="/Koi/Details/@ViewBag.ListKoi[item].KoiID">@ViewBag.ListKoi[item].KoiName</a>
                                                     <h4>
-                                                        Chủ sở hữu: @if (Model.ElementAt(item).Owners.Count() > 0)
-                                                                    {
-                                                                        @Model.ElementAt(item).Owners.ElementAt(0).Member.Name
-                                                                    }
+                                                        Chủ sở hữu: 
+                                                        @{
+                                                            var owner = oDao.GetOwner(ViewBag.ListKoi[item].KoiID);
+                                                            if (owner != null)
+                                                            {
+                                                                <a href="@Url.Action("ListMember", "Admin",new {searchstring= @owner.Member.UserName  })">@owner.Member.Name</a>
+                                                            }
+                                                        }
                                                     </h4>
                                                     <p>
-                                                        <a class="btn btn-embossed btn-primary" href="/Koi/Details/@Model.ElementAt(item).KoiID" role="button">Chi tiết</a>
+                                                        <a class="btn btn-embossed btn-primary" href="/Koi/Details/@ViewBag.ListKoi[item].KoiID" role="button">Chi tiết</a>
                                                     </p>
                                                 </div>
+                                                <input type="hidden" id="koiID" name="koiID" value="@ViewBag.Listkoi[item].KoiID">
                                                 <div class="col-md-3">
-                                                    <div class="ratings">
-                                                        <input type="number" name="your_awesome_parameter" id="rating-default" class="rating" value="3" />
+                                                    @if (Session[SessionAccount.SessionUserId] != null)
+                                                    {
+                                                        <div class="ratings" data-toggle="modal" data-target="#vote" onclick="Rate(@ViewBag.Listkoi[item].KoiID, @item,'@ViewBag.ListKoi[item].KoiName')" style="margin-top: 13px;">
+                                                            @{ var id = "rating-default" + @item; }
+                                                            <input type="number" name="your_awesome_parameter" id="@id" class="rating" value="@cmDao.getRate(ViewBag.Listkoi[item].KoiID)" disabled="disabled" data-readonly/>
+                                                        </div>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <input type="number" name="your_awesome_parameter" id="rating-readonly" class="rating" value="@cmDao.getRate(ViewBag.Listkoi[item].KoiID)" data-readonly />
+                                                                }
                                                         <br/>
-                                                        <a href="">@Model.ElementAt(item).Comments.Count() đánh giá</a>
-                                                    </div>
+                                                        @cmDao.CountCommentByKoiID(ViewBag.Listkoi[item].KoiID) đánh giá
                                                 </div>
                                             </div>
                                         </div>
-                                    }
+                                   }
+                                
                                 }
                                 else
                                 {
                                     <h3>Chưa có cá, hãy thêm cá</h3>
                                 }
+                                Page @(ListKoi.PageCount < ListKoi.PageNumber ? 0 : ListKoi.PageNumber) of @ListKoi.PageCount
+                                @Html.PagedListPager(ListKoi, page => Url.Action("KoiUser", new { page, currentFilter = ViewBag.CurrentFilter }))
                             </div>
                         </div>
                     </section>
@@ -225,3 +233,70 @@
         </div>
         </div>
     </div>
+<script>
+    
+    $(document).keypress(function (event) {
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        if (keycode == "13") {
+                SearchKoi();
+        }
+    });
+
+    function SearchKoi() {
+        var txtSearch = $('#KoiName').val();
+        
+    }
+    function Close() {
+        $('#koiname').text("");
+    }
+    function Rate(koiID, index,koiName) {
+        //set koi ID
+        $("#KoiId").val(koiID);
+        var RateNum = $('#rating-default' + index).val();
+        var m = $("#rating-default0");
+        var num = parseInt(RateNum);
+        //m.val(num);
+        m.attr('value', num);
+
+        var $tbl = $("#koiname");
+        $tbl.append("Tên cá Koi: " + koiName);
+
+    }
+    function Rating() {
+            
+        $('#lbl_Rating_fail').text("");
+        var RateNum = $('#rating-default0').val();
+        var content = $('#content').val();
+        //m.val(num);
+        var koiID = $('#KoiId').val();
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("Rating")",
+            datatype: "JSON",
+        data: {
+            koiID: koiID,
+            RateNum: RateNum,
+            content: content
+        },
+        success: function(res) {
+            switch (res.Status) {
+                case 2:
+                    $('#lbl_Rating_fail').text(res.Message);
+                    break;
+                case 3:
+                    alert(res.Message);
+                    break;
+                case 1:
+                    alert(res.Message);
+                    window.location.reload();
+                    break;
+                case 0:
+                    alert(res.Message);
+                    window.location.href = res.RedirectTo;
+                    break;
+            }
+        }
+    }); // end ajax
+    //clear data
+    }
+</script>

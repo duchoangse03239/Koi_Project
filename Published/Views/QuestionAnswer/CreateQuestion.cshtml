@@ -1,0 +1,237 @@
+﻿
+@{
+    ViewBag.Title = "Tạo hỏi đáp";
+    Layout = "~/Views/Layout/KoiLayout.cshtml";
+    
+}
+
+<script src="~/Scripts/modernizr-2.6.2.js"></script>
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script src="~/Scripts/bootstrap.js"></script>
+<script src="~/Scripts/modernizr-2.6.2.js"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/tinymce/tinymce.min.js")"></script>
+
+<div class="section site-main">
+    <div class="container">
+        <div class="row">
+            <h2 id="form-title" class="align-center">Tạo câu hỏi</h2>
+            <div class="col-md-9">
+                <div class="box_right">
+                    <div class="container">
+                        <div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <hr />
+                                    <label>Tiêu đề</label>
+                                    <input type="text" class="form-control" placeholder="Tiêu đề" id="title" name="title">
+                                    <label id="lblMessage_title_fail" class="label-error"></label>
+                                </div>
+                                <br />
+                                <div class="col-md-12" style="margin-top: 15px;">
+                                    <label id="lblMessage_type_fail" style="margin-right:20px;">Chọn loại</label>
+                                    <span>
+                                        <select class="form-control" style="min-width: 150px;" name="type" id="typeid">
+                                            @foreach (var item in Model)
+                                            {
+                                                <option value="@item.TypeID">@item.Name</option>
+                                            }
+                                        </select>
+                                    </span>
+                                </div>
+                                <div class="col-md-12" style="margin-top: 20px;">
+                                    <label>Nội dung</label>
+                                    <textarea type="text" class="form-control" placeholder="" id="content" name="content"></textarea>
+                                    <label id="lblMessage_content_fail" class="label-error"></label>
+                                </div>
+                                <div class="col-md-12 align-right" style="margin-top:15px;" id="add-article-btn">
+                                    <button class="btn btn-primary" id="btnCreateQuestion">Tạo câu hỏi</button>
+                                    <button class="btn btn-primary" id="btnCancel">Đóng</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script type="text/javascript">
+
+    $(document).ready(function() {
+        $(function() {
+            $("#title").focus();
+        });
+    });
+
+    $(document).keypress(function(event) {
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        if (keycode == "13") {
+            if (Validate()) {
+                CreateQuestion();
+            } else {
+                return false;
+            }
+        }
+    });
+
+
+    $("#btnCreateQuestion").click(function () {
+        if (Validate()) {
+            CreateQuestion();
+        } else {
+
+            return false;
+        }
+    });
+
+    function Validate() {
+        var title = $('#title').val();
+        var typeid = $('#typeid').val();
+        var content = window.parent.tinymce.get('content').getContent();
+
+        $('#lblMessage_title_fail').text("");
+        $('#lblMessage_type_fail').text("");
+        $('#lblMessage_content_fail').text("");
+
+        if (title == "") {
+            $('#lblMessage_title_fail').text("Vui lòng nhập tiêu đề cho câu hỏi.");
+            $('#title').focus();
+            return false;
+        }
+        if (typeid.value == 0) {
+            $('#lblMessage_type_fail').text("Vui lòng chọn chủ đề cho câu hỏi.");
+            $('#typeid').focus();
+            return false;
+        }
+
+        return true;
+    }
+
+    function CreateQuestion() {
+        // Looping over all files and add it to FormData object
+        var fileData = new FormData();
+
+        // Adding one more key to FormData object
+        fileData.append('title', $('#title').val());
+        fileData.append('typeid', $('#typeid').val());
+        var content = window.parent.tinymce.get('content').getContent();
+        fileData.append('content', content);
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("CreateQuestion")",
+            contentType: false, // Not to set any content header
+            processData: false,
+            data: fileData,
+            dataType: "Json",
+            success: function(res) {
+                switch (res.Status) {
+                case 2:
+                    break;
+                case 3:
+                    break;
+                case 4:
+                    break;
+                case 1:
+                    alert(res.Message);
+                    window.location.href = res.RedirectTo;
+                    break;
+                case 0:
+                    window.location.href = res.RedirectTo;
+                    break;
+                }
+            }
+        });
+    }
+
+
+    $(document).ready(function() {
+        if (window.File && window.FileList && window.FileReader) {
+            $("#files").on("change", function(e) {
+                var files = e.target.files,
+                    filesLength = files.length;
+                for (var i = 0; i < filesLength; i++) {
+                    var f = files[i]
+                    var fileReader = new FileReader();
+                    fileReader.onload = (function(e) {
+                        var file = e.target;
+                        $("<span class=\"pip\">" +
+                            "<img class=\"imageThumb\" src=\"" + e.target.result + "\" title=\"" + file.name + "\"/>" +
+                            "<br/><span class=\"remove\">X</span>" +
+                            "</span>").insertAfter("#files");
+                        $(".remove").click(function() {
+                            $(this).parent(".pip").remove();
+                        });
+                    });
+                    fileReader.readAsDataURL(f);
+                }
+            });
+        } else {
+            alert("Your browser doesn't support to File API")
+        }
+    });
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('nav.menu a').click(function () {
+            $(this).parent().find('.current').removeClass('current');
+            $(this).addClass('current');
+        });
+        $('a[data-connect]').click(function () {
+            var i = $(this).find('i');
+            i.hasClass('icon-collapse-top') ? i.removeClass('icon-collapse-top').addClass('icon-collapse') : i.removeClass('icon-collapse').addClass('icon-collapse-top');
+            $(this).parent().parent().toggleClass('all').next().slideToggle();
+        });
+        $(window).scroll(function () {
+            var w = $(window).width();
+            if (w < 768) {
+                $('#top-button').hide();
+            } else {
+                var e = $(window).scrollTop();
+                e > 150 ? $('#top-button').fadeIn() : $('#top-button').fadeOut();
+            }
+        });
+    });
+</script>
+
+
+
+<script type="text/javascript">
+    tinymce.init({
+        selector: "textarea",
+        width: '100%',
+        language: 'vi_VN',
+        height: 400,
+        statusbar: false,
+        menubar: false,
+
+        setup: function (ed) {
+            ed.on('init', function () {
+                this.getDoc().body.style.fontSize = '14px';
+                this.getDoc().body.style.fontFamily = '"Helvetica Neue", Helvetica, Arial, sans-serif';
+            });
+        },
+
+        paste_data_images: true,
+
+        plugins: [
+            "advlist autolink lists link base64_image charmap hr anchor pagebreak",
+            "searchreplace wordcount visualblocks visualchars code",
+            "insertdatetime media nonbreaking save table contextmenu directionality",
+            "emoticons textcolor colorpicker textpattern "
+        ],
+        toolbar: "undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link base64_image media | forecolor backcolor"
+    });
+
+    // Prevent bootstrap dialog from blocking focusin
+    $(document).on('focusin', function (e) {
+        if ($(e.target).closest(".mce-window").length) {
+            e.stopImmediatePropagation();
+        }
+    });
+</script>
+

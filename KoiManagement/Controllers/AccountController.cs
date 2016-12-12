@@ -82,7 +82,7 @@ namespace KoiManagement.Controllers
                 {
                     obj.Status = 4;
                     // khong ton tai
-                    obj.Message = "Mật khẩu hoặc tài khoản sai.";
+                    obj.Message = "Tên Đăng nhập hoặc Mật khẩu không đúng.";
                     return Json(obj);
                 }
                 else
@@ -583,17 +583,23 @@ namespace KoiManagement.Controllers
         }
 
         // GET: /Account/UpdateProfile
-        public ActionResult Profile(int id=0)
+        public ActionResult Profile(int? id)
         {
             //check ton tai id
-            if (id == 0)
+            if (id == null)
             {
-                return RedirectToAction("UpdateProfile", "Account");
+                return RedirectToAction("PageNotFound", "Error");
             }
             MemberDAO MDao = new MemberDAO();
             KoiDAO kDao= new KoiDAO();
-            ViewBag.CountKoi = kDao.CountKoibyOwnerId(id);
-            var mem = MDao.GetMemberbyID(id);
+            KoiFarmDAO koiFarmDao = new KoiFarmDAO();
+            ViewBag.CountKoi = kDao.CountKoibyOwnerId(id.Value);
+            ViewBag.CountKoiFarm = koiFarmDao.CountKoiFarmbyOwnerId(id.Value);
+            var mem = MDao.GetMemberbyID(id.Value);
+            if (mem == null)
+            {
+                return RedirectToAction("PageNotFound", "Error");
+            }
             return View(mem);
         }
 
@@ -632,7 +638,9 @@ namespace KoiManagement.Controllers
                 //2.1 Input Check
                 if (string.IsNullOrWhiteSpace(name))
                 {
-                    name = String.Empty;
+                    obj.Status = 1;
+                    obj.Message = "Vui lòng nhập họ và tên.";
+                    return Json(obj);
                 }
                 else if (!Validate.CheckLengthInput(name, 6, 50))
                 {

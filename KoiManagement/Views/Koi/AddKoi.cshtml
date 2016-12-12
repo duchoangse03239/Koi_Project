@@ -12,7 +12,7 @@
                 <h2 class="align-center">Thêm cá Koi</h2>
                 <hr />  
                     <div class="form-group">
-                        <label>Tên cá Koi</label>
+                        <label>Tên cá Koi(<span style="color:red;">*</span>)</label>
                         <input type="text" class="form-control" placeholder="Tên Cá Koi" id="KoiName" name="KoiName">
                         <label id="lblMessage_koi_name_fail" class="label-error"></label>
                     </div>
@@ -41,8 +41,8 @@
                         <label id="lblmessage_dob_fail" class="label-error"></label>
                     </div>
                     <div class="form-group">
-                        <label>Kích thước</label>
-                        <input type="text" class="form-control" placeholder="Chiều dài(cm)" id="Size" name="Size">
+                        <label>Kích thước(<span style="color:red;">*</span>)</label>
+                        <input type="text" class="form-control" placeholder="Chiều dài(cm)" onkeypress="return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57" maxlength="3" id="Size" name="Size">
                         <label id="lblMessage_koi_size_fail" class="label-error"></label>
                     </div>
                     <div class="form-group">
@@ -134,7 +134,7 @@
                 return false;
             } else {
                 if (!validateDateRangeMax(DoB)) {
-                    $('#lblmessage_dob_fail').text('Ngày sinh nhỏ hơn ngày hiện tại.');
+                    $('#lblmessage_dob_fail').text('Ngày sinh phải nhỏ hơn ngày hiện tại.');
                     $('#DoB').focus();
                     return false;
                 } else if (!validateDateRangeMin(DoB)) {
@@ -146,6 +146,16 @@
         }
         if (Size == "") {
             $('#lblMessage_koi_size_fail').text("Vui lòng nhập kích thước.");
+            $('#Size').focus();
+            return false;
+        }
+        if (parseInt(Size) < 1) {
+            $('#lblMessage_koi_size_fail').text("Kích thước phải lớn hơn 0cm");
+            $('#Size').focus();
+            return false;
+        }
+        if (parseInt(Size) > 150) {
+            $('#lblMessage_koi_size_fail').text("Kích thước phải nhỏ hơn 150cm");
             $('#Size').focus();
             return false;
         }

@@ -63,7 +63,7 @@
                                             <a href="#"><img class="image" src="/Content/Image/Article/@ViewBag.ListArticle[item].Image" title="#"></a>
                                         </div><!--end over-img-->
                                         <div class="col-md-9">
-                                            <a class="title-article-name" href="@Url.Action("ArticleDetails/" + @ViewBag.ListArticle[item].ArticleID, "ListArticle")"> @ViewBag.ListArticle[item].Title</a>
+                                            <h3><a class="title-article-name" href="@Url.Action("ArticleDetail/" + @ViewBag.ListArticle[item].ArticleID, "Article")"> @ViewBag.ListArticle[item].Title</a></h3>
                                             <div class="shortdes">@ViewBag.ListArticle[item].ShortDes</div>
                                             <div class="new-detail">
                                                 <a href="@Url.Action("ArticleDetail/" + @ViewBag.ListArticle[item].ArticleID, "Article")" title="@ViewBag.ListArticle[item].Title">Chi tiết.</a>

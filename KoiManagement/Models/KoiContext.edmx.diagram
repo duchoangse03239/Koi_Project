@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="46e77b9cc6ac48c68f83d154f291220b" Name="Diagram1" ZoomLevel="41">
+      <Diagram DiagramId="46e77b9cc6ac48c68f83d154f291220b" Name="Diagram1" ZoomLevel="71">
         <EntityTypeShape EntityType="KoiManagementModel.Achievement" Width="1.5" PointX="5.25" PointY="3.625" IsExpanded="true" />
         <EntityTypeShape EntityType="KoiManagementModel.ActiveCode" Width="1.5" PointX="3" PointY="10.875" IsExpanded="true" />
         <EntityTypeShape EntityType="KoiManagementModel.Answer" Width="1.5" PointX="3" PointY="17.5" IsExpanded="true" />
@@ -15,7 +15,6 @@
         <EntityTypeShape EntityType="KoiManagementModel.KoiFarm" Width="1.5" PointX="3" PointY="26.125" IsExpanded="true" />
         <EntityTypeShape EntityType="KoiManagementModel.Medium" Width="1.5" PointX="7.5" PointY="7.125" IsExpanded="true" />
         <EntityTypeShape EntityType="KoiManagementModel.Member" Width="1.5" PointX="0.75" PointY="16.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="KoiManagementModel.Message" Width="1.5" PointX="3" PointY="29.625" IsExpanded="true" />
         <EntityTypeShape EntityType="KoiManagementModel.Notification" Width="1.5" PointX="3" PointY="33.375" IsExpanded="true" />
         <EntityTypeShape EntityType="KoiManagementModel.Owner" Width="1.5" PointX="8.25" PointY="21.125" IsExpanded="true" />
         <EntityTypeShape EntityType="KoiManagementModel.Question" Width="1.5" PointX="6" PointY="13.5" IsExpanded="true" />
@@ -43,8 +42,6 @@
         <AssociationConnector Association="KoiManagementModel.FK_Koi_KoiMomID" ManuallyRouted="false" />
         <AssociationConnector Association="KoiManagementModel.FK__KoiFarm__MemberI__21B6055D" ManuallyRouted="false" />
         <AssociationConnector Association="KoiManagementModel.FK__Owner__KoiFarmID__29572725" ManuallyRouted="false" />
-        <AssociationConnector Association="KoiManagementModel.FK__Message__MemberI__6E565CE8" ManuallyRouted="false" />
-        <AssociationConnector Association="KoiManagementModel.FK__Message__SenderI__6F4A8121" ManuallyRouted="false" />
         <AssociationConnector Association="KoiManagementModel.FK__Notificat__Membe__41B8C09B" ManuallyRouted="false" />
         <AssociationConnector Association="KoiManagementModel.FK__Notificat__Sende__42ACE4D4" ManuallyRouted="false" />
         <AssociationConnector Association="KoiManagementModel.FK__Owner__MemberID__286302EC" ManuallyRouted="false" />
@@ -53,6 +50,9 @@
         <AssociationConnector Association="KoiManagementModel.FK_Report_MemberID_1" ManuallyRouted="false" />
         <AssociationConnector Association="KoiManagementModel.FK__QuesTion__TypeID_01" ManuallyRouted="false" />
         <AssociationConnector Association="KoiManagementModel.FK__Rate__QuestionID__4336F4B9" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="KoiManagementModel.Message" Width="1.5" PointX="3" PointY="21.625" />
+        <AssociationConnector Association="KoiManagementModel.FK__Message__MemberI__6E565CE8" />
+        <AssociationConnector Association="KoiManagementModel.FK__Message__SenderI__6F4A8121" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

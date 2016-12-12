@@ -1,0 +1,63 @@
+﻿@model IEnumerable<KoiManagement.Models.Variety>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Layout/KoiLayout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.VarietyName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Image)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.VarietyDetailID)
+        </th>
+        <th>
+           
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Variety2.VarietyName)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.VarietyName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Image)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.VarietyDetailID)
+        </td>
+        <td>
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Variety2.VarietyName)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.VarietyID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.VarietyID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.VarietyID })
+        </td>
+    </tr>
+}
+
+</table>

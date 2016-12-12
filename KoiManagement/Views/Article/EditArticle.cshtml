@@ -39,7 +39,7 @@
                                             }
                                             else
                                             {
-                                                <option value="@item.TypeID" s>@item.Name</option>
+                                                <option value="@item.TypeID" selected>@item.Name</option>
                                             }
                                         }
                                     </select>
@@ -137,7 +137,7 @@
         var content = window.parent.tinymce.get('content').getContent();
         fileData.append('content', content);
         fileData.append('articleid', '@Article.ArticleID');
-        fileData.append('image', '@Article  .Image');
+        fileData.append('image', '@Article.Image');
 
         $.ajax({
             type: "POST",

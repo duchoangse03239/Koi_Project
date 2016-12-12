@@ -498,15 +498,15 @@ namespace KoiManagement.Controllers
         public ActionResult MemberReport(string sortOrder, string currentFilter, string searchString, int? page)
         {
             ////kiem tra phan quyen
-            //if (Session[SessionAccount.SessionUserId] == null)
-            //{
-            //    return RedirectToAction("Login", "Account");
-            //}
-            //var mem = memberDao.GetMemberbyID(int.Parse(Session[SessionAccount.SessionUserId].ToString()));
-            //if (mem.Role != 1)
-            //{
-            //    return RedirectToAction("Index", "Home");
-            //}
+            if (Session[SessionAccount.SessionUserId] == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            var mem = memberDao.GetMemberbyID(int.Parse(Session[SessionAccount.SessionUserId].ToString()));
+            if (mem.Role != 1)
+            {
+                return RedirectToAction("Index", "Home");
+            }
             if (searchString != null)
             {
                 page = 1;
@@ -536,15 +536,15 @@ namespace KoiManagement.Controllers
         public ActionResult KoiReport(string sortOrder, string currentFilter, string searchString, int? page)
         {
             ////kiem tra phan quyen
-            //if (Session[SessionAccount.SessionUserId] == null)
-            //{
-            //    return RedirectToAction("Login", "Account");
-            //}
-            //var mem = memberDao.GetMemberbyID(int.Parse(Session[SessionAccount.SessionUserId].ToString()));
-            //if (mem.Role != 1)
-            //{
-            //    return RedirectToAction("Index", "Home");
-            //}
+            if (Session[SessionAccount.SessionUserId] == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            var mem = memberDao.GetMemberbyID(int.Parse(Session[SessionAccount.SessionUserId].ToString()));
+            if (mem.Role != 1)
+            {
+                return RedirectToAction("Index", "Home");
+            }
             if (searchString != null)
             {
                 page = 1;
@@ -573,15 +573,15 @@ namespace KoiManagement.Controllers
         public ActionResult KoiFarmReport(string sortOrder, string currentFilter, string searchString, int? page)
         {
             ////kiem tra phan quyen
-            //if (Session[SessionAccount.SessionUserId] == null)
-            //{
-            //    return RedirectToAction("Login", "Account");
-            //}
-            //var mem = memberDao.GetMemberbyID(int.Parse(Session[SessionAccount.SessionUserId].ToString()));
-            //if (mem.Role != 1)
-            //{
-            //    return RedirectToAction("Index", "Home");
-            //}
+            if (Session[SessionAccount.SessionUserId] == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            var mem = memberDao.GetMemberbyID(int.Parse(Session[SessionAccount.SessionUserId].ToString()));
+            if (mem.Role != 1)
+            {
+                return RedirectToAction("Index", "Home");
+            }
             if (searchString != null)
             {
                 page = 1;
@@ -611,15 +611,15 @@ namespace KoiManagement.Controllers
         public ActionResult ListArticle(string sortOrder, string currentFilter, string searchString, int? page)
         {
             ////kiem tra phan quyen
-            //if (Session[SessionAccount.SessionUserId] == null)
-            //{
-            //    return RedirectToAction("Login", "Account");
-            //}
-            //var mem = memberDao.GetMemberbyID(int.Parse(Session[SessionAccount.SessionUserId].ToString()));
-            //if (mem.Role != 1)
-            //{
-            //    return RedirectToAction("Index", "Home");
-            //}
+            if (Session[SessionAccount.SessionUserId] == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            var mem = memberDao.GetMemberbyID(int.Parse(Session[SessionAccount.SessionUserId].ToString()));
+            if (mem.Role != 1)
+            {
+                return RedirectToAction("Index", "Home");
+            }
             if (searchString != null)
             {
                 page = 1;
@@ -694,7 +694,7 @@ namespace KoiManagement.Controllers
                 return RedirectToAction("Index", "Home");
             }
             Article mem = db.Articles.Find(int.Parse(ArticleID));
-            mem.Status = false;
+            mem.Status = true;
             db.Articles.Attach(mem);
             db.Entry(mem).Property(x => x.Status).IsModified = true;
             int result = db.SaveChanges();

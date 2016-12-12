@@ -1,0 +1,238 @@
+﻿@using KoiManagement.Common
+@using KoiManagement.Models
+@{
+    ViewBag.Title = "Cập nhật trạng thái";
+    List<InfoDetail> listInfo = ViewBag.ListInfo1;
+    List<string> listanh = ViewBag.ListAnh1;
+}
+@if (listInfo.Count > 0)
+{
+    <ul class="timeline">
+        @for (int item = 0; item < listInfo.Count; item++)
+        {
+            <li>
+                <div class="timeline-badge primary">
+                    <a><i class="glyphicon glyphicon-record" rel="tooltip" title="11 hours ago via Twitter" id=""></i></a>
+                </div>
+                <div class="timeline-panel">
+                    @{
+                        if (listInfo.Count > 0)
+                        {
+                            if (Session[SessionAccount.SessionUserId] != null && Session[SessionAccount.SessionUserId].ToString().Equals(listInfo.ElementAt(0).Koi.Owners.Where(p => p.Status).FirstOrDefault().Member.MemberID.ToString()))
+                            {
+                                <div class="dropdown">
+                                    <button class="setting-icon dropdown-toggle" type="button" data-toggle="dropdown">
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-right">
+                                        <li><a href="@Url.Action("EditDetail/" + @listInfo.ElementAt(item).DetailID, "InfoDetail")">Sửa</a></li>
+                                        <li><a onclick="DeleteDetail(@listInfo.ElementAt(item).DetailID)">Xóa</a></li>
+                                    </ul>
+                                </div>
+                            }
+                        }
+                    }
+                        <div class="timeline-heading">
+                        <div class="jquery-script-ads" style="margin: 30px auto;" align="center">
+                            <!--Image-->
+                            <div id="@item+@ViewBag.Skip"></div>
+
+                        </div>
+                    </div>
+                    <div class="timeline-body">
+                        <p>
+                            <small class="text-muted">
+                                <i class="glyphicon glyphicon-time"></i>
+                                @{
+                                    // Do some work
+                                    TimeSpan timeDiff = DateTime.Now - listInfo.ElementAt(item).Date;
+                                }
+                                @{
+
+                                    if (timeDiff.TotalDays >= 30)
+                                    {
+                                        <span>  Tạo ngày @listInfo.ElementAt(item).Date </span>
+                                    }
+                                    else if (timeDiff.TotalHours >= 24)
+                                    {
+                                        <span>@Math.Round(timeDiff.TotalDays) ngày trước </span>
+                                    }
+                                    else if (timeDiff.TotalMinutes >= 60)
+                                    {
+                                        <span>@Math.Round(timeDiff.TotalHours) giờ trước </span>
+                                    }
+                                    else if (timeDiff.TotalSeconds >= 60)
+                                    {
+                                        <span>@Math.Round(timeDiff.TotalMinutes) phút trước </span>
+                                    }
+                                    else
+                                    {
+                                        <span>Vừa xong </span>
+                                    }
+
+                                }
+                            </small>
+                        </p>
+                        <p>
+                            Kích thước: <label>@listInfo.ElementAt(item).Size cm</label>
+                        </p>
+                        @if (!string.IsNullOrWhiteSpace(@listInfo.ElementAt(item).HeathyStatus))
+                        {
+                            <p>
+                                Trạng thái sức khỏe: <label>@listInfo.ElementAt(item).HeathyStatus </label>
+                            </p>
+                        }
+                        @if (!string.IsNullOrWhiteSpace(@listInfo.ElementAt(item).Description))
+                        {
+                            <p>
+                                Mô tả: <label>@listInfo.ElementAt(item).Description </label>
+                            </p>
+                        }
+                    </div>
+
+                    <div class="timeline-footer">
+                        <a><i class="glyphicon glyphicon-thumbs-up"></i></a>
+                        <a><i class="glyphicon glyphicon-share"></i></a>
+                        <a class="pull-right">Continuar Lendo</a>
+                    </div>
+                </div>
+            </li>
+            <script>
+                var hello1 = document.getElementById('@item+@ViewBag.Skip');
+                $(hello1)
+                    .imagesGrid({
+                        images: [
+                            @Html.Raw(listanh.ElementAt(item))
+                        ],
+
+                    });
+            </script>
+            if (item < listInfo.Count - 1)
+            {
+                item++;
+            }
+            else
+            {
+                break;
+            }
+            <li class="timeline-inverted">
+                <div class="timeline-badge primary">
+                    <a><i class="glyphicon glyphicon-record invert" rel="tooltip" title="11 hours ago via Twitter" id=""></i></a>
+                </div>
+                <div class="timeline-panel">
+                    @{
+                        if (listInfo.Count > 0)
+                        {
+                            if (Session[SessionAccount.SessionUserId] != null && Session[SessionAccount.SessionUserId].ToString().Equals(listInfo.ElementAt(0).Koi.Owners.Where(p => p.Status).FirstOrDefault().Member.MemberID.ToString()))
+                            {
+                                <div class="dropdown">
+                                    <button class="setting-icon dropdown-toggle" type="button" data-toggle="dropdown">
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-right">
+                                        <li><a href="@Url.Action("EditDetail/" + @listInfo.ElementAt(item).DetailID, "InfoDetail")">Sửa</a></li>
+                                        <li><a onclick="DeleteDetail(@listInfo.ElementAt(item).DetailID)">Xóa</a></li>
+                                    </ul>
+                                </div>
+                            }
+                        }
+                    }
+                        <div class="timeline-heading">
+                        <!--Image-->
+                        <div style="padding-top: 20px !important" id="@item+@ViewBag.Skip"></div>
+                    </div>
+                    <div class="timeline-body">
+                        <p>
+                            <small class="text-muted">
+                                <i class="glyphicon glyphicon-time"></i> @{
+                                                                             // Do some work
+                                                                             TimeSpan timeDiff1 = DateTime.Now - listInfo.ElementAt(item).Date;
+                                                                         }
+                                @{
+
+                                    if (timeDiff1.TotalDays >= 30)
+                                    {
+                                        <span>  Tạo ngày @listInfo.ElementAt(item).Date </span>
+                                    }
+                                    else if (timeDiff1.TotalHours >= 24)
+                                    {
+                                        <span>@Math.Round(timeDiff.TotalDays) ngày trước </span>
+                                    }
+                                    else if (timeDiff1.TotalMinutes >= 60)
+                                    {
+                                        <span>@Math.Round(timeDiff.TotalHours) giờ trước </span>
+                                    }
+                                    else if (timeDiff1.TotalSeconds >= 60)
+                                    {
+                                        <span>@Math.Round(timeDiff.TotalMinutes) phút trước </span>
+                                    }
+                                    else
+                                    {
+                                        <span>Vừa xong </span>
+                                    }
+
+                                }
+                            </small>
+                        </p>
+                        <p>
+                            Kích thước: <label>@listInfo.ElementAt(item).Size cm</label>
+                        </p>
+                        @if (!string.IsNullOrWhiteSpace(@listInfo.ElementAt(item).HeathyStatus))
+                        {
+                            <p>
+                                Trạng thái sức khỏe: <label>@listInfo.ElementAt(item).HeathyStatus </label>
+                            </p>
+                        }
+                        @if (!string.IsNullOrWhiteSpace(@listInfo.ElementAt(item).Description))
+                        {
+                            <p>
+                                Mô tả: <label>@listInfo.ElementAt(item).Description </label>
+                            </p>
+                        }
+                    </div>
+
+                    <div class="timeline-footer">
+                        <a><i class="glyphicon glyphicon-thumbs-up"></i></a>
+                        <a><i class="glyphicon glyphicon-share"></i></a>
+                        <a class="pull-right">Continuar Lendo</a>
+                    </div>
+                </div>
+            </li>
+            <script>
+                var hello1 = document.getElementById('@item+@ViewBag.Skip');
+                $(hello1)
+                    .imagesGrid({
+                        images: [
+                            @Html.Raw(listanh.ElementAt(item))
+                        ],
+
+                    });
+            </script>
+        }
+
+        <li class="clearfix" style="float: none;"></li>
+    </ul>
+}
+
+<script>
+    function DeleteDetail(parameter1) {
+        if (confirm("Bạn có chắc chắn muốn xóa?")) {
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("DeleteConfirmed")",
+                datatype: "JSON",
+            data: {
+                Detailid: parameter1
+            },
+            success: function (res) {
+                if (res) {
+
+                    window.location.reload();
+                    // $('#test').html();
+                    alert("Xóa thành công");
+                }
+            }
+        }); // end ajax
+    }
+    }
+</script>
