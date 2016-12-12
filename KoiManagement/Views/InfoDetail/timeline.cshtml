@@ -6,10 +6,10 @@
     Layout = "~/Views/Layout/KoiLayout.cshtml";
     List<InfoDetail> listInfo = ViewBag.ListInfo;
     OwnerDAO ownewDao = new OwnerDAO();
-    List<string> listanh= ViewBag.ListAnh;
+    List<string> listanh = ViewBag.ListAnh;
 }
 
-    <!-- Timeline1 Css -->
+<!-- Timeline1 Css -->
 <script src="~/Scripts/images-grid.js"></script>
 <link href="~/Content/css/images-grid.css" rel="stylesheet" />
 
@@ -20,14 +20,16 @@
             <span>Chọn mục xem:</span>
             <select class="selectpicker" data-style="btn-primary" onchange="location = this.options[this.selectedIndex].value;">
                 <option value="@Url.Action("timeline/"+ViewBag.koiId, "InfoDetail")" selected>Dòng thời gian</option>
-                <option value="@Url.Action("TimelineVertical/"+ViewBag.koiId , "InfoDetail")">Ảnh sinh trưởng</option>
+                <option value="@Url.Action("TimelineVertical/"+ViewBag.koiId , "InfoDetail" )">Ảnh sinh trưởng</option>
                 <option value="@Url.Action("ListAchievement/"+ViewBag.koiId , "Achievement")">Giải thưởng</option>
+                <option value="@Url.Action("ParentTree/"+ViewBag.koiId , "InfoDetail")">Cây phả hệ</option>
+                <option value="@Url.Action("AllOWner/"+ViewBag.koiId , "InfoDetail")">Chủ đã sở hữu</option>
             </select>
         </div>
         @{
             if (listInfo.Count > 0)
             {
-                if (Session[SessionAccount.SessionUserId] != null && Session[SessionAccount.SessionUserId].ToString().Equals(listInfo.ElementAt(0).Koi.Owners.Where(p=>p.Status).FirstOrDefault().Member.MemberID.ToString()))
+                if (Session[SessionAccount.SessionUserId] != null && Session[SessionAccount.SessionUserId].ToString().Equals(listInfo.ElementAt(0).Koi.Owners.Where(p => p.Status).FirstOrDefault().Member.MemberID.ToString()))
                 {
                     <div class="col-md-6" style="padding-bottom: 15px;">
                         <span style="float: right;">
@@ -36,11 +38,11 @@
                     </div>
                 }
             }}
-        
+
     </div>
     <ul class="timeline">
         @for (int item = 0; item < listInfo.Count; item++)
-        {
+            {
             <li>
                 <div class="timeline-badge primary">
                     <a><i class="glyphicon glyphicon-record" rel="tooltip" id=""></i></a>
@@ -63,7 +65,7 @@
                             }
                         }
                     }
-                        <div class="timeline-heading">
+                    <div class="timeline-heading">
                         <div class="jquery-script-ads" style="margin: 30px auto;" align="center">
                             <!--Image-->
                             <div id="@item"></div>
@@ -113,10 +115,11 @@
                                 Trạng thái sức khỏe: <label>@listInfo.ElementAt(item).HeathyStatus </label>
                             </p>
                         }
-                        @if (!string.IsNullOrWhiteSpace(@listInfo.ElementAt(item).Description)) {
-                        <p>
-                            Mô tả: <label>@listInfo.ElementAt(item).Description </label>
-                        </p> 
+                        @if (!string.IsNullOrWhiteSpace(@listInfo.ElementAt(item).Description))
+                        {
+                            <p>
+                                Mô tả: <label>@listInfo.ElementAt(item).Description </label>
+                            </p>
                         }
                     </div>
 
@@ -126,106 +129,106 @@
                     </div>
                 </div>
             </li>
-            <script>
-                var hello1 = document.getElementById('@item');
-                $(hello1)
-                    .imagesGrid({
-                        images: [
-                            @Html.Raw(listanh.ElementAt(item))
-                        ],
+                <script>
+                    var hello1 = document.getElementById('@item');
+                    $(hello1)
+                        .imagesGrid({
+                            images: [
+                                @Html.Raw(listanh.ElementAt(item))
+                            ],
 
-                    });
-            </script>
-                                    if (item < listInfo.Count - 1)
-                                    {
-                                        item++;
-                                    }
-                                    else
-                                    {
-                                        break;
-                                    }
-                                    <li class="timeline-inverted">
-                                        <div class="timeline-badge primary">
-                                            <a><i class="glyphicon glyphicon-record invert" rel="tooltip" id=""></i></a>
-                                        </div>
-                                        <div class="timeline-panel">
-                                            @{
-                                                if (listInfo.Count > 0)
-                                                {
-                                                    if (Session[SessionAccount.SessionUserId] != null && Session[SessionAccount.SessionUserId].ToString().Equals(listInfo.ElementAt(0).Koi.Owners.Where(p => p.Status).FirstOrDefault().Member.MemberID.ToString()))
-                                                    {
-                                                        <div class="dropdown">
-                                                            <button class="setting-icon dropdown-toggle" type="button" data-toggle="dropdown">
-                                                                <span class="caret"></span>
-                                                            </button>
-                                                            <ul class="dropdown-menu dropdown-menu-right">
-                                                                <li><a href="@Url.Action("EditDetail/" + @listInfo.ElementAt(item).DetailID, "InfoDetail")">Sửa</a></li>
-                                                                <li><a onclick="DeleteDetail(@listInfo.ElementAt(item).DetailID)">Xóa</a></li>
-                                                            </ul>
-                                                        </div>
-                                                    }
-                                                }
+                        });
+                </script>
+                            if (item < listInfo.Count - 1)
+                            {
+                                item++;
+                            }
+                            else
+                            {
+                                break;
+                            }
+                            <li class="timeline-inverted">
+                                <div class="timeline-badge primary">
+                                    <a><i class="glyphicon glyphicon-record invert" rel="tooltip" id=""></i></a>
+                                </div>
+                                <div class="timeline-panel">
+                                    @{
+                                        if (listInfo.Count > 0)
+                                        {
+                                            if (Session[SessionAccount.SessionUserId] != null && Session[SessionAccount.SessionUserId].ToString().Equals(listInfo.ElementAt(0).Koi.Owners.Where(p => p.Status).FirstOrDefault().Member.MemberID.ToString()))
+                                            {
+                                                <div class="dropdown">
+                                                    <button class="setting-icon dropdown-toggle" type="button" data-toggle="dropdown">
+                                                        <span class="caret"></span>
+                                                    </button>
+                                                    <ul class="dropdown-menu dropdown-menu-right">
+                                                        <li><a href="@Url.Action("EditDetail/" + @listInfo.ElementAt(item).DetailID, "InfoDetail")">Sửa</a></li>
+                                                        <li><a onclick="DeleteDetail(@listInfo.ElementAt(item).DetailID)">Xóa</a></li>
+                                                    </ul>
+                                                </div>
                                             }
-                                                <div class="timeline-heading">
-                                                <!--Image-->
-                                                <div style="padding-top: 20px !important" id="@item"></div>
-                                            </div>
-                                            <div class="timeline-body">
-                                                <p>
-                                                    <small class="text-muted">
-                                                        <i class="glyphicon glyphicon-time"></i> @{
-                                                                                                     // Do some work
-                                                                                                     TimeSpan timeDiff1 = DateTime.Now - listInfo.ElementAt(item).Date;
-                                                                                                 }
-                                                        @{
-
-                                                            if (timeDiff1.TotalDays >= 30)
-                                                            {
-                                                                <span>  Tạo ngày @listInfo.ElementAt(item).Date </span>
-                                                            }
-                                                            else if (timeDiff1.TotalHours >= 24)
-                                                            {
-                                                                <span>@Math.Round(timeDiff.TotalDays) ngày trước </span>
-                                                            }
-                                                            else if (timeDiff1.TotalMinutes >= 60)
-                                                            {
-                                                                <span>@Math.Round(timeDiff.TotalHours) giờ trước </span>
-                                                            }
-                                                            else if (timeDiff1.TotalSeconds >= 60)
-                                                            {
-                                                                <span>@Math.Round(timeDiff.TotalMinutes) phút trước </span>
-                                                            }
-                                                            else
-                                                            {
-                                                                <span>Vừa xong </span>
-                                                            }
-
-                                                        }
-                                                    </small>
-                                                </p>
-                                                <p>
-                                                    Kích thước: <label>@listInfo.ElementAt(item).Size cm</label>
-                                                </p>
-                                                @if (!string.IsNullOrWhiteSpace(@listInfo.ElementAt(item).HeathyStatus))
-                                                {
-                                                    <p>
-                                                        Trạng thái sức khỏe: <label>@listInfo.ElementAt(item).HeathyStatus </label>
-                                                    </p>
+                                        }
+                                    }
+                                    <div class="timeline-heading">
+                                        <!--Image-->
+                                        <div style="padding-top: 20px !important" id="@item"></div>
+                                    </div>
+                                    <div class="timeline-body">
+                                        <p>
+                                            <small class="text-muted">
+                                                <i class="glyphicon glyphicon-time"></i> @{
+                                                    // Do some work
+                                                    TimeSpan timeDiff1 = DateTime.Now - listInfo.ElementAt(item).Date;
                                                 }
-                                                @if (!string.IsNullOrWhiteSpace(@listInfo.ElementAt(item).Description))
-                                                {
-                                                    <p>
-                                                        Mô tả: <label>@listInfo.ElementAt(item).Description </label>
-                                                    </p>
-                                                }
-                                            </div>
+                                                @{
 
-                                            <div class="timeline-footer">
-                                                @{ Member mem1 = @ownewDao.GetCurrentOwner(@listInfo.ElementAt(item).DetailID, @listInfo.ElementAt(item).Date).Member;}
-                                                <a href="/Account/profile/@mem.MemberID">@mem1.Name</a>
-                                            </div>
-                                        </div>
-                                    </li>
+                                                    if (timeDiff1.TotalDays >= 30)
+                                                    {
+                                                        <span>  Tạo ngày @listInfo.ElementAt(item).Date </span>
+                                                    }
+                                                    else if (timeDiff1.TotalHours >= 24)
+                                                    {
+                                                        <span>@Math.Round(timeDiff.TotalDays) ngày trước </span>
+                                                    }
+                                                    else if (timeDiff1.TotalMinutes >= 60)
+                                                    {
+                                                        <span>@Math.Round(timeDiff.TotalHours) giờ trước </span>
+                                                    }
+                                                    else if (timeDiff1.TotalSeconds >= 60)
+                                                    {
+                                                        <span>@Math.Round(timeDiff.TotalMinutes) phút trước </span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span>Vừa xong </span>
+                                                    }
+
+                                                }
+                                            </small>
+                                        </p>
+                                        <p>
+                                            Kích thước: <label>@listInfo.ElementAt(item).Size cm</label>
+                                        </p>
+                                        @if (!string.IsNullOrWhiteSpace(@listInfo.ElementAt(item).HeathyStatus))
+                                        {
+                                            <p>
+                                                Trạng thái sức khỏe: <label>@listInfo.ElementAt(item).HeathyStatus </label>
+                                            </p>
+                                        }
+                                        @if (!string.IsNullOrWhiteSpace(@listInfo.ElementAt(item).Description))
+                                        {
+                                            <p>
+                                                Mô tả: <label>@listInfo.ElementAt(item).Description </label>
+                                            </p>
+                                        }
+                                    </div>
+
+                                    <div class="timeline-footer">
+                                        @{ Member mem1 = @ownewDao.GetCurrentOwner(@listInfo.ElementAt(item).DetailID, @listInfo.ElementAt(item).Date).Member;}
+                                        <a href="/Account/profile/@mem1.MemberID">@mem1.Name</a>
+                                    </div>
+                                </div>
+                            </li>
                                     <script>
                                         var hello1 = document.getElementById('@item');
                                         $(hello1)
@@ -236,11 +239,11 @@
 
                                             });
                                     </script>
-                                                            }
+                                            }
 
         <li class="clearfix" style="float: none;"></li>
 
-</ul>
+    </ul>
 
     <div class="grids">
         <div class="grid-sizer"></div>
@@ -255,73 +258,73 @@
 
 <script src="~/Scripts/infiniteScroll.js"></script>
 @*<script>
-    $(document).ready(function () {
+        $(document).ready(function () {
 
-        // Each time the user scrolls
+            // Each time the user scrolls
 
-        window.onscroll = function (ev) {
+            window.onscroll = function (ev) {
+                if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight){
+                    $('#loading').show();
+                    $('#posts').append("dfd");
+                    $.ajax({
+                        url: 'get-post.php',
+                        dataType: 'html',
+                        success: function (partialResult) {
+                            $("#forAdminPost").html(partialResult);
+                        }
+                    });
+                }
+
+                $(function () {
+                    $("div#loading").hide();
+                });
+                var moreRowsUrl = '@Url.Action("test","InfoDetail")';
+                var forLoad = $(".ui.link.cards");
+                var grid = $(".grids");
+                var filterValue = -1;
+                $(window).scroll(scrollHandler);
+                loadMoreToInfiniteScrollTable(moreRowsUrl, forLoad);
+            };
+
+        });
+
+        function loadMoreToInfiniteScrollTable(loadMoreRowsUrl, forLoad) {
             if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight){
-                $('#loading').show();
-                $('#posts').append("dfd");
+            if (page > -1 && !inCallback) {
+                inCallback = true;
+                page++;
+                if (typeof filterValue === 'undefined') filterValue = -1;
                 $.ajax({
-                    url: 'get-post.php',
-                    dataType: 'html',
-                    success: function (partialResult) {
-                        $("#forAdminPost").html(partialResult);
+                    type: 'GET',
+                    url: loadMoreRowsUrl,
+                    data: {id:@ViewBag.koiId, pageNum: page, filterVal: filterValue },
+                    success: function (data, textstatus) {
+                        if (data !== "") {
+                            var $items = $(data);
+                            $(forLoad).append($items);
+                            grid.isotope('appended', $items);
+                            grid.isotope('layout');
+                            grid.imagesLoaded().progress(function () {
+                                grid.isotope('layout');
+                            });
+
+                        }
+                        else {
+                            page = -1;
+                        }
+                        inCallback = false;
+                    },
+                    async: false,
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        console.log("Can not load more data infiniteScroll");
                     }
                 });
             }
-
-            $(function () {
-                $("div#loading").hide();
-            });
-            var moreRowsUrl = '@Url.Action("test","InfoDetail")';
-            var forLoad = $(".ui.link.cards");
-            var grid = $(".grids");
-            var filterValue = -1;
-            $(window).scroll(scrollHandler);
-            loadMoreToInfiniteScrollTable(moreRowsUrl, forLoad);
-        };
-
-    });
-
-    function loadMoreToInfiniteScrollTable(loadMoreRowsUrl, forLoad) {
-        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight){
-        if (page > -1 && !inCallback) {
-            inCallback = true;
-            page++;
-            if (typeof filterValue === 'undefined') filterValue = -1;
-            $.ajax({
-                type: 'GET',
-                url: loadMoreRowsUrl,
-                data: {id:@ViewBag.koiId, pageNum: page, filterVal: filterValue },
-                success: function (data, textstatus) {
-                    if (data !== "") {
-                        var $items = $(data);
-                        $(forLoad).append($items);
-                        grid.isotope('appended', $items);
-                        grid.isotope('layout');
-                        grid.imagesLoaded().progress(function () {
-                            grid.isotope('layout');
-                        });
-
-                    }
-                    else {
-                        page = -1;
-                    }
-                    inCallback = false;
-                },
-                async: false,
-                error: function (XMLHttpRequest, textStatus, errorThrown) {
-                    console.log("Can not load more data infiniteScroll");
-                }
-            });
         }
-    }
-    }
-</script>*@
-    
-    
+        }
+    </script>*@
+
+
 
 <script type="text/javascript">
     <!--
@@ -332,24 +335,24 @@
     google_ad_height = 90;
     //-->
 </script>
-    <script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
-    <script type="text/javascript">
+<script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
+<script type="text/javascript">
 
-        var _gaq = _gaq || [];
-        _gaq.push(['_setAccount', 'UA-36251023-1']);
-        _gaq.push(['_setDomainName', 'jqueryscript.net']);
-        _gaq.push(['_trackPageview']);
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-36251023-1']);
+    _gaq.push(['_setDomainName', 'jqueryscript.net']);
+    _gaq.push(['_trackPageview']);
 
-        (function () {
-            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-        })();
+    (function () {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
 
-    </script>
-    <script src="~/Scripts/imagesloaded.pkgd.min.js"></script>
+</script>
+<script src="~/Scripts/imagesloaded.pkgd.min.js"></script>
 <script src="~/Scripts/infiniteScroll.js"></script>
-    <script src="~/Scripts/isotope.pkgd.min.js"></script>
+<script src="~/Scripts/isotope.pkgd.min.js"></script>
 <script type="text/javascript">
     var page = 1,
     inCallback = false,
@@ -365,7 +368,7 @@
     });
 
     $(window)
-        .scroll(function() {
+        .scroll(function () {
             if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
                 var moreRowsUrl = '@Url.Action("UpdateTimeLine/" + @ViewBag.koiId, "InfoDetail")';
                 loadMoreToInfiniteScrollTable(moreRowsUrl);
@@ -410,18 +413,18 @@
                 type: "POST",
                 url: "@Url.Action("DeleteConfirmed")",
                 datatype: "JSON",
-            data: {
-                Detailid: parameter1
-            },
-            success: function (res) {
-                if (res) {
+                data: {
+                    Detailid: parameter1
+                },
+                success: function (res) {
+                    if (res) {
 
-                    window.location.reload();
-                    // $('#test').html();
-                    alert("Xóa thành công");
+                        window.location.reload();
+                        // $('#test').html();
+                        alert("Xóa thành công");
+                    }
                 }
-            }
-        }); // end ajax
-    }
+            }); // end ajax
+        }
     }
 </script>

@@ -237,11 +237,15 @@ namespace KoiManagement.Controllers
         public ActionResult ArticleDetail(int? id)
         {
             //neu co id la 0 truyen vao thi ?
-            if (id == 0)
+            if (id == null)
             {
-                return View();
+                return RedirectToAction("PageNotFound", "Error");
             }
-            var articledetail = articleDao.GetArticleDetail((int)id);
+            var articledetail = articleDao.GetArticleDetail(id.Value);
+            if (articledetail == null)
+            {
+                return RedirectToAction("PageNotFound", "Error");
+            }
             ViewBag.articleDetail = articledetail;
             return View();
         }

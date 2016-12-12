@@ -16,8 +16,10 @@
             <span>Chọn mục xem:</span>
             <select class="selectpicker" data-style="btn-primary" onchange="location = this.options[this.selectedIndex].value;">
                 <option value="@Url.Action("timeline/"+ViewBag.koiId, "InfoDetail")">Dòng thời gian</option>
-                <option value="@Url.Action("TimelineVertical/"+ViewBag.koiId , "InfoDetail")">Ảnh sinh trưởng</option>
+                <option value="@Url.Action("TimelineVertical/"+ViewBag.koiId , "InfoDetail" )" >Ảnh sinh trưởng</option>
                 <option value="@Url.Action("ListAchievement/"+ViewBag.koiId , "Achievement")" selected>Giải thưởng</option>
+                <option value="@Url.Action("ParentTree/"+ViewBag.koiId , "InfoDetail")">Cây phả hệ</option>
+                <option value="@Url.Action("AllOWner/"+ViewBag.koiId , "InfoDetail")">Chủ đã sở hữu</option>
             </select>
         </div>
 @{

@@ -71,7 +71,7 @@ namespace KoiManagement.Controllers
                 if (QADao.CreateQuestion(question))
                 {
                     ViewBag.Message = "Bạn đã thêm thành công!";
-                    obj.RedirectTo = this.Url.Action("ListArticle", "Article");
+                    obj.RedirectTo = this.Url.Action("ListQA", "QuestionAnswer");
                 }
                 else
                 {
@@ -100,6 +100,15 @@ namespace KoiManagement.Controllers
             var questiondetail = QADao.GetQuestionDetail((int)id);
             ViewBag.questionDetail = questiondetail;
             return View();
+        }
+
+        public ActionResult ListQA(int? id)
+        {
+            QuestionAnswerDAO QADao = new QuestionAnswerDAO();
+
+            ViewBag.listIQA = QADao.GetListQuestion();
+            return View();
+
         }
 	}
 }

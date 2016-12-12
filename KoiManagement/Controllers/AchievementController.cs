@@ -14,16 +14,28 @@ namespace KoiManagement.Controllers
     {
         KoiDAO koiDao = new KoiDAO();
         OwnerDAO ownerDao = new OwnerDAO();
+        AchievementDAO achievementDao = new AchievementDAO();
         /// <summary>
         /// Add Achievemnt
         /// </summary>
         /// <returns>View</returns>
-        public ActionResult AddAchievement()
+        public ActionResult AddAchievement(int? id)
         {
             if (Session[SessionAccount.SessionUserId] == null)
             {
                 return RedirectToAction("Login", "Account");
             }
+            if (id == null)
+            {
+               return RedirectToAction("PageNotFound", "Error");
+            }
+            //check exist koi
+            var koi = koiDao.getKoiById(id.Value);
+            if (koi == null)
+            {
+                return RedirectToAction("PageNotFound", "Error");
+            }
+            ViewBag.KoiID = id;
             return View();
         }
 
@@ -39,6 +51,19 @@ namespace KoiManagement.Controllers
                 obj.RedirectTo = Url.Action("Login", "Account");
                 return Json(obj);
             }
+            if (id == null)
+            {
+                 RedirectToAction("PageNotFound", "Error");
+                return Json(obj);
+            }
+            //check exist koi
+            var koi = koiDao.getKoiById(id.Value);
+            if (koi == null)
+            {
+                 RedirectToAction("PageNotFound", "Error");
+                return Json(obj);
+            }
+
             string Imagename = String.Empty;
             var fullpath = new List<string>();
 
@@ -105,7 +130,7 @@ namespace KoiManagement.Controllers
                     obj.RedirectTo = Url.Action("ListAchievement/" + ad.KoiID, "Achievement");
                     return Json(obj);
                 }
-                
+
             }
             catch (Exception ex)
             {
@@ -127,7 +152,11 @@ namespace KoiManagement.Controllers
             {
                 return RedirectToAction("Login", "Account");
             }
-            db.Achievements.Find(id);
+            var ar = db.Achievements.Find(id);
+            if (ar == null)
+            {
+                return RedirectToAction("PageNotFound", "Error");
+            }
             ViewBag.EditAchi = db.Achievements.Find(id);
             return View();
         }

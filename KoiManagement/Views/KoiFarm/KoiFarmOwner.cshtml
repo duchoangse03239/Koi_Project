@@ -14,19 +14,17 @@
         if (confirm("Khi xóa bạn sẽ mất hêt dữ liệu của trang trại, bạn có chắc chắn muốn xóa?")) {
             $.ajax({
                 type: "POST",
-                url: "@Url.Action("DeleteConfirmed")",
+                url: "@Url.Action("DeleteKoiFarm")",
                 datatype: "JSON",
                 data: {
-                    koiID: parameter1
+                    KoiFarmId: parameter1
                 },
                 success: function (res) {
-                    switch (res.Status) {
+                    if (res) {
 
-                        case 1:
                             window.location.reload();
                             // $('#test').html();
                             alert("Xóa thành công");
-                            break;
                     }
                 }
             }); // end ajax
@@ -83,7 +81,7 @@
                                                     </button>
                                                     <ul class="dropdown-menu dropdown-menu-right">
                                                         <li><a href="@Url.Action("EditKoiFarm/"+Model.ElementAt(item).KoifarmID, "KoiFarm")">Sửa</a></li>
-                                                        <li><a onclick="DeleteKoiFarm(@Model.ElementAt(item))">Xóa</a></li>
+                                                        <li><a onclick="DeleteKoiFarm(@Model.ElementAt(item).KoifarmID)">Xóa</a></li>
                                                     </ul>
                                                 </div>}
                                             <div class="row">

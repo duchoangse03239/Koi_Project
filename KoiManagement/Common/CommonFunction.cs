@@ -268,5 +268,59 @@ namespace KoiManagement.Common
             t = Validate.ConverDateTime(date);
             return t;
         }
+
+        public static int getindex(string origin, string text)
+        {
+            var s1 = origin.ToCharArray();
+            var s2 = text.ToCharArray();
+            for (int i = 0; i < s1.Length; i++)
+            {
+                if (s2.Length > i)
+                {
+                    if (!s1[i].Equals(s2[i]))
+                        return s1.Length - i;
+                }
+                else
+                {
+                    break;
+                }
+            }
+            return s2.Length;
+        }
+
+        public static string calculateAge(DateTime birthDate)
+        {
+            birthDate = birthDate.Date;
+            //var now = DateTime.Now;
+
+            // var days = now.Day - birthDate.Day;
+            // if (days < 0)
+            // {
+            //     var newNow = now.AddMonths(-1);
+            //     days += (int)(now - newNow).TotalDays;
+            //     now = newNow;
+            // }
+            // var months = now.Month - birthDate.Month;
+            // if (months < 0)
+            // {
+            //     months += 12;
+            //     now = now.AddYears(-1);
+            // }
+            // var years = now.Year - birthDate.Year;
+            // if (years == 0)
+            // {
+            //     if (months == 0)
+            //         return days.ToString() + " ngày";
+            //     else
+            //         return months.ToString() + " tháng";
+            // }
+            // return years.ToString() + " Tuổi";
+
+            DateTime bd = birthDate;
+            TimeSpan ts = DateTime.Now.Subtract(bd);
+            DateTime age = DateTime.MinValue + ts;
+            string s = string.Format("{0} năm {1} tháng tuổi ", age.Year - 1, age.Month - 1);
+            return s;
+        }
     }
 }

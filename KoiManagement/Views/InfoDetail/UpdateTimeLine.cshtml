@@ -1,9 +1,11 @@
 ﻿@using KoiManagement.Common
+@using KoiManagement.DAL
 @using KoiManagement.Models
 @{
     ViewBag.Title = "Cập nhật trạng thái";
     List<InfoDetail> listInfo = ViewBag.ListInfo1;
     List<string> listanh = ViewBag.ListAnh1;
+    OwnerDAO ownewDao = new OwnerDAO();
 }
 @if (listInfo.Count > 0)
 {
@@ -91,9 +93,8 @@
                     </div>
 
                     <div class="timeline-footer">
-                        <a><i class="glyphicon glyphicon-thumbs-up"></i></a>
-                        <a><i class="glyphicon glyphicon-share"></i></a>
-                        <a class="pull-right">Continuar Lendo</a>
+                        @{ Member mem = @ownewDao.GetCurrentOwner(@listInfo.ElementAt(item).DetailID, @listInfo.ElementAt(item).Date).Member;}
+                        <a href="/Account/profile/@mem.MemberID">@mem.Name</a>
                     </div>
                 </div>
             </li>
@@ -192,9 +193,8 @@
                     </div>
 
                     <div class="timeline-footer">
-                        <a><i class="glyphicon glyphicon-thumbs-up"></i></a>
-                        <a><i class="glyphicon glyphicon-share"></i></a>
-                        <a class="pull-right">Continuar Lendo</a>
+                        @{ Member mem1 = @ownewDao.GetCurrentOwner(@listInfo.ElementAt(item).DetailID, @listInfo.ElementAt(item).Date).Member;}
+                        <a href="/Account/profile/@mem1.MemberID">@mem.Name</a>
                     </div>
                 </div>
             </li>

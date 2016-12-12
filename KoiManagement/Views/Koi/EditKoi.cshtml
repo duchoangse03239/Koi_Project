@@ -21,7 +21,6 @@
                 <div class="form-group">
                     <label>Chủng loại</label>
                     <select class="form-control" id="VarietyID" name="VarietyID">
-                        <option value="0">Chủng Loại</option>
                         @foreach (var item in ViewBag.VarietyID)
                         {
                             if (@item.VarietyID == @Model.VarietyID)
@@ -71,7 +70,7 @@
                     <label id="lblMessage_temperament_fail" class="label-error"></label>
                 </div>
                 <div class="form-group">
-                    <label>Nguồn gốc</label>
+                    <label>Xuất xứ</label>
                     <input type="text" class="form-control" placeholder="Nguồn Gốc" id="Origin" value="@Model.Origin" name="Origin">
                     <label id="lblMessage_origin_fail" class="label-error"></label>
                 </div>

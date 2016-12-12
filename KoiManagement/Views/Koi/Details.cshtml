@@ -6,12 +6,17 @@
     ViewBag.Title = "Chi tiết cá Koi";
     Layout = "~/Views/Layout/KoiLayout.cshtml";
     Owner owner = ViewBag.Owner;
+
     List<Medium> listImage = ViewBag.listImage;
     if (ViewBag.NewMemberID == null) { ViewBag.NewMemberID = 0; }
     if (ViewBag.Size == null) { ViewBag.Size = 0; }
     List<Comment> ListComment = ViewBag.ListComment;
     List<List<Comment>> ListCommentDetail = ViewBag.ListCommentDetail;
-
+    var tomem = 0;
+    if (owner != null)
+    {
+        tomem = @owner.Member.MemberID;
+    }
 }
 
 <body>
@@ -29,8 +34,8 @@
                 <div class="modal-body">
                     <label>Chủ sở hữu mới</label>
                     <p>Xin hãy nhập tên đăng nhập chủ sở hữu mới</p>
-                    <input type="text" id="username" name="username"placeholder="Nhập tên tài khoản"/>
-                    <a onclick="ChangeOwner(@Model.KoiID)" class="btn btn-primary btn-sm">Lưu</a>
+                    <input type="text" id="username" name="username"placeholder="Nhập tên tài khoản của chủ sở hữu mới"/>
+                    <a onclick="ChangeOwner(@Model.KoiID)" class="btn btn-primary btn-sm">Chuyển</a>
                     <label id="lbl_username_fail" class="label-error"></label>
                 </div>
                 <div class="modal-footer">
@@ -59,11 +64,16 @@
                     }
                 </div>
                 <div>
+                    <label>Tiêu đề:</label>
+                    <input type="text" class="form-control" placeholder="Xin hãy nhập tiêu đề" id="Title" name="Title" />
+                    <label id="lblmessage_Title_fail" class="label-error"></label>
+                </div>
+                <div>
                     <label>Nội dung:</label>
                 </div>
                 <div>
-                    <textarea rows="4" cols="69" id="content" name ="content" placeholder="Nhập nội dung tin nhắn"></textarea>
-                    <label id="lbl_Content_fail" class="label-error"></label>
+                    <textarea rows="4" id="content" name ="content" placeholder="Nhập nội dung tin nhắn" style="width:100%;"></textarea>
+                    <label id="lbl_Comment_fail" class="label-error"></label>
                 </div>
                 <div style="margin-top:10px;">
                     <a onclick="SentMessage(@Model.KoiID)" class="btn btn-primary">Gửi</a>
@@ -95,10 +105,16 @@
                     }
                 </div>
                 <div>
+                    <label>Tiêu đề:</label>
+                </div>
+                <div>
+                    <input type="text" id="title" name = "title"placeholder="Nhập tiêu đề" >
+                </div>
+                <div>
                     <label>Nội dung:</label>
                 </div>
                 <div>
-                    <textarea rows="4" cols="69" id="content" name ="content" placeholder="Nhập nội dung tin nhắn"></textarea>
+                    <textarea rows="4" id="content" name ="content" placeholder="Nhập nội dung tin nhắn" style="width:100%;"></textarea>
                     <label id="lbl_Content_fail" class="label-error"></label>
                 </div>
                 <div style="margin-top:10px;">
@@ -126,7 +142,7 @@
                         <label>Nội dung vi phạm:</label>
                     </div>
                     <div>
-                        <textarea rows="4" cols="69" id="contentReport" name="content" placeholder="Nhập nội dung vi phạm"></textarea>
+                        <textarea rows="4" id="contentReport" name="content" placeholder="Nhập nội dung vi phạm" style="width:100%;"></textarea>
                         <label id="lbl_report_fail" class="label-error"></label>
                     </div>
                     <div style="margin-top:10px;">
@@ -218,7 +234,7 @@
                                 <label><span class="fa fa-hand-rock-o"></span> Tính cách:</label> <span>@Model.Temperament</span>
                             </div>
                             <div class="line">
-                                <label><span class="fa fa-user"></span>  Bố - Mẹ:</label> @{
+                                <label><span class="fa fa-user"></span>  Koi Mẹ:</label> @{
                                     if (ViewBag.KoiMomName != null)
                                     {
                                         <a href="/Koi/Details/@Model.KoiMom">@ViewBag.KoiMomName <span class="fa fa-angle-double-right"></span></a>
@@ -227,7 +243,7 @@
                                     {
                                         if (Session[SessionAccount.SessionUserId] != null && @owner.Member.MemberID.ToString().Equals(Session[SessionAccount.SessionUserId].ToString()))
                                         {
-                                            <span><a href="@Url.Action("AddParent/"+ Model.KoiID, "InfoDetail")" class="btn btn-embossed btn-primary btn-sm" role="button">Thêm bố - mẹ</a></span>
+                                            <span><a href="@Url.Action("AddParent/"+ Model.KoiID, "InfoDetail")" class="btn btn-embossed btn-primary btn-sm" role="button">Thêm cá mẹ</a></span>
                                         }
                                     }
                                 }
@@ -255,8 +271,15 @@
                                 <label><span class="fa fa-clock-o"></span> Thông tin sinh trưởng:</label> <a href="@Url.Action("timeline/"+@Model.KoiID, "InfoDetail")">Chi tiết <span class="fa fa-angle-double-right"></span></a>
                             </div>
                             <div class="line">
-                                <a href="#" class="btn btn-embossed btn-primary" role="button" data-toggle="modal" data-target="#contact">Liên hệ</a>
-                                <a href="#" class="btn btn-embossed btn-primary" role="button" data-toggle="modal" data-target="#report" style="float: right;">Báo cáo vi phạm</a>
+                                @if (owner != null)
+                                            {
+                                    <a href="#" class="btn btn-embossed btn-primary" role="button" data-toggle="modal" data-target="#contact">Liên hệ</a>
+                                    <a href="#" class="btn btn-embossed btn-primary" role="button" data-toggle="modal" data-target="#report" style="float: right;">Báo cáo vi phạm</a>
+                                }
+                                else
+                                {
+                                    <a href="#" class="btn btn-embossed btn-primary" role="button" data-toggle="modal" data-target="#report" >Báo cáo vi phạm</a>
+                                }
                             </div>
                         </div>
                     </div>
@@ -270,7 +293,7 @@
                     </div>
                         <div class="post-footer" style="margin-top: 20px">
                             <div class="">
-                                <input id="MainComment"class="form-control" placeholder="Add a comment" type="text" disabled>
+                                <input id="MainComment"class="form-control" placeholder="Viết bình luận..." type="text" disabled>
                             </div>
                             @for (int i = 0; i < ListComment.Count; i++)
                             {
@@ -339,22 +362,23 @@
                                                 </li>
                                             }
                                             @{ var inputReply = "input-reply" + i;}
+                                             @if (Session[SessionAccount.SessionUserId] != null) {
                                             <li class="comment" id="@inputReply" style="display: none;">
                                                 <div class="input-group">
-                                                    <span class="input-group-addon">
+                                                    <span class="input-group-addon" style="padding: 2px 2px;">
                                                     <a class="pull-left" href="#">
-                                                        <img class="avatar" src="http://bootdey.com/img/Content/user_3.jpg" alt="avatar">
+                                                        <img class="avatar" src="/Content/Image/Member/@Session[SessionAccount.SessionImage].ToString()" alt="avatar">
                                                     </a>
                                                 </span>
                                                     @{
                                                         var CommentId = "comment" + i;
-                                                        var ComId = ListComment.ElementAt(i).CommentID;
-                                                        var ComName = "com" + i;
+                                var ComId = ListComment.ElementAt(i).CommentID;
+                                var ComName = "com" + i;
                                                     }
                                                     <input class="form-control" id="@CommentId" placeholder="Add a comment" type="text">
                                                     <input type="hidden" id="@ComName" value ="@ComId" placeholder="Add a comment" type="text">
                                                 </div>
-                                            </li>
+                                            </li>}
                                         </ul>
                                     </li>
                                 </ul>
@@ -408,6 +432,7 @@
     function SentMessage(parameter1) {
         var content = $('#content').val();
         $('#lbl_Content_fail').text("");
+        var Title =$('#Title').val();
 
         $.ajax({
             type: "POST",
@@ -415,17 +440,18 @@
             datatype: "JSON",
             data: {
                 koiId: parameter1,
+                Title:Title,
                 content: content,
-                ToMember: @owner.Member.MemberID,
+                ToMember: @tomem,
             },
             success: function (res) {
                 switch (res.Status) {
                     case 2:
-                        $('#lbl_username_fail').text(res.Message);
-                        $('#username').focus();
+                        alert(res.Message);
+                        $('#content').focus();
                         break;
                     case 3:
-                        $('#lbl_username_fail').text(res.Message);
+                        $('#lbl_Comment_fail').text(res.Message);
                         $('#username').focus();
                         break;
                     case 1:
@@ -437,7 +463,8 @@
                             .done(function () {
                                 notifications.server.sendNotification(res.JsonObject, "doi chu", "koi");
                             });
-                        window.location.reload();
+                        $('#content').val('');
+                        $('#Title').val('');
                         break;
                 }
             }
@@ -459,22 +486,16 @@
             success: function (res) {
                 switch (res.Status) {
                     case 2:
-                        $('#lbl_username_fail').text(res.Message);
+                        alert(res.Message);
                         $('#username').focus();
                         break;
                     case 3:
-                        $('#lbl_username_fail').text(res.Message);
+                        $('#lbl_report_fail').text(res.Message);
                         $('#username').focus();
                         break;
                     case 1:
                         alert(res.Message);
                         // Declare a proxy to reference the hub.
-                        var notifications = $.connection.notificationsHub;
-                        // Create a function that the hub can call to broadcast messages.
-                        $.connection.hub.start()
-                            .done(function () {
-                                notifications.server.sendNotification(res.JsonObject, "doi chu", "koi");
-                            });
                         window.location.reload();
                         break;
                 }
@@ -525,8 +546,8 @@
     var id1;
     function ReplyFunction(id) {
         @{
-                for (var i = 0; i <= ListComment.Count; i++)
-                {
+                                        for (var i = 0; i <= ListComment.Count; i++)
+                                        {
                     <text>
 
         var ele1 = document.getElementById("input-reply"+@i);
@@ -545,8 +566,8 @@
             }
         }
         </text>
-            }
-            }
+                                    }
+                                    }
     }
 
     $(document)
@@ -742,7 +763,7 @@
 
     function Rating(koiID) {
         RateNum = $('#rating-default').val();
-        $("label[for='TextComment']").text(RateNum + "Sao");
+        $("label[for='TextComment']").text(RateNum + " Sao");
         // Disable #x
         $( "#MainComment" ).prop( "disabled", false );
     }// end ajax

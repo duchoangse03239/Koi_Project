@@ -18,7 +18,8 @@ namespace KoiManagement.Controllers
     public class InfoDetailController : Controller
     {
         private KoiManagementEntities db = new KoiManagementEntities();
-
+        KoiDAO koiDao = new KoiDAO();
+        OwnerDAO ownerDao = new OwnerDAO();
         // GET: InfoDetail
         public ActionResult Index()
         {
@@ -31,7 +32,7 @@ namespace KoiManagement.Controllers
         {
             if (id == 0)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("PageNotFound", "Error");
             }
             var infoDetail = db.InfoDetails.Where(p => p.KoiID == id&&p.Status).OrderByDescending(p => p.Date);
             if (infoDetail == null)
@@ -75,7 +76,7 @@ namespace KoiManagement.Controllers
             else
             {
                 //lọc theo tháng và ngày
-                listYear = db.InfoDetails.Where(p => p.KoiID == id && p.Status&&p.Date.Year == year).OrderBy(p => p.Date).ToList();
+                ViewBag.listMonth = db.InfoDetails.Where(p => p.KoiID == id && p.Status&&p.Date.Year == year).OrderBy(p => p.Date).ToList();
             }
             //theo tháng
             //var test1 = db.InfoDetails.Where(p1 => p1.Date.Year == 2015).GroupBy(p => p.Date.Month).Select(p => p.FirstOrDefault()).ToList();
@@ -88,7 +89,9 @@ namespace KoiManagement.Controllers
         }
         public ActionResult UpdateTimeLine(int? id, int? pageNum, int? filterVa)
         {
-            List<List<Medium>> myList = new List<List<Medium>>();
+            try
+            {
+                List<List<Medium>> myList = new List<List<Medium>>();
             string t = "";
             BaseFilter filter;
             pageNum = pageNum ?? 1;
@@ -121,11 +124,19 @@ namespace KoiManagement.Controllers
             ViewBag.Skip = filter.Skip;
 
             return View();
+            }
+            catch (Exception ex)
+            {
+                Common.Logger.LogException(ex);
+                return RedirectToAction("SystemError", "Error");
+            }
         }
         public ActionResult timeline(int? id, int? pageNum, int? filterVal)
         {
-            //check id null
-            List<List<Medium>> myList = new List<List<Medium>>();
+            try
+            {
+                //check id null
+                List<List<Medium>> myList = new List<List<Medium>>();
             string t = "";
             BaseFilter filter;
             pageNum = pageNum ?? 1;
@@ -157,16 +168,27 @@ namespace KoiManagement.Controllers
             ViewBag.koiId = id;
 
             return View();
+             }
+            catch (Exception ex)
+            {
+                Common.Logger.LogException(ex);
+                return RedirectToAction("SystemError", "Error");
+            }
         }
 
         // GET: InfoDetail/add new koi
-        public ActionResult AddDetail(int id=0)
+        public ActionResult AddDetail(int? id)
         {
-            if (id == 0)
+            if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("PageNotFound", "Error");
             }
-            ViewBag.KoiID = id;
+            var koi = koiDao.getKoiById(id.Value);
+            if (koi == null)
+            {
+                return RedirectToAction("PageNotFound", "Error");
+            }
+            ViewBag.KoiID = id.Value;
             return View();
         }
 
@@ -259,7 +281,7 @@ namespace KoiManagement.Controllers
                 {
                     //success
                     obj.Status = 1;
-                    obj.Message = "Bạn đã thêm";
+                    obj.Message = "Bạn đã thêm thành công.";
                     obj.RedirectTo = Url.Action("timeline/" + KoiID, "InfoDetail");
                     return Json(obj);
                 }
@@ -298,12 +320,12 @@ namespace KoiManagement.Controllers
             SessionInfoDetail.listRemoveImage.Clear();
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("PageNotFound", "Error");
             }
             InfoDetail infoDetail = db.InfoDetails.Find(id);
-            if (infoDetail == null || infoDetail.DetailID ==null)
+            if (infoDetail == null )
             {
-                return HttpNotFound();
+                return RedirectToAction("PageNotFound", "Error");
             }
             ViewBag.KoiID = infoDetail.KoiID;
             List<Medium> listImage = new List<Medium>();
@@ -497,6 +519,43 @@ namespace KoiManagement.Controllers
                 });
             }
         }
+
+        public ActionResult ParentTree(int? id)
+        {
+            if (id == null)
+            {
+                RedirectToAction("PageNotFound", "Error");
+            }
+            var koimom = db.Kois.Find(id);
+            if (koimom == null)
+            {
+                RedirectToAction("PageNotFound", "Error");
+            }
+            List<Koi> listKoiSon = koiDao.getListKoiSonByKoiID(id.Value);
+            string t = string.Empty;
+            //thêm koi mẹ
+            if (koimom.KoiMom.HasValue)
+            {
+                Koi KOI = koiDao.getKoiById(koimom.KoiMom.Value);
+                t = t + " { key: \'" + KOI.KoiID + "\', name: \'" + KOI.KoiName + "\', source: \'" + @Url.Content("~/Content/Image/Koi/" + KOI.Image) + "\'},\n";
+              var  koison2 = koiDao.getKoiById(id.Value);
+                t = t + " { key: \'" + koison2.KoiID + "\',parent: \'" + KOI.KoiID + "\', name: \'" + koison2.KoiName + "\', source: \'" + @Url.Content("~/Content/Image/Koi/" + koison2.Image) + "\', highlight: true},\n";
+            }
+            else
+            {
+                Koi KOI = koiDao.getKoiById(id.Value);
+                t = t + " { key: \'" + KOI.KoiID + "\',parent: \'" + KOI.KoiID + "\', name: \'" + KOI.KoiName + "\', source: \'" + @Url.Content("~/Content/Image/Koi/" + KOI.Image) + "\', highlight: true},\n";
+            }
+          
+                foreach (var item in listKoiSon)
+                {
+                t = t + " { key: \'" + item.KoiID + "\',parent: \'" + id.Value + "\', name: \'" + item.KoiName + "\', source: \'" + @Url.Content("~/Content/Image/Koi/" + item.Image) + "\'},\n";
+
+                 }
+             ViewBag.allKoi = t;
+            ViewBag.koiId = id;
+            return View();
+        }
         public ActionResult AddParent(int id, int? page, string nameKoi, string variety, string owner)
         {
             KoiDAO kDao = new KoiDAO();
@@ -551,6 +610,24 @@ namespace KoiManagement.Controllers
                 return Json(obj);
             }
             return Json(obj);
+        }
+
+        public ActionResult AllOWner(int? id)
+        {
+            if (id == null)
+            {
+                RedirectToAction("PageNotFound", "Error");
+            }
+            var koimom = db.Kois.Find(id);
+            if (koimom == null)
+            {
+                RedirectToAction("PageNotFound", "Error");
+            }
+            StatusObjForJsonResult obj = new StatusObjForJsonResult();
+            ViewBag.ListOwner = ownerDao.GetAllOwnersByKoiID(id.Value);
+            ViewBag.koiId = id;
+            ViewBag.Koi = koimom;
+            return View();
         }
         [HttpPost]
         public ActionResult AddNewParent(int koiSonId, string koiname,string Gender, string VarietyId, string Origin)

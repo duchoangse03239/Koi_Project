@@ -333,7 +333,13 @@ namespace KoiManagement.DAL
                     db.SaveChanges();
                     //lấy id koi mẹ
                     var koiMomID = koi.KoiID;
-                   // thêm koi con
+                    // thêm detail
+                    var Detail = new InfoDetail(koiMomID, DateTime.Now, 0, String.Empty, String.Empty, koi.Image, true);
+                    db.InfoDetails.Add(Detail);
+                    db.SaveChanges();
+
+
+                    // thêm koi con
                     var koiSon = db.Kois.Find(koiSonId);
                     if (koiSon == null)
                         return false;
@@ -355,5 +361,22 @@ namespace KoiManagement.DAL
                 }
             }
         }
+
+        public List<Koi> getListKoiSonByKoiID(int koiID)
+        {
+            return db.Kois.Where(p => p.KoiMom == koiID && p.Status==1).Take(20).ToList();
+        }
+
+        public int? GetKoimombykoiID(int koiid)
+        {
+            var t = db.Kois.Find(koiid).KoiMom;
+            if (t.HasValue)
+            {
+                return t.Value;
+            }
+            return null;
+        }
+
+
     }
 }

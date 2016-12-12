@@ -1,0 +1,206 @@
+﻿@using System.Diagnostics
+@model KoiManagement.Models.Koi
+
+@{
+    ViewBag.Title = "Chỉnh sửa cá Koi";
+    Layout = "~/Views/Layout/KoiLayout.cshtml";
+    string date;
+}
+
+<div class="container" id="add-koi">
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+                <div class="login-block">
+                    <h2 class="align-center">CẬP NHẬT CÁ KOI</h2>
+                    <hr />
+                    <div class="form-group">
+                        <label>Tên cá Koi</label>
+                        <input type="text" class="form-control" placeholder="Tên Cá Koi" id="KoiName" name="KoiName" value="@Model.KoiName">
+                        <label id="lblMessage_koi_name_fail" class="label-error"></label>
+                    </div>
+                <div class="form-group">
+                    <label>Chủng loại</label>
+                    <select class="form-control" id="VarietyID" name="VarietyID">
+                        <option value="0">Chủng Loại</option>
+                        @foreach (var item in ViewBag.VarietyID)
+                        {
+                            if (@item.VarietyID == @Model.VarietyID)
+                            {
+                            <option value="@item.VarietyID" selected>@item.VarietyName</option>
+                            }
+                            else
+                            {
+                            <option value="@item.VarietyID">@item.VarietyName</option>
+                            }
+                        }
+                    </select>
+                    <label id="lblMessage_koi_variety_fail" class="label-error"></label>
+                </div>
+                <div class="form-group">
+                    <label>Giới tính</label>
+                    <select class="form-control" id="Gender" name="Gender">
+                        @if (@Model.Gender.Equals("M"))
+                        {
+                            <option value="N">Giới Tính</option>
+                            <option value="M" selected>Đực</option>
+                            <option value="F">Cái</option>
+                        }
+                        else if (@Model.Gender.Equals("F"))
+                        {
+                            <option value="N">Giới Tính</option>
+                            <option value="M" selected>Đực</option>
+                            <option value="F">Cái</option>
+                        }else
+                        {
+                            <option value="N"selected>Giới Tính</option>
+                            <option value="M" >Đực</option>
+                            <option value="F">Cái</option>
+                        }
+
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Ngày sinh</label>
+                    @{ date = Model.DoB != null ? Model.DoB.Value.ToString("dd/MM/yyyy") : string.Empty;}
+                    <input type="text" class="form-control" placeholder="Ngày Sinh" id="DoB" value="@date" onfocus="(this.type = 'date')" name="DoB">
+                    <label id=" lblmessage_dob_fail" class="label-error"></label>
+                </div>
+                <div class="form-group">
+                    <label>Tính cách</label>
+                    <input type="text" class="form-control" placeholder="Tính Cách" id="Temperament" value="@Model.Temperament" name="Temperament">
+                    <label id="lblMessage_temperament_fail" class="label-error"></label>
+                </div>
+                <div class="form-group">
+                    <label>Nguồn gốc</label>
+                    <input type="text" class="form-control" placeholder="Nguồn Gốc" id="Origin" value="@Model.Origin" name="Origin">
+                    <label id="lblMessage_origin_fail" class="label-error"></label>
+                </div>
+                <div class="form-group">
+                    <input type="file" accept="image/png, image/jpeg, image/gif" name="file" id="file" class="img" onchange="loadFile(event)" />
+                    <br />
+                    <div><img id="imagePreview" src="~/Content/Image/Koi/@Model.Image" alt="" /></div>
+                    <script>
+                            var loadFile = function (event) {
+                                var output = document.getElementById('imagePreview');
+                                imagePreview.src = URL.createObjectURL(event.target.files[0]);
+                            };
+                    </script>
+                </div>
+            <div class="form-group">
+                <button  id="btnEditKoi" value="Add" class="btn btn-primary">Lưu</button>
+                <button type="button" class="btn btn-primary" onclick="location.href='/Koi/edit/@Model.KoiID';" >Hủy</button>
+            </div>
+        </div>
+     </div>
+    </div>
+    @*</form>*@
+</div>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $(function () {
+            $("#KoiName").focus();
+
+        });
+    });
+
+    $(document).keypress(function (event) {
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        if (keycode == "13") {
+            if (Validate()) {
+                EditKoi();
+            } else {
+                return false;
+            }
+        }
+    });
+
+
+    $("#btnEditKoi").click(function () {
+        if (Validate()) {
+            EditKoi();
+        } else {
+
+            return false;
+        }
+    });
+    function Validate() {
+        var KoiName = $('#KoiName').val();
+        var VarietyID = $('#VarietyID').val();
+        var Gender = $('#Gender').val();
+        var DoB = $('#DoB').val();
+        var Temperament = $('#Temperament').val();
+        var Origin = $('#Origin').val();
+
+
+
+        if (KoiName.length > 100 || KoiName.length < 0) {
+            $('#lblMessage_koi_name_fail').text("Tên Koi quá dài! Vui lòng không nhập quá 100 ký tự!");
+            return false;
+        }
+        else if (KoiName == "") {
+            $('#lblMessage_koi_name_fail').text("Vui lòng nhập tên Koi!");
+            return false;
+        }
+
+        return true;
+    }
+
+    function EditKoi() {
+        var fileUpload = $("#file").get(0);
+        var files = fileUpload.files;
+        // Looping over all files and add it to FormData object
+        var fileData = new FormData();
+
+        for (var i = 0; i < files.length; i++) {
+            fileData.append(files[i].name, files[i]);
+        }
+
+        // Adding one more key to FormData object
+        fileData.append('KoiName', $('#KoiName').val());
+        fileData.append('VarietyID', $('#VarietyID').val());
+        fileData.append('Gender', $('#Gender').val());
+        fileData.append('DoB', $('#DoB').val());
+        fileData.append('KoiId', "@Model.KoiID");
+        fileData.append('Image', "@Model.Image");
+        fileData.append('Temperament', $('#Temperament').val());
+        fileData.append('Origin', $('#Origin').val());
+
+        $('#lblMessage_koi_name_fail').text("");
+        $('#lblMessage_koi_variety_fail').text("");
+        $('#lblMessage_koi_size_fail').text("");
+        $('#lblmessage_dob_fail').text("");
+        $('#lblMessage_temperament_fail').text("");
+        $('#lblMessage_origin_fail').text("");
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("EditKoi")",
+            contentType: false, // Not to set any content header
+            processData: false,
+            data: fileData,
+            dataType: "Json",
+            success: function(res) {
+                switch (res.Status) {
+                    case 2:
+                        $('#..').text(res.Message);
+                        $('#username').focus();
+                        break;
+                    case 3:
+
+                        break;
+                    case 4:
+
+                        break;
+                    case 1:
+                        alert(res.Message);
+                        window.location.href = res.RedirectTo;
+                        break;
+                    case 0:
+                        window.location.href = res.RedirectTo;
+                        break;
+                }
+            }
+        });
+    }
+</script>

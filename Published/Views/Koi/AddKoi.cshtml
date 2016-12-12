@@ -1,0 +1,293 @@
+﻿@model IEnumerable<KoiManagement.Models.Variety>
+
+@{
+    ViewBag.Title = "Thêm cá Koi";
+    Layout = "~/Views/Layout/KoiLayout.cshtml";
+}
+
+<div class="container" id="add-koi">
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <div class="login-block">
+                <h2 class="align-center">Thêm cá Koi</h2>
+                <hr />  
+                    <div class="form-group">
+                        <label>Tên cá Koi</label>
+                        <input type="text" class="form-control" placeholder="Tên Cá Koi" id="KoiName" name="KoiName">
+                        <label id="lblMessage_koi_name_fail" class="label-error"></label>
+                    </div>
+                    <div class="form-group">
+                        <label>Chủng loại</label>
+                        <select class="form-control" id="VarietyID" name="VarietyID">
+
+                            @foreach (var item in Model)
+                            {
+                                <option value="@item.VarietyID">@item.VarietyName</option>
+                            }
+                        </select>
+                        <label id="lblMessage_koi_variety_fail" class="label-error"></label>
+                    </div>
+                    <div class="form-group">
+                        <label>Giới tính</label>
+                        <select class="form-control" id="Gender" name="Gender">
+                            <option value="N">Giới Tính</option>
+                            <option value="M">Đực</option>
+                            <option value="F">Cái</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Ngày sinh</label>
+                        <input type="text" class="form-control" placeholder="DD-MM-YYYY" id="DoB" name="DoB" />
+                        <label id="lblmessage_dob_fail" class="label-error"></label>
+                    </div>
+                    <div class="form-group">
+                        <label>Kích thước</label>
+                        <input type="text" class="form-control" placeholder="Chiều dài(cm)" id="Size" name="Size">
+                        <label id="lblMessage_koi_size_fail" class="label-error"></label>
+                    </div>
+                    <div class="form-group">
+                        <label>Tính cách</label>
+                        <input type="text" class="form-control" placeholder="Tính Cách" id="Temperament" name="Temperament">
+                        <label id="lblMessage_temperament_fail" class="label-error"></label>
+                    </div>
+                    <div class="form-group">
+                        <label>Xuất xứ</label>
+                        <input type="text" class="form-control" placeholder="Xuất xứ" id="Origin" name="Origin">
+                        <label id="lblMessage_origin_fail" class="label-error"></label>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Thêm ảnh cá</label>
+                        <input type="file" accept="image/png, image/jpeg, image/gif" id="files" name="files" onchange="previewImg()" class="upload hides" multiple accept="image/*" />
+                        <output id="result"></output>
+                    </div>
+                <label id="lblMessage_file_fail" class="label-error"></label>
+
+                    <div class="form-group">
+                        <button id="btnAddKoi" class="btn btn-primary">Thêm mới</button>
+                        <button type="button" class="btn btn-primary">Hủy</button>
+                    </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $(function () {
+            $("#KoiName").focus();
+        });
+    });
+
+    $(document).keypress(function (event) {
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        if (keycode == "13") {
+            if (Validate()) {
+                AddKoi();
+            } else {
+                return false;
+            }
+        }
+    });
+
+
+    $("#btnAddKoi").click(function () {
+        if (Validate()) {
+            AddKoi();
+        } else {
+
+            return false;
+        }
+    });
+    function Validate() {
+        var KoiName = $('#KoiName').val();
+        var VarietyID = $('#VarietyID').val();
+        var Size = $('#Size').val();
+        var Gender = $('#Gender').val();
+        var DoB = $('#DoB').val();
+        var Temperament = $('#Temperament').val();
+        var Origin = $('#Origin').val();
+        var files = $('#files').val();
+        $('#lblMessage_koi_name_fail').text("");
+        $('#lblMessage_koi_size_fail').text("");
+        $('#lblmessage_dob_fail').text("");
+        $('#lblMessage_file_fail').text("");
+        
+        if (KoiName == "") {
+            $('#lblMessage_koi_name_fail').text("Vui lòng nhập tên cá Koi.");
+            $('#Size').focus();
+            return false;
+        }
+
+        if (KoiName.length > 100 || KoiName.length < 0) {
+            $('#lblMessage_koi_name_fail').text("Tên Koi quá dài! Vui lòng không nhập quá 100 ký tự.");
+            $('#KoiName').focus();
+            return false;
+        }
+        if (DoB != "") {
+            if (!validateDate(DoB)) {
+                $('#lblmessage_dob_fail').text('Xin hãy nhập định dạng DD-MM-YYYY.');
+                $('#DoB').focus();
+                return false;
+            } else {
+                if (!validateDateRangeMax(DoB)) {
+                    $('#lblmessage_dob_fail').text('Ngày sinh nhỏ hơn ngày hiện tại.');
+                    $('#DoB').focus();
+                    return false;
+                } else if (!validateDateRangeMin(DoB)) {
+                    $('#lblmessage_dob_fail').text('Tuổi phải nhỏ hơn 127.');
+                    $('#DoB').focus();
+                    return false;
+                }
+            }
+        }
+        if (Size == "") {
+            $('#lblMessage_koi_size_fail').text("Vui lòng nhập kích thước.");
+            $('#Size').focus();
+            return false;
+        }
+        if (INT.parse(Size)<1) {
+            $('#lblMessage_koi_size_fail').text("Kích thước phải lớn hơn 0");
+            $('#Size').focus();
+            return false;
+        }
+
+        if (files == "") {
+            $('#lblMessage_file_fail').text("Xin hãy chọn ảnh.");
+            return false;
+        }
+        return true;
+    }
+
+    function validateDate(date) {
+        return (/^\d{2}-\d{2}-\d{4}$/).test(date);
+    }
+
+    function validateDateRangeMax(inputDate) {
+        var now = new Date();
+         
+        var dateParts = inputDate.split("-");
+        var date = new Date(dateParts[2], dateParts[1] - 1, dateParts[0]); // month is 0-based
+        return date < now;
+    }
+    //nho hon 126 tuoi;
+    function validateDateRangeMin(inputDate) {
+        var now = new Date(),
+            after30Days = new Date().setDate(now.getDate() - 126 * 365);
+        var dateParts = inputDate.split("-");
+        var date = new Date(dateParts[2], dateParts[1] - 1, dateParts[0]); // month is 0-based
+
+        return  date > after30Days;
+    }
+
+    function AddKoi() {
+        var fileUpload = $("#files").get(0);
+        var files = fileUpload.files;
+        // Looping over all files and add it to FormData object
+        var fileData = new FormData();
+
+        for (var i = 0; i < files.length; i++) {
+            fileData.append(files[i].name, files[i]);
+        }
+
+        // Adding one more key to FormData object
+        fileData.append('KoiName', $('#KoiName').val());
+        fileData.append('VarietyID', $('#VarietyID').val());
+        fileData.append('Size', $('#Size').val());
+        fileData.append('Gender', $('#Gender').val());
+        fileData.append('DoB', $('#DoB').val());
+        fileData.append('Temperament', $('#Temperament').val());
+        fileData.append('Origin', $('#Origin').val());
+
+        $('#lblMessage_koi_name_fail').text("");
+        $('#lblMessage_koi_variety_fail').text("");
+        $('#lblMessage_koi_size_fail').text("");
+        $('#lblmessage_dob_fail').text("");
+        $('#lblMessage_temperament_fail').text("");
+        $('#lblMessage_origin_fail').text("");
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("AddKoi")",
+            contentType: false, // Not to set any content header
+            processData: false,
+            data: fileData,
+            dataType: "Json",
+            success: function(res) {
+                switch (res.Status) {
+                case 2:
+                    $('#KoiName').focus();
+                    $('#lblMessage_koi_name_fail').text(res.Message);
+                    break;
+                case 3:
+                    $('#lblMessage_koi_size_fail').text(res.Message);
+                    $('#Size').focus();
+                    break;
+                case 4:
+                    $('#lblmessage_dob_fail').text(res.Message);
+                    $('#DoB').focus();
+                    break;
+                case 1:
+                    alert(res.Message);
+                    window.location.href = res.RedirectTo;
+                    break;
+                case 0:
+                    window.location.href = res.RedirectTo;
+                    break;
+                }
+            }
+        });
+    }
+
+    $(".camera.icon")
+        .click(function () {
+            $("#files").trigger('click');
+        });
+
+
+    var ImgList = [];
+
+    function previewImg() {
+        var filesInput = document.getElementById("files");
+        var files = filesInput.files;
+        var output = document.getElementById("result");
+        var i = 0,
+            len = files.length;
+        (function readFile(n) {
+            var reader = new FileReader();
+            var f = files[n];
+            var m = "onclick=Avatar('" + f.name + "')";
+
+            reader.onload = function (e) {
+                var div = document.createElement("span");
+                div.className = "imageBlock";
+                div.innerHTML = "<img class='thumb' src='" +
+                    e.target.result +
+                    "'" +
+                    "title='" +
+                    f.name +
+                    "'/>  <div  class='deleteDiv'><img src='/Content/deleteImage.png' class='deleteIcon' title='Xóa ảnh'/></div>" +
+                    "<div " + m + " class='setAvatarDiv radio'><input class='radio-lg' type='radio' name='myRadio' value='' title='Đặt làm ảnh đại diện'></div>";
+                output.insertBefore(div, null);
+                div.children[1].addEventListener("click",
+                    function () {
+                        div.parentNode.removeChild(div);
+                        var removeId = div.children[0].title;
+                        for (var index = 0; index < ImgList.length; index++) {
+                            if (ImgList[index].name === removeId) {
+                                ImgList.splice(index, 1);
+                                break;
+                            }
+                        }
+                    });
+                ImgList.push(f);
+                if (n < len - 1) readFile(++n);
+            };
+            reader.readAsDataURL(f);
+        }(i));
+    }
+   
+</script>
+@*<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>*@
