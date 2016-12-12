@@ -1,39 +1,18 @@
-﻿
+﻿@using KoiManagement.Common
+@using KoiManagement.DAL
+@using KoiManagement.Models
+@using PagedList.Mvc
+
 @{
     ViewBag.Title = "Danh sách câu hỏi";
     Layout = "~/Views/Layout/KoiLayout.cshtml";
+    PagedList.IPagedList ListQA = ViewBag.ListQA;
+    QuestionAnswerDAO QADao = new QuestionAnswerDAO();
 }
 
 <head>
-    
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Cá Koi" />
-    <meta name="author" content="Cá Koi" />
-    <meta name="keywords" content="Cá Koi" />
-    <meta name="robots" content="index,follow" />
-    <meta property="og:url" content="http://domain.com" />
-    <meta property="og:image" content="images/logo.png" />
-    <meta property="og:title" content="Cá Koi" />
-    <meta property="og:description" content="Cá Koi" />
-    <link rel="canonical" href="http://domain.com/" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans" type="text/css" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto" type="text/css" />
-    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Sansita+One" type="text/css" />
-    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Oswald" type="text/css" />
-    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Forum|Great+Vibes|Handlee|Lalezar" type="text/css" />
-    <link rel="shortcut icon" type="image/png" href="images/favicon.png">
-    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css" />
-    <link rel="stylesheet" href="css/font-awesome.min.css" type="text/css" />
-    <link rel="stylesheet" href="css/main.css" type="text/css" />
-    <script src="js/jquery-2.1.4.min.js" type="text/javascript"></script>
-    <script src="js/bootstrap.min.js" type="text/javascript"></script>
-    <script src="js/action.js" type="text/javascript"></script>
-    <script src="js/tinymce/tinymce.js" type="text/javascript"></script>
-
-    <link rel="stylesheet" href="css/forum.css" type="text/css" />
-    <link rel="stylesheet" href="css/font-awesome.css" type="text/css" />
+    <link rel="stylesheet" href="~/Content/css/forum.css" type="text/css" />
+    <link rel="stylesheet" href="~/Content/css/font-awesome.css" type="text/css" />
 </head>
 <style type="text/css">
 </style>
@@ -44,43 +23,62 @@
     </a>
     <div class="row">
         <div style="margin: 15px 0 15px 0;">
-            <a href="#" class="btn btn-success" role="button">Tạo bài viết mới</a>
+            <a href="@Url.Action("CreateQuestion" , "QuestionAnswer")" class="btn btn-success" role="button">Tạo bài viết mới</a>
         </div>
     </div>
     <div class="row mt mb">
 
         <div class="toggleview">
             <div class="forum-head">
-                <div class="col-md-8 col-sm-8 column ">
+                <div class="col-md-8 column ">
                     <h5>Tiêu đề/ Người tạo</h5>
                 </div>
                 <div class="col-md-2 column ">
-                    <h5>Trả lời</h5>
+                    <h5 style="text-align: left;"> Trả lời</h5>
                 </div>
-                <div class="col-md-2 col-sm-4 column ">
+                <div class="col-md-2 column ">
                     <h5 style="text-align: left;">Gửi cuối bởi</h5>
                 </div>
             </div>
 
-            <div style="padding: auto;" class="forum-topic">
-                <div class="col-md-1 column ">
-                    <i class="icon-file"></i>
-                </div>
-                <div class="col-md-7 col-sm-8 column ">
-                    <span class="overflow-control">
-                        <a href="#">Title of the title</a>
-                    </span>
-                    <span>Bắt đầu bởi <a href="#">Some user</a> 08-29-2013 7:29PM</span>
-                </div>
-                <div class="col-md-2 column ">
-                    <span class="center">Trả lời: 123</span>
-                </div>
-                <div class="col-md-2 col-sm-4 column ">
-                    <span><a href="#">Some user</a></span>
-                    <span>08-29-2013 7:29PM</span>
+            <div class="forum-topic">
 
-                </div>
+
+                @for (int item = 0; item < ViewBag.ListQA.Count; item++)
+                {
+                    <div class="col-md-1 column ">
+                        <i class="icon-file"></i>
+                    </div>
+                    <div class="col-md-7 column ">
+                        <span class="overflow-control">
+                            <a href="@Url.Action("QuestionDetail/" + @ViewBag.ListQA[item].QuestionID, "QuestionAnswer")">@ViewBag.ListQA[item].Title</a>
+                        </span>
+                        
+                        <span>Người đăng <a href="@Url.Action("Profile/" + @ViewBag.ListQA[item].Member.UserName, "Account")">@ViewBag.ListQA[item].Member.UserName</a> @ViewBag.ListQA[item].Datetime</span>
+                        
+                    </div>
+                    <div class="col-md-2 column ">
+                        <span>Trả lời: @QADao.CountAnswer(@ViewBag.ListQA[item].QuestionID)</span>
+                    </div>
+                    <div class="col-md-2 col-sm-4 column ">
+                        @{ Answer Answer = @QADao.GetLastAnswer(@ViewBag.ListQA[item].QuestionID);}
+                        @if (Answer != null)
+                        {
+                            <span><a href="@Url.Action("Profile/" + @Answer.Member.MemberID, "Account")">@Answer.Member.Name</a></span>
+                            <span>@Answer.Datetime</span>
+                        }
+                        else
+                        {
+                            <span><a href="@Url.Action("Profile/" + @ViewBag.ListQA[item].Member.UserName, "Account")">@ViewBag.ListQA[item].Member.UserName</a></span>
+                            <span>@ViewBag.ListQA[item].Datetime</span>
+                        }
+                        
+                    </div>
+                }
             </div>
+            Page @(ListQA.PageCount < ListQA.PageNumber ? 0 : ListQA.PageNumber) of @ListQA.PageCount
+            @Html.PagedListPager(ListQA, page => Url.Action("ListQA", "QuestionAnswer", new { page }))
         </div>
     </div>
 </div>
+

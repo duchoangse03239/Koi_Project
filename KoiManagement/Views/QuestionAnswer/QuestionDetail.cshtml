@@ -5,10 +5,9 @@
     ViewBag.Title = "Hỏi đáp chi tiết";
     Layout = "~/Views/Layout/KoiLayout.cshtml";
     Question questiondetail = ViewBag.questionDetail;
+    List<Answer> listAnswer = ViewBag.answerDetail;
+    QuestionAnswerDAO QaDao = new QuestionAnswerDAO();
 }
-
-
-<div class="section site-header">
 
 
     <div class="container">
@@ -23,58 +22,70 @@
         </div>
         <div class="row" style="background-color: #fafafa;">
             <div class="col-md-12" style="background-color: #000055;">
-                <div class="col-md-10"><h4 style="color: white;">@questiondetail.Title</h4></div>
-                <div class="col-md-2"><h5 style="color: white; float: right;">@questiondetail.Datetime</h5></div>
+                <div class="col-md-10"><h4 style="color: white;">@questiondetail.Title</h4>
+                </div>
+                <div class="col-md-2"><h5 style="color: white; float: right;">@questiondetail.Datetime</h5>
+                </div>
             </div>
             <div class="row">
                 <div class="col-md-2">
-                    <img style="margin: 15px;" src="images/avatar2.png">
+                    <img style="margin: 15px; height: 100px; width: auto" src="~/Content/Image/Member/@questiondetail.Member.Image">
                 </div>
                 <div class="col-md-10" style="padding-top: 15px;">
-                    <a style="color: #397ab2;" href="">Admin</a>
-                    <h5>0898 090 678</h5>
+                    <a style="color: #397ab2;" href="@Url.Action("Profile/" + @questiondetail.Member.MemberID, "Account")">@questiondetail.Member.UserName</a>
+                    <h5>@questiondetail.Member.Phone</h5>
                 </div>
             </div>
             <hr>
             <div>
-                <h1>Content</h1>
+                @Html.Raw(@questiondetail.Content)
             </div>
             <div class="col-md-12" style="background-color: #f5f5f5; margin-top: 10px;">
                 <div class="col-md-2">
-                    <label style="float: right;">Đánh giá:</label>
+                    <label style="float: right;">Đánh giá: @QaDao.getTotalRateQuestion(questiondetail.QuestionID)</label>
                 </div>
-                <div class="col-md-2"><input type="number" name="your_awesome_parameter" id="rating-default" class="rating" value="3" /></div>
-                <div class="col-md-1"><a href="">Trả lời</a></div>
-                <div class="col-md-2"><a href="">Báo cáo</a></div>
+                <div class="col-md-2"><input type="number" name="your_awesome_parameter" id="rating-default" class="rating" value="@QaDao.getRateQuestion(questiondetail.QuestionID)"/>
+                </div>
+                <div class="col-md-1"><a href="">Trả lời</a>
+                </div>
+                <div class="col-md-2"><a href="">Báo cáo</a>
+                </div>
             </div>
         </div>
-        <div class="row" style="background-color: #fafafa; margin-top: 15px;">
-            <div class="col-md-12" style="background-color: #000055;">
+        @foreach (var item in listAnswer)
+        {
+            <div class="row" style="background-color: #fafafa; margin-top: 15px;">
+                <div class="col-md-12" style="background-color: #000055;">
 
-                <div class="col-md-2 col-md-offset-10"><h5 style="color: white; float: right;">08-29-2013 7:29PM</h5></div>
-            </div>
-            <div class="row">
-                <div class="col-md-2">
-                    <img style="margin: 15px;" src="images/avatar2.png">
+                    <div class="col-md-2 col-md-offset-10"><h5 style="color: white; float: right;">@item.Datetime</h5>
+                    </div>
                 </div>
-                <div class="col-md-10" style="padding-top: 15px;">
-                    <a style="color: #397ab2;" href="">Admin</a>
-                    <h5>0898 090 678</h5>
+                <div class="row">
+                    <div class="col-md-2">
+                        <img style="margin: 15px; height: 100px; width: auto" src="~/Content/Image/Member/@item.Member.Image">
+                    </div>
+                    <div class="col-md-10" style="padding-top: 15px;">
+                        <a style="color: #397ab2;" href="">@item.Member.UserName</a>
+                        <h5>@item.Member.Phone</h5>
+                    </div>
+                </div>
+                <hr>
+                <div>
+                    @Html.Raw(@item.Content);
+                </div>
+                <div class="col-md-12" style="background-color: #f5f5f5;">
+                    <div class="col-md-2">
+                        <label style="float: right;">Đánh giá:@QaDao.getTotalRateAnswer(item.AnswerID)</label>
+                    </div>
+                    <div class="col-md-2"><input type="number" name="your_awesome_parameter" id="rating-default" class="rating" value="@QaDao.getRateAnswer(item.AnswerID)"/>
+                    </div>
+                    <div class="col-md-1"><a href="">Trả lời</a>
+                    </div>
+                    <div class="col-md-2"><a href="">Báo cáo</a>
+                    </div>
                 </div>
             </div>
-            <hr>
-            <div>
-                <h1>Content</h1>
-            </div>
-            <div class="col-md-12" style="background-color: #f5f5f5;">
-                <div class="col-md-2">
-                    <label style="float: right;">Đánh giá:</label>
-                </div>
-                <div class="col-md-2"><input type="number" name="your_awesome_parameter" id="rating-default" class="rating" value="3" /></div>
-                <div class="col-md-1"><a href="">Trả lời</a></div>
-                <div class="col-md-2"><a href="">Báo cáo</a></div>
-            </div>
-        </div>
+        }
         <div class="row" style="background-color: #fafafa; margin-top: 15px;">
             <div class="col-md-12" style="background-color: #000055;">
                 <h4 style="color: white;">Trả lời bài viết</h4>
@@ -91,7 +102,7 @@
                 <textarea type="text" class="form-control" placeholder="" id="content" name="content"></textarea>
             </div>
             <div class="col-md-12">
-                <div style="float: right;margin-top: 15px; margin-bottom: 15px;">
+                <div style="float: right; margin-top: 15px; margin-bottom: 15px;">
                     <a href="#" class="btn btn-primary" role="button">Gửi trả lời</a>
                     <a href="#" class="btn btn-primary" role="button">Hủy</a>
                 </div>
@@ -100,4 +111,15 @@
         </div>
     </div>
 
-</div>
+<script>
+    $(document).keypress(function (event) {
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        if (keycode == "13") {
+            if (Validate()) {
+                AddArticle();
+            } else {
+                return false;
+            }
+        }
+    });
+</script>

@@ -149,17 +149,11 @@
             return false;
         }
         if (phone != "") {
-            if (phone.length < 10 || phone.length > 11) {
-                $('#lblMessage_phone_fail').text("Số điện thoại phải từ 10 đến 11 số.");
-                $('#phone').focus();
-                return false;
-            }
             if (!isSpecialCharacter(phone)) {
                 $('#lblMessage_phone_fail').text("Số điện thoại không đúng định dạng");
                 $('#lblMessage_phone_fail').focus;
                 return false;
             }
-
         }
 
         

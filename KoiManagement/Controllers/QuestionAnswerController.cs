@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using KoiManagement.Common;
 using KoiManagement.DAL;
 using KoiManagement.Models;
+using PagedList;
 
 namespace KoiManagement.Controllers
 {
@@ -93,22 +94,29 @@ namespace KoiManagement.Controllers
         public ActionResult QuestionDetail(int? id)
         {
             //neu co id la 0 truyen vao thi ?
-            if (id == 0)
+            if (id == null)
             {
-                return View();
+                return RedirectToAction("PageNotFound", "Error");
             }
             var questiondetail = QADao.GetQuestionDetail((int)id);
+            if (questiondetail==null)
+            {
+                return RedirectToAction("PageNotFound", "Error");
+            }
+            ViewBag.answerDetail = QADao.GetListAnswerbyId(id.Value);
+
             ViewBag.questionDetail = questiondetail;
+            ViewBag.questionId = id;
             return View();
         }
 
-        public ActionResult ListQA(int? id)
+        public ActionResult ListQA(int? page)
         {
-            QuestionAnswerDAO QADao = new QuestionAnswerDAO();
-
-            ViewBag.listIQA = QADao.GetListQuestion();
+            var ListQA = QADao.GetListQuestion();
+            int pageSize = 7;
+            int pageNumber = (page ?? 1);
+            ViewBag.ListQA = ListQA.ToPagedList(pageNumber, pageSize);
             return View();
-
         }
 	}
 }
