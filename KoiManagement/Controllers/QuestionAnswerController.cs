@@ -91,6 +91,57 @@ namespace KoiManagement.Controllers
             return Json(obj);
         }
 
+        /// <summary>
+        /// CreateAnswer
+        /// </summary>
+        /// <param name="qID">qID</param>
+        /// <param name="content">content</param>
+        /// <returns></returns>
+        [HttpPost, ValidateInput(false)]
+        public ActionResult CreateAnswer(string qID, string content)
+        {
+            ViewBag.Message = string.Empty;
+            StatusObjForJsonResult obj = new StatusObjForJsonResult();
+            if (Session[SessionAccount.SessionUserId] == null)
+            {
+                RedirectToAction("Login", "Account");
+                return Json(obj);
+            }
+            // lấy id người đang đăng nhập
+            int id = int.Parse(Session[SessionAccount.SessionUserId].ToString());
+            //Viewbag cho patialView _Manager
+            ViewBag.Member = memberDao.GetMemberbyID(id);
+            try
+            {
+                Answer answer = new Answer();
+                answer.QuestionID = int.Parse(qID);
+                answer.Datetime = DateTime.Now;
+                answer.MemberID = id;
+                answer.Content = content;
+                answer.Status = true;
+
+                if (QADao.CreateAnswer(answer))
+                {
+                    ViewBag.Message = "Bạn đã thêm thành công!";
+                    obj.RedirectTo = this.Url.Action("ListQA", "QuestionAnswer");
+                }
+                else
+                {
+                    ViewBag.Message = "Có lỗi xảy ra xin hãy thử lại";
+                    obj.RedirectTo = this.Url.Action("SystemError", "Error");
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Common.Logger.LogException(ex);
+                obj.Status = 0;
+                obj.RedirectTo = this.Url.Action("SystemError", "Error");
+                return Json(obj);
+            }
+            return Json(obj);
+        }
+
         public ActionResult QuestionDetail(int? id)
         {
             //neu co id la 0 truyen vao thi ?

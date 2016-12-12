@@ -38,6 +38,25 @@ namespace KoiManagement.DAL
             }
         }
 
+        /// <summary>
+        /// CreateAnswer
+        /// </summary>
+        /// <param name="answer">answer</param>
+        /// <returns>bool</returns>
+        public bool CreateAnswer(Answer answer)
+        {
+            try
+            {
+                db.Answers.Add(answer);
+                db.SaveChanges();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
         public List<Question> GetListQuestion()
         {
             return db.Questions.ToList();

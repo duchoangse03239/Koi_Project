@@ -228,9 +228,15 @@ namespace KoiManagement.Controllers
                 //thanh cong
                 if (AchiDao.EditAchievement(achi) == 1)
                 {
-                    obj.Status = 1;
+                    obj.Status = 9;
                     obj.Message = "Cập nhật thông tin thành công";
-                    obj.RedirectTo = Url.Action("KoiUser/" + Session[SessionAccount.SessionUserId], "Koi");
+                    obj.RedirectTo = Url.Action("ListAchievement/" + koiid, "Achievement");
+                }
+                else
+                {
+                    obj.Status = 8;
+                    obj.Message = "Có lỗi xảy ra";
+                    return Json(obj);
                 }
             }
             catch (Exception ex)
@@ -246,7 +252,15 @@ namespace KoiManagement.Controllers
         public ActionResult ListAchievement(int? id)
         {
             AchievementDAO AchiDao = new AchievementDAO();
-
+            if (Session[SessionAccount.SessionUserId] == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            var ar = db.Achievements.Where(p=>p.KoiID==id);
+            if (ar == null)
+            {
+                return RedirectToAction("PageNotFound", "Error");
+            }
             ViewBag.listIAchi = AchiDao.GetListAchievements(id.Value);
             ViewBag.koiId = id;
             var owner = ownerDao.GetOwner(id.Value);
