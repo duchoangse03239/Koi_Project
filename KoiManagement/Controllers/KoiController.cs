@@ -94,26 +94,53 @@ namespace KoiManagement.Controllers
         }
 
         // GET: /Koi/ListKoi/5
-        public ActionResult KoiUser(int id=0)
+        public ActionResult KoiUser(int? id, int? page, string txtSearch)
         {
             // Lấy KoiId theo người sở hưu
-            if (id == 0)
+            if (id == null)
             {
                return RedirectToAction("ListKoi", "Koi");
+            }
+            // check exist id
+            var mem = memberDao.GetMemberbyID(id.Value);
+            if (mem == null)
+            {
+                 return RedirectToAction("PageNotFound", "Error");
             }
             try
             {
                 // id = int.Parse(Session[SessionAccount.SessionUserId].ToString());
                 KoiDAO koiDao = new KoiDAO();
                 MemberDAO mDAO=  new MemberDAO();
-                ListKois = koiDao.GetListKoiByMember(id);
-                ViewBag.Member = mDAO.GetMemberbyID(id);
-                ViewBag.CountKoi = koiDao.CountKoibyOwnerId(id);
-                ViewBag.CountKoiFarm = koiFarmDao.CountKoiFarmbyOwnerId(id);
-                if (ListKois != null)
+                ListKois = koiDao.GetListKoiByMember(id.Value);
+                var list = new List<Koi>();
+                if (!string.IsNullOrWhiteSpace(txtSearch))
                 {
-                    return View(ListKois);
+                    foreach (var item in ListKois)
+                    {
+                        if (item.KoiName.Contains(txtSearch))
+                        {
+                            list.Add(item);
+                        }
+                    }
                 }
+                else
+                {
+                    list = ListKois;
+                }
+
+
+
+                ViewBag.txtSearch = txtSearch;
+                // phân trang 6 item 1trang
+                int pageSize = 10;
+                int pageNumber = (page ?? 1);
+                ViewBag.Listkoi = list.ToList().ToPagedList(pageNumber, pageSize);
+                //user profile
+                ViewBag.Member = mDAO.GetMemberbyID(id.Value);
+                ViewBag.CountKoi = koiDao.CountKoibyOwnerId(id.Value);
+                ViewBag.CountKoiFarm = koiFarmDao.CountKoiFarmbyOwnerId(id.Value);
+
             }catch (Exception ){
                 return RedirectToAction("SystemError", "Error");
             }
@@ -130,16 +157,21 @@ namespace KoiManagement.Controllers
 
 
         // GET: /Koi/Details/5
-        public ActionResult Details(int id=0)
+        public ActionResult Details(int? id)
         {
-            if (id == 0)
+            if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("PageNotFound", "Error");
             }
             OwnerDAO ownDao= new OwnerDAO();
             Koi koi = db.Kois.Find(id);
+            //check exist
+            if (koi == null)
+            {
+                return RedirectToAction("PageNotFound", "Error");
+            }
                 // return name of owner
-            ViewBag.Owner = ownDao.GetOwner(id);
+            ViewBag.Owner = ownDao.GetOwner(id.Value);
             // Lấy giá trị deatail cuối cùng
             var KoiDeatail = db.InfoDetails.Where(p => p.KoiID == id&&p.Status).OrderByDescending(p => p.Date);
             ViewBag.listImage =  db.Media.Where(p =>p.ModelId == KoiDeatail.FirstOrDefault().DetailID && p.Status).ToList();
@@ -150,15 +182,14 @@ namespace KoiManagement.Controllers
             else
             {
                 return RedirectToAction("PageNotFound", "Error");
-                 
             }
             if (koi.KoiMom != null)
             {
             ViewBag.KoiMomName = db.Kois.Find(koi.KoiMom).KoiName;
             }
             ViewBag.Size = KoiDeatail.FirstOrDefault().Size;
-            ViewBag.ListComment = commentDao.GetListCommentKoi(id);
-            ViewBag.ListCommentDetail = commentDao.GetListCommentKoiDetail(id);
+            ViewBag.ListComment = commentDao.GetListCommentKoi(id.Value);
+            ViewBag.ListCommentDetail = commentDao.GetListCommentKoiDetail(id.Value);
 
             return View(koi);
         }
@@ -336,7 +367,7 @@ namespace KoiManagement.Controllers
             Koi koi = db.Kois.Find(id);
             if (koi == null)
             {
-                return HttpNotFound();
+                return RedirectToAction("PageNotFound", "Error");
             }
             ViewBag.VarietyID = db.Varieties;
 
@@ -475,7 +506,7 @@ namespace KoiManagement.Controllers
             if (string.IsNullOrWhiteSpace(username))
             {
                 obj.Status = 2;
-                obj.Message = "Xin hãy nhập tên đăng nhập.";
+                obj.Message = "Xin hãy nhập tên đăng nhập của chủ sở hữu mới.";
                 return Json(obj);
             }
                 if (username.Equals(memberDao.GetMemberbyID(UserID).UserName))
@@ -532,11 +563,17 @@ namespace KoiManagement.Controllers
             int UserID = int.Parse(Session[SessionAccount.SessionUserId].ToString());
             try
             {
+                if (ToMember == UserID)
+                {
+                    obj.Status = 2;
+                    obj.Message = "Bạn không thể liên hệ đến chính mình.";
+                    return Json(obj);
+                }
 
                 OwnerDAO ownerDao = new OwnerDAO();
                 if (string.IsNullOrWhiteSpace(content))
                 {
-                    obj.Status = 2;
+                    obj.Status = 3;
                     obj.Message = "Xin hãy nhập tên nội dung.";
                     return Json(obj);
                 }
@@ -625,6 +662,7 @@ namespace KoiManagement.Controllers
                     obj.Message = "Xin hãy đăng nhập để đánh giá.";
                     return Json(obj);
                 }
+                var UserID = int.Parse(Session[SessionAccount.SessionUserId].ToString());
                 if (string.IsNullOrWhiteSpace(content))
                 {
                     obj.Status = 2;
@@ -635,6 +673,12 @@ namespace KoiManagement.Controllers
                 {
                     obj.Status = 2;
                     obj.Message = "Xin hãy chọn sao đánh giá.";
+                    return Json(obj);
+                }
+                if (!commentDao.CheckRatingKoi(UserID, koiID))
+                {
+                    obj.Status = 3;
+                    obj.Message = "Bạn đã đánh giá cá Koi này rồi.";
                     return Json(obj);
                 }
                 decimal sao = decimal.Parse(RateNum);

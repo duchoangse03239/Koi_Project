@@ -1,9 +1,39 @@
-﻿@model System.Web.Mvc.HandleErrorInfo
-
-@{
-    ViewBag.Title = "Error";
+﻿@{
+    Layout = null;
+    Layout = "~/Views/Layout/KoiLayout.cshtml";
 }
-
-<h1 class="text-danger">Error.</h1>
-<h2 class="text-danger">An error occurred while processing your request.</h2>
-
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- Bootstrap -->
+    <link href="~/Content/HBThemes/dist/css/bootstrap.css" rel="stylesheet" media="screen">
+    <link href="~/Content/HBThemes/assets/css/custom.css" rel="stylesheet" media="screen">
+    <link href="~/Content/HBThemes/examples/starter-template/starter-template.css" rel="stylesheet" media="screen">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body class="error-fullwidith">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="starter-template" style="color:black">
+                    <h1>
+                    </h1>
+                    <div class="error-details">
+                        <p>Đã có lỗi xảy ra trong quá trình thực hiện yêu cầu của bạn! Chúng tôi sẽ khắc phục trong thời gian sớm nhất có thể. Chúng tôi rất tiếc vì sự cố này.</p>
+                    </div>
+                    <div class="media" style="margin-bottom:20px;">
+                        <a href='javascript:history.go(-1)' class="btn btn-primary">
+                            <span class="glyphicon "></span>
+                            Trang trước
+                        </a>
+                        <a href="@Url.Action("Index", "Home")" class="btn btn-primary">
+                            <span class="glyphicon glyphicon-home"></span>
+                            Quay về trang chủ
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

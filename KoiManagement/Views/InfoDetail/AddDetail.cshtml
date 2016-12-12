@@ -10,7 +10,7 @@
             <div class="col-sm-6 col-sm-offset-3">
                 <hr />
                 <label>Kích thước hiện tại</label>
-                <input type="text" class="form-control" placeholder="Kích Thước" name="Size" id="Size">
+                <input type="text" class="form-control" placeholder="Kích Thước" onkeypress="return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57" maxlength="3" name="Size" id="Size">
                 <label id="lblMessage_koi_size_fail" class="label-error"></label>
             </div>
         </div>
@@ -34,12 +34,16 @@
                 <input type="file" accept="image/png, image/jpeg, image/gif" id="files" name="files" onchange="previewImg()" class="upload hides" multiple accept="image/*" />
                 <output id="result"></output>
             </div>
+            
+        </div>
+        <div class="col-sm-6 col-sm-offset-3">
+            <label id="lblMessage_file_fail" class="label-error"></label>
         </div>
         <div class="row" id="add-btn">
             <div class="col-sm-6 col-sm-offset-3 align-right">
                 <input type="hidden" name="KoiID" value="@ViewBag.KoiID">
                 <button id="btnAddKoi" class="btn btn-primary">Thêm mới</button>
-                <button type="button" class="btn btn-primary">Đóng</button>
+                <a type="button" href='javascript:history.go(-1)' class="btn btn-primary">Quay lại</a>
             </div>
         </div>
     </div>
@@ -74,16 +78,29 @@
     });
     function Validate() {
         var Size = $('#Size').val();
+        var files = $('#files').val();
         function isPositiveNumber(Size) {
             var regex = /^[0-9 \.\,\+]+$/;
             return regex.test(Size);
         };
         if (Size == "") {
             $('#lblMessage_koi_size_fail').text("Vui lòng nhập kích thước");
+            $('#Size').focus();
             return false;
         }
         else if (!isPositiveNumber(Size)) {
             $('#lblMessage_koi_size_fail').text("Vui lòng nhập số cho kích thước của Koi!");
+            $('#Size').focus();
+            return false;
+        }
+        if (parseInt(Size) > 150) {
+            $('#lblMessage_koi_size_fail').text("Kích thước phải nhỏ hơn 150cm");
+            $('#Size').focus();
+            return false;
+        }
+
+        if (files == "") {
+            $('#lblMessage_file_fail').text("Xin hãy chọn ảnh.");
             return false;
         }
         return true;

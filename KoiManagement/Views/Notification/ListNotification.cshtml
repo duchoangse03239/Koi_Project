@@ -131,7 +131,7 @@
                                 var chat = "#chat" + i;
                                 var cmID = "CommentID" + i;
                             }
-                            <input type="hidden" name="CommentID" id="@cmID" value ="@Listme.ElementAt(i).MemberID">
+                            <input type="hidden" name="CommentID" id="@cmID" value ="@Listme.ElementAt(i).Member.Name">
                             <td class="col-md-7"><a  href="@Url.Action("MessageDetail/"+@Listme.ElementAt(i).MessageID, "Message")" >@Listme.ElementAt(i).Title</a></td>
                 @*<td class="col-md-7"><a data-url="@Url.Action("chat")" onclick="DetailMessage(@Listme.ElementAt(i).MessageID)" data-toggle="modal" data-target="@chat">@Listme.ElementAt(i).Title</a></td>*@
                             <td class="col-md-3"><a style="float: right;" onclick="deleteMe(@Listme.ElementAt(i).MessageID)" class="btn btn-xs btn-info" role="button">Xóa</a></td>

@@ -3,6 +3,34 @@
     ViewBag.Title = "Thông tin cá nhân";
     Layout = "~/Views/Layout/KoiLayout.cshtml";
 }
+    <!-- Modal Report-->
+<div id="report" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Báo cáo vi phạm</h4>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <label>Nội dung vi phạm:</label>
+                </div>
+                <div>
+                    <textarea rows="4" id="contentReport" name="content" placeholder="Nhập nội dung vi phạm" style="width:100%;"></textarea>
+                    <label id="lbl_report_fail" class="label-error"></label>
+                </div>
+                <div style="margin-top:10px;">
+                    <a onclick="ReportMember(@Model.MemberID)" class="btn btn-primary">Gửi</a>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <div class="section site-main">
     <div class="container">
@@ -14,7 +42,7 @@
                             <a href="#">
                                 <img src="~/Content/Image/Member/@Model.Image" id="avatar" class="profile_img" alt="">
                             </a>
-                            <h4><a href="#" class="profile_name">Người dùng</a></h4>
+                            <h4><a href="@Url.Action("Profile/"+@Model.MemberID, "Account")" class="profile_name">@Model.Name</a></h4>
                         </div>
                     </div>
                     <div class="line"></div>
@@ -26,11 +54,11 @@
                         <h3 class="profile_item">Cá Koi của @Model.UserName [<span id="my_koi_count">@ViewBag.CountKoi</span>]</h3>
                     </a>
                     <div class="line"></div>
-                    <a href="#" class="profile_link">
-                        <h3 class="profile_item">Trang trại của @Model.UserName [<span id="my_farm_count">0</span>]</h3>
+                    <a href="@Url.Action("KoifarmOwner/"+@Model.MemberID, "KoiFarm")" class="profile_link">
+                        <h3 class="profile_item">Trang trại của @Model.UserName [<span id="my_farm_count">@ViewBag.CountKoiFarm</span>]</h3>
                     </a>
                     <div class="line"></div>
-                    <a class="profile_link">
+                    <a href="#"  role="button" data-toggle="modal" data-target="#report">
                         <h3 class="profile_item">Báo cáo tài khoản vi phạm</h3>
                     </a>
                 </div>
@@ -91,3 +119,38 @@
         </div>
     </div>
 </div>
+<script>
+    
+    function ReportMember(parameter1) {
+        var content = $('#contentReport').val();
+        $('#lbl_Report_fail').text("");
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("ReportMember", "Report")",
+            datatype: "JSON",
+        data: {
+            memberId: parameter1,
+            content: content,
+            },
+        success: function (res) {
+            switch (res.Status) {
+                case 2:
+                    alert(res.Message);
+                    $('#username').focus();
+                    break;
+                case 3:
+                    $('#lbl_report_fail').text(res.Message);
+                    $('#username').focus();
+                    break;
+                case 1:
+                    alert(res.Message);
+                    // Declare a proxy to reference the hub.
+
+                    window.location.reload();
+                    break;
+            }
+        }
+    }); // end ajax
+    }
+</script>

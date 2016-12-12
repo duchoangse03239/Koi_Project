@@ -21,7 +21,6 @@
                 <div class="form-group">
                     <label>Chủng loại</label>
                     <select class="form-control" id="VarietyID" name="VarietyID">
-                        <option value="0">Chủng Loại</option>
                         @foreach (var item in ViewBag.VarietyID)
                         {
                             if (@item.VarietyID == @Model.VarietyID)

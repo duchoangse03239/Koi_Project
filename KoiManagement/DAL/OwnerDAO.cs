@@ -68,12 +68,14 @@ namespace KoiManagement.DAL
                     //  update status cho chủ sở hữu cũ
                     var updateOwner = db.Owners.FirstOrDefault(p => p.KoiID == koiID&&p.Status);
                     updateOwner.DateOwerTo = DateTime.Now;
+                    updateOwner.KoiFarmID = null;
                     updateOwner.Status = false;
 
                     db.Owners.Attach(updateOwner);
                     var entry = db.Entry(updateOwner);
                     entry.State = EntityState.Modified;
                     entry.Property(e => e.Status).IsModified = true;
+                    entry.Property(e => e.KoiFarmID).IsModified = true;
                     entry.Property(e => e.DateOwerTo).IsModified = true;
                     db.SaveChanges();
                    
@@ -116,6 +118,36 @@ namespace KoiManagement.DAL
         public List<Owner> GetAllOwnersByKoiID(int KoiID)
         {
             return db.Owners.Where(p => p.KoiID == KoiID).ToList();
+        }
+
+        public bool AddListKoiToKoiFarm(int[] listKoi, int koifarm)
+        {
+            using (var dbContextTransaction = db.Database.BeginTransaction())
+            {
+                try
+                {
+                    for(int i=0; i< listKoi.Length; i++)
+                    {
+                        var koiid = listKoi[i];
+                        var Owner =db.Owners.Where(p =>  p.KoiID == koiid && p.Status).FirstOrDefault();
+                        if (Owner != null)
+                        {
+                            Owner.KoiFarmID = koifarm;
+                        db.Owners.Attach(Owner);
+                        db.Entry(Owner).Property(x => x.KoiFarmID).IsModified = true;
+                         db.SaveChanges();
+                        }
+                    }
+                    dbContextTransaction.Commit();
+                    return true;
+                }
+                catch (Exception)
+                {
+                    dbContextTransaction.Rollback(); //Required according to MSDN article 
+                    //throw; //Not in MSDN article, but recommended so the exception still bubbles up
+                    return false;
+                }
+            }
         }
     }
 }

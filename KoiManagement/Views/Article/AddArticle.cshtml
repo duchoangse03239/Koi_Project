@@ -39,7 +39,7 @@
                                     <label>Ảnh bài viết</label>
                                     <input type="file" accept="image/png, image/jpeg, image/gif" name="file" id="file" class="img" onchange="loadFile(event)" />
                                     <br />
-                                    <div><img id="imagePreview" src="~/Content/Image/Common/blank.jpg" alt="" /></div>
+                                    <div><img id="imagePreview" src="~/Content/Image/Common/blank.jpg" alt="" style="height:200px;width:200px;"/></div>
                                     <script>
                                         var loadFile = function (event) {
                                             var output = document.getElementById('imagePreview');
@@ -47,7 +47,7 @@
                                         };
                                     </script>
                                 </div>
-                                <div class="col-md-12">
+                                <div class="col-md-12" style="margin-top:10px;">
                                     <label>Mô tả ngắn</label>
                                     <input type="text" class="form-control" placeholder="Mô tả ngắn" id="shortdesription" name="shortdesription">
                                     <label id="lblMessage_shortdescription_fail" class="label-error"></label>
@@ -59,7 +59,7 @@
                                 </div>
                                 <div class="col-md-12 align-right" style="margin-top:15px; margin-bottom:15px;" id="add-article-btn">
                                     <button class="btn btn-primary" id="btnCreateArticle">Tạo bài viết</button>
-                                    <button class="btn btn-primary" id="btnCancel">Đóng</button>
+                                    <button class="btn btn-primary" id="btnCancel">Quay lại</button>
                                 </div>
                             </div>
                         </div>

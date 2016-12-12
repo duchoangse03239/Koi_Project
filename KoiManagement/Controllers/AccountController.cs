@@ -583,17 +583,23 @@ namespace KoiManagement.Controllers
         }
 
         // GET: /Account/UpdateProfile
-        public ActionResult Profile(int id=0)
+        public ActionResult Profile(int? id)
         {
             //check ton tai id
-            if (id == 0)
+            if (id == null)
             {
-                return RedirectToAction("UpdateProfile", "Account");
+                return RedirectToAction("PageNotFound", "Error");
             }
             MemberDAO MDao = new MemberDAO();
             KoiDAO kDao= new KoiDAO();
-            ViewBag.CountKoi = kDao.CountKoibyOwnerId(id);
-            var mem = MDao.GetMemberbyID(id);
+            KoiFarmDAO koiFarmDao = new KoiFarmDAO();
+            ViewBag.CountKoi = kDao.CountKoibyOwnerId(id.Value);
+            ViewBag.CountKoiFarm = koiFarmDao.CountKoiFarmbyOwnerId(id.Value);
+            var mem = MDao.GetMemberbyID(id.Value);
+            if (mem == null)
+            {
+                return RedirectToAction("PageNotFound", "Error");
+            }
             return View(mem);
         }
 
