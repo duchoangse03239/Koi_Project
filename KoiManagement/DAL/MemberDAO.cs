@@ -60,7 +60,7 @@ namespace KoiManagement.DAL
             db.SaveChanges();
             return true;
             }
-            catch(Exception ex)
+            catch(Exception )
             {
                 return false;
             }
