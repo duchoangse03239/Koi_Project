@@ -84,7 +84,12 @@
                             <tr>
                                 <td class="col-md-3">@item.Datetime</td>
                                 <td class="col-md-6"><a href="@item.url">@item.Content</a></td>
-                                <td class="col-md-3"><a style="float: right;" href="#" class="btn btn-xs btn-info" role="button">Đánh dấu đã đọc</a></td>
+                                 
+                                <td class="col-md-3">@if (!item.isRead)
+                                {
+                                    <a style="float: right;" onclick="IsRead(@item.NoID)" class="btn btn-xs btn-info" role="button">Đánh dấu đã đọc</a>
+                                }
+                                </td>
                             </tr>
                         }
                     </tbody>
@@ -126,13 +131,19 @@
                     {
                         <tr>
                             <td class="col-md-3">@Listme.ElementAt(i).Datetime</td>
-                            <td class="col-md-2"><a href="@Url.Action("Profile/"+@Listme.ElementAt(i).SenderID,"Account")">@Listme.ElementAt(i).SenderID</a></td>
+                            <td class="col-md-2"><a href="@Url.Action("Profile/"+@Listme.ElementAt(i).SenderID,"Account")">@Listme.ElementAt(i).Member1.UserName
+                                @if (!Listme.ElementAt(i).IsRead)
+                                {
+                                    <p style="display: inline; color: red;">(1)</p>
+                                }</a></td>
                             @{
                                 var chat = "#chat" + i;
                                 var cmID = "CommentID" + i;
                             }
-                            <input type="hidden" name="CommentID" id="@cmID" value ="@Listme.ElementAt(i).Member.Name">
-                            <td class="col-md-7"><a  href="@Url.Action("MessageDetail/"+@Listme.ElementAt(i).MessageID, "Message")" >@Listme.ElementAt(i).Title</a></td>
+                            @if (@Listme.ElementAt(i).Member != null) { 
+                            <input type="hidden" name="CommentID" id="@cmID" value ="@Listme.ElementAt(i).Member.Name">}
+                           
+                            <td class="col-md-7"><a onclick="IsReadMe(@Listme.ElementAt(i).MessageID)" href="@Url.Action("MessageDetail/"+@Listme.ElementAt(i).MessageID, "Message")" >@Listme.ElementAt(i).Title</a></td>
                 @*<td class="col-md-7"><a data-url="@Url.Action("chat")" onclick="DetailMessage(@Listme.ElementAt(i).MessageID)" data-toggle="modal" data-target="@chat">@Listme.ElementAt(i).Title</a></td>*@
                             <td class="col-md-3"><a style="float: right;" onclick="deleteMe(@Listme.ElementAt(i).MessageID)" class="btn btn-xs btn-info" role="button">Xóa</a></td>
                         </tr>
@@ -228,5 +239,37 @@
        var id = @CommonFunction.getindex(activeInput, "Message");*@
     }
 
+    function IsRead(NoID) {
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("IsReadNo")",
+                datatype: "JSON",
+            data: {
+                NoID: NoID
+            },
+            success: function (res) {
+                if (res) {
+                    window.location.reload();
+                    // $('#test').html();
+                }
+            }
+        }); // end ajax
+    }
+    function IsReadMe(Meid) {
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("IsReadMe")",
+            datatype: "JSON",
+        data: {
+            Meid: Meid
+        },
+        success: function (res) {
+            if (res) {
+                // $('#test').html();
+            }
+        }
+    }); // end ajax
+    }
+    
 </script>
 

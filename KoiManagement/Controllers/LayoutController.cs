@@ -29,6 +29,11 @@ namespace KoiManagement.Controllers
                 {
                     ViewBag.NotiCount = 0;
                 }
+                ViewBag.MessageCount = db.Messages.Count(p => (p.MemberID == userid || p.SenderID == userid) && p.Status && !p.IsRead&&p.ReplyID==null);
+                if (ViewBag.MessageCount == null)
+                {
+                    ViewBag.MessageCount = 0;
+                }
             }
             return View("~/Views/Shared/_Header.cshtml");
         }

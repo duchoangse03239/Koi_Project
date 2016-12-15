@@ -37,14 +37,14 @@ namespace KoiManagement.Hub
 
         public void AddComment()
         {
-            IHubContext context = GlobalHost.ConnectionManager.GetHubContext<NotificationsHub>();
+            var context = GlobalHost.ConnectionManager.GetHubContext<NotificationsHub>();
             context.Clients.All.displayStatus();
         }
 
         [HubMethodName("sendMessages")]
         public static void SendMessages()
         {
-            IHubContext context = GlobalHost.ConnectionManager.GetHubContext<NotificationsHub>();
+            var context = GlobalHost.ConnectionManager.GetHubContext<NotificationsHub>();
             context.Clients.All.updateMessages();
         }
 

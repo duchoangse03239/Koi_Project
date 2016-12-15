@@ -100,12 +100,6 @@ namespace KoiManagement.Controllers
             {
                return RedirectToAction("ListKoi", "Koi");
             }
-            // check exist id
-            var mem = memberDao.GetMemberbyID(id.Value);
-            if (mem == null)
-            {
-                 return RedirectToAction("PageNotFound", "Error");
-            }
             try
             {
                 // id = int.Parse(Session[SessionAccount.SessionUserId].ToString());
