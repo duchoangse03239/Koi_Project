@@ -91,6 +91,7 @@ namespace KoiManagement.Controllers
             return Json(obj);
         }
 
+
         /// <summary>
         /// CreateAnswer
         /// </summary>
@@ -98,13 +99,14 @@ namespace KoiManagement.Controllers
         /// <param name="content">content</param>
         /// <returns></returns>
         [HttpPost, ValidateInput(false)]
-        public ActionResult CreateAnswer(string qID, string content)
+        public JsonResult CreateAnswer(string qID, string content, string RepID)
         {
             ViewBag.Message = string.Empty;
             StatusObjForJsonResult obj = new StatusObjForJsonResult();
             if (Session[SessionAccount.SessionUserId] == null)
             {
-                RedirectToAction("Login", "Account");
+                obj.Status = 2;
+                obj.Message = "Xin hãy đăng nhập.";
                 return Json(obj);
             }
             // lấy id người đang đăng nhập
@@ -117,16 +119,22 @@ namespace KoiManagement.Controllers
                 answer.QuestionID = int.Parse(qID);
                 answer.Datetime = DateTime.Now;
                 answer.MemberID = id;
+                if (!string.IsNullOrEmpty(RepID))
+                {
+                answer.AnswerDetail = int.Parse(RepID);
+                }
                 answer.Content = content;
                 answer.Status = true;
 
                 if (QADao.CreateAnswer(answer))
                 {
+                    obj.Status = 1;
                     ViewBag.Message = "Bạn đã thêm thành công!";
                     obj.RedirectTo = this.Url.Action("ListQA", "QuestionAnswer");
                 }
                 else
                 {
+                    obj.Status = 0;
                     ViewBag.Message = "Có lỗi xảy ra xin hãy thử lại";
                     obj.RedirectTo = this.Url.Action("SystemError", "Error");
                 }
@@ -142,6 +150,90 @@ namespace KoiManagement.Controllers
             return Json(obj);
         }
 
+
+        [HttpPost]
+        public JsonResult RateQ(int QId, string RateNum)
+        {
+            StatusObjForJsonResult obj = new StatusObjForJsonResult();
+            if (Session[SessionAccount.SessionUserId] == null)
+            {
+                obj.Status = 2;
+                obj.Message = "Xin hãy đăng nhập.";
+                return Json(obj);
+            }
+            try
+            {
+                // lấy id người đang đăng nhập
+                int id = int.Parse(Session[SessionAccount.SessionUserId].ToString());
+                if (!QADao.CheckRateQ(id, QId))
+                {
+                    obj.Status = 2;
+                    obj.Message = "Bạn đã đánh giá.";
+                    return Json(obj);
+                }
+                Rate rate = new Rate();
+                rate.QuestionID = QId;
+                rate.MemberID = id;
+                rate.RateSocre = int.Parse(RateNum);
+
+                db.Rates.Add(rate);
+                db.SaveChanges();
+
+                obj.Status = 1;
+                obj.Message = "Đánh giá thành công.";
+                return Json(obj);
+            }
+            catch (Exception ex)
+            {
+                Common.Logger.LogException(ex);
+                obj.Status = 0;
+                return Json(obj);
+            }
+        }
+
+        [HttpPost]
+        public JsonResult RateA(int AId, string RateNum)
+        {
+            StatusObjForJsonResult obj = new StatusObjForJsonResult();
+            if (Session[SessionAccount.SessionUserId] == null)
+            {
+                obj.Status = 2;
+                obj.Message = "Xin hãy đăng nhập.";
+                return Json(obj);
+            }
+            try
+            {
+
+
+                // lấy id người đang đăng nhập
+                int id = int.Parse(Session[SessionAccount.SessionUserId].ToString());
+                if (!QADao.CheckRateA(id, AId))
+                {
+                    obj.Status = 2;
+                    obj.Message = "Bạn đã đánh giá.";
+                    return Json(obj);
+                }
+
+                Rate rate = new Rate();
+                rate.AnswerID = AId;
+                rate.MemberID = id;
+                rate.RateSocre = int.Parse(RateNum);
+
+                db.Rates.Add(rate);
+                db.SaveChanges();
+
+                obj.Status = 1;
+                obj.Message = "Đánh giá thành công.";
+                return Json(obj);
+            }
+            catch (Exception ex)
+            {
+                Common.Logger.LogException(ex);
+                obj.Status = 0;
+                return Json(obj);
+            }
+        }
+
         public ActionResult QuestionDetail(int? id)
         {
             //neu co id la 0 truyen vao thi ?
@@ -154,7 +246,8 @@ namespace KoiManagement.Controllers
             {
                 return RedirectToAction("PageNotFound", "Error");
             }
-            ViewBag.answerDetail = QADao.GetListAnswerbyId(id.Value);
+            ViewBag.answer = QADao.GetListAnswerbyId(id.Value);
+            ViewBag.ListAnswerDetail = QADao.GetListAnswerDetail(id.Value);
 
             ViewBag.questionDetail = questiondetail;
             ViewBag.questionId = id;

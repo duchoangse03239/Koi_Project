@@ -546,28 +546,26 @@
     var id1;
     function ReplyFunction(id) {
         @{
-                                        for (var i = 0; i <= ListComment.Count; i++)
-                                        {
-                    <text>
-
-        var ele1 = document.getElementById("input-reply"+@i);
-        //  ele1.style.cursor = "pointer";
-        id1 = "reply" + @i;
-        if(id==id1){
-            var input ="#input-reply"+@i;
-            var ele = document.getElementById("input-reply"+@i);
-            if(ele.style.display == "block") {
-                ele.style.display = "none";
+            for (var i = 0; i <= ListComment.Count; i++)
+             {
+             <text>
+                var ele1 = document.getElementById("input-reply"+@i);
+                id1 = "reply" + @i;
+                if(id==id1){
+                    var input ="#input-reply"+@i;
+                    var ele = document.getElementById("input-reply"+@i);
+                    if(ele.style.display == "block") {
+                        ele.style.display = "none";
+                    }
+                    else {
+                        ele.style.display = "block";
+                        var m="#comment" + @i;
+                        $(m).focus();
+                    }
+                }
+              </text>
             }
-            else {
-                ele.style.display = "block";
-                var m="#comment" + @i;
-                $(m).focus();
-            }
-        }
-        </text>
-                                    }
-                                    }
+       }
     }
 
     $(document)

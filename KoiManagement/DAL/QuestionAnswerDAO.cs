@@ -79,7 +79,19 @@ namespace KoiManagement.DAL
 
         public List<Answer> GetListAnswerbyId(int Qid)
         {
-            return db.Answers.Where(p => p.QuestionID == Qid && p.Status).OrderBy(p => p.Datetime).ToList();
+            return db.Answers.Where(p => p.QuestionID == Qid &&p.AnswerDetail==null&& p.Status).OrderBy(p => p.Datetime).ToList();
+        }
+
+        public List<List<Answer>> GetListAnswerDetail(int Qid)
+        {
+            List<List<Answer>> ListA = new List<List<Answer>>();
+          var an =  db.Answers.Where(p => p.QuestionID == Qid && p.AnswerDetail == null && p.Status).OrderBy(p => p.Datetime).ToList();
+            foreach (var item in an)
+            {
+                var b = db.Answers.Where(p => p.QuestionID == Qid && p.AnswerDetail == item.AnswerID && p.Status).ToList();
+                ListA.Add(b);
+            }
+            return ListA;
         }
 
         public int getRateQuestion(int Qid)
@@ -126,6 +138,38 @@ namespace KoiManagement.DAL
         public int getTotalRateAnswer(int Aid)
         {
             return db.Rates.Count(p => p.AnswerID == Aid);
+        }
+        public bool CheckRateA(int userId, int Aid)
+        {
+            try
+            {
+                var t = db.Rates.Count(p => p.MemberID == userId && p.AnswerID == Aid);
+                if (t > 0)
+                {
+                    return false;
+                }
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+        public bool CheckRateQ(int userId, int Qid)
+        {
+            try
+            {
+                var t = db.Rates.Count(p => p.MemberID == userId && p.QuestionID == Qid);
+                if (t > 0)
+                {
+                    return false;
+                }
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
     }

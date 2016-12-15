@@ -1,14 +1,56 @@
-﻿@using KoiManagement.DAL
+﻿@using KoiManagement.Common
+@using KoiManagement.DAL
 @using KoiManagement.Models
 
 @{
     ViewBag.Title = "Hỏi đáp chi tiết";
     Layout = "~/Views/Layout/KoiLayout.cshtml";
     Question questiondetail = ViewBag.questionDetail;
-    List<Answer> listAnswer = ViewBag.answerDetail;
+    List<Answer> listAnswer = ViewBag.answer;
+    List<List<Answer>> listAnswerDetail = ViewBag.ListAnswerDetail;
     QuestionAnswerDAO QaDao = new QuestionAnswerDAO();
 }
+<style>#content {
+  border: 1px solid #ccc;
+  height: auto;
+  margin-top: 10px;
+  min-height: 10px;
+  overflow: auto;
+  padding: 5px;
+  width: auto;
+  word-break: break-word;
 
+}</style>
+    <!-- Modal Report-->
+<div id="report" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Báo cáo vi phạm</h4>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <label>Nội dung vi phạm:</label>
+                </div>
+                <input type="hidden" name="QID" id="QID">
+                <input type="hidden" name="AID" id="AID">
+                <div>
+                    <div id="content" name="content" contenteditable=""></div>
+                     <label id="lbl_report_fail" class="label-error"></label>
+                </div>
+                <div style="margin-top:10px;">
+                    <a onclick="ReportQA()" class="btn btn-primary">Gửi</a>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 
     <div class="container">
     <div style="margin-top: 20px;" class="row">
@@ -20,81 +62,143 @@
             </span>
         </div>
     </div>
-    <div class="row" style="background-color: #fafafa;">
-        <div class="col-md-12" style="background-color: #000055;">
-            <div class="col-md-10">
-                <h4 style="color: white;">@questiondetail.Title</h4>
-            </div>
-            <div class="col-md-2">
-                <h5 style="color: white; float: right;">@questiondetail.Datetime</h5>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-2">
-                <img style="margin: 15px; height: 100px; width: auto" src="~/Content/Image/Member/@questiondetail.Member.Image">
-            </div>
-            <div class="col-md-10" style="padding-top: 15px;">
-                <a style="color: #397ab2;" href="@Url.Action("Profile/" + @questiondetail.Member.MemberID, "Account")">@questiondetail.Member.UserName</a>
-                <h5>@questiondetail.Member.Phone</h5>
-            </div>
-        </div>
-        <hr>
-        <div>
-            @Html.Raw(@questiondetail.Content)
-        </div>
-        <div class="col-md-12" style="background-color: #f5f5f5; margin-top: 10px;">
-            <div class="col-md-2">
-                <label style="float: right;">Đánh giá: @QaDao.getTotalRateQuestion(questiondetail.QuestionID)</label>
-            </div>
-            <div class="col-md-2">
-                <input type="number" name="your_awesome_parameter" id="rating-default" class="rating" value="@QaDao.getRateQuestion(questiondetail.QuestionID)" />
-            </div>
-            <div class="col-md-1">
-                <a href="">Trả lời</a>
-            </div>
-            <div class="col-md-2">
-                <a href="">Báo cáo</a>
-            </div>
-        </div>
-    </div>
-    @foreach (var item in listAnswer)
-    {
-        <div class="row" style="background-color: #fafafa; margin-top: 15px;">
+        <div class="row" style="background-color: #fafafa;">
             <div class="col-md-12" style="background-color: #000055;">
-
-                <div class="col-md-2 col-md-offset-10">
-                    <h5 style="color: white; float: right;">@item.Datetime</h5>
+                <div class="col-md-10">
+                    <h4 style="color: white;">@questiondetail.Title</h4>
+                </div>
+                <div class="col-md-2">
+                    <h5 style="color: white; float: right;">@questiondetail.Datetime</h5>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-2">
-                    <img style="margin: 15px; height: 100px; width: auto" src="~/Content/Image/Member/@item.Member.Image">
+                    <img style="margin: 15px; height: 100px; width: auto" src="~/Content/Image/Member/@questiondetail.Member.Image">
                 </div>
                 <div class="col-md-10" style="padding-top: 15px;">
-                    <a style="color: #397ab2;" href="">@item.Member.UserName</a>
-                    <h5>@item.Member.Phone</h5>
+                    <a style="color: #397ab2;" href="@Url.Action("Profile/" + @questiondetail.Member.MemberID, "Account")">@questiondetail.Member.UserName</a>
+                    <h5>@questiondetail.Member.Phone</h5>
                 </div>
             </div>
             <hr>
             <div>
-                @Html.Raw(@item.Content);
+                @Html.Raw(@questiondetail.Content)
             </div>
-            <div class="col-md-12" style="background-color: #f5f5f5;">
+            <div class="col-md-12" style="background-color: #f5f5f5; margin-top: 10px;">
                 <div class="col-md-2">
-                    <label style="float: right;">Đánh giá:@QaDao.getTotalRateAnswer(item.AnswerID)</label>
+                    <label style="float: right;">Đánh giá: @QaDao.getTotalRateQuestion(questiondetail.QuestionID)</label>
                 </div>
                 <div class="col-md-2">
-                    <input type="number" name="your_awesome_parameter" id="rating-default" class="rating" value="@QaDao.getRateAnswer(item.AnswerID)" />
+                    @*<input type="number" name="your_awesome_parameter" id="rating-default" class="rating" value="@QaDao.getRateQuestion(questiondetail.QuestionID)" />*@
+
+                    @if (Session[SessionAccount.SessionUserId] != null)
+                    {
+                        <div class="ratings"   onclick="RateQ(@questiondetail.QuestionID)">
+                            @{ var id = "rating-default"; }
+                            <input type="number" name="your_awesome_parameter" id="rating-default" class="rating" value="@QaDao.getRateQuestion(questiondetail.QuestionID)" disabled="disabled"  />
+                        </div>
+                                }
+                                else
+                                {
+                                    <input type="number" name="your_awesome_parameter" id="rating-readonly" class="rating" value="@QaDao.getRateQuestion(questiondetail.QuestionID)" data-readonly />
+                                }
                 </div>
                 <div class="col-md-1">
                     <a href="">Trả lời</a>
                 </div>
                 <div class="col-md-2">
-                    <a href="">Báo cáo</a>
+                    <a onclick="SetQID(@questiondetail.QuestionID)" role="button" data-toggle="modal" data-target="#report">Báo cáo</a>
                 </div>
             </div>
         </div>
-    }
+        <div>
+            @for (int index = 0; index < listAnswer.Count; index++)
+            {
+                var item = listAnswer[index];
+                <div class="row" style="background-color: #fafafa; margin-top: 15px;">
+                    <div class="col-md-12" style="background-color: #000055;">
+
+                        <div class="col-md-2 col-md-offset-10">
+                            <h5 style="color: white; float: right;">@item.Datetime</h5>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2">
+                            <img style="margin: 15px; height: 100px; width: auto" src="~/Content/Image/Member/@item.Member.Image">
+                        </div>
+                        <div class="col-md-10" style="padding-top: 15px;">
+                            <a style="color: #397ab2;" href="">@item.Member.UserName</a>
+                            <h5>@item.Member.Phone</h5>
+                        </div>
+                    </div>
+                    <hr>
+                    @{
+                        var repID = "rep" + @item.AnswerID;
+                    }
+                    <div id="@repID">
+                        @Html.Raw(@item.Content)
+                    </div>
+                    <div class="col-md-12" style="background-color: #f5f5f5;">
+                        <div class="col-md-2">
+                            <label style="float: right;">Đánh giá:@QaDao.getTotalRateAnswer(item.AnswerID)</label>
+                        </div>
+                        <div class="col-md-2">
+                            @*<input type="number" name="your_awesome_parameter" id="rating-default" class="rating" value="@QaDao.getRateAnswer(item.AnswerID)" />*@
+                            @if (Session[SessionAccount.SessionUserId] != null)
+                            {
+                                <div class="ratings" onclick="RateA(@item.AnswerID,@index)">
+                                    @{ var id = "rating-default" + @index; }
+                                    <input type="number" name="your_awesome_parameter" id="@id" class="rating" value="@QaDao.getRateAnswer(item.AnswerID)" disabled="disabled" />
+                                </div>
+                                        }
+                                        else
+                                        {
+                                            <input type="number" name="your_awesome_parameter" id="rating-readonly" class="rating" value="@QaDao.getRateAnswer(item.AnswerID)" data-readonly />
+                                        }
+                        
+                        </div>
+                        <div class="col-md-1">
+                            <a onclick="Reply(@item.AnswerID,'@item.Member.UserName')">Trả lời</a>
+                        </div>
+                        <div class="col-md-2">
+                            <a onclick="SetAID(@item.AnswerID)" role="button" data-toggle="modal" data-target="#report">Báo cáo</a>
+                        </div>
+                    </div>
+                </div>
+                        for (var i = 0; i < @listAnswerDetail.ElementAt(index).Count; i++)
+                        {
+
+                        <div class="row" style="margin-left: 50px">
+                            <div class="col-md-12">
+                                <div class="col-md-2 col-md-offset-10">
+                                    <h5 style="color: white; float: right;">@listAnswerDetail.ElementAt(index).ElementAt(i).Datetime</h5>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-1">
+                                    <img style="margin-left: 5px; height: 50px; width: auto" src="~/Content/Image/Member/@listAnswerDetail.ElementAt(index).ElementAt(i).Member.Image">
+                                </div>
+                                <div class="col-md-11" style="padding-top: 0px;">
+                                    <a style="color: #397ab2;" href="">@listAnswerDetail.ElementAt(index).ElementAt(i).Member.UserName</a>
+                                    <h5>@listAnswerDetail.ElementAt(index).ElementAt(i).Member.Phone</h5>
+                                </div>
+                            </div>
+                            <hr>
+                            @{
+                                   var repID1 = "rep" + @listAnswerDetail.ElementAt(index).ElementAt(i).AnswerID;
+                            }
+                            <div id="@repID1">
+                                @Html.Raw(@listAnswerDetail.ElementAt(index).ElementAt(i).Content)
+                            </div>
+
+                        </div>
+                                }
+                                }
+        </div>
+
+        <input type="hidden" name="RepID" id="RepID">
+        <input type="hidden" name="QID" id="QID">
+        <input type="hidden" name="AID" id="AID">
     <div class="row" style="background-color: #fafafa; margin-top: 15px;">
         <div class="col-md-12" style="background-color: #000055;">
             <h4 style="color: white;">Trả lời bài viết</h4>
@@ -107,6 +211,7 @@
             </div>
             <hr>
         </div>
+        <div ><h3 id="CommentMore"></h3></div>
         <div class="col-md-12">
             <textarea type="text" class="form-control" placeholder="" id="content" name="content"></textarea>
             <label id="lblmessage_content_fail" class="label-error"></label>
@@ -115,7 +220,6 @@
             <div style="float: right; margin-top: 15px; margin-bottom: 15px;">
                 <a class="btn btn-primary" id="btnCreateAnswer" role="button">Gửi trả lời</a>
             </div>
-
         </div>
     </div>
 </div>
@@ -125,7 +229,6 @@
 
     $(document).ready(function() {
         $(function() {
-            $("#content").focus();
         });
     });
 
@@ -150,9 +253,71 @@
         }
     });
 
+    function RateQ(QId) {
+        var RateNum = $('#rating-default').val();
+        $('#lbl_Rating_fail').text("");
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("RateQ")",
+            datatype: "JSON",
+        data: {
+            QId: QId,
+            RateNum: RateNum,
+        },
+        success: function(res) {
+            switch (res.Status) {
+                case 2:
+                    alert(res.Message);
+                    break;
+                case 1:
+                    alert(res.Message);
+                    window.location.reload();
+                    break;
+                case 0:
+                    alert(res.Message);
+                    window.location.href = res.RedirectTo;
+                    break;
+            }
+        }
+    }); // end ajax
+    }
+
+    function RateA(AId,index) {
+        var RateNum = $('#rating-default' + index).val();
+        $('#lbl_Rating_fail').text("");
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("RateA")",
+            datatype: "JSON",
+        data: {
+            AId: AId,
+            RateNum: RateNum,
+            },
+        success: function(res) {
+            switch (res.Status) {
+                case 2:
+                    alert(res.Message);
+                    break;
+                case 1:
+                    alert(res.Message);
+                    window.location.reload();
+                    break;
+                case 0:
+                    alert(res.Message);
+                    window.location.href = res.RedirectTo;
+                    break;
+            }
+        }
+    }); // end ajax
+    }
+
+
     function Validate() {
 
-        var content = $('#content').val();
+        //var content = $('#content').val();
+        var content = window.parent.tinymce.get('content').getContent();
         if (content != null) {
             if (content.length < 6) {
                 $('#lblmessage_content_fail').text("Nội dung không được nhỏ hơn 6 ký tự");
@@ -166,13 +331,25 @@
         }
         return true;
     }
-
+    function Reply(anId, Name) {
+        $("#content").focus();
+        $("#RepID").val(anId);
+        $('#CommentMore').text("");
+            $('#CommentMore').append("Trả lời "+Name +"  <a onclick='CancelAn()'>Hủy</a>");
+    }
+    function CancelAn()
+    {
+        $('#CommentMore').text("");
+        $("#RepID").val("");
+    }
     function CreateAnswer() {
         var fileData = new FormData();
         // Adding one more key to FormData object
         fileData.append('qID', @questiondetail.QuestionID);
-        var content = $('#content').val();
+        var content = window.parent.tinymce.get('content').getContent();
         fileData.append('content', content);
+        var RepID = $('#RepID').val();
+        fileData.append('RepID', RepID);
 
         $.ajax({
             type: "POST",
@@ -181,25 +358,100 @@
             processData: false,
             data: fileData,
             dataType: "Json",
-            success: function(res) {
+            success: function (res) {
+                if (res) {
+                } else {
+                    $('#lblmessage_content_fail').text("Xin hãy đăng nhập.");
+                }
                 switch (res.Status) {
-                case 2:
-                    break;
-                case 3:
-                    break;
-                case 4:
-                    break;
-                case 1:
-                    alert(res.Message);
-                    window.location.href = res.RedirectTo;
-                    break;
-                case 0:
-                    window.location.href = res.RedirectTo;
-                    break;
+                    case 2:
+                        $('#lblmessage_content_fail').text(res.Message);
+                        break;
+                    case 1:
+                        window.location.reload();
+                        break;
+                    case 0:
+                        $('#lblmessage_content_fail').text(res.Message);
+                        break;
                 }
             }
         });
     }
+    function SetQID(QId) {
+        var Qid = $('#QID').val();
+        $("#QID").val(QId);
+    }
+    
+    function ReportQA(Qid) {
+        var Qid = $('#QID').val();
+        var content = $('#content').text();
+        $('#lbl_Report_fail').text("");
+        var AId = $('#AID').val();
+        if (Qid != "") {
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("ReportQuestion", "Report")",
+                datatype: "JSON",
+                data: {
+                    Qid: Qid,
+                    content: content,
+                },
+                success: function(res) {
+                    switch (res.Status) {
+                    case 2:
+                        alert(res.Message);
+                        $('#username').focus();
+                        break;
+                    case 3:
+                        $('#lbl_report_fail').text(res.Message);
+                        $('#username').focus();
+                        break;
+                    case 1:
+                        alert(res.Message);
+                        // Declare a proxy to reference the hub.
+
+                        window.location.reload();
+                        break;
+                    }
+                }
+            });
+        } else {
+          
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("ReportAnswer", "Report")",
+                datatype: "JSON",
+            data: {
+                AId: AId,
+                content: content,
+                },
+            success: function (res) {
+                switch (res.Status) {
+                    case 2:
+                        alert(res.Message);
+                        $('#username').focus();
+                        break;
+                    case 3:
+                        $('#lbl_report_fail').text(res.Message);
+                        $('#username').focus();
+                        break;
+                    case 1:
+                        alert(res.Message);
+                        // Declare a proxy to reference the hub.
+
+                        window.location.reload();
+                        break;
+                }
+            }
+        }); // end ajax  
+        }// end ajax
+    }
+
+
+    function SetAID(AId) {
+        $("#AID").val(AId);
+    }
+    
 
 
     $(document).ready(function() {
@@ -228,13 +480,13 @@
         }
     });
 </script>
-
+<script type="text/javascript" src="@Url.Content("~/Scripts/tinymce/tinymce.min.js")"></script>
     <script type="text/javascript">
     tinymce.init({
         selector: "textarea",
         width: '100%',
         language: 'vi_VN',
-        height: 400,
+        height: 200,
         statusbar: false,
         menubar: false,
 
@@ -253,7 +505,7 @@
             "insertdatetime media nonbreaking save table contextmenu directionality",
             "emoticons textcolor colorpicker textpattern "
         ],
-        toolbar: "undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link base64_image media | forecolor backcolor"
+        toolbar: "undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | link base64_image media"
     });
 
     // Prevent bootstrap dialog from blocking focusin
