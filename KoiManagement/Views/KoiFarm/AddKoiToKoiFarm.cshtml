@@ -5,74 +5,106 @@
 @{
     ViewBag.Title = "Thêm cá vào trang trại";
     Layout = "~/Views/Layout/KoiLayout.cshtml";
-    PagedList.IPagedList ListKoi= ViewBag.ListKoi;
+    PagedList.IPagedList ListKoi = ViewBag.ListKoi;
 }
 
 
 <section class="container" id="list-koi">
     <h2>Hãy chọn cá bạn muốn thêm vào trang trại<h3>(Bạn chỉ được thêm theo từng trang.)</h3></h2>
     <div class="button-header text-right" style="margin:0 0 15px 0;">
-        <a class="btn btn-success" id="btnAddKoi" >Thêm cá vào trang trại</a>
+        <a class="btn btn-success" id="btnAddKoi">Thêm cá vào trang trại</a>
     </div>
-    <table class="table" id="find-table">
-        <tr>
-            <th>
-                Hình ảnh
-            </th>
-            <th>
-                Chủng loại
-            </th>
-            <th>
-                Tên cá
-            </th>
-            <th>
-                Ngày sinh
-            </th>
-            <th>
-                Giới tính
-            </th>
-
-            <th>
-                Nguồn gốc
-            </th>
-            <th>
-                Thêm vào trang trại
-            </th>
-        </tr>
-
-        @for (int item = 0; item < ViewBag.ListKoi.Count; item++)
-        {
+    <table class="table table-responsive table-striped" id="find-table">
+        <thead style="background-color:aquamarine;">
             <tr>
-                <td>
-                    <img class="img-koi-list " src="/Content/Image/Koi/@ViewBag.ListKoi[item].Image" alt="">
-                </td>
-                <td>
-                    @ViewBag.ListKoi[item].Variety.VarietyName
-                </td>
-                <td>
-                    @ViewBag.ListKoi[item].KoiName
-                </td>
-                <td>
-                    @(@ViewBag.ListKoi[item].DoB != null ? @ViewBag.ListKoi[item].DoB.ToString("dd/MM/yyyy") : "Chưa biết")
-                </td>
-                <td>
-                    @CommonFunction.ReturnGenderKoi(ViewBag.ListKoi[item].Gender)
-                </td>
-                <td>
-                    @ViewBag.ListKoi[item].Origin
-                </td>
-
-                <td>
-                    <label><input type="checkbox" value="@ViewBag.ListKoi[item].KoiID" checked>Chọn</label>
-                </td>
+                <th>Hình ảnh</th>
+                <th>Chủng loại</th>
+                <th>Tên cá</th>
+                <th>Ngày sinh</th>
+                <th>Giới tính</th>
+                <th>Nguồn gốc</th>
+                <th>Thêm vào trang trại</th>
             </tr>
-        }
+        </thead>
+        <tbody>
+            @for (int item = 0; item < ViewBag.ListKoi.Count; item++)
+            {
+                <tr>
+                    <td>
+                        <img class="img-add-farm" src="/Content/Image/Koi/@ViewBag.ListKoi[item].Image" alt="">
+                    </td>
+                    <td>
+                        @ViewBag.ListKoi[item].Variety.VarietyName
+                    </td>
+                    <td>
+                        @ViewBag.ListKoi[item].KoiName
+                    </td>
+                    <td>
+                        @(@ViewBag.ListKoi[item].DoB != null ? @ViewBag.ListKoi[item].DoB.ToString("dd/MM/yyyy") : "Chưa biết")
+                    </td>
+                    <td>
+                        @CommonFunction.ReturnGenderKoi(ViewBag.ListKoi[item].Gender)
+                    </td>
+                    <td>
+                        @ViewBag.ListKoi[item].Origin
+                    </td>
+
+                    <td>
+                        <label><input type="checkbox" value="@ViewBag.ListKoi[item].KoiID" checked>Chọn</label>
+                    </td>
+                </tr>
+            }
+        </tbody>
 
     </table>
     Page @(ListKoi.PageCount < ListKoi.PageNumber ? 0 : ListKoi.PageNumber) of @ListKoi.PageCount
     @Html.PagedListPager(ListKoi, page => Url.Action("AddkoiToKoiFarm/" + @ViewBag.KoiFarmID, "KoiFarm", new { page }))
 </section>
 
+<style>
+    .img-add-farm {
+        height: 195px;
+        width: 130px;
+        overflow: hidden;
+        display: block;
+        margin: auto 15px auto 10px;
+    }
+    /*table {
+        display: flex;
+        flex-flow: column;
+        height: 60%;
+        width: 100%;
+    }
+
+        table thead {
+            flex: 0 0 auto;
+            width: calc(100% - 1em);
+        }
+
+        table tbody {
+            flex: 1 1 auto;
+            display: block;
+            overflow-y: scroll;
+
+        }
+
+            table tbody tr {
+                width: 100%;
+            }
+
+            table thead,
+            table tbody tr {
+                display: table;
+                table-layout: fixed;
+            }
+    table {
+        border: 1px solid lightgrey;
+    }
+
+        table td, table th {
+            padding: 0.3em;
+        }*/
+</style>
 <script>
 
     $("#btnAddKoi")
@@ -110,19 +142,19 @@
                 KoiID: t,
                 koiFarmId: @ViewBag.KoiFarmID,
             },
-         dataType: "Json",
-        success: function(res) {
-            switch (res.Status) {
-               
-                case 1:
-                    alert(res.Message);
-                    window.location.reload();
-                    break;
-                case 0:
-                    window.location.href = res.RedirectTo;
-                    break;
+            dataType: "Json",
+            success: function(res) {
+                switch (res.Status) {
+
+                    case 1:
+                        alert(res.Message);
+                        window.location.reload();
+                        break;
+                    case 0:
+                        window.location.href = res.RedirectTo;
+                        break;
+                }
             }
-        }
-    });
+        });
     }
 </script>

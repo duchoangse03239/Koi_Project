@@ -46,33 +46,38 @@
 
                 @for (int item = 0; item < ViewBag.ListQA.Count; item++)
                 {
-                    <div class="col-md-1 column ">
+                    <div class="col-md-1 column">
                         <i class="icon-file"></i>
                     </div>
-                    <div class="col-md-7 column ">
-                        <span class="overflow-control">
-                            <a href="@Url.Action("QuestionDetail/" + @ViewBag.ListQA[item].QuestionID, "QuestionAnswer")">@ViewBag.ListQA[item].Title</a>
-                        </span>
-                        
-                        <span>Người đăng <a href="@Url.Action("Profile/" + @ViewBag.ListQA[item].Member.UserName, "Account")">@ViewBag.ListQA[item].Member.UserName</a> @ViewBag.ListQA[item].Datetime</span>
-                        
+                    <div class="col-md-7 column">
+                        <div style="padding-top:10px;">
+                            <span class="overflow-control">
+                                <a href="@Url.Action("QuestionDetail/" + @ViewBag.ListQA[item].QuestionID, "QuestionAnswer")">@ViewBag.ListQA[item].Title</a>
+                            </span>
+                            <span>Người đăng <a href="@Url.Action("Profile/" + @ViewBag.ListQA[item].Member.UserName, "Account")">@ViewBag.ListQA[item].Member.UserName</a> @ViewBag.ListQA[item].Datetime</span>
+                        </div>
                     </div>
-                    <div class="col-md-2 column ">
-                        <span>Trả lời: @QADao.CountAnswer(@ViewBag.ListQA[item].QuestionID)</span>
+                    <div class="col-md-2 column">
+                        <div style="padding-top:10px;">
+                            <span>Trả lời: @QADao.CountAnswer(@ViewBag.ListQA[item].QuestionID)</span>
+                        </div>
                     </div>
-                    <div class="col-md-2 col-sm-4 column ">
-                        @{ Answer Answer = @QADao.GetLastAnswer(@ViewBag.ListQA[item].QuestionID);}
-                        @if (Answer != null)
-                        {
-                            <span><a href="@Url.Action("Profile/" + @Answer.Member.MemberID, "Account")">@Answer.Member.Name</a></span>
-                            <span>@Answer.Datetime</span>
-                        }
-                        else
-                        {
-                            <span><a href="@Url.Action("Profile/" + @ViewBag.ListQA[item].Member.UserName, "Account")">@ViewBag.ListQA[item].Member.UserName</a></span>
-                            <span>@ViewBag.ListQA[item].Datetime</span>
-                        }
-                        
+                    <div class="col-md-2 column">
+                            @{ Answer Answer = @QADao.GetLastAnswer(@ViewBag.ListQA[item].QuestionID);}
+                            @if (Answer != null)
+                            {
+                                <div style="padding-top:10px;">
+                                    <span><a href="@Url.Action("Profile/" + @Answer.Member.MemberID, "Account")">@Answer.Member.Name</a></span>
+                                    <span>@Answer.Datetime</span>
+                                </div>
+                            }
+                            else
+                            {
+                                <div style="padding-top:10px;">
+                                    <span><a href="@Url.Action("Profile/" + @ViewBag.ListQA[item].Member.UserName, "Account")">@ViewBag.ListQA[item].Member.UserName</a></span>
+                                    <span>@ViewBag.ListQA[item].Datetime</span>
+                                </div>
+                            }
                     </div>
                 }
             </div>
