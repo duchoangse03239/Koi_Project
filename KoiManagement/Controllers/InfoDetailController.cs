@@ -384,10 +384,12 @@ namespace KoiManagement.Controllers
                 //xóa ảnh
                 foreach (var item in listImageRemove)
                 {
+                    if (item != null&&item.LinkImage!=null) { 
                     var path = Server.MapPath("~/Content/Image/Detail/" + item.LinkImage);
-                    if (System.IO.File.Exists(path))
+                    if (System.IO.File.Exists(Server.MapPath("~/Content/Image/Detail/" + item.LinkImage)))
                     {
                         System.IO.File.Delete(path);
+                    }
                     }
                 }
 
@@ -559,14 +561,19 @@ namespace KoiManagement.Controllers
         public ActionResult AddParent(int id, int? page, string nameKoi, string variety, string owner)
         {
             KoiDAO kDao = new KoiDAO();
-            if (!String.IsNullOrEmpty(variety) &&variety.Equals("0"))
+            //if (!String.IsNullOrEmpty(variety) &&variety.Equals("0"))
+            //{
+            //    variety = "";
+            //}
+            //else if (String.IsNullOrEmpty(variety))
+            //{
+            //    variety = "0";
+            //}
+            if (!String.IsNullOrEmpty(variety) && variety.Equals("0"))
             {
                 variety = "";
             }
-            else if (String.IsNullOrEmpty(variety))
-            {
-                variety = "0";
-            }
+
             KoiFilterModel filter = new KoiFilterModel("", nameKoi, "", variety, "", "", "", owner, "", "");
             ViewBag.Filter = filter;
             var koi = db.Kois.AsQueryable();
@@ -593,6 +600,12 @@ namespace KoiManagement.Controllers
             KoiDAO kDao = new KoiDAO();
             try
             {
+                if (koiSonId == koMomId)
+                {
+                    obj.Status = 2;
+                    obj.Message = "Bạn đã không thể thêm chính koi đó làm mẹ.";
+                    return Json(obj);
+                }
                 if (kDao.AddParent(koiSonId, koMomId) >0)
                 {
                     obj.Status = 1;
