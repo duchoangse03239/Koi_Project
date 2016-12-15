@@ -1117,6 +1117,8 @@
     <Content Include="Views\Admin\ListArticle.cshtml" />
     <Content Include="Views\InfoDetail\ParentTree.cshtml" />
     <Content Include="Views\InfoDetail\AllOwner.cshtml" />
+    <Content Include="Views\Admin\QuestionReport.cshtml" />
+    <Content Include="Views\Admin\AnswerReport.cshtml" />
     <None Include="Views\InfoDetail\timeline.cshtml" />
     <Content Include="Views\Message\ListMessage.cshtml" />
     <Content Include="Web.config">

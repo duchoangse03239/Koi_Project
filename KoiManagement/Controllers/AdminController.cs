@@ -494,6 +494,70 @@ namespace KoiManagement.Controllers
             return Json(new { result = true });
         }
 
+        [HttpPost]
+        public ActionResult DeActiveReportQuestion(string QuestionID)
+        {
+            int id = int.Parse(QuestionID);
+            var listReport = db.Reports.Where(p => p.ObjectType == "Question" && p.ObjectId == id && p.Status);
+            using (var dbContextTransaction = db.Database.BeginTransaction())
+            {
+                try
+                {
+                    foreach (var report in listReport)
+                    {
+                        Report re = report;
+                        re.Status = false;
+                        db.Reports.Attach(re);
+                        db.Entry(re).Property(x => x.Status).IsModified = true;
+                        db.SaveChanges();
+                    }
+                    Question mem = db.Questions.Find(int.Parse(QuestionID));
+                    mem.Status = false;
+                    db.Questions.Attach(mem);
+                    db.Entry(mem).Property(x => x.Status).IsModified = true;
+                    int result = db.SaveChanges();
+                    dbContextTransaction.Commit();
+                }
+                catch (Exception)
+                {
+                    dbContextTransaction.Rollback(); //Required according to MSDN article 
+                }
+            }
+            return Json(new { result = true });
+        }
+
+        [HttpPost]
+        public ActionResult DeActiveReportAnswer(string AnswerID)
+        {
+            int id = int.Parse(AnswerID);
+            var listReport = db.Reports.Where(p => p.ObjectType == "Answer" && p.ObjectId == id && p.Status);
+            using (var dbContextTransaction = db.Database.BeginTransaction())
+            {
+                try
+                {
+                    foreach (var report in listReport)
+                    {
+                        Report re = report;
+                        re.Status = false;
+                        db.Reports.Attach(re);
+                        db.Entry(re).Property(x => x.Status).IsModified = true;
+                        db.SaveChanges();
+                    }
+                    Answer mem = db.Answers.Find(int.Parse(AnswerID));
+                    mem.Status = false;
+                    db.Answers.Attach(mem);
+                    db.Entry(mem).Property(x => x.Status).IsModified = true;
+                    int result = db.SaveChanges();
+                    dbContextTransaction.Commit();
+                }
+                catch (Exception)
+                {
+                    dbContextTransaction.Rollback(); //Required according to MSDN article 
+                }
+            }
+            return Json(new { result = true });
+        }
+
 
         public ActionResult MemberReport(string sortOrder, string currentFilter, string searchString, int? page)
         {
@@ -608,6 +672,83 @@ namespace KoiManagement.Controllers
             return View();
         }
 
+
+        public ActionResult QuestionReport(string sortOrder, string currentFilter, string searchString, int? page)
+        {
+            ////kiem tra phan quyen
+            //if (Session[SessionAccount.SessionUserId] == null)
+            //{
+            //    return RedirectToAction("Login", "Account");
+            //}
+            //var mem = memberDao.GetMemberbyID(int.Parse(Session[SessionAccount.SessionUserId].ToString()));
+            //if (mem.Role != 1)
+            //{
+            //    return RedirectToAction("Index", "Home");
+            //}
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewBag.Date = String.IsNullOrEmpty(sortOrder) ? "Date_desc" : "";
+            ViewBag.UserName = sortOrder == "UserName" ? "UserName_desc" : "UserName";
+            ViewBag.QuestionID = sortOrder == "QuestionID" ? "QuestionID_desc" : "QuestionID";
+            ViewBag.Status = sortOrder == "Status" ? "AllStatus" : "Status";
+
+            ViewBag.CurrentFilter = searchString;
+            ViewBag.CurrentSort = sortOrder;
+            IQueryable<Report> QA = db.Reports.AsQueryable();
+            // Member = Member.OrderBy(p => p.Name);
+            //search
+            QA = adminDao.QuesTionReport(searchString, sortOrder);
+            int pageSize = 7;
+            int pageNumber = (page ?? 1);
+            ViewBag.ListMember = QA.ToList().ToPagedList(pageNumber, pageSize);
+            return View();
+        }
+
+        public ActionResult AnswerReport(string sortOrder, string currentFilter, string searchString, int? page)
+        {
+            ////kiem tra phan quyen
+            //if (Session[SessionAccount.SessionUserId] == null)
+            //{
+            //    return RedirectToAction("Login", "Account");
+            //}
+            //var mem = memberDao.GetMemberbyID(int.Parse(Session[SessionAccount.SessionUserId].ToString()));
+            //if (mem.Role != 1)
+            //{
+            //    return RedirectToAction("Index", "Home");
+            //}
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewBag.Date = String.IsNullOrEmpty(sortOrder) ? "Date_desc" : "";
+            ViewBag.UserName = sortOrder == "UserName" ? "UserName_desc" : "UserName";
+            ViewBag.AnswerID = sortOrder == "AnswerID" ? "AnswerID_desc" : "AnswerID";
+            ViewBag.Status = sortOrder == "Status" ? "AllStatus" : "Status";
+
+            ViewBag.CurrentFilter = searchString;
+            ViewBag.CurrentSort = sortOrder;
+            IQueryable<Report> QA = db.Reports.AsQueryable();
+            // Member = Member.OrderBy(p => p.Name);
+            //search
+            QA = adminDao.AnswerReport(searchString, sortOrder);
+            int pageSize = 7;
+            int pageNumber = (page ?? 1);
+            ViewBag.ListMember = QA.ToList().ToPagedList(pageNumber, pageSize);
+            return View();
+        }
+
         public ActionResult ListArticle(string sortOrder, string currentFilter, string searchString, int? page)
         {
             ////kiem tra phan quyen
@@ -711,7 +852,71 @@ namespace KoiManagement.Controllers
                 });
             }
         }
-        
+
+        [HttpPost]
+        public ActionResult ActiveQuestion(string QuestionID)
+        {
+            //kiem tra phan quyen
+            if (Session[SessionAccount.SessionUserId] == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            var mem1 = memberDao.GetMemberbyID(int.Parse(Session[SessionAccount.SessionUserId].ToString()));
+            if (mem1.Role != 1)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            Question mem = db.Questions.Find(int.Parse(QuestionID));
+            mem.Status = true;
+            db.Questions.Attach(mem);
+            db.Entry(mem).Property(x => x.Status).IsModified = true;
+            int result = db.SaveChanges();
+            //return View();
+            if (result == 1)
+            {
+                return Json(new { result = true });
+            }
+            else
+            {
+                return Json(new
+                {
+                    result = false
+                });
+            }
+        }
+
+        [HttpPost]
+        public ActionResult ActiveAnswer(string AnswerID)
+        {
+            //kiem tra phan quyen
+            if (Session[SessionAccount.SessionUserId] == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            var mem1 = memberDao.GetMemberbyID(int.Parse(Session[SessionAccount.SessionUserId].ToString()));
+            if (mem1.Role != 1)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            Answer mem = db.Answers.Find(int.Parse(AnswerID));
+            mem.Status = true;
+            db.Answers.Attach(mem);
+            db.Entry(mem).Property(x => x.Status).IsModified = true;
+            int result = db.SaveChanges();
+            //return View();
+            if (result == 1)
+            {
+                return Json(new { result = true });
+            }
+            else
+            {
+                return Json(new
+                {
+                    result = false
+                });
+            }
+        }
+
 
     }
 }

@@ -368,48 +368,48 @@ namespace KoiManagement.DAL
             {
                 searchString = searchString.Trim();
             }
-            var MemberReport = db.Reports.AsQueryable();
+            var QuestionReport = db.Reports.AsQueryable();
             //loc type
             DateTime Date;
             string[] formats = { "yyyy-MM-dd", "yyyy/MM/dd", "dd-MM-yyyy", "dd/MM/yyyy", "MM-dd-yyyy", "MM/dd/yyyy" };
             DateTime.TryParseExact(searchString, formats, CultureInfo.InvariantCulture, DateTimeStyles.None, out Date);
-            MemberReport = MemberReport.Where(p => p.ObjectType == "Question");
+            QuestionReport = QuestionReport.Where(p => p.ObjectType == "Question");
             var listMember = db.Members.Where(p => p.UserName.Contains(searchString)).Select(p => p.MemberID).ToList();
             if (!String.IsNullOrEmpty(searchString))
             {
-                // MemberReport = MemberReport.Where(s => s.DateTime.ToString().Contains(searchString) || s.any.Contains(searchString) || s.Member.Phone.Contains(searchString) || s.Member.Name.Contains(searchString)));
+                // QuestionReport = QuestionReport.Where(s => s.DateTime.ToString().Contains(searchString) || s.any.Contains(searchString) || s.Member.Phone.Contains(searchString) || s.Member.Name.Contains(searchString)));
 
-                MemberReport = MemberReport.Where(s => listMember.Any(p => p == s.ObjectId) || listMember.Any(p => p == s.MemberID) || s.DateTime == Date);
+                QuestionReport = QuestionReport.Where(s => listMember.Any(p => p == s.ObjectId) || listMember.Any(p => p == s.MemberID) || s.DateTime == Date);
             }
             //sort
             switch (sortOrder)
             {
                 case "Date_desc":
-                    MemberReport = MemberReport.OrderByDescending(s => s.DateTime);
+                    QuestionReport = QuestionReport.OrderByDescending(s => s.DateTime);
                     break;
                 case "UserName":
-                    MemberReport = MemberReport.OrderBy(s => s.MemberID);
+                    QuestionReport = QuestionReport.OrderBy(s => s.MemberID);
                     break;
                 case "UserName_desc":
-                    MemberReport = MemberReport.OrderByDescending(s => s.MemberID);
+                    QuestionReport = QuestionReport.OrderByDescending(s => s.MemberID);
                     break;
-                case "UserName1":
-                    MemberReport = MemberReport.OrderBy(s => s.ObjectId);
+                case "QuestionID":
+                    QuestionReport = QuestionReport.OrderBy(s => s.ObjectId);
                     break;
-                case "UserName1_desc":
-                    MemberReport = MemberReport.OrderByDescending(s => s.ObjectId);
+                case "QuestionID_desc":
+                    QuestionReport = QuestionReport.OrderByDescending(s => s.ObjectId);
                     break;
                 case "Status":
-                    MemberReport = MemberReport.Where(s => s.Status);
+                    QuestionReport = QuestionReport.Where(s => s.Status);
                     break;
                 case "AllStatus":
-                    MemberReport = MemberReport.Where(s => !s.Status);
+                    QuestionReport = QuestionReport.Where(s => !s.Status);
                     break;
                 default:  // Name ascending 
-                    MemberReport = MemberReport.OrderBy(s => s.DateTime);
+                    QuestionReport = QuestionReport.OrderBy(s => s.DateTime);
                     break;
             }
-            return MemberReport;
+            return QuestionReport;
         }
         public IQueryable<Report> AnswerReport(string searchString, string sortOrder)
         {
@@ -417,48 +417,48 @@ namespace KoiManagement.DAL
             {
                 searchString = searchString.Trim();
             }
-            var MemberReport = db.Reports.AsQueryable();
+            var AnswerReport = db.Reports.AsQueryable();
             //loc type
             DateTime Date;
             string[] formats = { "yyyy-MM-dd", "yyyy/MM/dd", "dd-MM-yyyy", "dd/MM/yyyy", "MM-dd-yyyy", "MM/dd/yyyy" };
             DateTime.TryParseExact(searchString, formats, CultureInfo.InvariantCulture, DateTimeStyles.None, out Date);
-            MemberReport = MemberReport.Where(p => p.ObjectType == "Answer");
+            AnswerReport = AnswerReport.Where(p => p.ObjectType == "Answer");
             var listMember = db.Members.Where(p => p.UserName.Contains(searchString)).Select(p => p.MemberID).ToList();
             if (!String.IsNullOrEmpty(searchString))
             {
-                // MemberReport = MemberReport.Where(s => s.DateTime.ToString().Contains(searchString) || s.any.Contains(searchString) || s.Member.Phone.Contains(searchString) || s.Member.Name.Contains(searchString)));
+                // AnswerReport = AnswerReport.Where(s => s.DateTime.ToString().Contains(searchString) || s.any.Contains(searchString) || s.Member.Phone.Contains(searchString) || s.Member.Name.Contains(searchString)));
 
-                MemberReport = MemberReport.Where(s => listMember.Any(p => p == s.ObjectId) || listMember.Any(p => p == s.MemberID) || s.DateTime == Date);
+                AnswerReport = AnswerReport.Where(s => listMember.Any(p => p == s.ObjectId) || listMember.Any(p => p == s.MemberID) || s.DateTime == Date);
             }
             //sort
             switch (sortOrder)
             {
                 case "Date_desc":
-                    MemberReport = MemberReport.OrderByDescending(s => s.DateTime);
+                    AnswerReport = AnswerReport.OrderByDescending(s => s.DateTime);
                     break;
                 case "UserName":
-                    MemberReport = MemberReport.OrderBy(s => s.MemberID);
+                    AnswerReport = AnswerReport.OrderBy(s => s.MemberID);
                     break;
                 case "UserName_desc":
-                    MemberReport = MemberReport.OrderByDescending(s => s.MemberID);
+                    AnswerReport = AnswerReport.OrderByDescending(s => s.MemberID);
                     break;
-                case "UserName1":
-                    MemberReport = MemberReport.OrderBy(s => s.ObjectId);
+                case "AnswerID":
+                    AnswerReport = AnswerReport.OrderBy(s => s.ObjectId);
                     break;
-                case "UserName1_desc":
-                    MemberReport = MemberReport.OrderByDescending(s => s.ObjectId);
+                case "AnswerID_desc":
+                    AnswerReport = AnswerReport.OrderByDescending(s => s.ObjectId);
                     break;
                 case "Status":
-                    MemberReport = MemberReport.Where(s => s.Status);
+                    AnswerReport = AnswerReport.Where(s => s.Status);
                     break;
                 case "AllStatus":
-                    MemberReport = MemberReport.Where(s => !s.Status);
+                    AnswerReport = AnswerReport.Where(s => !s.Status);
                     break;
                 default:  // Name ascending 
-                    MemberReport = MemberReport.OrderBy(s => s.DateTime);
+                    AnswerReport = AnswerReport.OrderBy(s => s.DateTime);
                     break;
             }
-            return MemberReport;
+            return AnswerReport;
         }
     }
 }

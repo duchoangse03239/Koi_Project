@@ -38,6 +38,16 @@ namespace KoiManagement.DAL
             }
         }
 
+        public Question GetQuestionByID(int id)
+        {
+            return db.Questions.Find(id);
+        }
+
+        public Answer GetAnswerById(int id)
+        {
+            return db.Answers.Find(id);
+        }
+
         /// <summary>
         /// CreateAnswer
         /// </summary>
