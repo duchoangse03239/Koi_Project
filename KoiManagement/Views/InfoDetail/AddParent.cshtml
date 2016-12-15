@@ -121,7 +121,7 @@
                                     }
                                     Page @(ListKoi.PageCount < ListKoi.PageNumber ? 0 : ListKoi.PageNumber) of @ListKoi.PageCount
 
-                                    @Html.PagedListPager(ListKoi, page => Url.Action("AddParent" + @ViewBag.VarietyId,
+                                    @Html.PagedListPager(ListKoi, page => Url.Action("AddParent" ,
                                         new {page, orderby = filter.orderby, nameKoi = filter.KoiName, variety = filter.VarietyId, sizeFrom = filter.SizeFrom, sizeTo = filter.SizeTo, gender = filter.Gender, owner = filter.Owner}))
                                 </div>
                         </div>
@@ -210,8 +210,7 @@
                 success: function(res) {
                     switch (res.Status) {
                     case 2:
-                        $('#lbl_username_fail').text(res.Message);
-                        $('#username').focus();
+                        alert(res.Message);
                         break;
                     case 3:
                         $('#lbl_username_fail').text(res.Message);
