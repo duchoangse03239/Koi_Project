@@ -127,11 +127,13 @@
                 <h1>
                     <a href="@Url.Action("Details/"+@koi.KoiID , "Koi")" class="alert-warning" role="button">Koi: @koi.KoiName</a>
                 </h1>
-                <h1>@CommonFunction.calculateAge(koi.DoB.Value) </h1>
+                @if (koi.DoB.HasValue)
+                {
+                    <h1>@CommonFunction.calculateAge(koi.DoB.Value) </h1>
+                }
             </div>
             <div>
                 <img src="@Url.Content("~/Content/Image/Koi/" + koi.Image)" />
-                Here's the info about this date
             </div>
         </div>
         @foreach (var item in ListOwner)
@@ -152,7 +154,6 @@
                 </div>
                 <div>
                     <img src="@Url.Content("~/Content/Image/Member/" + item.Member.Image)" />
-                    Here's the info about this date
                 </div>
             </div>
         }

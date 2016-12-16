@@ -252,19 +252,21 @@ namespace KoiManagement.Controllers
         public ActionResult ListAchievement(int? id)
         {
             AchievementDAO AchiDao = new AchievementDAO();
-            if (Session[SessionAccount.SessionUserId] == null)
-            {
-                return RedirectToAction("Login", "Account");
-            }
-            var ar = db.Achievements.Where(p=>p.KoiID==id);
-            if (ar == null)
-            {
-                return RedirectToAction("PageNotFound", "Error");
-            }
+
+
+
             ViewBag.listIAchi = AchiDao.GetListAchievements(id.Value);
             ViewBag.koiId = id;
             var owner = ownerDao.GetOwner(id.Value);
-            ViewBag.OwnerID = owner.MemberID;
+            if (owner != null)
+            {
+                ViewBag.OwnerID = owner.MemberID;
+            }
+            else
+            {
+                ViewBag.OwnerID = string.Empty;
+            }
+
             return View();
 
         }

@@ -23,7 +23,7 @@
             </select>
         </div>
 @{
-    if (ViewBag.OwnerID != null)
+    if (ViewBag.OwnerID!=null)
     {
         if (Session[SessionAccount.SessionUserId] != null && Session[SessionAccount.SessionUserId].ToString().Equals(ViewBag.OwnerID.ToString()))
         {
