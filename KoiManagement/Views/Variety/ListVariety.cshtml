@@ -14,12 +14,11 @@
         <div class="row list-box">
             <div class="col-md-3">
                 <ul>
-                    <li><a href="">Kohaku</a></li>
-                    <li><a href="">Shiro Usturi</a></li>
-                    <li><a href="">Shusui</a></li>
-                    <li><a href="">Kujaku</a></li>
-                    <li><a href="">Beni Kumonryu</a></li>
-                    <li><a href="">Goromo</a></li>
+                    <li><a href="#item0">Showa</a></li>
+                    <li><a href="#item2">Kohaku</a></li>
+                    <li><a href="#item3">Sanke</a></li>
+                    <li><a href="#item4">Bekko</a></li>
+                    <li><a href="">Utsurimono</a></li>
                 </ul>
             </div>
             <div class="col-md-3">
@@ -29,7 +28,6 @@
                     <li><a href="">Matsuba</a></li>
                     <li><a href="">Hariwake</a></li>
                     <li><a href="">Chagoi</a></li>
-                    <li><a href="">Goshiki</a></li>
                 </ul>
             </div>
             <div class="col-md-3">
@@ -38,8 +36,7 @@
                     <li><a href="">Ki Usturi</a></li>
                     <li><a href="">Platium Agon</a></li>
                     <li><a href="">Kikusui</a></li>
-                    <li><a href="">Soragoi</a></li>
-                    <li><a href="">Kikokuryu</a></li>
+                    <li><a href="#item18">Kikokuryu</a></li>
                 </ul>
             </div>
             <div class="col-md-3">
@@ -47,9 +44,7 @@
                     <li><a href="">Tancho</a></li>
                     <li><a href="">Asagi</a></li>
                     <li><a href="">Yamabuki Ogon</a></li>
-                    <li><a href="">Kumonryu</a></li>
-                    <li><a href="">Ochiba Shigure</a></li>
-                    <li><a href="">Kin Kikokuryu</a></li>
+ 
                 </ul>
             </div>
         </div>
@@ -60,7 +55,8 @@
     <div class="container content-section-a">
 
         <div class="container">
-            <a name="item-1"></a>
+            @{ var id = "item" + item;}
+            <a name="@id"></a>
             <div class="row">
                 <div class="col-md-9 wow data-animation-delay=" 200">
                     <h3 class="section-heading">@ViewBag.Varieties[item].VarietyName</h3>
@@ -69,10 +65,11 @@
                         @ViewBag.Varieties[item].Description
                     </p>
                     <div class="sub-title lead3"></div>
-                    <p><a class="btn btn-embossed btn-primary" href="/Koi/ListKoi/@ViewBag.Varieties[item].VarietyID" role="button">Xem thêm @ViewBag.Varieties[item].VarietyName</a></p>
+                    <p><a class="btn btn-embossed btn-primary" href="/Koi/ListKoi/@ViewBag.Varieties[item].VarietyID" role="button">Xem thêm @ViewBag.Varieties[item].VarietyName</a>
+                    </p>
                 </div>
                 <div class="col-md-3 wow">
-                    <img style="float:right;" class="img-koi-variety" src="/Content/Image/Variety/@ViewBag.Varieties[item].Image" alt="">
+                    <img style="float: right;" class="img-koi-variety" src="/Content/Image/Variety/@ViewBag.Varieties[item].Image" alt="">
                 </div>
             </div>
         </div>
@@ -83,7 +80,8 @@
                 <div class="container content-section-b">
 
             <div class="container">
-
+                @{  id = "item" + item;}
+                <a name="@id"></a>
                 <div class="row">
 
                     <div class="col-md-3 wow">

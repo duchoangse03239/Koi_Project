@@ -10,7 +10,7 @@
     List<List<Answer>> listAnswerDetail = ViewBag.ListAnswerDetail;
     QuestionAnswerDAO QaDao = new QuestionAnswerDAO();
 }
-<style>#content {
+<style>#content1 {
   border: 1px solid #ccc;
   height: auto;
   margin-top: 10px;
@@ -38,7 +38,7 @@
                 <input type="hidden" name="QID" id="QID">
                 <input type="hidden" name="AID" id="AID">
                 <div>
-                    <div id="content" name="content" contenteditable=""></div>
+                    <div id="content1" name="content" contenteditable=""></div>
                      <label id="lbl_report_fail" class="label-error"></label>
                 </div>
                 <div style="margin-top:10px;">
@@ -104,7 +104,7 @@
                                 }
                 </div>
                 <div class="col-md-1">
-                    <a href="">Trả lời</a>
+                    <a href="#comment1" onclick="tinyMCE.get('content').focus();" >Trả lời</a>
                 </div>
                 <div class="col-md-2">
                     <a onclick="SetQID(@questiondetail.QuestionID)" role="button" data-toggle="modal" data-target="#report">Báo cáo</a>
@@ -158,7 +158,7 @@
                         
                         </div>
                         <div class="col-md-1">
-                            <a onclick="Reply(@item.AnswerID,'@item.Member.UserName')">Trả lời</a>
+                            <a href="#comment1" onclick="Reply(@item.AnswerID,'@item.Member.UserName')">Trả lời</a>
                         </div>
                         <div class="col-md-2">
                             <a onclick="SetAID(@item.AnswerID)" role="button" data-toggle="modal" data-target="#report">Báo cáo</a>
@@ -213,6 +213,7 @@
         </div>
         <div ><h3 id="CommentMore"></h3></div>
         <div class="col-md-12">
+            <a name="comment1"></a>
             <textarea type="text" class="form-control" placeholder="" id="content" name="content"></textarea>
             <label id="lblmessage_content_fail" class="label-error"></label>
         </div>
@@ -332,7 +333,7 @@
         return true;
     }
     function Reply(anId, Name) {
-        $("#content").focus();
+        tinyMCE.get('content').focus();
         $("#RepID").val(anId);
         $('#CommentMore').text("");
             $('#CommentMore').append("Trả lời "+Name +"  <a onclick='CancelAn()'>Hủy</a>");
@@ -384,7 +385,7 @@
     
     function ReportQA(Qid) {
         var Qid = $('#QID').val();
-        var content = $('#content').text();
+        var content = $('#content1').text();
         $('#lbl_Report_fail').text("");
         var AId = $('#AID').val();
         if (Qid != "") {
