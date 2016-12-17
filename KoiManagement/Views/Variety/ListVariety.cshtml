@@ -15,35 +15,35 @@
             <div class="col-md-3">
                 <ul>
                     <li><a href="#item0">Showa</a></li>
-                    <li><a href="#item2">Kohaku</a></li>
-                    <li><a href="#item3">Sanke</a></li>
-                    <li><a href="#item4">Bekko</a></li>
-                    <li><a href="">Utsurimono</a></li>
+                    <li><a href="#item1">Kohaku</a></li>
+                    <li><a href="#item2">Sanke</a></li>
+                    <li><a href="#item3">Bekko</a></li>
+                    <li><a href="#item4">Utsurimono</a></li>
                 </ul>
             </div>
             <div class="col-md-3">
                 <ul>
-                    <li><a href="">Taisho Sanke</a></li>
-                    <li><a href="">Hi Usturi</a></li>
-                    <li><a href="">Matsuba</a></li>
-                    <li><a href="">Hariwake</a></li>
-                    <li><a href="">Chagoi</a></li>
+                    <li><a href="#item5">Asagi</a></li>
+                    <li><a href="#item6">Tancho</a></li>
+                    <li><a href="#item7">Hikarimuji</a></li>
+                    <li><a href="#item8">Shusui</a></li>
+                    <li><a href="#item9">Goromo</a></li>
                 </ul>
             </div>
             <div class="col-md-3">
                 <ul>
-                    <li><a href="">Showa Sanshoku</a></li>
-                    <li><a href="">Ki Usturi</a></li>
-                    <li><a href="">Platium Agon</a></li>
-                    <li><a href="">Kikusui</a></li>
-                    <li><a href="#item18">Kikokuryu</a></li>
+                    <li><a href="#item10">Matsuba</a></li>
+                    <li><a href="#item11">Kawarimono</a></li>
+                    <li><a href="#item12">Chagoi</a></li>
+                    <li><a href="#item13">Goshiki</a></li>
+                    <li><a href="#item14">Kinginrin</a></li>
                 </ul>
             </div>
             <div class="col-md-3">
                 <ul>
-                    <li><a href="">Tancho</a></li>
-                    <li><a href="">Asagi</a></li>
-                    <li><a href="">Yamabuki Ogon</a></li>
+                    <li><a href="#item15">Ochiba</a></li>
+                    <li><a href="#item16">Hariwake</a></li>
+                    <li><a href="#item17">Benigoi</a></li>
  
                 </ul>
             </div>
@@ -51,14 +51,13 @@
     </div>
     @for (var item = 0; item < ViewBag.Varieties.Count; item++)
     {
-        <!-- Use it -->
     <div class="container content-section-a">
 
         <div class="container">
             @{ var id = "item" + item;}
             <a name="@id"></a>
             <div class="row">
-                <div class="col-md-9 wow data-animation-delay=" 200">
+                <div class="col-md-9 wow">
                     <h3 class="section-heading">@ViewBag.Varieties[item].VarietyName</h3>
 
                     <p class="lead">
@@ -88,7 +87,7 @@
                         <img class="img-koi-variety" src="/Content/Image/Variety/@ViewBag.Varieties[item].Image" alt="">
                     </div>
 
-                    <div class="col-md-9 wow pull-right" data-animation-delay="200">
+                    <div class="col-md-9 wow pull-right">
                         <h3 class="section-heading">@ViewBag.Varieties[item].VarietyName</h3>
 
                         <p class="lead">
