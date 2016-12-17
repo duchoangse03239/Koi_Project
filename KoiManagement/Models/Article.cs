@@ -22,7 +22,7 @@ namespace KoiManagement.Models
         public System.DateTime Date { get; set; }
         public int MemberID { get; set; }
         public string Content { get; set; }
-        public int Status { get; set; }
+        public bool Status { get; set; }
     
         public virtual Member Member { get; set; }
         public virtual Type Type { get; set; }
