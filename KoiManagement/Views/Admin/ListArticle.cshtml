@@ -80,7 +80,7 @@
                     }
                     </tbody>
                 </table>
-                Page @(ListArticle.PageCount < ListArticle.PageNumber ? 0 : ListArticle.PageNumber) of @ListArticle.PageCount
+                Trang @(ListArticle.PageCount < ListArticle.PageNumber ? 0 : ListArticle.PageNumber) / @ListArticle.PageCount
                 @Html.PagedListPager(ListArticle, page => Url.Action("ListArticle", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
             </div>
             <!-- /.col-lg-8 -->

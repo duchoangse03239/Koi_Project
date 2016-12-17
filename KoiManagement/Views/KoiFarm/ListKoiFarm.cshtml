@@ -131,7 +131,7 @@
                     </div>
                 </div>
             }
-            Page @(ListKoiFarm.PageCount < ListKoiFarm.PageNumber ? 0 : ListKoiFarm.PageNumber) of @ListKoiFarm.PageCount
+            Trang @(ListKoiFarm.PageCount < ListKoiFarm.PageNumber ? 0 : ListKoiFarm.PageNumber) / @ListKoiFarm.PageCount
             @Html.PagedListPager(ListKoiFarm, page => Url.Action("ListKoiFarm", "KoiFarm", new { page }))
         </div>
     </div>

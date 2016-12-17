@@ -84,7 +84,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="@Url.Action("ListNotification","Notification")" class="button-notification">
+                            <a href="@Url.Action("ListNotification","Notification",new {tab="me"})" class="button-notification">
                                 <i class="fa fa-envelope-o fa-lg"></i>
                                 <span class="button__badge" id="Notification1">@ViewBag.MessageCount</span>
                             </a>
@@ -154,7 +154,7 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="@Url.Action("ListNotification","Notification")" class="button-notification">
+                                    <a href="@Url.Action("ListNotification","Notification",new {tab="me"})" class="button-notification">
                                         <i class="fa fa-envelope-o fa-lg">@ViewBag.MessageCount</i>
                                     </a>
                                 </li>
