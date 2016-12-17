@@ -78,7 +78,7 @@ namespace KoiManagement.Controllers
                 article.MemberID = id;
                 article.ShortDes = shortdesription;
                 article.Content = content;
-                article.Status = true;
+                article.Status = 1;
                 //Lấy file ảnh
                 HttpFileCollectionBase files = Request.Files;
                 HttpPostedFileBase file = null;
@@ -176,7 +176,7 @@ namespace KoiManagement.Controllers
                 article.MemberID = id;
                 article.ShortDes = shortdesription;
                 article.Content = content;
-                article.Status = true;
+                article.Status = 1;
                 article.ArticleID = int.Parse(articleid);
                 article.Image = image;
 
