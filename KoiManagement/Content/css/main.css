@@ -468,7 +468,6 @@ body a {
 .site-top-2 h1 {
     text-transform: uppercase;
     color: #1fadc5;
-    font-family: 'Handlee';
 }
 
 .site-top-2 .about-block {
@@ -487,7 +486,6 @@ body a {
     .site-top-3 h2 {
         text-transform: uppercase;
         color: #1fadc5;
-        font-family: 'Handlee';
     }
 
     .site-top-3 .item .img-responsive {
@@ -1091,7 +1089,6 @@ input[type="file"] {
         color: red;
         margin: 10px;
         text-align: center;
-        font-family: 'Roboto';
         font-size: 200%;
     }
 

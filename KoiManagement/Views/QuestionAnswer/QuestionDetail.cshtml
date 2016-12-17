@@ -63,7 +63,7 @@
         </div>
     </div>
         <div class="row" style="background-color: #fafafa;">
-            <div class="col-md-12" style="background-color: #000055;">
+            <div class="col-md-12" style="background-color: #337ab7;">
                 <div class="col-md-10">
                     <h4 style="color: white;">@questiondetail.Title</h4>
                 </div>
@@ -73,7 +73,7 @@
             </div>
             <div class="row">
                 <div class="col-md-2">
-                    <img style="margin: 15px; height: 100px; width: auto" src="~/Content/Image/Member/@questiondetail.Member.Image">
+                    <img style="margin: 15px; height: 130px; width: 150px;" src="~/Content/Image/Member/@questiondetail.Member.Image">
                 </div>
                 <div class="col-md-10" style="padding-top: 15px;">
                     <a style="color: #397ab2;" href="@Url.Action("Profile/" + @questiondetail.Member.MemberID, "Account")">@questiondetail.Member.UserName</a>
@@ -81,7 +81,7 @@
                 </div>
             </div>
             <hr>
-            <div>
+            <div style="margin-left:20px;">
                 @Html.Raw(@questiondetail.Content)
             </div>
             <div class="col-md-12" style="background-color: #f5f5f5; margin-top: 10px;">
@@ -109,6 +109,9 @@
                 <div class="col-md-2">
                     <a onclick="SetQID(@questiondetail.QuestionID)" role="button" data-toggle="modal" data-target="#report">Báo cáo</a>
                 </div>
+                <div class="col-md-2 col-md-offset-3">
+                    <a href="#" style="float:right;">Sửa bài viết</a>
+                </div>
             </div>
         </div>
         <div>
@@ -116,7 +119,7 @@
             {
                 var item = listAnswer[index];
                 <div class="row" style="background-color: #fafafa; margin-top: 15px;">
-                    <div class="col-md-12" style="background-color: #000055;">
+                    <div class="col-md-12" style="background-color: #33a1b7;">
 
                         <div class="col-md-2 col-md-offset-10">
                             <h5 style="color: white; float: right;">@item.Datetime</h5>
@@ -124,7 +127,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-2">
-                            <img style="margin: 15px; height: 100px; width: auto" src="~/Content/Image/Member/@item.Member.Image">
+                            <img style="margin: 15px; height: 130px; width: 150px;" src="~/Content/Image/Member/@item.Member.Image">
                         </div>
                         <div class="col-md-10" style="padding-top: 15px;">
                             <a style="color: #397ab2;" href="">@item.Member.UserName</a>
@@ -135,7 +138,7 @@
                     @{
                         var repID = "rep" + @item.AnswerID;
                     }
-                    <div id="@repID">
+                    <div id="@repID" style="margin-left:15px;">
                         @Html.Raw(@item.Content)
                     </div>
                     <div class="col-md-12" style="background-color: #f5f5f5;">
@@ -163,35 +166,45 @@
                         <div class="col-md-2">
                             <a onclick="SetAID(@item.AnswerID)" role="button" data-toggle="modal" data-target="#report">Báo cáo</a>
                         </div>
+                        <div class="col-md-2 col-md-offset-3">
+                            <a href="#" style="float:right;">Sửa bài viết</a>
+                        </div>
                     </div>
                 </div>
                         for (var i = 0; i < @listAnswerDetail.ElementAt(index).Count; i++)
                         {
 
-                        <div class="row" style="margin-left: 50px">
-                            <div class="col-md-12">
+                        <div class="row" style="margin-left: 50px; margin-top:5px; background-color: #fafafa;">
+                            <div class="col-md-12" style="background-color:#add;">
                                 <div class="col-md-2 col-md-offset-10">
                                     <h5 style="color: white; float: right;">@listAnswerDetail.ElementAt(index).ElementAt(i).Datetime</h5>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-1">
-                                    <img style="margin-left: 5px; height: 50px; width: auto" src="~/Content/Image/Member/@listAnswerDetail.ElementAt(index).ElementAt(i).Member.Image">
+                                    <img style="margin: 10px; height: 80px; width: 80px;" src="~/Content/Image/Member/@listAnswerDetail.ElementAt(index).ElementAt(i).Member.Image">
                                 </div>
                                 <div class="col-md-11" style="padding-top: 0px;">
-                                    <a style="color: #397ab2;" href="">@listAnswerDetail.ElementAt(index).ElementAt(i).Member.UserName</a>
-                                    <h5>@listAnswerDetail.ElementAt(index).ElementAt(i).Member.Phone</h5>
+                                    <div style="margin-left:15px; margin-top:10px;">
+                                        <a style="color: #397ab2;" href="">@listAnswerDetail.ElementAt(index).ElementAt(i).Member.UserName</a>
+                                        <h5>@listAnswerDetail.ElementAt(index).ElementAt(i).Member.Phone</h5>
+                                    </div>
                                 </div>
                             </div>
                             <hr>
                             @{
                                    var repID1 = "rep" + @listAnswerDetail.ElementAt(index).ElementAt(i).AnswerID;
                             }
-                            <div id="@repID1">
+                            <div id="@repID1" style="margin-left:10px;">
                                 @Html.Raw(@listAnswerDetail.ElementAt(index).ElementAt(i).Content)
                             </div>
+                            <div class="col-md-12" style="background-color: #f5f5f5;">
+                                <div class="col-md-1">
+                                    <a href="#">Báo cáo</a>
+                                </div>
+                            </div>
 
-                        </div>
+                         </div>
                                 }
                                 }
         </div>
@@ -200,7 +213,7 @@
         <input type="hidden" name="QID" id="QID">
         <input type="hidden" name="AID" id="AID">
     <div class="row" style="background-color: #fafafa; margin-top: 15px;">
-        <div class="col-md-12" style="background-color: #000055;">
+        <div class="col-md-12" style="background-color: #337ab7;">
             <h4 style="color: white;">Trả lời bài viết</h4>
         </div>
         <div class="col-md-12">
