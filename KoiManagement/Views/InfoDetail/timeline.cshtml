@@ -27,10 +27,10 @@
             </select>
         </div>
         @{
-              if (listInfo.Count > 0&& listInfo.ElementAt(0).Koi!=null)
-                        {
-                            if (Session[SessionAccount.SessionUserId] != null && Session[SessionAccount.SessionUserId].ToString().Equals(listInfo.ElementAt(0).Koi.Owners.Where(p => p.Status).FirstOrDefault().Member.MemberID.ToString()))
-                            {
+            if (listInfo.Count > 0&& listInfo.ElementAt(0).Koi!=null && listInfo.ElementAt(0).Koi.Owners != null)
+            {
+                if (Session[SessionAccount.SessionUserId] != null && Session[SessionAccount.SessionUserId].ToString().Equals(listInfo.ElementAt(0).Koi.Owners.Where(p => p.Status).FirstOrDefault().Member.MemberID.ToString()))
+                {
                     <div class="col-md-6" style="padding-bottom: 15px;">
                         <span style="float: right;">
                             <a class="btn btn-success" href="@Url.Action("AddDetail/" + ViewBag.koiId, "InfoDetail")">Thêm trạng thái </a>
@@ -124,8 +124,12 @@
                     </div>
 
                     <div class="timeline-footer">
-                        @{ Member mem = @ownewDao.GetCurrentOwner(@listInfo.ElementAt(item).DetailID, @listInfo.ElementAt(item).Date).Member;}
-                        <a href="/Account/profile/@mem.MemberID">@mem.Name</a>
+                        @{ var M = @ownewDao.GetCurrentOwner(@listInfo.ElementAt(item).DetailID, @listInfo.ElementAt(item).Date);}
+                       @if (M != null)
+                       {
+                           Member mem = M.Member;
+                           <a href="/Account/profile/@mem.MemberID">@mem.Name</a>
+                       }
                     </div>
                 </div>
             </li>
@@ -224,8 +228,12 @@
                                     </div>
 
                                     <div class="timeline-footer">
-                                        @{ Member mem1 = @ownewDao.GetCurrentOwner(@listInfo.ElementAt(item).DetailID, @listInfo.ElementAt(item).Date).Member;}
-                                        <a href="/Account/profile/@mem1.MemberID">@mem1.Name</a>
+                                        @{ var M1 = @ownewDao.GetCurrentOwner(@listInfo.ElementAt(item).DetailID, @listInfo.ElementAt(item).Date);}
+                                        @if (M1 != null)
+                                        {
+                                            Member mem1 = M1.Member;
+                                            <a href="/Account/profile/@mem1.MemberID">@mem1.Name</a>
+                                        }
                                     </div>
                                 </div>
                             </li>

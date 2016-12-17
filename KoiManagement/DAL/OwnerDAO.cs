@@ -55,7 +55,11 @@ namespace KoiManagement.DAL
                     return item;
                 }
             }
-            return b.FirstOrDefault();
+            if (b.Count > 0)
+            {
+                return b.FirstOrDefault();
+            }
+             return null;
         }
 
 

@@ -91,10 +91,13 @@
                             </p>
                         }
                     </div>
-
                     <div class="timeline-footer">
-                        @{ Member mem = @ownewDao.GetCurrentOwner(@listInfo.ElementAt(item).DetailID, @listInfo.ElementAt(item).Date).Member;}
-                        <a href="/Account/profile/@mem.MemberID">@mem.Name</a>
+                        @{ var M = @ownewDao.GetCurrentOwner(@listInfo.ElementAt(item).DetailID, @listInfo.ElementAt(item).Date);}
+                        @if (M != null)
+                        {
+                            Member mem = M.Member;
+                            <a href="/Account/profile/@mem.MemberID">@mem.Name</a>
+                        }
                     </div>
                 </div>
             </li>
@@ -192,10 +195,12 @@
                         }
                     </div>
 
-                    <div class="timeline-footer">
-                        @{ Member mem1 = @ownewDao.GetCurrentOwner(@listInfo.ElementAt(item).DetailID, @listInfo.ElementAt(item).Date).Member;}
-                        <a href="/Account/profile/@mem1.MemberID">@mem.Name</a>
-                    </div>
+                    @{ var M1 = @ownewDao.GetCurrentOwner(@listInfo.ElementAt(item).DetailID, @listInfo.ElementAt(item).Date);}
+                    @if (M1 != null)
+                    {
+                        Member mem1 = M1.Member;
+                        <a href="/Account/profile/@mem1.MemberID">@mem1.Name</a>
+                    }
                 </div>
             </li>
             <script>
