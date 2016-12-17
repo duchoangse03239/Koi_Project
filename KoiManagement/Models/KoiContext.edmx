@@ -229,7 +229,7 @@
           <Property Name="TypeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="Description" Type="nvarchar" MaxLength="1000" />
-          <Property Name="Status" Type="bit" Nullable="false" />
+          <Property Name="Status" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Variety">
           <Key>
@@ -418,30 +418,6 @@
             </Principal>
             <Dependent Role="Media">
               <PropertyRef Name="ModelId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__Message__MemberI__6E565CE8">
-          <End Role="Member" Type="Self.Member" Multiplicity="0..1" />
-          <End Role="Message" Type="Self.Message" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Member">
-              <PropertyRef Name="MemberID" />
-            </Principal>
-            <Dependent Role="Message">
-              <PropertyRef Name="MemberID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__Message__SenderI__6F4A8121">
-          <End Role="Member" Type="Self.Member" Multiplicity="0..1" />
-          <End Role="Message" Type="Self.Message" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Member">
-              <PropertyRef Name="MemberID" />
-            </Principal>
-            <Dependent Role="Message">
-              <PropertyRef Name="SenderID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -700,14 +676,6 @@
             <End Role="InfoDetail" EntitySet="InfoDetail" />
             <End Role="Media" EntitySet="Media" />
           </AssociationSet>
-          <AssociationSet Name="FK__Message__MemberI__6E565CE8" Association="Self.FK__Message__MemberI__6E565CE8">
-            <End Role="Member" EntitySet="Member" />
-            <End Role="Message" EntitySet="Message" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Message__SenderI__6F4A8121" Association="Self.FK__Message__SenderI__6F4A8121">
-            <End Role="Member" EntitySet="Member" />
-            <End Role="Message" EntitySet="Message" />
-          </AssociationSet>
           <AssociationSet Name="FK__Notificat__Membe__41B8C09B" Association="Self.FK__Notificat__Membe__41B8C09B">
             <End Role="Member" EntitySet="Member" />
             <End Role="Notification" EntitySet="Notification" />
@@ -815,7 +783,7 @@
           <Property Name="Content" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Status" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Member" Relationship="Self.FK__Article__MemberI__3C69FB99" FromRole="Article" ToRole="Member" />
-          <NavigationProperty Name="Type" Relationship="Self.FK__Article__TypeID__3B75D760" FromRole="Article" ToRole="Type" />
+          <NavigationProperty Name="Type" Relationship="KoiManagementModel.FK__Article__TypeID__3B75D760" FromRole="Article" ToRole="Type" />
         </EntityType>
         <EntityType Name="Comment">
           <Key>
@@ -978,8 +946,8 @@
           <Property Name="Status" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Answers" Relationship="Self.FK__Answer__Question__3D7E1B63" FromRole="Question" ToRole="Answer" />
           <NavigationProperty Name="Member" Relationship="Self.FK__Question__Member__3AA1AEB8" FromRole="Question" ToRole="Member" />
-          <NavigationProperty Name="Type" Relationship="Self.FK__QuesTion__TypeID_01" FromRole="Question" ToRole="Type" />
           <NavigationProperty Name="Rates" Relationship="Self.FK__Rate__QuestionID__4336F4B9" FromRole="Question" ToRole="Rate" />
+          <NavigationProperty Name="Type" Relationship="KoiManagementModel.FK__QuesTion__TypeID_01" FromRole="Question" ToRole="Type" />
         </EntityType>
         <EntityType Name="Rate">
           <Key>
@@ -1016,17 +984,6 @@
           <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="version" Type="Int32" />
           <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
-        </EntityType>
-        <EntityType Name="Type">
-          <Key>
-            <PropertyRef Name="TypeID" />
-          </Key>
-          <Property Name="TypeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Description" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Name="Status" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Articles" Relationship="Self.FK__Article__TypeID__3B75D760" FromRole="Type" ToRole="Article" />
-          <NavigationProperty Name="Questions" Relationship="Self.FK__QuesTion__TypeID_01" FromRole="Type" ToRole="Question" />
         </EntityType>
         <EntityType Name="Variety">
           <Key>
@@ -1120,18 +1077,6 @@
             </Principal>
             <Dependent Role="Article">
               <PropertyRef Name="MemberID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__Article__TypeID__3B75D760">
-          <End Role="Type" Type="Self.Type" Multiplicity="1" />
-          <End Role="Article" Type="Self.Article" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Type">
-              <PropertyRef Name="TypeID" />
-            </Principal>
-            <Dependent Role="Article">
-              <PropertyRef Name="TypeID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1339,18 +1284,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__QuesTion__TypeID_01">
-          <End Role="Type" Type="Self.Type" Multiplicity="1" />
-          <End Role="Question" Type="Self.Question" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Type">
-              <PropertyRef Name="TypeID" />
-            </Principal>
-            <Dependent Role="Question">
-              <PropertyRef Name="TypeID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK__Rate__QuestionID__4336F4B9">
           <End Role="Question" Type="Self.Question" Multiplicity="0..1" />
           <End Role="Rate" Type="Self.Rate" Multiplicity="*" />
@@ -1380,7 +1313,6 @@
           <EntitySet Name="Rates" EntityType="Self.Rate" />
           <EntitySet Name="Reports" EntityType="Self.Report" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
-          <EntitySet Name="Types" EntityType="Self.Type" />
           <EntitySet Name="Varieties" EntityType="Self.Variety" />
           <AssociationSet Name="FK__Achivemen__KoiID__24927208" Association="Self.FK__Achivemen__KoiID__24927208">
             <End Role="Koi" EntitySet="Kois" />
@@ -1408,10 +1340,6 @@
           </AssociationSet>
           <AssociationSet Name="FK__Article__MemberI__3C69FB99" Association="Self.FK__Article__MemberI__3C69FB99">
             <End Role="Member" EntitySet="Members" />
-            <End Role="Article" EntitySet="Articles" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Article__TypeID__3B75D760" Association="Self.FK__Article__TypeID__3B75D760">
-            <End Role="Type" EntitySet="Types" />
             <End Role="Article" EntitySet="Articles" />
           </AssociationSet>
           <AssociationSet Name="FK__Comment__Comment__2F10007B" Association="Self.FK__Comment__Comment__2F10007B">
@@ -1482,10 +1410,6 @@
             <End Role="Member" EntitySet="Members" />
             <End Role="Report" EntitySet="Reports" />
           </AssociationSet>
-          <AssociationSet Name="FK__QuesTion__TypeID_01" Association="Self.FK__QuesTion__TypeID_01">
-            <End Role="Type" EntitySet="Types" />
-            <End Role="Question" EntitySet="Questions" />
-          </AssociationSet>
           <AssociationSet Name="FK__Rate__QuestionID__4336F4B9" Association="Self.FK__Rate__QuestionID__4336F4B9">
             <End Role="Question" EntitySet="Questions" />
             <End Role="Rate" EntitySet="Rates" />
@@ -1528,6 +1452,15 @@
           <AssociationSet Name="FK__Message__SenderI__6F4A8121" Association="KoiManagementModel.FK__Message__SenderI__6F4A8121">
             <End Role="Member" EntitySet="Members" />
             <End Role="Message" EntitySet="Messages" />
+          </AssociationSet>
+          <EntitySet Name="Types" EntityType="KoiManagementModel.Type" />
+          <AssociationSet Name="FK__Article__TypeID__3B75D760" Association="KoiManagementModel.FK__Article__TypeID__3B75D760">
+            <End Role="Type" EntitySet="Types" />
+            <End Role="Article" EntitySet="Articles" />
+          </AssociationSet>
+          <AssociationSet Name="FK__QuesTion__TypeID_01" Association="KoiManagementModel.FK__QuesTion__TypeID_01">
+            <End Role="Type" EntitySet="Types" />
+            <End Role="Question" EntitySet="Questions" />
           </AssociationSet>
         </EntityContainer>
         <ComplexType Name="sp_helpdiagramdefinition_Result">
@@ -1578,6 +1511,41 @@
             </Principal>
             <Dependent Role="Message">
               <PropertyRef Name="SenderID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Type">
+          <Key>
+            <PropertyRef Name="TypeID" />
+          </Key>
+          <Property Name="TypeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Articles" Relationship="KoiManagementModel.FK__Article__TypeID__3B75D760" FromRole="Type" ToRole="Article" />
+          <NavigationProperty Name="Questions" Relationship="KoiManagementModel.FK__QuesTion__TypeID_01" FromRole="Type" ToRole="Question" />
+        </EntityType>
+        <Association Name="FK__Article__TypeID__3B75D760">
+          <End Type="KoiManagementModel.Type" Role="Type" Multiplicity="1" />
+          <End Type="KoiManagementModel.Article" Role="Article" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Type">
+              <PropertyRef Name="TypeID" />
+            </Principal>
+            <Dependent Role="Article">
+              <PropertyRef Name="TypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__QuesTion__TypeID_01">
+          <End Type="KoiManagementModel.Type" Role="Type" Multiplicity="1" />
+          <End Type="KoiManagementModel.Question" Role="Question" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Type">
+              <PropertyRef Name="TypeID" />
+            </Principal>
+            <Dependent Role="Question">
+              <PropertyRef Name="TypeID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1806,16 +1774,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Types">
-            <EntityTypeMapping TypeName="KoiManagementModel.Type">
-              <MappingFragment StoreEntitySet="Type">
-                <ScalarProperty Name="TypeID" ColumnName="TypeID" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Varieties">
             <EntityTypeMapping TypeName="KoiManagementModel.Variety">
               <MappingFragment StoreEntitySet="Variety">
@@ -1863,6 +1821,16 @@
                 <ScalarProperty Name="Datetime" ColumnName="Datetime" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
                 <ScalarProperty Name="MessageID" ColumnName="MessageID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Types">
+            <EntityTypeMapping TypeName="KoiManagementModel.Type">
+              <MappingFragment StoreEntitySet="Type">
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="TypeID" ColumnName="TypeID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
