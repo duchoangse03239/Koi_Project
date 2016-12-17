@@ -64,7 +64,7 @@
                                         <span><a href="@Url.Action("EditArticle/"+@ViewBag.ListArticle[item].ArticleID,"Article")" class="btn btn-warning btn-sm" role="button">Sửa</a></span>
                                         @if (ViewBag.ListArticle[item].Status)
                                         {
-                                            <span><a href="#" class="btn btn-danger btn-sm" onclick="Delete(@ViewBag.ListArticle[item].ArticleID, '@ViewBag.ListArticle[item].ArticleID');" role="button">Xóa</a></span>
+                                            <span><a href="#" class="btn btn-danger btn-sm" onclick="Delete(@ViewBag.ListArticle[item].ArticleID, '@ViewBag.ListArticle[item].ArticleID');" role="button">Khóa</a></span>
                                             @*<td class="col-md-1"><a class="btn btn-danger btn-sm" onclick="Delete(@ViewBag.ListArticle[item].ArticleID, '@ViewBag.ListArticle[item].ArticleID');" role="button">Khóa</a></td>*@
                                         }
 
@@ -90,7 +90,7 @@
 <script type="text/javascript">
 
     function Delete(ArticleID, username) {
-        if (confirm("Bạn có chắc chắn muốn xóa bài viết?")) {
+        if (confirm("Bạn có chắc chắn muốn khóa bài viết?")) {
             $.ajax({
                 type: "POST",
                 url: "@Url.Action("DeActiveArticle")",

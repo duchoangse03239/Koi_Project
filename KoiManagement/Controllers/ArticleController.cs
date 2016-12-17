@@ -36,6 +36,11 @@ namespace KoiManagement.Controllers
             {
                 return RedirectToAction("Login", "Account");
             }
+            var mem1 = memberDao.GetMemberbyID(int.Parse(Session[SessionAccount.SessionUserId].ToString()));
+            if (mem1.Role != 1)
+            {
+                return RedirectToAction("Index", "Home");
+            }
             // lấy id người đang đăng nhập
             int id = int.Parse(Session[SessionAccount.SessionUserId].ToString());
             //Viewbag cho patialView _Manager
@@ -130,14 +135,18 @@ namespace KoiManagement.Controllers
 
         public ActionResult EditArticle(int id)
         {
-            //if (Session[SessionAccount.SessionUserId] == null)
-            //{
-            //    return RedirectToAction("Login", "Account");
-            //}
-            // lấy id người đang đăng nhập
-           // int id = int.Parse(Session[SessionAccount.SessionUserId].ToString());
+            if (Session[SessionAccount.SessionUserId] == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            var mem1 = memberDao.GetMemberbyID(int.Parse(Session[SessionAccount.SessionUserId].ToString()));
+            if (mem1.Role != 1)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            //lấy id người đang đăng nhập
             //Viewbag cho patialView _Manager
-           // ViewBag.Member = memberDao.GetMemberbyID(id);
+            ViewBag.Member = memberDao.GetMemberbyID(id);
             ViewBag.TypeID = new SelectList(db.Types, "TypeID", "Name");
             var articledetail = articleDao.GetArticleDetail((int)id);
             ViewBag.Article = articledetail;
