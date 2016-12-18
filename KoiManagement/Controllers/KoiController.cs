@@ -247,8 +247,8 @@ namespace KoiManagement.Controllers
                     obj.Message = "Vui lòng nhập kiểu số cho kích thước của Koi";
                     return Json(obj);
                 }
-                if (!string.IsNullOrWhiteSpace(DoB)) { 
-                if (!Validate.ValidateDate(DoB))
+
+                if (string.IsNullOrWhiteSpace(DoB) && Validate.ValidateDate(DoB))
                 {
                     obj.Status = 4;
                     obj.Message = "Xin hãy nhập đúng định dạng ngày sinh";
@@ -257,7 +257,6 @@ namespace KoiManagement.Controllers
                 else
                 {
                     dateOfBirth = Validate.ConverDateTime(DoB);
-                }
                 }
 
                 //Lấy file ảnh
@@ -386,6 +385,7 @@ namespace KoiManagement.Controllers
             }
             try
             {
+                DateTime? dateOfBirth = null;
                 KoiDAO koiDao = new KoiDAO();
                 VarietyDAO varietyDao = new VarietyDAO();
 
@@ -401,7 +401,16 @@ namespace KoiManagement.Controllers
                     //string filename = Path.GetFileName(Request.Files[i].FileName);  
                     file = files[i];
                 }
-                DateTime? dateOfBirth = Validate.ConverDateTime(DoB);
+                if (string.IsNullOrWhiteSpace(DoB) && Validate.ValidateDate(DoB))
+                {
+                    obj.Status = 4;
+                    obj.Message = "Xin hãy nhập đúng định dạng ngày sinh";
+                    return Json(obj);
+                }
+                else
+                {
+                    dateOfBirth = Validate.ConverDateTime(DoB);
+                }
                 Koi koi = new Koi(int.Parse(VarietyID),KoiName, dateOfBirth, Gender,Temperament,DoB,"",Origin,1,true);
                 koi.KoiID = int.Parse(KoiId);
                 koi.Image = Image;

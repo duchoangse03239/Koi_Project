@@ -353,10 +353,10 @@ namespace KoiManagement.Controllers
                     obj.Message = "Họ tên phải chứa từ 6 đến 50 ký tự";
                     return Json(obj);
                 }
-                if (Validate.ValidateDate(dob))
+                if (string.IsNullOrWhiteSpace(dob) && Validate.ValidateDate(dob))
                 {
                     obj.Status = 2;
-                    obj.Message = "Date of birth";
+                    obj.Message = "Ngày tháng không đúng định dạng!";
                     return Json(obj);
                 }
                 else
