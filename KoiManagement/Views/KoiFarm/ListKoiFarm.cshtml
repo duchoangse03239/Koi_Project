@@ -152,6 +152,9 @@
             var $tbl = $("#koiname");
             $tbl.append(koiName);
     }
+    $('#vote').on('hidden.bs.modal', function (e) {
+        $('#koiname').text("");
+    });
     function Close() {
         $('#koiname').text("");
     }

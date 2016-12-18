@@ -372,16 +372,27 @@ namespace KoiManagement.Controllers
                     }
 
 
+                    
                     var adapter = new OleDbDataAdapter("SELECT * FROM [ImportData$]", connectionString);
+
+
                     var ds = new DataSet();
-                    if (!ds.Tables.Cast<DataTable>().Any(x => x.DefaultView.Count > 0))
+                    //if (!ds.Tables.Cast<DataTable>().Any(x => x.DefaultView.Count > 0))
+                    //{
+                    //    obj.Message = "Tập tin không đúng mẫu.";
+                    //    obj.Status = 0;
+                    //    return Json(obj);
+                    //}
+                    try
+                    {
+                        adapter.Fill(ds, "ExcelTable");
+                    }
+                    catch
                     {
                         obj.Message = "Tập tin không đúng mẫu.";
                         obj.Status = 0;
                         return Json(obj);
                     }
-                    adapter.Fill(ds, "ExcelTable");
-
                     DataTable dataTableImport = ds.Tables["ExcelTable"];
 
                     //deleting excel file from folder  

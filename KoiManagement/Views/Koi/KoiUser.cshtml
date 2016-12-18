@@ -249,6 +249,12 @@
     function Close() {
         $('#koiname').text("");
     }
+
+    $('#vote').on('hidden.bs.modal', function (e) {
+        $('#koiname').text("");
+    });
+ 
+
     function Rate(koiID, index,koiName) {
         //set koi ID
         $("#KoiId").val(koiID);
