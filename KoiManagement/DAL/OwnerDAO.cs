@@ -145,7 +145,7 @@ namespace KoiManagement.DAL
                     dbContextTransaction.Commit();
                     return true;
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
                     dbContextTransaction.Rollback(); //Required according to MSDN article 
                     //throw; //Not in MSDN article, but recommended so the exception still bubbles up

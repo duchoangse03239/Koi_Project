@@ -173,7 +173,6 @@
                                                     <ul class="dropdown-menu dropdown-menu-right">
                                                         <li><a href="/Koi/editKoi/@ViewBag.ListKoi[item].KoiID">Sửa</a></li>
                                                         <li><a onclick="GetInfo(@ViewBag.ListKoi[item].KoiID)">Xóa</a></li>
-                                                        <li><a onclick="Dead(@ViewBag.ListKoi[item].KoiID)" data-toggle="modal" data-target="#myModal">Khai tử</a></li>
                                                     </ul>
                                                 </div>}
                                             <input type="hidden" id="koiID" name="koiID" value="@ViewBag.ListKoi[item].KoiID">
@@ -190,7 +189,7 @@
                                                             var owner = oDao.GetOwner(ViewBag.ListKoi[item].KoiID);
                                                             if (owner != null)
                                                             {
-                                                                <a href="@Url.Action("ListMember", "Admin",new {searchstring= @owner.Member.UserName  })">@owner.Member.Name</a>
+                                                                <a href="@Url.Action("UpdateProfile/"+ @owner.MemberID, "Account")">@owner.Member.Name</a>
                                                             }
                                                         }
                                                     </h4>

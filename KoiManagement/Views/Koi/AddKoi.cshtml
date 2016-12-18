@@ -64,7 +64,7 @@
 
                     <div class="form-group">
                         <button id="btnAddKoi" class="btn btn-primary">Thêm mới</button>
-                        <button type="button" class="btn btn-primary">Hủy</button>
+                        <a type="button" href='javascript:history.go(-1)' class="btn btn-primary">Hủy</a>
                     </div>
 
             </div>
@@ -118,7 +118,7 @@
         
         if (KoiName == "") {
             $('#lblMessage_koi_name_fail').text("Vui lòng nhập tên cá Koi.");
-            $('#Size').focus();
+            $('#KoiName').focus();
             return false;
         }
 

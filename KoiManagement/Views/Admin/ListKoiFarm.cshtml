@@ -53,6 +53,10 @@
                             {
                                 <td>Hoạt động</td>
                             }
+                            else if (ViewBag.ListKoiFarm[item].Status == 0)
+                            {
+                              <td>Chờ xác nhận</td>
+                            }
                             else
                             {
                                 <td>Khóa</td>
@@ -62,7 +66,10 @@
                             {
                                 <td class="col-md-1"><a class="btn btn-danger btn-sm" onclick="Delete(@ViewBag.ListKoiFarm[item].KoifarmID, '@ViewBag.ListKoiFarm[item].FarmName');" role="button">Khóa</a></td>
                             }
-
+                            else if (ViewBag.ListKoiFarm[item].Status == 0)
+                            {
+                                <td class="col-md-1"><a class="btn btn-success btn-sm" onclick="Active(@ViewBag.ListKoiFarm[item].KoifarmID, '@ViewBag.ListKoiFarm[item].FarmName');" role="button">Xác nhận</a></td>
+                            }
                             else
                             {
                                 <td class="col-md-1"><a class="btn btn-danger btn-sm" onclick="Active(@ViewBag.ListKoiFarm[item].KoifarmID, '@ViewBag.ListKoiFarm[item].FarmName');" role="button">Mở khóa</a></td>
