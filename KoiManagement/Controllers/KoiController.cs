@@ -119,7 +119,11 @@ namespace KoiManagement.Controllers
                 }
                 else
                 {
-                    list =  new List<Koi>();
+                    list = ListKois;
+                }
+                if (list == null)
+                {
+                    list= new List<Koi>();
                 }
 
 
