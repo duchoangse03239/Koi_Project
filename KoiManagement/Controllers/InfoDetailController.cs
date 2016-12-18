@@ -448,7 +448,7 @@ namespace KoiManagement.Controllers
                 {
 
                     obj.Status = 1;
-                    obj.RedirectTo = Url.Action("EditDetail/"+DetailID, "InfoDetail");
+                    obj.RedirectTo = Url.Action("timeline/" + KoiID, "InfoDetail");
                     obj.Message = "Bạn đã cập nhật thành công.";
                     return Json(obj);
                 }
