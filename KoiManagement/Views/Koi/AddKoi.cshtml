@@ -128,12 +128,22 @@
             return false;
         }
         if (DoB != "") {
-            if (!validateDate(DoB)) {
-                $('#lblmessage_dob_fail').text('Xin hãy nhập định dạng DD-MM-YYYY.');
-                $('#DoB').focus();
-                return false;
-            } else {
-                if (!validateDateRangeMax(DoB)) {
+            var dateParts = DoB.split("-");
+            if ((/^\d{2}-\d{2}-\d{4}$/).test(DoB)) {
+                if (dateParts[0] > 31) {
+                    $('#lblmessage_dob_fail').text("Ngày không thể lớn hơn 31");
+                    $('#DoB').focus();
+                    return false;
+                } else if (dateParts[1] > 12) {
+                    $('#lblmessage_dob_fail').text("Tháng không thể lớn hơn 12");
+                    $('#DoB').focus();
+                    return false;
+                } else if (dateParts[0] == 30 && dateParts[1] == 2) {
+                    $('#lblmessage_dob_fail').text("Ngày tháng này không tồn tại");
+                    $('#DoB').focus();
+                    return false;
+                }
+                else if (!validateDateRangeMax(DoB)) {
                     $('#lblmessage_dob_fail').text('Ngày sinh phải nhỏ hơn ngày hiện tại.');
                     $('#DoB').focus();
                     return false;
@@ -142,6 +152,10 @@
                     $('#DoB').focus();
                     return false;
                 }
+            }else{
+                $('#lblmessage_dob_fail').text('Xin hãy nhập định dạng DD-MM-YYYY.');
+                $('#DoB').focus();
+                return false;
             }
         }
         if (Size == "") {

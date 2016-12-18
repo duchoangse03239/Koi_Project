@@ -12,53 +12,51 @@
                     <div class="form-group">
                         <label id="errorMessage" class="label-error"></label>
                     </div>
-                        <div class="form-group">
-                            <label for="name">Họ và tên</label>
-                            <input type="text" class="form-control" id="name" name="name" placeholder="Họ và tên">
-                            <label id="lblMessage_name_fail" class="label-error"></label>
-                        </div>
-                        <div class="form-group">
-                            <label for="dob">Ngày sinh</label>
-                            <input type="date" class="form-control" id="dob" name="dob" placeholder="Ngày Sinh" >
-                            <label id="lblMessage_dob_fail" class="label-error"></label>
-                        </div>
-                        <div class="form-group">
-                            <label for="email">Email (<span style="color:red;">*</span>)</label>
-                            <input type="email" class="form-control" id="email" name="email" placeholder="Email">
-                            <label id="lblMessage_email_fail" class="label-error"></label>
-                        </div>
-                        <div class="form-group">
-                            <label for="username">Tên đăng nhập (<span style="color:red;">*</span>)</label>
-                            <input type="text" class="form-control" id="username" name="username" placeholder="Tên đăng nhập">
-                            <label id="lblMessage_username_fail" class="label-error"></label>
-                        </div>
-                        <div class="form-group">
-                            <label for="password">Mật khẩu (<span style="color:red;">*</span>)</label>
-                            <input type="password" class="form-control" id="password" name="password" placeholder="Mật khẩu">
-                            <label id="lblMessage_password_fail" class="label-error"></label>
-                        </div>
-                        <div class="form-group">
-                            <label for="rePassword">Xác nhận mật khẩu (<span style="color:red;">*</span>)</label>
-                            <input type="password" class="form-control" id="rePassword" name="rePassword" placeholder="Xác nhận mật khẩu">
-                            <label id="lblMessage_rePassword_fail" class="label-error"></label>
-                        </div>
-                        <div class="form-group">
-                            <label for="address">Địa chỉ</label>
-                            <input type="text" class="form-control" id="address" name="address" placeholder="Địa chỉ">
-                            <label id="lblMessage_address_fail" class="label-error"></label>
-                        </div>
-                        <div class="form-group">
-                            <label for="phone">Số điện thoại</label>
-                            <input type="text" class="form-control" id="phone" name="phone" placeholder="Số điện thoại">
-                            <label id="lblMessage_phone_fail" class="label-error"></label>
-                        </div>
-
-                        <div class="form-group">
-                            <button  class="btn btn-primary btn-block" id="btnregister" >Đăng ký</button>
-                        </div>
-
-
+                    <div class="form-group">
+                        <label for="name">Họ và tên</label>
+                        <input type="text" class="form-control" id="name" name="name" placeholder="Họ và tên">
+                        <label id="lblMessage_name_fail" class="label-error"></label>
+                    </div>
+                    <div class="form-group">
+                        <label>Ngày sinh</label>
+                        <input type="text" class="form-control" id="dob" name="dob" placeholder="DD-MM-YYYY">
+                        <label id="lblMessage_dob_fail" class="label-error"></label>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email (<span style="color:red;">*</span>)</label>
+                        <input type="email" class="form-control" id="email" name="email" placeholder="Email">
+                        <label id="lblMessage_email_fail" class="label-error"></label>
+                    </div>
+                    <div class="form-group">
+                        <label for="username">Tên đăng nhập (<span style="color:red;">*</span>)</label>
+                        <input type="text" class="form-control" id="username" name="username" placeholder="Tên đăng nhập">
+                        <label id="lblMessage_username_fail" class="label-error"></label>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Mật khẩu (<span style="color:red;">*</span>)</label>
+                        <input type="password" class="form-control" id="password" name="password" placeholder="Mật khẩu">
+                        <label id="lblMessage_password_fail" class="label-error"></label>
+                    </div>
+                    <div class="form-group">
+                        <label for="rePassword">Xác nhận mật khẩu (<span style="color:red;">*</span>)</label>
+                        <input type="password" class="form-control" id="rePassword" name="rePassword" placeholder="Xác nhận mật khẩu">
+                        <label id="lblMessage_rePassword_fail" class="label-error"></label>
+                    </div>
+                    <div class="form-group">
+                        <label for="address">Địa chỉ</label>
+                        <input type="text" class="form-control" id="address" name="address" placeholder="Địa chỉ">
+                        <label id="lblMessage_address_fail" class="label-error"></label>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Số điện thoại</label>
+                        <input type="text" class="form-control" id="phone" name="phone" placeholder="Số điện thoại">
+                        <label id="lblMessage_phone_fail" class="label-error"></label>
+                    </div>
+                    <div class="form-group">
+                        <button class="btn btn-primary btn-block" id="btnregister">Đăng ký</button>
+                    </div>
                 </div>
+
             </div>
         </div>
     </div>
@@ -100,6 +98,7 @@
         };
         function Validate() {
             var userName = $('#username').val();
+            var dob = $('#dob').val();
             var email = $('#email').val();
             var password = $('#password').val();
             var confirmPassword = $('#rePassword').val();
@@ -108,13 +107,37 @@
             $('#lblMessage_password_fail').text("");
             $('#lblMessage_rePassword_fail').text("");
 
-
-            if (email == "") {
-                $('#lblMessage_email_fail').text("Vui lòng nhập địa chỉ Email");
-                $('#txtEmail').focus();
-                return false;
-            }
-            else if (!isValidEmailAddress(email)) {
+            if (dob != "") {
+             var dateParts = dob.split("-");
+             if ((/^\d{2}-\d{2}-\d{4}$/).test(dob)) {
+              if (dateParts[0] > 31) {
+                 $('#lblMessage_dob_fail').text("Ngày không thể lớn hơn 31");
+                 $('#dob').focus();
+                 return false;
+             }
+               else if (dateParts[1] > 12) {
+                        $('#lblMessage_dob_fail').text("Tháng không thể lớn hơn 12");
+                        $('#dob').focus();
+                        return false;
+                    }
+               else if (dateParts[0] == 30 && dateParts[1] == 2) {
+                   $('#lblMessage_dob_fail').text("Ngày tháng này không tồn tại");
+                   $('#dob').focus();
+                   return false;
+               }
+             }
+                else{
+                    $('#lblMessage_dob_fail').text("Xin hãy nhập định dạng DD-MM-YYYY!");
+                    $('#Time').focus();
+                    return false;
+             }
+         }
+         else if (email == "") {
+             $('#lblMessage_email_fail').text("Vui lòng nhập địa chỉ Email");
+             $('#txtEmail').focus();
+             return false;
+         }
+         else if (!isValidEmailAddress(email)) {
                 $('#lblMessage_email_fail').text("Địa chỉ Email không đúng định dạng");
                 $('#txtEmail').focus();
                 return false;
