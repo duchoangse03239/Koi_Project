@@ -67,8 +67,7 @@ namespace KoiManagement.Controllers
             StatusObjForJsonResult obj = new StatusObjForJsonResult();
             if (Session[SessionAccount.SessionUserId] == null)
             {
-                RedirectToAction("Login", "Account");
-                return Json(obj);
+                return RedirectToAction("Login", "Account");
             }
             // lấy id người đang đăng nhập
             int id = int.Parse(Session[SessionAccount.SessionUserId].ToString());

@@ -26,6 +26,16 @@ namespace KoiManagement.Controllers
         }
         public ActionResult Home()
         {
+            StatusObjForJsonResult obj = new StatusObjForJsonResult();
+            if (Session[SessionAccount.SessionUserId] == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            var mem1 = memberDao.GetMemberbyID(int.Parse(Session[SessionAccount.SessionUserId].ToString()));
+            if (mem1.Role != 1)
+            {
+                return RedirectToAction("Index", "Home");
+            }
             ViewBag.home = db.Articles.Where(p => p.Type.Status == 0).FirstOrDefault();
             return View();
         }
@@ -35,11 +45,15 @@ namespace KoiManagement.Controllers
         {
             ViewBag.Message = string.Empty;
             StatusObjForJsonResult obj = new StatusObjForJsonResult();
-            //if (Session[SessionAccount.SessionUserId] == null)
-            //{
-            //    RedirectToAction("Login", "Account");
-            //    return Json(obj);
-            //}
+            if (Session[SessionAccount.SessionUserId] == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            var mem1 = memberDao.GetMemberbyID(int.Parse(Session[SessionAccount.SessionUserId].ToString()));
+            if (mem1.Role != 1)
+            {
+                return RedirectToAction("Index", "Home");
+            }
             // lấy id người đang đăng nhập
             //int id = int.Parse(Session[SessionAccount.SessionUserId].ToString());
             ////Viewbag cho patialView _Manager
