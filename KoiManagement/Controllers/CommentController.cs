@@ -28,7 +28,7 @@ namespace KoiManagement.Controllers
             var koi = koiDao.getKoiById(koiID);
             var commenter = memberDao.GetMemberbyID(memberid);
             var Owner = ownerDao.GetOwner(koiID);
-            Notification no = new Notification(Owner.MemberID,memberid,1,koiID,DateTime.Now, commenter.Name+ " đã bình luận về "+ koi.KoiName+ " của bạn.", "/Koi/Details/" + koiID, false,true);
+            Notification no = new Notification(Owner.MemberID,memberid,null,null,DateTime.Now, commenter.Name+ " đã bình luận về "+ koi.KoiName+ " của bạn.", "/Koi/Details/" + koiID, false,true);
             notificationDao.AddNotification(no);
 
             return true;

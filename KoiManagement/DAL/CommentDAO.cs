@@ -41,7 +41,7 @@ namespace KoiManagement.DAL
         {
             try
             {
-                var t = db.Comments.Count(p => p.MemberID == Memberid && p.KoiID == koiId);
+                var t = db.Comments.Count(p => p.MemberID == Memberid && p.KoiID == koiId&&p.Status);
                 if (t > 0)
                 {
                     return false;

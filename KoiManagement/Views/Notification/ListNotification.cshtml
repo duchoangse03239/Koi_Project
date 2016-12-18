@@ -108,7 +108,7 @@
                                     {
                                         <div style="float: right;">
                                             <a onclick="Confirm('ChangeOwner',@item.NoID,@item.MemberID, @item.ObjectID)" class="btn btn-info btn-xs" role="button">Đồng ý</a>
-                                            <a href="#" class="btn btn-info btn-xs" role="button">Từ chối</a>
+                                            <a onclick="IsRead(@item.NoID)" class="btn btn-info btn-xs" role="button">Từ chối</a>
                                         </div>
                                     }
                                 </td>

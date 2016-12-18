@@ -524,7 +524,7 @@ namespace KoiManagement.Controllers
                 var koiName = db.Kois.Find(koiID).KoiName;
 
                 Notification notification = new Notification(NewMemberID.MemberID,UserID , 1,koiID, DateTime.Now
-                    , mem.Name +" muốn chuyển nhượng "+ koiName+" cho bạn","", false,true);
+                    , mem.Name +" muốn chuyển nhượng "+ koiName+" cho bạn", "/Koi/Details/" + koiID, false,true);
 
                 NotificationDAO noDao = new NotificationDAO();
             if (noDao.AddNotification(notification))

@@ -51,7 +51,7 @@ namespace KoiManagement.DAL
 
         public List<Notification> GetListNo(int memberID)
         {
-            return db.Notifications.Where(p => p.MemberID == memberID  && p.status).OrderBy(p => p.Datetime).ToList();
+            return db.Notifications.Where(p => p.MemberID == memberID && p.ObjectID == null && p.status).OrderBy(p => p.Datetime).ToList();
         }
     }
 }

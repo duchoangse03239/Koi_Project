@@ -208,7 +208,7 @@ namespace KoiManagement.Controllers
                 //Edit file to local
                 if (file != null)
                 {
-                    if (achi.Image == null)
+                    if (string.IsNullOrWhiteSpace(achi.Image))
                     {
                         filename = Path.GetFileName("Koi" + achi.KoiID + "Achi" + file.FileName.Substring(file.FileName.LastIndexOf('.')));
                         achi.Image = filename;
@@ -228,13 +228,13 @@ namespace KoiManagement.Controllers
                 //thanh cong
                 if (AchiDao.EditAchievement(achi) == 1)
                 {
-                    obj.Status = 9;
+                    obj.Status = 1;
                     obj.Message = "Cập nhật thông tin thành công";
                     obj.RedirectTo = Url.Action("ListAchievement/" + koiid, "Achievement");
                 }
                 else
                 {
-                    obj.Status = 8;
+                    obj.Status = 0;
                     obj.Message = "Có lỗi xảy ra";
                     return Json(obj);
                 }
