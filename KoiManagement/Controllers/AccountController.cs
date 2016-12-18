@@ -140,7 +140,7 @@ namespace KoiManagement.Controllers
                 return RedirectToAction("SystemError", "Error");
             }
 
-            return RedirectToAction("ListVariety", "Variety"); //current man hinh hoac home
+            return RedirectToAction("Index", "Home"); //current man hinh hoac home
         }
 
 
@@ -251,14 +251,14 @@ namespace KoiManagement.Controllers
                 // Check input email
                 if (string.IsNullOrWhiteSpace(email))
                 {
-                    obj.Status = 1;
+                    obj.Status =2;
                     obj.Message = "Vui lòng nhập địa chỉ Email";
                     return Json(obj);
                 }
 
                 if (Validate.CheckEmailFormat(email) == false)
                 {
-                    obj.Status = 2;
+                    obj.Status =2;
                     obj.Message = "Địa chỉ Email không đúng định dạng";
                     return Json(obj);
                 }
@@ -267,7 +267,7 @@ namespace KoiManagement.Controllers
                 var isExistEmail = mDao.CheckExistEmail(email);
                 if (isExistEmail)
                 {
-                    obj.Status = 3;
+                    obj.Status = 2;
                     obj.Message = "Địa chỉ Email này không tồn tại";
                     return Json(obj);
                 }
@@ -297,7 +297,7 @@ namespace KoiManagement.Controllers
                                 content = content.Replace("{{Link}}", url);
                                 CommonFunction.SendMailHelper(email, "Thay đổi mật khẩu tài khoản KoiManagement",
                                     content);
-                                obj.Status = 3;
+                                obj.Status = 1;
                                 obj.Message = "Email đc được gửi, bạn vui lòng vào mail để kiểm tra";
                             }
                         }

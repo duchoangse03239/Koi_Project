@@ -119,7 +119,7 @@ namespace KoiManagement.Controllers
                 }
                 else
                 {
-                    list = ListKois;
+                    list =  new List<Koi>();
                 }
 
 
@@ -157,7 +157,7 @@ namespace KoiManagement.Controllers
                 return RedirectToAction("PageNotFound", "Error");
             }
             OwnerDAO ownDao= new OwnerDAO();
-            Koi koi = db.Kois.Find(id);
+            Koi koi = db.Kois.FirstOrDefault(p=>p.KoiID==id&&p.Status==1);
             //check exist
             if (koi == null)
             {

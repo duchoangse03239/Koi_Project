@@ -409,6 +409,10 @@
     <Content Include="Content\Image\Detail\Detail07.jpg" />
     <Content Include="Content\Image\Detail\Detail08.jpg" />
     <Content Include="Content\Image\Detail\Detail09.jpg" />
+    <Content Include="Content\Image\Detail\Detail101.jpg" />
+    <Content Include="Content\Image\Detail\Detail102.jpg" />
+    <Content Include="Content\Image\Detail\Detail103.jpg" />
+    <Content Include="Content\Image\Detail\Detail104.jpg" />
     <Content Include="Content\Image\Detail\Detail11.jpg" />
     <Content Include="Content\Image\Detail\Detail12.jpg" />
     <Content Include="Content\Image\Detail\Detail13.jpg" />
@@ -419,6 +423,11 @@
     <Content Include="Content\Image\Detail\Detail18.jpg" />
     <Content Include="Content\Image\Detail\Detail19.jpg" />
     <Content Include="Content\Image\Detail\Detail20.jpg" />
+    <Content Include="Content\Image\Detail\Detail201.jpg" />
+    <Content Include="Content\Image\Detail\Detail202.jpg" />
+    <Content Include="Content\Image\Detail\Detail203.jpg" />
+    <Content Include="Content\Image\Detail\Detail204.jpg" />
+    <Content Include="Content\Image\Detail\Detail205.jpg" />
     <Content Include="Content\Image\Detail\Detail21.jpg" />
     <Content Include="Content\Image\Detail\Detail22.jpg" />
     <Content Include="Content\Image\Detail\Detail23.jpg" />
@@ -429,7 +438,15 @@
     <Content Include="Content\Image\Detail\Detail28.jpg" />
     <Content Include="Content\Image\Detail\Detail29.jpg" />
     <Content Include="Content\Image\Detail\Detail30.jpg" />
+    <Content Include="Content\Image\Detail\Detail301.jpg" />
+    <Content Include="Content\Image\Detail\Detail302.jpg" />
+    <Content Include="Content\Image\Detail\Detail303.jpg" />
+    <Content Include="Content\Image\Detail\Detail304.jpg" />
     <Content Include="Content\Image\Detail\Detail31.jpg" />
+    <Content Include="Content\Image\Detail\Detail321.jpg" />
+    <Content Include="Content\Image\Detail\Detail322.jpg" />
+    <Content Include="Content\Image\Detail\Detail323.jpg" />
+    <Content Include="Content\Image\Detail\Detail324.jpg" />
     <Content Include="Content\Image\Detail\Detail33.jpg" />
     <Content Include="Content\Image\Detail\Detail34.jpg" />
     <Content Include="Content\Image\Detail\Detail35.jpg" />
@@ -458,6 +475,10 @@
     <Content Include="Content\Image\Detail\Detail58.jpg" />
     <Content Include="Content\Image\Detail\Detail59.jpg" />
     <Content Include="Content\Image\Detail\Detail60.jpg" />
+    <Content Include="Content\Image\Detail\Detail601.jpg" />
+    <Content Include="Content\Image\Detail\Detail602.jpg" />
+    <Content Include="Content\Image\Detail\Detail603.jpg" />
+    <Content Include="Content\Image\Detail\Detail604.jpg" />
     <Content Include="Content\Image\Detail\Detail61.jpg" />
     <Content Include="Content\Image\Detail\Detail62.jpg" />
     <Content Include="Content\Image\Detail\Detail63.jpg" />
@@ -587,6 +608,7 @@
     <Content Include="Content\Image\Koi\Hirakimuji1.jpg" />
     <Content Include="Content\Image\Koi\Kawarigoi1.jpg" />
     <Content Include="Content\Image\Koi\Kingirin1.jpg" />
+    <Content Include="Content\Image\Koi\Kohaku0101.jpg" />
     <Content Include="Content\Image\Koi\Kohaku101.jpg" />
     <Content Include="Content\Image\Koi\Kohaku111.jpg" />
     <Content Include="Content\Image\Koi\Kohaku201.jpg" />
@@ -609,8 +631,11 @@
     <Content Include="Content\Image\Koi\Shusui3.jpg" />
     <Content Include="Content\Image\Koi\Shusui4.jpg" />
     <Content Include="Content\Image\Koi\Swa101.jpg" />
+    <Content Include="Content\Image\Koi\Swa201.jpg" />
+    <Content Include="Content\Image\Koi\Swa301.jpg" />
     <Content Include="Content\Image\Koi\Swa401.jpg" />
     <Content Include="Content\Image\Koi\Swa501.jpg" />
+    <Content Include="Content\Image\Koi\Swa601.jpg" />
     <Content Include="Content\Image\Koi\Swa701.jpg" />
     <Content Include="Content\Image\Koi\Swa801.jpg" />
     <Content Include="Content\Image\Koi\Swa901.jpg" />
@@ -620,6 +645,7 @@
     <Content Include="Content\Image\Koi\Tancho401.jpg" />
     <Content Include="Content\Image\Koi\Tancho5.jpg" />
     <Content Include="Content\Image\Koi\utsuri2.jpg" />
+    <Content Include="Content\Image\Koi\utsuri3.jpg" />
     <Content Include="Content\Image\Koi\utsuri4.jpg" />
     <Content Include="Content\Image\Member\mem0.jpg" />
     <Content Include="Content\Image\Member\Mem12.jpg" />
