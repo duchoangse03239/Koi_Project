@@ -1,4 +1,5 @@
-﻿
+﻿@using KoiManagement.Models
+
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Layout/KoitLayout.cshtml";
@@ -101,9 +102,6 @@
                         </p>
                     </div>
 
-                    <div class="timeline-footer">
-                        <a href="#">Continuar Lendo</a>
-                    </div>
                 </div>
             </li>
             <script>
@@ -188,12 +186,6 @@
                                                 <p>
                                                     Mô tả: <label>@listInfo.ElementAt(item).Description</label>
                                                 </p>
-                                            </div>
-
-                                            <div class="timeline-footer">
-                                                @*<a><i class="glyphicon glyphicon-thumbs-up"></i></a>
-                                                    <a><i class="glyphicon glyphicon-share"></i></a>*@
-                                                <a href="#">Continuar Lendo</a>
                                             </div>
                                         </div>
                                     </li>
