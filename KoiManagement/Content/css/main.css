@@ -3,7 +3,6 @@ body {
     font-family: 'Open Sans', sans-serif;
     background: #fff;
     position: relative;
-    padding-bottom: 19rem;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -552,7 +551,7 @@ body a {
 #btnSaveProfile {
     width: 100px;
 }
-#footer {
+/*#footer {
   position: absolute;
   right: 0;
   bottom: 35px;
@@ -567,7 +566,7 @@ body a {
   left: 0;
   padding: 1rem;
   text-align: center;
-}
+}*/
 /*manage account  */
 /*.box_left {
     width: 250px;
@@ -594,7 +593,7 @@ body a {
 }
 
 .profile_left {
-    width: 100px;
+    width: 180px;
     float: left;
 }
 
@@ -656,7 +655,7 @@ body a {
 
 .profile_item {
     font-weight: bold;
-    height: 33px;
+    height: 45px;
     color: #33C0D9;
     padding-left: 25px;
     padding-top: 12px;
