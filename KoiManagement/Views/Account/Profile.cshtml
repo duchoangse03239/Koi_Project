@@ -1,4 +1,5 @@
-﻿@model KoiManagement.Models.Member
+﻿@using KoiManagement.Common
+@model KoiManagement.Models.Member
 @{
     ViewBag.Title = "Thông tin cá nhân";
     Layout = "~/Views/Layout/KoiLayout.cshtml";
@@ -83,7 +84,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label id="lblGender" for="gender">Giới tính:</label>
-                                    <input type="text" class="form-control" id="name" name="name" value="@Model.Gender" placeholder="Họ và tên" disabled>
+                                    <input type="text" class="form-control" id="name" name="name" value="@CommonFunction.ReturnGenderMem(Model.Gender)" placeholder="Họ và tên" disabled>
                                 </div>
                                 <div class="form-group">
                                     <!-- <label>Ngày sinh</label>
@@ -99,17 +100,17 @@
                                         </select>
                                     </div> -->
                                     <label for="dob">Ngày Sinh</label>
-                                    <input type="date" class="form-control" id="dob" name="dob" placeholder="Ngày Sinh" disabled>
+                                    <input type="text" class="form-control" id="dob" name="dob" value="@(Model.Dob != null ? Model.Dob.Value.ToString("dd/MM/yyyy") : "Chưa biết")" placeholder="Ngày Sinh" disabled>
                                     <label id="lblMessage_dob_fail" class="label-error"></label>
                                 </div>
                                 <div class="form-group">
                                     <label for="address">Địa chỉ</label>
-                                    <input type="text" class="form-control" id="address" name="address" placeholder="Địa chỉ" disabled>
+                                    <input type="text" class="form-control" id="address" name="address" value="@Model.Address" placeholder="Địa chỉ" disabled>
                                     <label id="lblMessage_address_fail" class="label-error"></label>
                                 </div>
                                 <div class="form-group">
                                     <label for="phone">Số điện thoại</label>
-                                    <input type="text" class="form-control" id="phone" name="phone" placeholder="Số điện thoại" disabled>
+                                    <input type="text" class="form-control" id="phone" name="phone" value="@Model.Phone" placeholder="Số điện thoại" disabled>
                                     <label id="lblMessage_phone_fail" class="label-error"></label>
                                 </div>
                             </div>

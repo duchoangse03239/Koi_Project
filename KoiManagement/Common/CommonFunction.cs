@@ -213,6 +213,7 @@ namespace KoiManagement.Common
 
         public static string ReturnGenderKoi(string gender)
         {
+            if (!string.IsNullOrWhiteSpace(gender)) { 
             if (gender.Equals("M"))
             {
                 return "Đực";
@@ -221,10 +222,8 @@ namespace KoiManagement.Common
             {
                 return "Cái";
             }
-            else 
-            {
-                return "Chưa rõ";
             }
+                return "Chưa rõ";
         }
         public static string ReturnGenderKoiDb(string gender)
         {
@@ -240,6 +239,23 @@ namespace KoiManagement.Common
             {
                 return "N";
             }
+        }
+
+        public static string ReturnGenderMem(string gender)
+        {
+            if (!string.IsNullOrWhiteSpace(gender))
+            {
+                if (gender.Equals("M"))
+            {
+                return "Nam";
+            }
+            else if (gender.Equals("F"))
+            {
+                return "Nữ";
+            }
+            }
+            return "Chưa rõ";
+
         }
 
         public static int GetAgeMonth(DateTime? birthday)

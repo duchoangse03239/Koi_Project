@@ -54,7 +54,7 @@
                             <span class="overflow-control">
                                 <a href="@Url.Action("QuestionDetail/" + @ViewBag.ListQA[item].QuestionID, "QuestionAnswer")">@ViewBag.ListQA[item].Title</a>
                             </span>
-                            <span>Người đăng <a href="@Url.Action("Profile/" + @ViewBag.ListQA[item].Member.UserName, "Account")">@ViewBag.ListQA[item].Member.UserName</a> @ViewBag.ListQA[item].Datetime</span>
+                            <span>Người đăng <a href="@Url.Action("Profile/" + @ViewBag.ListQA[item].Member.MemberID, "Account")">@ViewBag.ListQA[item].Member.UserName</a> @ViewBag.ListQA[item].Datetime</span>
                         </div>
                     </div>
                     <div class="col-md-2 column">
@@ -67,14 +67,14 @@
                             @if (Answer != null)
                             {
                                 <div style="padding-top:10px;">
-                                    <span><a href="@Url.Action("Profile/" + @Answer.Member.MemberID, "Account")">@Answer.Member.Name</a></span>
+                                    <span><a href="@Url.Action("Profile/" + @Answer.Member.MemberID, "Account")">@Answer.Member.UserName</a></span>
                                     <span>@Answer.Datetime</span>
                                 </div>
                             }
                             else
                             {
                                 <div style="padding-top:10px;">
-                                    <span><a href="@Url.Action("Profile/" + @ViewBag.ListQA[item].Member.UserName, "Account")">@ViewBag.ListQA[item].Member.UserName</a></span>
+                                    <span><a href="@Url.Action("Profile/" + @ViewBag.ListQA[item].Member.MemberID, "Account")">@ViewBag.ListQA[item].Member.UserName</a></span>
                                     <span>@ViewBag.ListQA[item].Datetime</span>
                                 </div>
                             }

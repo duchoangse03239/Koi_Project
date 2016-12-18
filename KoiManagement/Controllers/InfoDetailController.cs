@@ -643,7 +643,7 @@ namespace KoiManagement.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult AddNewParent(int koiSonId, string koiname,string Gender, string VarietyId, string Origin)
+        public ActionResult AddNewParent(int koiSonId, string koiname, string VarietyId, string Origin)
         {
             StatusObjForJsonResult obj = new StatusObjForJsonResult();
             KoiDAO koiDao = new KoiDAO();
@@ -667,7 +667,7 @@ namespace KoiManagement.Controllers
                 string fullpath="";
                 string ImageKoiname;
                 var MaxKoiID = koiDao.GetMaxKoiID();
-                var koi = new Koi(int.Parse(VarietyId), koiname, null, Gender, "", "", "",
+                var koi = new Koi(int.Parse(VarietyId), koiname, null, null, "", "", "",
                      Origin, 1, true);
 
                 if (file != null)
