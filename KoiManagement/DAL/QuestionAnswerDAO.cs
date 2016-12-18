@@ -69,7 +69,7 @@ namespace KoiManagement.DAL
 
         public List<Question> GetListQuestion()
         {
-            return db.Questions.ToList();
+            return db.Questions.OrderByDescending(p => p.Datetime).ToList();
         }
 
         public Question GetQuestionDetail(int id)
@@ -84,12 +84,12 @@ namespace KoiManagement.DAL
 
         public Answer GetLastAnswer(int Qid)
         {
-            return db.Answers.Where(p => p.QuestionID == Qid && p.Status).OrderBy(p => p.Datetime).FirstOrDefault();
+            return db.Answers.Where(p => p.QuestionID == Qid && p.Status).OrderByDescending(p => p.Datetime).FirstOrDefault();
         }
 
         public List<Answer> GetListAnswerbyId(int Qid)
         {
-            return db.Answers.Where(p => p.QuestionID == Qid &&p.AnswerDetail==null&& p.Status).OrderBy(p => p.Datetime).ToList();
+            return db.Answers.Where(p => p.QuestionID == Qid &&p.AnswerDetail==null&& p.Status).OrderByDescending(p => p.Datetime).ToList();
         }
 
         public List<List<Answer>> GetListAnswerDetail(int Qid)

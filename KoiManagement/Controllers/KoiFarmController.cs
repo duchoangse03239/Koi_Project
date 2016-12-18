@@ -114,7 +114,7 @@ namespace KoiManagement.Controllers
                 koiFarm.Address = address;
                 koiFarm.Description = description;
                 koiFarm.MemberID = id;
-                koiFarm.Status = 1;
+                koiFarm.Status = 0;
                 if (koiFarmDao.AddKoiFarm(koiFarm))
                 {
                     ViewBag.Message = "Bạn đã thêm trang trại thành công, vui lòng chờ người quản trị xác nhận thông tin";
@@ -285,13 +285,18 @@ namespace KoiManagement.Controllers
             {
                 return RedirectToAction("Login", "Account");
             }
+            if (id==null)
+            {
+                return RedirectToAction("PageNotFound", "Error");
+            }
             KoiFarmDAO koiFarmDao = new KoiFarmDAO();
-            var check = memberDao.GetMemberbyID(id.Value);
+            var check = koiFarmDao.GetKoiFarmById(id.Value);
             if (check == null)
             {
                 return RedirectToAction("PageNotFound", "Error");
             }
-            var ad = db.Kois.Where(cu => cu.Owners.Any(c => c.MemberID == id&&c.KoiFarmID==null));
+            var memid = int.Parse(Session[SessionAccount.SessionUserId].ToString());
+            var ad = db.Kois.Where(cu => cu.Owners.Any(c => c.MemberID == memid && c.KoiFarmID==null));
             int pageSize = 10;
             int pageNumber = (page ?? 1);
             ViewBag.ListKoi = ad.ToList().ToPagedList(pageNumber, pageSize);

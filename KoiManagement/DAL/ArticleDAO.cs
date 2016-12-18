@@ -67,7 +67,7 @@ namespace KoiManagement.DAL
         /// <returns></returns>
         public List<Article> GetListArticle(int id)
         {
-            return db.Articles.Where(p => p.TypeID == id&&p.Status).ToList();
+            return db.Articles.Where(p => p.TypeID == id&&p.Status).OrderByDescending(p => p.Date).ToList();
         }
 
         /// <summary>
