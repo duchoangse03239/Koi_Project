@@ -26,8 +26,60 @@ namespace KoiManagement.Controllers
         }
         public ActionResult Home()
         {
+            ViewBag.home = db.Articles.Where(p => p.Type.Status == 0).FirstOrDefault();
             return View();
         }
+
+        [HttpPost, ValidateInput(false)]
+        public ActionResult EditArticle( string content, string articleid)
+        {
+            ViewBag.Message = string.Empty;
+            StatusObjForJsonResult obj = new StatusObjForJsonResult();
+            //if (Session[SessionAccount.SessionUserId] == null)
+            //{
+            //    RedirectToAction("Login", "Account");
+            //    return Json(obj);
+            //}
+            // lấy id người đang đăng nhập
+            //int id = int.Parse(Session[SessionAccount.SessionUserId].ToString());
+            ////Viewbag cho patialView _Manager
+            //ViewBag.Member = memberDao.GetMemberbyID(id);
+            try
+            {
+                Article article = new Article();
+
+  
+
+                Article mem = db.Articles.Find(int.Parse(articleid));
+                mem.Content = content;
+                db.Articles.Attach(mem);
+                db.Entry(mem).Property(x => x.Content).IsModified = true;
+                int result = db.SaveChanges();
+
+
+                if (result > 0)
+                {
+                    ViewBag.Message = "Bạn đã sửa thành công!";
+                    obj.RedirectTo = this.Url.Action("Home", "Admin");
+                }
+                else
+                {
+                    ViewBag.Message = "Có lỗi xảy ra xin hãy thử lại";
+                    obj.RedirectTo = this.Url.Action("SystemError", "Error");
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Common.Logger.LogException(ex);
+                obj.Status = 0;
+                obj.RedirectTo = this.Url.Action("SystemError", "Error");
+                return Json(obj);
+            }
+            return Json(obj);
+        }
+
+
         public ActionResult ListMember(string sortOrder, string currentFilter, string searchString, int? page)
         {
             ////kiem tra phan quyen

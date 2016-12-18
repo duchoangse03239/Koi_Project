@@ -1,8 +1,156 @@
-﻿
+﻿@using KoiManagement.Models
+
 @{
     ViewBag.Title = "KSMS - Trang chủ";
     Layout = "~/Views/Layout/AdminLayout.cshtml";
+    Article Home = ViewBag.home;
 }
-
+<script src="~/Scripts/modernizr-2.6.2.js"></script>
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script src="~/Scripts/bootstrap.js"></script>
+<script src="~/Scripts/modernizr-2.6.2.js"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/tinymce/tinymce.min.js")"></script>
 <h2>Home</h2>
+<div id="page-wrapper">
+    <div class="row">
+        <div class="col-lg-12">
+            <textarea type="text" class="form-control" placeholder="" id="content" name="content">@Home.Content</textarea>
+        </div>
+        <div class="col-md-12 align-right" style="margin-top:15px;" id="add-article-btn">
+            <button class="btn btn-primary" id="btnCreateArticle">Sửa bài viết</button>
 
+        </div>
+        <br>
+    </div> 
+</div>
+<script>
+    $(document).keypress(function (event) {
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        if (keycode == "13") {
+            if (Validate()) {
+                AddArticle();
+            } else {
+                return false;
+            }
+        }
+    });
+
+
+    $("#btnCreateArticle").click(function () {
+        if (Validate()) {
+            AddArticle();
+        } else {
+
+            return false;
+        }
+    });
+
+    function Validate() {
+        var title = $('#title').val();
+        var typeid = $('#typeid').val();
+        var typeid = $('#shortdesription').val();
+        var content = window.parent.tinymce.get('content').getContent();
+
+        return true;
+    }
+
+    function AddArticle() {
+        // Looping over all files and add it to FormData object
+        var fileData = new FormData();
+
+
+        // Adding one more key to FormData object
+
+        var content = window.parent.tinymce.get('content').getContent();
+        fileData.append('content', content);
+        fileData.append('articleid', '@Home.ArticleID');
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("EditArticle")",
+            contentType: false, // Not to set any content header
+            processData: false,
+            data: fileData,
+            dataType: "Json",
+            success: function (res) {
+                switch (res.Status) {
+                    case 2:
+                        break;
+                    case 3:
+                        break;
+                    case 4:
+                        break;
+                    case 1:
+                        alert(res.Message);
+                        window.location.href = res.RedirectTo;
+                        break;
+                    case 0:
+                        window.location.href = res.RedirectTo;
+                        break;
+                }
+            }
+        });
+    }
+    </script>
+<script>
+        $(document).ready(function () {
+            if (window.File && window.FileList && window.FileReader) {
+                $("#files").on("change", function (e) {
+                    var files = e.target.files,
+                      filesLength = files.length;
+                    for (var i = 0; i < filesLength; i++) {
+                        var f = files[i]
+                        var fileReader = new FileReader();
+                        fileReader.onload = (function (e) {
+                            var file = e.target;
+                            $("<span class=\"pip\">" +
+                              "<img class=\"imageThumb\" src=\"" + e.target.result + "\" title=\"" + file.name + "\"/>" +
+                              "<br/><span class=\"remove\">X</span>" +
+                              "</span>").insertAfter("#files");
+                            $(".remove").click(function () {
+                                $(this).parent(".pip").remove();
+                            });
+                        });
+                        fileReader.readAsDataURL(f);
+                    }
+                });
+            } else {
+                alert("Your browser doesn't support to File API")
+            }
+        });
+    </script>
+
+    <script type="text/javascript">
+        tinymce.init({
+            selector: "textarea",
+            width: '100%',
+            language: 'vi_VN',
+            height: 600,
+            statusbar: false,
+            menubar: false,
+
+            setup: function (ed) {
+                ed.on('init', function () {
+                    this.getDoc().body.style.fontSize = '14px';
+                    this.getDoc().body.style.fontFamily = '"Helvetica Neue", Helvetica, Arial, sans-serif';
+                });
+            },
+
+            paste_data_images: true,
+
+            plugins: [
+                "advlist autolink lists link base64_image charmap hr anchor pagebreak",
+                "searchreplace wordcount visualblocks visualchars code",
+                "insertdatetime media nonbreaking save table contextmenu directionality",
+                "emoticons textcolor colorpicker textpattern "
+            ],
+            toolbar: "undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link base64_image media | forecolor backcolor"
+        });
+
+        // Prevent bootstrap dialog from blocking focusin
+        $(document).on('focusin', function (e) {
+            if ($(e.target).closest(".mce-window").length) {
+                e.stopImmediatePropagation();
+            }
+        });
+    </script>

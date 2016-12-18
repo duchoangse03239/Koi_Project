@@ -92,6 +92,7 @@ namespace KoiManagement.Controllers
                     if (member.Status == false)
                     {
                         //User check : Tài khoản đã bị xóa: chuyển màn hình login.
+                        obj.Status = 4;
                         obj.Message = "Tài khoản đã bị khóa vui lòng đăng kí tài khoản mới.";
                         obj.RedirectTo = Url.Action("Login");
                     }

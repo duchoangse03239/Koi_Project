@@ -1,7 +1,9 @@
-﻿
+﻿@using KoiManagement.Models
+
 @{
     ViewBag.Title = "KSMS - Trang chủ";
     Layout = "~/Views/Layout/KoiLayout.cshtml";
+    Article home = ViewBag.home;
 }
 
 <div class="section site-top-1 site-block" id="top">
@@ -50,8 +52,8 @@
         </div>
     </div>
 </div>
-
-<div class="section site-top-2">
+@Html.Raw(home.Content)
+@*<div class="section site-top-2">
     <div class="container">
         <h1>Giới thiệu về cá Koi</h1>
         <div class="about-block">
@@ -76,22 +78,22 @@
             <div class="row">
                 <div class="col-md-3">
                     <div class="item">
-                        <a href="#"><img src="Content/Image/Koi/koi01.jpg" class="img img-responsive" alt="Showa" /></a>
+                        <a href="/Koi/Details/1"><img src="/Content/Image/Koi/Swa101.jpg" class="img img-responsive" alt="Showa" /></a>
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="item">
-                        <a href="#"><img src="Content/Image/Koi/koi02.jpg" class="img img-responsive" alt="Kohaku" /></a>
+                        <a href="/Koi/Details/11"><img src="/Content/Image/Koi/Kohaku201.jpg" class="img img-responsive" alt="Kohaku" /></a>
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="item">
-                        <a href="#"><img src="Content/Image/Koi/koi03.jpg" class="img img-responsive" alt="Sanke" /></a>
+                        <a href="/Koi/Details/40"><img src="/Content/Image/Koi/Tancho101.jpg " class="img img-responsive" alt="Sanke" /></a>
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="item">
-                        <a href="#"><img src="Content/Image/Koi/koi04.jpg" class="img img-responsive" alt="Bekko" /></a>
+                        <a href="/Koi/Details/36"><img src="/Content/Image/Koi/Asagi3.jpg" class="img img-responsive" alt="Bekko" /></a>
                     </div>
                 </div>
             </div>
@@ -107,25 +109,26 @@
             <div class="row">
                 <div class="col-md-3">
                     <div class="item">
-                        <a href="#"><img src="images/cat1.jpg" class="img img-responsive" alt="Cá Koi" /></a>
+                        <a href="/KoiFarm/KoiFarmDetail/4"><img src="/Content/Image/Member/mem01.jpg" class="img img-responsive" alt="Cá Koi" /></a>
+                    
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="item">
-                        <a href="#"><img src="images/cat2.jpg" class="img img-responsive" alt="Cá Koi" /></a>
+                        <a href="/KoiFarm/KoiFarmDetail/5"><img src="/Content/Image/Member/mem11.jpg" class="img img-responsive" alt="Cá Koi" /></a>
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="item">
-                        <a href="#"><img src="images/cat3.jpeg" class="img img-responsive" alt="Cá Koi" /></a>
+                        <a href="/KoiFarm/KoiFarmDetail/7"><img src="/Content/Image/Member/mem00.jpg" class="img img-responsive" alt="Cá Koi" /></a>
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="item">
-                        <a href="#"><img src="images/cat4.jpeg" class="img img-responsive" alt="Cá Koi" /></a>
+                        <a href="/KoiFarm/KoiFarmDetail/8"><img src="/Content/Image/Member/mem02.jpg" class="img img-responsive" alt="Cá Koi" /></a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+</div>*@
