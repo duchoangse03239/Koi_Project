@@ -403,6 +403,8 @@
     <Content Include="Content\css\jquery.filer-dragdropbox-theme.css" />
     <Content Include="Content\css\jquery.filer.css" />
     <Content Include="Content\css\main.css" />
+    <Content Include="Content\Image\Common\Slider2.jpg" />
+    <Content Include="Content\Image\Common\Slider3.jpg" />
     <Content Include="Content\Image\Detail\Detail01.jpg" />
     <Content Include="Content\Image\Detail\Detail04.jpg" />
     <Content Include="Content\Image\Detail\Detail05.jpg" />

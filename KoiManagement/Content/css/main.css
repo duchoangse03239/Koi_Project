@@ -350,7 +350,7 @@ body a {
 @media(min-width:767px) {
     .site-top-1 .carousel img.img-responsive {
         width: 100%;
-        height: 80%;
+        height: 90%;
     }
 }
 
