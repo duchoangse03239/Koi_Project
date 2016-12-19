@@ -110,7 +110,6 @@ namespace KoiManagement.Controllers
                         else
                         {
                         obj.RedirectTo = Url.Action("Index", "Home");
-
                         }
 
                     }
@@ -610,8 +609,7 @@ namespace KoiManagement.Controllers
             StatusObjForJsonResult obj = new StatusObjForJsonResult();
             if (Session[SessionAccount.SessionUserId] == null)
             {
-                RedirectToAction("Login", "Account");
-                return Json(obj);
+                return RedirectToAction("Login", "Account");
             }
             int id = int.Parse(Session[SessionAccount.SessionUserId].ToString());
             MemberDAO MDao = new MemberDAO();
@@ -713,6 +711,7 @@ namespace KoiManagement.Controllers
                         System.IO.File.Delete(fullpath);
                     }
                     file.SaveAs(path);
+                    
                 }
 
                 if (dao.UpdateProfile(me, int.Parse(Session[SessionAccount.SessionUserId].ToString())) == 1)

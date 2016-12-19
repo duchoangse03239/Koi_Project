@@ -406,6 +406,11 @@
     <Content Include="Content\Image\Common\Slider2.jpg" />
     <Content Include="Content\Image\Common\Slider3.jpg" />
     <Content Include="Content\Image\Detail\Detail01.jpg" />
+    <Content Include="Content\Image\Detail\Detail011.jpg" />
+    <Content Include="Content\Image\Detail\Detail012.jpg" />
+    <Content Include="Content\Image\Detail\Detail013.jpg" />
+    <Content Include="Content\Image\Detail\Detail014.jpg" />
+    <Content Include="Content\Image\Detail\Detail015.jpg" />
     <Content Include="Content\Image\Detail\Detail04.jpg" />
     <Content Include="Content\Image\Detail\Detail05.jpg" />
     <Content Include="Content\Image\Detail\Detail07.jpg" />
@@ -556,6 +561,7 @@
     <Content Include="Content\Image\Detail\Sanke503.jpg" />
     <Content Include="Content\Image\Detail\Swa102.jpg" />
     <Content Include="Content\Image\Detail\Swa103.jpg" />
+    <Content Include="Content\Image\Detail\Swa104.jpg" />
     <Content Include="Content\Image\Detail\Swa402.jpg" />
     <Content Include="Content\Image\Detail\Swa403.jpg" />
     <Content Include="Content\Image\Detail\Swa502.jpg" />

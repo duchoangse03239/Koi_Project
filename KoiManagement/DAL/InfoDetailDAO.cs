@@ -57,7 +57,7 @@ namespace KoiManagement.DAL
         }
         public string GetLastSize(int KoiID)
         {
-            var koiDeatail = db.InfoDetails.Where(p => p.KoiID == KoiID&&p.Status).OrderBy(p => p.Date).FirstOrDefault();
+            var koiDeatail = db.InfoDetails.Where(p => p.KoiID == KoiID&&p.Status).OrderByDescending(p => p.Date).FirstOrDefault();
             if (koiDeatail == null)
             {
                 return string.Empty;

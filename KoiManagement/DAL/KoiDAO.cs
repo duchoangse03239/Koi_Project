@@ -216,12 +216,12 @@ namespace KoiManagement.DAL
                 if (!string.IsNullOrEmpty(searchModel.SizeFrom))
                 {
                     decimal? size = CommonFunction.ToNullableDecimal(searchModel.SizeFrom);
-                    koi = koi.Where(p => p.InfoDetails.OrderBy(u => u.Date).FirstOrDefault().Size >= size);
+                    koi = koi.Where(p => p.InfoDetails.OrderByDescending(u => u.Date).FirstOrDefault().Size >= size);
                 }
                 if (!string.IsNullOrWhiteSpace(searchModel.SizeTo))
                 {
                     decimal? size = CommonFunction.ToNullableDecimal(searchModel.SizeTo);
-                    koi = koi.Where(p => p.InfoDetails.OrderBy(u => u.Date).FirstOrDefault().Size <= size);
+                    koi = koi.Where(p => p.InfoDetails.OrderByDescending(u => u.Date).FirstOrDefault().Size <= size);
                 }
                 if (!string.IsNullOrEmpty(searchModel.Gender))
                 {
