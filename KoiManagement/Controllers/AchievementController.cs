@@ -146,11 +146,15 @@ namespace KoiManagement.Controllers
         /// Edit Achievemnt
         /// </summary>
         /// <returns>View</returns>
-        public ActionResult EditAchievement(int id)
+        public ActionResult EditAchievement(int? id)
         {
             if (Session[SessionAccount.SessionUserId] == null)
             {
                 return RedirectToAction("Login", "Account");
+            }
+            if (id == null)
+            {
+                return RedirectToAction("PageNotFound", "Error");
             }
             var ar = db.Achievements.Find(id);
             if (ar == null)

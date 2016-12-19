@@ -132,24 +132,25 @@ namespace KoiManagement.Controllers
             return Json(obj);
         }
 
-        public ActionResult EditArticle(int id)
+        public ActionResult EditArticle(int? id)
         {
             if (Session[SessionAccount.SessionUserId] == null)
             {
                 return RedirectToAction("Login", "Account");
+            }
+            if (id == null)
+            {
+                return RedirectToAction("PageNotFound", "Error");
             }
             var mem1 = memberDao.GetMemberbyID(int.Parse(Session[SessionAccount.SessionUserId].ToString()));
             if (mem1.Role != 1)
             {
                 return RedirectToAction("Index", "Home");
             }
-            //lấy id người đang đăng nhập
-            //Viewbag cho patialView _Manager
-            ViewBag.Member = memberDao.GetMemberbyID(id);
             ViewBag.TypeID = new SelectList(db.Types, "TypeID", "Name");
+            var type = db.Types.ToList();
             var articledetail = articleDao.GetArticleDetail((int)id);
             ViewBag.Article = articledetail;
-            var type = db.Types.ToList();
             return View(type);
         }
 
