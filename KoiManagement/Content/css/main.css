@@ -795,8 +795,13 @@ body a {
     display: block;
     margin: auto 15px auto 10px;
 }
+.img-farm-list-owner {
+        height: 160px;
+        width: 160px;
+        margin-left: 10px;
+    }
 .img-farm-list {
-        height: 180px;
+        height: 200px;
         width: 180px;
         margin-left: 10px;
     }
