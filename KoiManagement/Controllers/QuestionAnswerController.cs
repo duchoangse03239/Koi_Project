@@ -73,7 +73,7 @@ namespace KoiManagement.Controllers
                 if (QADao.CreateQuestion(question))
                 {
                     ViewBag.Message = "Bạn đã thêm thành công!";
-                    obj.RedirectTo = this.Url.Action("ListQA", "QuestionAnswer");
+                    obj.RedirectTo = this.Url.Action("ListQA/"+ typeid, "QuestionAnswer");
                 }
                 else
                 {
