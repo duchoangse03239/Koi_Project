@@ -30,8 +30,9 @@ namespace KoiManagement.Controllers
             int id = int.Parse(Session[SessionAccount.SessionUserId].ToString());
             //Viewbag cho patialView _Manager
             ViewBag.Member = memberDao.GetMemberbyID(id);
-            ViewBag.TypeID = new SelectList(db.Types, "TypeID", "Name");
-            var type = db.Types.ToList();
+            ViewBag.TypeID = QADao.GetListType();
+            //ViewBag.TypeID = new SelectList(db.Types, "TypeID", "Name");
+            var type = QADao.GetListType();
             return View(type);
         }
 
@@ -254,13 +255,31 @@ namespace KoiManagement.Controllers
             return View();
         }
 
-        public ActionResult ListQA(int? page)
+        public ActionResult ListQA(int? id, int? page)
         {
-            var ListQA = QADao.GetListQuestion();
+            if (id == null)
+            {
+                return RedirectToAction("PageNotFound", "Error");
+            }
+            var type = db.Types.Find(id.Value);
+            if (type == null)
+            {
+                return RedirectToAction("PageNotFound", "Error");
+            }
+            var ListQA = QADao.GetListQuestion(id.Value);
             int pageSize = 7;
             int pageNumber = (page ?? 1);
             ViewBag.ListQA = ListQA.ToPagedList(pageNumber, pageSize);
             return View();
         }
-	}
+
+        public ActionResult ListType(int? page)
+        {
+            var ListType = QADao.GetListType();
+            int pageSize = 8;
+            int pageNumber = (page ?? 1);
+            ViewBag.ListType = ListType.ToPagedList(pageNumber, pageSize);
+            return View();
+        }
+    }
 }

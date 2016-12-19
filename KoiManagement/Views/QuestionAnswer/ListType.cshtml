@@ -1,0 +1,89 @@
+﻿@using KoiManagement.Common
+@using KoiManagement.DAL
+@using KoiManagement.Models
+@using PagedList.Mvc
+
+@{
+    ViewBag.Title = "Danh sách câu hỏi";
+    Layout = "~/Views/Layout/KoiLayout.cshtml";
+    PagedList.IPagedList ListType = ViewBag.ListType;
+    QuestionAnswerDAO QADao = new QuestionAnswerDAO();
+}
+
+<head>
+    <link rel="stylesheet" href="~/Content/css/forum.css" type="text/css" />
+    <link rel="stylesheet" href="~/Content/css/font-awesome.css" type="text/css" />
+</head>
+<style type="text/css">
+</style>
+
+<div class="container">
+    <a href="#top" id="top-button">
+        <i class="icon-angle-up"></i>
+    </a>
+    <div class="row">
+        <div style="margin: 15px 0 15px 0;">
+            <a href="@Url.Action("CreateQuestion" , "QuestionAnswer")" class="btn btn-success" role="button">Tạo bài viết mới</a>
+        </div>
+    </div>
+    <div class="row mt mb">
+
+        <div class="toggleview">
+            <div class="forum-head">
+                <div class="col-md-8 column ">
+                    <h5>Tiêu đề/ Người tạo</h5>
+                </div>
+                <div class="col-md-2 column ">
+                    <h5 style="text-align: left;"> Bài đăng</h5>
+                </div>
+                <div class="col-md-2 column ">
+                    <h5 style="text-align: left;">Gửi cuối bởi</h5>
+                </div>
+            </div>
+
+            <div class="forum-topic">
+
+
+                @for (int item = 0; item < ViewBag.ListType.Count; item++)
+                {
+                    <div class="col-md-1 column">
+                        <i class="icon-file"></i>
+                    </div>
+                    <div class="col-md-7 column">
+                        <div style="padding-top:10px;">
+                            <span class="overflow-control">
+                                <a href="@Url.Action("ListQA/" + @ViewBag.ListType[item].TypeID, "QuestionAnswer")">@ViewBag.ListType[item].Name</a>
+                            </span>
+                            <span>@ViewBag.ListType[item].Description </span>
+                        </div>
+                    </div>
+                   <div class="col-md-2 column">
+                        <div style="padding-top:10px;">
+                            <span>Bài đăng: @QADao.CountQuestionByType(@ViewBag.ListType[item].TypeID)</span>
+                        </div>
+                    </div>
+                    <div class="col-md-2 column">
+                            @{ Question Question = @QADao.GetLastQuestion(@ViewBag.ListType[item].TypeID);}
+                            @if (Question != null)
+                            {
+                                <div style="padding-top:10px;">
+                                    <span><a href="@Url.Action("Profile/" + @Question.Member.MemberID, "Account")">@Question.Member.UserName</a></span>
+                                    <span>@Question.Datetime</span>
+                                </div>
+                            }
+                            else
+                            {
+                                <div style="padding-top:10px;">
+                                    <span></span>
+                                    <span>Chưa có bài đăng</span>
+                                </div>
+                            }
+                    </div>
+                }
+            </div>
+            Trang @(ListType.PageCount < ListType.PageNumber ? 0 : ListType.PageNumber) / @ListType.PageCount
+            @Html.PagedListPager(ListType, page => Url.Action("ListType", "QuestionAnswer", new { page }))
+        </div>
+    </div>
+</div>
+
