@@ -106,80 +106,98 @@
             var password = $('#password').val();
             var confirmPassword = $('#rePassword').val();
             $('#lblMessage_username_fail').text("");
+            $('#lblMessage_dob_fail').text("");
             $('#lblMessage_email_fail').text("");
             $('#lblMessage_password_fail').text("");
             $('#lblMessage_rePassword_fail').text("");
 
             if (dob != "") {
-             var dateParts = dob.split("-");
-             if ((/^\d{2}-\d{2}-\d{4}$/).test(dob)) {
-              if (dateParts[0] > 31) {
-                 $('#lblMessage_dob_fail').text("Ngày không thể lớn hơn 31");
-                 $('#dob').focus();
-                 return false;
-             }
-               else if (dateParts[1] > 12) {
+                var dateParts = dob.split("-");
+                if ((/^\d{2}-\d{2}-\d{4}$/).test(dob)) {
+                    if (dateParts[0] > 31) {
+                        $('#lblMessage_dob_fail').text("Ngày không thể lớn hơn 31");
+                        $('#dob').focus();
+                        return false;
+                    }
+                    else if (dateParts[1] > 12) {
                         $('#lblMessage_dob_fail').text("Tháng không thể lớn hơn 12");
                         $('#dob').focus();
                         return false;
                     }
-               else if (dateParts[0] > 30 && dateParts[1] == 2) {
-                   $('#lblMessage_dob_fail').text("Ngày tháng này không tồn tại");
-                   $('#dob').focus();
-                   return false;
-               }
-             }
-                else{
+                    else if (dateParts[0] > 29 && dateParts[1] == 2) {
+                        $('#lblMessage_dob_fail').text("Ngày tháng này không tồn tại");
+                        $('#dob').focus();
+                        return false;
+                    }
+                    else if (!validateDateRangeMax(dob)) {
+                        $('#lblMessage_dob_fail').text('Ngày sinh nhỏ hơn ngày hiện tại.');
+                        return false;
+                    }
+                }
+                else {
                     $('#lblMessage_dob_fail').text("Xin hãy nhập định dạng DD-MM-YYYY!");
                     $('#Time').focus();
                     return false;
-             }
-         }
-         else if (email == "") {
-             $('#lblMessage_email_fail').text("Vui lòng nhập địa chỉ Email");
-             $('#txtEmail').focus();
-             return false;
-         }
-         else if (!isValidEmailAddress(email)) {
+                }
+            }
+            if (email == "") {
+                $('#lblMessage_email_fail').text("Vui lòng nhập địa chỉ Email");
+                $('#txtEmail').focus();
+                return false;
+            }
+            if (!isValidEmailAddress(email)) {
                 $('#lblMessage_email_fail').text("Địa chỉ Email không đúng định dạng");
                 $('#txtEmail').focus();
                 return false;
             }
-             else if (userName == "") {
+            if (userName == "") {
                 $('#lblMessage_username_fail').text("Vui lòng nhập tên đăng nhập");
                 $('#txtUserName').focus();
                 return false;
-            } else if (!isSpecialCharacter(userName)) {
+            } if (!isSpecialCharacter(userName)) {
                 $('#lblMessage_username_fail').text("Tên đăng nhập không được chứa ký tự đặc biệt");
                 $('#txtUserName').focus();
                 return false;
-            } else if (userName.length < 6 || userName.length > 25) {
+            } if (userName.length < 6 || userName.length > 25) {
                 $('#lblMessage_username_fail').text("Tên đăng nhập phải chứa từ 6 đến 25 ký tự");
                 $('#txtUserName').focus();
                 return false;
             }
-            else if (password == "") {
+            if (password == "") {
                 $('#lblMessage_password_fail').text("Vui lòng nhập mật khẩu");
                 $('#txtPassword').focus();
                 return false;
             }
-            else if (password.length < 6 || password.length > 32) {
+            if (password.length < 6 || password.length > 32) {
                 $('#lblMessage_password_fail').text("Mật khẩu phải chứa từ 6 dến 32 ký tự");
                 $('#txtPassword').focus();
                 return false;
             }
-            else if (confirmPassword == "") {
+            if (confirmPassword == "") {
                 $('#lblMessage_rePassword_fail').text("Vui lòng nhập lại mật khẩu");
                 $('#txtConfirmPassword').focus();
                 return false;
             }
-            else if (password != confirmPassword) {
+            if (password != confirmPassword) {
                 $('#lblMessage_rePassword_fail').text("Xác nhận mật khẩu không trùng với mật khẩu");
                 $('#txtConfirmPassword').focus();
                 return false;
             }
-            return true;
+             return true;
         }
+
+        function validateDate(date) {
+            return (/^\d{2}-\d{2}-\d{4}$/).test(date);
+        }
+
+        function validateDateRangeMax(inputDate) {
+            var now = new Date();
+            var dateParts = inputDate.split("-");
+            var date = new Date(dateParts[2], dateParts[1] - 1, dateParts[0]); // month is 0-based
+            return date < now;
+        }
+
+
         function Register() {
             var name = $('#name').val();
             var dob = $('#dob').val();

@@ -155,7 +155,7 @@
                     $('#lblmessage_dob_fail').text("Tháng không thể lớn hơn 12");
                     $('#DoB').focus();
                     return false;
-                } else if (dateParts[0] > 30 && dateParts[1] == 2) {
+                } else if (dateParts[0] > 29 && dateParts[1] == 2) {
                     $('#lblmessage_dob_fail').text("Ngày tháng này không tồn tại");
                     $('#DoB').focus();
                     return false;
