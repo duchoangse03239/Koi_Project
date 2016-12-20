@@ -879,8 +879,12 @@ body a {
 }
 .post-footer .comments-list .comment .avatar {
   width: 35px;
-      height: 28px;
-          margin-top: 10px;
+  height: 35px;
+  margin-top: 5px;
+}
+.post-footer .comments-list .comment .avatar-rep {
+  width: 35px;
+  height: 28px;
 }
 .post-footer .comments-list .comment .comment-heading {
   display: block;
