@@ -13,7 +13,7 @@ namespace KoiManagement.Controllers
         // GET: Home
         public ActionResult Index()
         {
-            ViewBag.home = db.Articles.Where(p => p.TypeID == 3).FirstOrDefault();
+            ViewBag.home = db.Articles.Where(p => p.Type.Status == 0).FirstOrDefault();
             return View();
         }
     }

@@ -188,7 +188,16 @@ namespace KoiManagement.Controllers
             {
                 return RedirectToAction("PageNotFound", "Error");
             }
+            InfoDetailDAO infoDao= new InfoDetailDAO();
+            ViewBag.Size = infoDao.GetLastSize(id.Value);
             ViewBag.KoiID = id.Value;
+            var today = DateTime.Today;
+
+            if (koi.DoB.HasValue)
+            {
+                ViewBag.Age =  koi.DoB.Value.ToString("dd-MM-yyyy");
+            }
+            
             return View();
         }
 
@@ -196,11 +205,12 @@ namespace KoiManagement.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        public JsonResult AddDetail(string KoiID,  string Size, string HeathyStatus, string Description)
+        public JsonResult AddDetail(string KoiID,string DoB,  string Size, string HeathyStatus, string Description)
         {
             StatusObjForJsonResult obj = new StatusObjForJsonResult();
             var fullpath = new List<string>();
             var lishMedia = new List<Medium>();
+            DateTime? dateOfBirth = null;
             if (Session[SessionAccount.SessionUserId] == null)
             {
                 obj.Status = 0;
@@ -209,6 +219,16 @@ namespace KoiManagement.Controllers
             }
             try
             {
+                if (string.IsNullOrWhiteSpace(DoB) && Validate.ValidateDate(DoB))
+                {
+                    obj.Status = 3;
+                    obj.Message = "Xin hãy nhập đúng định dạng DD-MM-YYYY.";
+                    return Json(obj);
+                }
+                else
+                {
+                    dateOfBirth = Validate.ConverDateTime(DoB);
+                }
                 if (String.IsNullOrWhiteSpace(Size))
                 {
                     obj.Status = 2;
@@ -272,7 +292,14 @@ namespace KoiManagement.Controllers
                     }
                 }
                 //set default value
-                infoDetail.Date = DateTime.Now;
+                if (string.IsNullOrWhiteSpace(DoB))
+                {
+                    infoDetail.Date = DateTime.Now;
+                }
+                else
+                {
+                infoDetail.Date = dateOfBirth.Value;
+                }
 
                 // return RedirectToAction("KoiInfoDetail/"+infoDetail.KoiID);
 
