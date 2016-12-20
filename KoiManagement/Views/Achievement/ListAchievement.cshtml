@@ -44,6 +44,11 @@
                     <a><i class="glyphicon glyphicon-record" rel="tooltip" title="11 hours ago via Twitter" id=""></i></a>
                 </div>
                 <div class="timeline-panel">
+                    @{
+                        if (ViewBag.OwnerID != null)
+                        {
+                            if (Session[SessionAccount.SessionUserId] != null && Session[SessionAccount.SessionUserId].ToString().Equals(ViewBag.OwnerID.ToString()))
+                            {
                     <div class="dropdown">
                         <button class="setting-icon dropdown-toggle" type="button" data-toggle="dropdown">
                             <span class="caret"></span>
@@ -52,7 +57,8 @@
                             <li><a href="@Url.Action("EditAchievement/" + @listIAchi.ElementAt(item).AchievementID, "Achievement")">Sửa</a></li>
                             <li><a onclick="DeleteDetail(@listIAchi.ElementAt(item).AchievementID)">Xóa</a></li>
                         </ul>
-                    </div>
+                    </div>     }
+                        }}
                     <div class="timeline-heading">
                         <div class="jquery-script-ads" style="margin: 30px auto;" align="center">
                             <!--Image-->
@@ -70,7 +76,7 @@
                         </p>
                     </div>
 
-  
+
                 </div>
             </li>
             <script>
@@ -96,6 +102,11 @@
                     <a><i class="glyphicon glyphicon-record invert" rel="tooltip" title="11 hours ago via Twitter" id=""></i></a>
                 </div>
                 <div class="timeline-panel">
+                    @{
+                        if (ViewBag.OwnerID != null)
+                        {
+                            if (Session[SessionAccount.SessionUserId] != null && Session[SessionAccount.SessionUserId].ToString().Equals(ViewBag.OwnerID.ToString()))
+                            {
                     <div class="dropdown">
                         <button class="setting-icon dropdown-toggle" type="button" data-toggle="dropdown">
                             <span class="caret"></span>
@@ -104,7 +115,8 @@
                             <li><a href="@Url.Action("EditAchievement/" + @listIAchi.ElementAt(item).AchievementID, "Achievement")">Sửa</a></li>
                             <li><a onclick="DeleteDetail(@listIAchi.ElementAt(item).AchievementID)">Xóa</a></li>
                         </ul>
-                    </div>
+                    </div>}
+                        }}
                     <div class="timeline-heading">
                         <!--Image-->
                         <div style="padding-top: 20px !important" id="@item"></div>
@@ -119,7 +131,7 @@
                         </p>
                     </div>
 
-     
+
                 </div>
             </li>
             <script>
