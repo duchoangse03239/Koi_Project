@@ -98,6 +98,7 @@
     function Validate() {
         $('#lblMessage_koi_size_fail').text("");
         $('#lblMessage_file_fail').text("");
+        $('#lblmessage_dob_fail').text("");
         var DoB = $('#DoB').val();
 
         var Size = $('#Size').val();
@@ -126,7 +127,15 @@
                     $('#lblmessage_dob_fail').text('Ngày cập nhật phải nhỏ hơn ngày hiện tại.');
                     $('#DoB').focus();
                     return false;
-                } else if (!validateDateRangeMin(DoB)) {
+                } 
+                var age1 = '@age';
+                if (age1 == "") {
+                    if(!validateMinDate(DoB)) {
+                        $('#lblmessage_dob_fail').text('Năm phải lớn hơn 1890.');
+                        $('#DoB').focus();
+                        return false;
+                    }
+                }else if (!validateDateRangeMin(DoB)) {
                     $('#lblmessage_dob_fail').text("Ngày cập nhật phải lớn hơn ngày sinh("+ '@age'+ ")");
                     $('#DoB').focus();
                     return false;
@@ -180,11 +189,21 @@
         var dateParts = inputDate.split("-");
         var date = new Date(dateParts[2], dateParts[1] - 1, dateParts[0]); // month is 0-based
         var age1 = '@age';
+
         var dateAge= age1.split("-");
         var age = new Date(dateAge[2], dateAge[1] - 1, dateAge[0]); // month is 0-based
 
         return date > age;
     }
+    function validateMinDate(inputDate) {
+        var now = new Date(),
+            after30Days = new Date().setDate(now.getDate() - 126 * 365);
+        var dateParts = inputDate.split("-");
+        var date = new Date(dateParts[2], dateParts[1] - 1, dateParts[0]); // month is 0-based
+
+        return  date > after30Days;
+    }
+
 
     function AddKoi() {
         var fileUpload = $("#files").get(0);

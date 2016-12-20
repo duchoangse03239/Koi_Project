@@ -236,7 +236,7 @@
                 Trang @(ListKoi.PageCount < ListKoi.PageNumber ? 0 : ListKoi.PageNumber) / @ListKoi.PageCount
 
                 @Html.PagedListPager(ListKoi, page => Url.Action("ListKoi/"+ @ViewBag.VarietyId,
-    new { page, orderby = filter.orderby, nameKoi = filter.KoiName, variety = filter.VarietyId, sizeFrom = filter.SizeFrom, sizeTo = filter.SizeTo, gender = filter.Gender, owner = filter.Owner  }))
+    new { page, orderby = filter.orderby, nameKoi = filter.KoiName, variety = filter.VarietyId, sizeFrom = filter.SizeFrom, sizeTo = filter.SizeTo, AgeFrom = filter.AgeFrom, AgeTo = filter.AgeTo, gender = filter.Gender, owner = filter.Owner  }))
             </div>
         </div>
     </section>

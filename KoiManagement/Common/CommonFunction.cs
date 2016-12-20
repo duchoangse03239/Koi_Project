@@ -261,10 +261,14 @@ namespace KoiManagement.Common
         public static DateTime GetAgeMonth(DateTime? birthday)
         {
             DateTime now = DateTime.Today;
-            int Month = 0;
-            Month = 12 * (now.Year - birthday.Value.Year) + (now.Month - birthday.Value.Month);
-
+            //int Month = 0;
+            //Month = 12 * (now.Year - birthday.Value.Year) + (now.Month - birthday.Value.Month);
+            //DateTime a;
+            //var subYear = now.Year - Month/12;
+            //a = now.AddYears(-(now.Year-subYear));
             return now;
+
+
         }
         // compute difference in total months
         public static DateTime? getDateFromMonth(int months)
@@ -339,5 +343,11 @@ namespace KoiManagement.Common
             string s = string.Format("{0} năm {1} tháng tuổi ", age.Year - 1, age.Month - 1);
             return s;
         }
+
+        public static DateTime GetNowDate(DateTime aDateTime)
+        {
+            return DateTime.Now;
+        }
+
     }
 }

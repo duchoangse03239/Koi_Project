@@ -242,7 +242,7 @@ namespace KoiManagement.DAL
                         DateTime? Month = CommonFunction.getDateFromMonth(age.Value);
                         if (Month != null)
                         {
-                                 koi = koi.Where(p => p.DoB >= Month);
+                                 koi = koi.Where(p => p.DoB.Value <= Month);
                         }
                     }
                 }
@@ -254,7 +254,7 @@ namespace KoiManagement.DAL
                         DateTime? Month = CommonFunction.getDateFromMonth(age.Value);
                         if (Month != null)
                         {
-                            koi = koi.Where(p => p.DoB <= Month);
+                            koi = koi.Where(p => p.DoB.Value >= Month);
                         }
                     }
                 }

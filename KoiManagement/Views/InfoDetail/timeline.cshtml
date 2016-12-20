@@ -76,34 +76,7 @@
                         <p>
                             <small class="text-muted">
                                 <i class="glyphicon glyphicon-time"></i>
-                                @{
-                                    // Do some work
-                                    TimeSpan timeDiff = DateTime.Now - listInfo.ElementAt(item).Date;
-                                }
-                                @{
-
-                                    if (timeDiff.TotalDays >= 30)
-                                    {
-                                        <span>  Tạo ngày @listInfo.ElementAt(item).Date </span>
-                                    }
-                                    else if (timeDiff.TotalHours >= 24)
-                                    {
-                                        <span>@Math.Round(timeDiff.TotalDays) ngày trước </span>
-                                    }
-                                    else if (timeDiff.TotalMinutes >= 60)
-                                    {
-                                        <span>@Math.Round(timeDiff.TotalHours) giờ trước </span>
-                                    }
-                                    else if (timeDiff.TotalSeconds >= 60)
-                                    {
-                                        <span>@Math.Round(timeDiff.TotalMinutes) phút trước </span>
-                                    }
-                                    else
-                                    {
-                                        <span>Vừa xong </span>
-                                    }
-
-                                }
+                                @listInfo.ElementAt(item).Date.ToString("dd/MM/yyyy")
                             </small>
                         </p>
                         <p>
@@ -180,34 +153,8 @@
                                     <div class="timeline-body">
                                         <p>
                                             <small class="text-muted">
-                                                <i class="glyphicon glyphicon-time"></i> @{
-                                                    // Do some work
-                                                    TimeSpan timeDiff1 = DateTime.Now - listInfo.ElementAt(item).Date;
-                                                }
-                                                @{
-
-                                                    if (timeDiff1.TotalDays >= 30)
-                                                    {
-                                                        <span>  Tạo ngày @listInfo.ElementAt(item).Date </span>
-                                                    }
-                                                    else if (timeDiff1.TotalHours >= 24)
-                                                    {
-                                                        <span>@Math.Round(timeDiff.TotalDays) ngày trước </span>
-                                                    }
-                                                    else if (timeDiff1.TotalMinutes >= 60)
-                                                    {
-                                                        <span>@Math.Round(timeDiff.TotalHours) giờ trước </span>
-                                                    }
-                                                    else if (timeDiff1.TotalSeconds >= 60)
-                                                    {
-                                                        <span>@Math.Round(timeDiff.TotalMinutes) phút trước </span>
-                                                    }
-                                                    else
-                                                    {
-                                                        <span>Vừa xong </span>
-                                                    }
-
-                                                }
+                                                <i class="glyphicon glyphicon-time"></i>
+                                                @listInfo.ElementAt(item).Date.ToString("dd/MM/yyyy")
                                             </small>
                                         </p>
                                         <p>
