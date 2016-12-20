@@ -36,8 +36,13 @@
                             <span>Tin tức</span>
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                            <li><a href="@Url.Action("ListArticle/1", "Article")">Kinh nghiệm</a></li>
-                            <li><a href="@Url.Action("ListArticle/2", "Article")">Cuộc thi</a></li>
+                            <li><a href="@Url.Action("ListArticle/1", "Article")">Phân loại cá Koi</a></li>
+                            <li><a href="@Url.Action("ListArticle/2", "Article")">Kinh nghiệm chăm sóc cá Koi</a></li>
+                            <li><a href="@Url.Action("ListArticle/4", "Article")">Bộ lọc nước hồ Koi</a></li>
+                            <li><a href="@Url.Action("ListArticle/5", "Article")">Bệnh học cá Koi</a></li>
+                            <li><a href="@Url.Action("ListArticle/6", "Article")">Koi và Hồ cá sưu tầm</a></li>
+                            <li><a href="@Url.Action("ListArticle/7", "Article")">Phong thủy cá Koi</a></li>
+                            <li><a href="@Url.Action("ListArticle/8", "Article")">Cuộc thi</a></li>
                         </ul>
                     </li>
                     <li>
@@ -56,7 +61,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="@Url.Action("ListQA", "QuestionAnswer")">
+                        <a href="@Url.Action("ListType", "QuestionAnswer")">
                             <span>Hỏi đáp</span>
                         </a>
                     </li>
@@ -107,7 +112,7 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
-                        <a class="navbar-brand" href="#" style="padding: 1px 20px"><img src="~/Content/Image/FrontEnd/logo.png" class="erp-logo-small" alt="Cá Koi"></a>
+                        <a class="navbar-brand" href="@Url.Action("Index", "Home")" style="padding: 1px 20px"><img src="~/Content/Image/FrontEnd/logo.png" class="erp-logo-small" alt="Cá Koi"></a>
                     </div>
                     <div id="navbar" style="margin-right: -45px !important;!important" class=" navbar-collapse collapse">
                         <ul class="nav navbar-nav">
@@ -116,8 +121,13 @@
                                     <span>Tin tức</span>
                                 </a>
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                    <li><a href="@Url.Action("ListArticle/1", "Article")">Kinh nghiệm</a></li>
-                                    <li><a href="@Url.Action("ListArticle/2", "Article")">Cuộc thi</a></li>
+                                    <li><a href="@Url.Action("ListArticle/1", "Article")">Phân loại cá Koi</a></li>
+                                    <li><a href="@Url.Action("ListArticle/2", "Article")">Kinh nghiệm chăm sóc cá Koi</a></li>
+                                    <li><a href="@Url.Action("ListArticle/4", "Article")">Bộ lọc nước hồ Koi</a></li>
+                                    <li><a href="@Url.Action("ListArticle/5", "Article")">Bệnh học cá Koi</a></li>
+                                    <li><a href="@Url.Action("ListArticle/6", "Article")">Koi và Hồ cá sưu tầm</a></li>
+                                    <li><a href="@Url.Action("ListArticle/7", "Article")">Phong thủy cá Koi</a></li>
+                                    <li><a href="@Url.Action("ListArticle/8", "Article")">Cuộc thi</a></li>
                                 </ul>
                             </li>
                             <li>
@@ -130,7 +140,7 @@
                                 <a class="menu-item" href="@Url.Action("ListKoiFarm", "KoiFarm")">Trang trại</a>
                             </li>
                             <li>
-                                <a class="menu-item" href="@Url.Action("ListQA", "QuestionAnswer")">Hỏi đáp</a>
+                                <a class="menu-item" href="@Url.Action("ListType", "QuestionAnswer")">Hỏi đáp</a>
                             </li>
                             @if (Session[SessionAccount.SessionUserId] == null)
                             {

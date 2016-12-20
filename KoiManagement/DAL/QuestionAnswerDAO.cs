@@ -19,6 +19,8 @@ namespace KoiManagement.DAL
             db = new KoiManagementEntities();
         }
 
+
+
         /// <summary>
         /// CreateQuestion
         /// </summary>
@@ -67,19 +69,32 @@ namespace KoiManagement.DAL
             }
         }
 
-        public List<Question> GetListQuestion()
+        public List<Question> GetListQuestion(int typeid)
         {
-            return db.Questions.OrderByDescending(p => p.Datetime).ToList();
+            return db.Questions.Where(p=>p.TypeID== typeid&&p.Status).OrderByDescending(p => p.Datetime).ToList();
+        }
+
+        public List<Models.Type> GetListType()
+        {
+            return db.Types.Where(p=>p.Status==1).ToList();
         }
 
         public Question GetQuestionDetail(int id)
         {
             return db.Questions.Find(id);
         }
-
+        public int CountQuestionByType(int TypeId)
+        {
+            return db.Questions.Count(p => p.TypeID == TypeId && p.Status);
+        }
         public int CountAnswer(int Qid)
         {
             return db.Answers.Count(p => p.QuestionID == Qid&&p.Status);
+        }
+
+        public Question GetLastQuestion(int TypeId)
+        {
+            return db.Questions.Where(p => p.TypeID == TypeId && p.Status).OrderByDescending(p => p.Datetime).FirstOrDefault();
         }
 
         public Answer GetLastAnswer(int Qid)
