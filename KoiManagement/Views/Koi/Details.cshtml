@@ -461,11 +461,12 @@
                     case 1:
                         alert(res.Message);
                         // Declare a proxy to reference the hub.
+
                         var notifications = $.connection.notificationsHub;
                         // Create a function that the hub can call to broadcast messages.
                         $.connection.hub.start()
                             .done(function () {
-                                notifications.server.sendNotification(res.JsonObject, "doi chu", "koi");
+                                notifications.server.sendNotification(@tomem, "Me", "");
                             });
                         $('#content').val('');
                         $('#Title').val('');
@@ -539,7 +540,7 @@
                             // Create a function that the hub can call to broadcast messages.
                             $.connection.hub.start()
                                 .done(function () {
-                                    notifications.server.sendNotification(res.JsonObject, "doi chu", "koi");
+                                    notifications.server.sendNotification(res.JsonObject, "No", "");
                                 });
                             window.location.reload();
                             break;

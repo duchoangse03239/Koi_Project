@@ -200,23 +200,43 @@
                 var signalConnectionId = data;
             }
             var count = document.getElementById('Notification').innerText;
+            var a= @ViewBag.NotiCount;
+            if (count < a ) {
+                count  = @ViewBag.NotiCount;
+            }
             var i = + count + 1;
-            var Userid =  @Session[SessionAccount.SessionUserId].ToString();
-            notifications.client.broadcastNotification = function(userid, name, message) {
+            var b= @ViewBag.MessageCount;
+        var countMe = document.getElementById('Notification1').innerText;
+        if (countMe < b) {
+            countMe =@ViewBag.NotiCount;
+        }
+            var j = + countMe + 1;
+        var Userid =  @Session[SessionAccount.SessionUserId].ToString();
+        notifications.client.broadcastNotification = function(userid, name, message) {
 
-                if (userid == Userid) {
+            if (userid == Userid) {
+                if(name=='No'){
                     // Add the message to the page.
                     $('#Notification').text("");
                     $('#Notification').append(i);
                     i++;
                 };
+
+                if(name=='Me'){
+                    // Add the message to the page.
+                    $('#Notification1').text("");
+                    $('#Notification1').append(j);
+                    i++;
+                };
             }
+        }
 
 
-            // Start the connection.
-            $.connection.hub.start()
-                .done(function() {
-                });
+
+        // Start the connection.
+        $.connection.hub.start()
+            .done(function() {
+            });
         });
     </script>
 }

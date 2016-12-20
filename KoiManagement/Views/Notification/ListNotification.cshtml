@@ -171,7 +171,8 @@
                 }
             }
         });
-    
+
+
     function getUrlVars() {
         var vars = [], hash;
         var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
@@ -182,9 +183,7 @@
         }
         return vars;
     }
-    @*@if (foo = "me")
-         {
-        <text>*@
+
    $(document).ready(function () {
        $(function () {
            var foo = getUrlVars()["tab"];
@@ -194,8 +193,6 @@
        });
 
    });
-    //</text>
-    //}
 
     function DetailMessage(messageid) {
         var url = $(this).data(url);
