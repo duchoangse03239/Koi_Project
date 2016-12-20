@@ -259,9 +259,13 @@ namespace KoiManagement.Controllers
             return View();
         }
 
-        public ActionResult ListArticle(int id, int? page)
+        public ActionResult ListArticle(int? id, int? page)
         {
-            var ListArticle = articleDao.GetListArticle(id);
+            if (id == null)
+            {
+                return RedirectToAction("PageNotFound", "Error");
+            }
+            var ListArticle = articleDao.GetListArticle((id));
             int pageSize = 7;
             int pageNumber = (page ?? 1);
             ViewBag.ListArticle = ListArticle.ToPagedList(pageNumber, pageSize);

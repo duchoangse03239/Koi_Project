@@ -256,7 +256,10 @@ namespace KoiManagement.Controllers
         public ActionResult ListAchievement(int? id)
         {
             AchievementDAO AchiDao = new AchievementDAO();
-
+            if (id == null)
+            {
+                return RedirectToAction("PageNotFound", "Error");
+            }
 
 
             ViewBag.listIAchi = AchiDao.GetListAchievements(id.Value);

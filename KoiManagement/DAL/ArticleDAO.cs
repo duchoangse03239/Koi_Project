@@ -65,7 +65,7 @@ namespace KoiManagement.DAL
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public List<Article> GetListArticle(int id)
+        public List<Article> GetListArticle(int? id)
         {
             return db.Articles.Where(p => p.TypeID == id&&p.Status).OrderByDescending(p => p.Date).ToList();
         }
