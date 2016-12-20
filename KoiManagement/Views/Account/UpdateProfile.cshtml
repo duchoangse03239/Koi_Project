@@ -156,16 +156,36 @@
             }
         }
 
-        
         if (dob != "") {
-            if (!validateDate(dob)) {
-                $('#lblMessage_dob_fail').text('Xin hãy nhập định dạng DD-MM-YYYY.');
-                return false;
-            } else if (!validateDateRangeMax(dob)) {
-                $('#lblMessage_dob_fail').text('Ngày sinh nhỏ hơn ngày hiện tại.');
-                return false;
+            var dateParts = dob.split("-");
+            if ((/^\d{2}-\d{2}-\d{4}$/).test(dob)) {
+                if (dateParts[0] > 31) {
+                    $('#lblMessage_dob_fail').text("Ngày không thể lớn hơn 31");
+                    $('#dob').focus();
+                    return false;
+                }
+                else if (dateParts[1] > 12) {
+                    $('#lblMessage_dob_fail').text("Tháng không thể lớn hơn 12");
+                    $('#dob').focus();
+                    return false;
+                }
+                else if (dateParts[0] > 30 && dateParts[1] == 2) {
+                    $('#lblMessage_dob_fail').text("Ngày tháng này không tồn tại");
+                    $('#dob').focus();
+                    return false;
+                }
+                else if (!validateDateRangeMax(dob)) {
+                    $('#lblMessage_dob_fail').text('Ngày sinh nhỏ hơn ngày hiện tại.');
+                    return false;
+                }
             }
+            else {
+                $('#lblMessage_dob_fail').text("Xin hãy nhập định dạng DD-MM-YYYY!");
+                $('#Time').focus();
+                return false;
+            } 
         }
+        
         return true;
         }
 

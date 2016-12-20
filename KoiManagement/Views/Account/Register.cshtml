@@ -123,7 +123,7 @@
                         $('#dob').focus();
                         return false;
                     }
-               else if (dateParts[0] == 30 && dateParts[1] == 2) {
+               else if (dateParts[0] > 30 && dateParts[1] == 2) {
                    $('#lblMessage_dob_fail').text("Ngày tháng này không tồn tại");
                    $('#dob').focus();
                    return false;
