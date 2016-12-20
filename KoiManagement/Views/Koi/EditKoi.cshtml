@@ -61,8 +61,8 @@
                 <div class="form-group">
                     <label>Ngày sinh</label>
                     @{ date = Model.DoB != null ? Model.DoB.Value.ToString("dd-MM-yyyy") : string.Empty;}
-                    <input type="text" class="form-control" placeholder="Ngày Sinh" id="DoB" value="@date" name="DoB">
-                    <label id=" lblmessage_dob_fail" class="label-error"></label>
+                    <input type="text" class="form-control" placeholder="DD-MM-YYYY" id="DoB" value="@date" name="DoB">
+                    <label id="lblmessage_dob_fail" class="label-error"></label>
                 </div>
                 <div class="form-group">
                     <label>Tính cách</label>
@@ -115,9 +115,11 @@
         }
     });
 
-
+    var oldText ;
     $("#btnEditKoi").click(function () {
+         oldText = $(this).text();
         if (Validate()) {
+            $(this).text('Xin đợi ...').attr('disabled', 'disabled');
             EditKoi();
         } else {
 
@@ -134,45 +136,45 @@
 
 
 
-        if (KoiName.length > 100 || KoiName.length < 0) {
-            $('#lblMessage_koi_name_fail').text("Tên Koi quá dài! Vui lòng không nhập quá 100 ký tự!");
-            return false;
-        }
-        else if (KoiName == "") {
-            $('#lblMessage_koi_name_fail').text("Vui lòng nhập tên Koi!");
-            return false;
-        }
-        if (DoB != "") {
-            var dateParts = DoB.split("-");
-            if ((/^\d{2}-\d{2}-\d{4}$/).test(DoB)) {
-                if (dateParts[0] > 31) {
-                    $('#lblmessage_dob_fail').text("Ngày không thể lớn hơn 31");
-                    $('#DoB').focus();
-                    return false;
-                } else if (dateParts[1] > 12) {
-                    $('#lblmessage_dob_fail').text("Tháng không thể lớn hơn 12");
-                    $('#DoB').focus();
-                    return false;
-                } else if (dateParts[0] == 30 && dateParts[1] == 2) {
-                    $('#lblmessage_dob_fail').text("Ngày tháng này không tồn tại");
-                    $('#DoB').focus();
-                    return false;
-                }
-                else if (!validateDateRangeMax(DoB)) {
-                    $('#lblmessage_dob_fail').text('Ngày sinh phải nhỏ hơn ngày hiện tại.');
-                    $('#DoB').focus();
-                    return false;
-                } else if (!validateDateRangeMin(DoB)) {
-                    $('#lblmessage_dob_fail').text('Tuổi phải nhỏ hơn 127.');
-                    $('#DoB').focus();
-                    return false;
-                }
-            } else {
-                $('#lblmessage_dob_fail').text('Xin hãy nhập định dạng DD-MM-YYYY.');
-                $('#DoB').focus();
-                return false;
-            }
-        }
+        //if (KoiName.length > 100 || KoiName.length < 0) {
+        //    $('#lblMessage_koi_name_fail').text("Tên Koi quá dài! Vui lòng không nhập quá 100 ký tự!");
+        //    return false;
+        //}
+        //else if (KoiName == "") {
+        //    $('#lblMessage_koi_name_fail').text("Vui lòng nhập tên Koi!");
+        //    return false;
+        //}
+        //if (DoB != "") {
+        //    var dateParts = DoB.split("-");
+        //    if ((/^\d{2}-\d{2}-\d{4}$/).test(DoB)) {
+        //        if (dateParts[0] > 31) {
+        //            $('#lblmessage_dob_fail').text("Ngày không thể lớn hơn 31");
+        //            $('#DoB').focus();
+        //            return false;
+        //        } else if (dateParts[1] > 12) {
+        //            $('#lblmessage_dob_fail').text("Tháng không thể lớn hơn 12");
+        //            $('#DoB').focus();
+        //            return false;
+        //        } else if (dateParts[0] == 30 && dateParts[1] == 2) {
+        //            $('#lblmessage_dob_fail').text("Ngày tháng này không tồn tại");
+        //            $('#DoB').focus();
+        //            return false;
+        //        }
+        //        else if (!validateDateRangeMax(DoB)) {
+        //            $('#lblmessage_dob_fail').text('Ngày sinh phải nhỏ hơn ngày hiện tại.');
+        //            $('#DoB').focus();
+        //            return false;
+        //        } else if (!validateDateRangeMin(DoB)) {
+        //            $('#lblmessage_dob_fail').text('Tuổi phải nhỏ hơn 127.');
+        //            $('#DoB').focus();
+        //            return false;
+        //        }
+        //    } else {
+        //        $('#lblmessage_dob_fail').text('Xin hãy nhập định dạng DD-MM-YYYY.');
+        //        $('#DoB').focus();
+        //        return false;
+        //    }
+        //}
 
         return true;
     }
@@ -227,7 +229,8 @@
             processData: false,
             data: fileData,
             dataType: "Json",
-            success: function(res) {
+            success: function (res) {
+                $('#btnEditKoi').text(oldText).removeAttr('disabled');
                 switch (res.Status) {
                     case 2:
                         $('#..').text(res.Message);

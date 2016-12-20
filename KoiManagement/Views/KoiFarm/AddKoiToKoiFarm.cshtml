@@ -106,10 +106,12 @@
         }*/
 </style>
 <script>
-
+    var oldText;
     $("#btnAddKoi")
         .click(function() {
             if (Validate()) {
+                oldText = $(this).text();
+                $(this).text('Xin đợi ...').attr('disabled', 'disabled');
                 AddKoi();
             } else {
 
@@ -144,6 +146,7 @@
             },
             dataType: "Json",
             success: function(res) {
+                $('#btnAddKoi').text(oldText).removeAttr('disabled');
                 switch (res.Status) {
 
                     case 1:

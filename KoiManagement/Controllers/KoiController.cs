@@ -76,6 +76,40 @@ namespace KoiManagement.Controllers
             {
                 variety ="";
             }
+            // reverse
+            if (!string.IsNullOrWhiteSpace(sizeFrom) &&! string.IsNullOrWhiteSpace(sizeTo))
+            {
+                try
+                {
+                    if (int.Parse(sizeFrom) > int.Parse(sizeTo))
+                    {
+                        var a = sizeFrom;
+                        sizeFrom = sizeTo;
+                        sizeTo = a;
+                    }
+                }
+                catch (Exception)
+                {
+                }
+            }
+
+            // reverse
+            if (!string.IsNullOrWhiteSpace(AgeFrom) && !string.IsNullOrWhiteSpace(AgeTo))
+            {
+                try
+                {
+                    if (int.Parse(AgeFrom) > int.Parse(AgeTo))
+                    {
+                        var a = AgeFrom;
+                        AgeFrom = AgeTo;
+                        AgeTo = a;
+                    }
+                }
+                catch (Exception)
+                {
+                }
+            }
+
             //ViewBag.VarietyId = id;
             KoiFilterModel filter = new KoiFilterModel(orderby, nameKoi, username, variety, sizeFrom, sizeTo, gender, owner, AgeFrom, AgeTo);
             ViewBag.Filter = filter;

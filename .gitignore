@@ -156,3 +156,6 @@ $RECYCLE.BIN/
 .DS_Store
 /KoiManagement/Scripts/tinymce
 /packages
+/KoiManagement/Content/Image/Koi
+/KoiManagement/Content/Image/Detail
+/KoiManagement/Content/Image/Achievement

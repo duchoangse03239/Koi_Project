@@ -181,6 +181,7 @@ namespace KoiManagement.DAL
                 var entry = db.Entry(koi);
                 entry.State = EntityState.Modified;
                 // Set column not change
+                entry.Property(e => e.KoiMom).IsModified = false;
                 entry.Property(e => e.Status).IsModified = false;
                 entry.Property(e => e.Privacy).IsModified = false;
                 entry.Property(e => e.DeadReason).IsModified = false;

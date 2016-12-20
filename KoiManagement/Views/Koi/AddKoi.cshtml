@@ -93,9 +93,11 @@
         }
     });
 
-
+    var oldText;
     $("#btnAddKoi").click(function () {
         if (Validate()) {
+            oldText = $(this).text();
+            $(this).text('Xin đợi ...').attr('disabled', 'disabled');
             AddKoi();
         } else {
 
@@ -234,7 +236,8 @@
             processData: false,
             data: fileData,
             dataType: "Json",
-            success: function(res) {
+            success: function (res) {
+                $('#btnAddKoi').text(oldText).removeAttr('disabled');
                 switch (res.Status) {
                 case 2:
                     $('#KoiName').focus();

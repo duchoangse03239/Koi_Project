@@ -69,10 +69,12 @@
     }
 </script>
 <script>
-
+    var oldText;
     $("#btnImport")
         .click(function() {
             if (Validate()) {
+                oldText = $(this).text();
+                $(this).text('Xin đợi ...').attr('disabled', 'disabled');
                 Import();
             } else {
 
@@ -118,7 +120,8 @@
         processData: false,
         data: fileData,
         dataType: "Json",
-        success: function(res) {
+        success: function (res) {
+            $('#btnImport').text(oldText).removeAttr('disabled');
             switch (res.Status) {
                 case 2:
                     $('#KoiName').focus();

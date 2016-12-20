@@ -237,12 +237,14 @@
                                     if (ViewBag.KoiMomName != null)
                                     {
                                         <a href="/Koi/Details/@Model.KoiMom">@ViewBag.KoiMomName <span class="fa fa-angle-double-right"></span></a>
+                                        <span style="float:right;"><a href="@Url.Action("AddParent/"+ Model.KoiID, "InfoDetail")" class="btn btn-embossed btn-primary btn-sm" role="button">Sửa cá mẹ</a></span>
+
                                     }
                                     else if (@owner != null)
                                     {
                                         if (Session[SessionAccount.SessionUserId] != null && @owner.Member.MemberID.ToString().Equals(Session[SessionAccount.SessionUserId].ToString()))
                                         {
-                                            <span><a href="@Url.Action("AddParent/"+ Model.KoiID, "InfoDetail")" class="btn btn-embossed btn-primary btn-sm" role="button">Thêm cá mẹ</a></span>
+                                            <span style="float:right;"><a href="@Url.Action("AddParent/"+ Model.KoiID, "InfoDetail")" class="btn btn-embossed btn-primary btn-sm" role="button">Thêm cá mẹ</a></span>
                                         }
                                     }
                                 }

@@ -72,9 +72,11 @@
         }
     });
 
-
+    var oldText;
     $("#btnEditAchievement").click(function () {
         if (Validate()) {
+            oldText = $(this).text();
+            $(this).text('Xin đợi ...').attr('disabled', 'disabled');
             EditAchievement();
         } else {
 
@@ -155,6 +157,7 @@
             data: fileData,
             dataType: "Json",
         success: function(res) {
+            $('#btnEditAchievement').text(oldText).removeAttr('disabled');
             switch (res.Status) {
                 case 2:
                     break;

@@ -53,7 +53,15 @@
                                 var ObjectID = koiDao.getKoiById(ViewBag.ListMember[item].ObjectId);
                             <tr>
                                 <td>@(ViewBag.ListMember[item].DateTime != null ? ViewBag.ListMember[item].DateTime.ToString("dd/MM/yyyy") : "Chưa biết")</td>
-                                <td><a href="@Url.Action("ListMember", "Admin",new {searchstring= @memDao.GetMemberbyID(ViewBag.ListMember[item].MemberID).UserName})">@memDao.GetMemberbyID(ViewBag.ListMember[item].MemberID).UserName</a></td>
+                                @{ Member mem = memDao.GetMemberbyID(ViewBag.ListMember[item].MemberID);}
+                                @if (mem != null)
+                                {
+                                    <td><a href="@Url.Action("ListMember", "Admin", new {searchstring = @memDao.GetMemberbyID(ViewBag.ListMember[item].MemberID).UserName})">@memDao.GetMemberbyID(ViewBag.ListMember[item].MemberID).UserName</a></td>
+                                }
+                                else
+                                {
+                                    <td></td>
+                                }
                                 <td style="background-color:yellow "><a href="@Url.Action("ListKoi", "Admin",new {searchstring= @ObjectID.KoiID})">@ObjectID.KoiID</a></td>
                                 <td>@ViewBag.ListMember[item].Content</td>
                                 <th>@reportDao.CountKoiReport(ViewBag.ListMember[item].ObjectId)</th>

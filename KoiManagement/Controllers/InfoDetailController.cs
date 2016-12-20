@@ -606,6 +606,7 @@ namespace KoiManagement.Controllers
                     obj.Message = "Bạn đã không thể thêm chính koi đó làm mẹ.";
                     return Json(obj);
                 }
+
                 if (kDao.AddParent(koiSonId, koMomId) >0)
                 {
                     obj.Status = 1;

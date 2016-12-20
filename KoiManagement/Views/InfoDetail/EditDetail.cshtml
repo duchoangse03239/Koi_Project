@@ -149,9 +149,11 @@
         }
     });
 
-
+    var oldText;
     $("#btnEditDetail").click(function () {
         if (Validate()) {
+            oldText = $(this).text();
+            $(this).text('Xin đợi ...').attr('disabled', 'disabled');
             AddKoi();
         } else {
             return false;
@@ -218,6 +220,7 @@
             data: fileData,
             dataType: "Json",
             success: function(res) {
+                $('#btnEditDetail').text(oldText).removeAttr('disabled');
                 switch (res.Status) {
                 case 2:
                     $('#lblMessage_koi_size_fail').text(res.Message);

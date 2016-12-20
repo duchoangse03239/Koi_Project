@@ -77,9 +77,11 @@
         }
     });
 
-
+    var oldText;
     $("#btnCreateQuestion").click(function () {
         if (Validate()) {
+            oldText = $(this).text();
+            $(this).text('Xin đợi ...').attr('disabled', 'disabled');
             CreateQuestion();
         } else {
 
@@ -131,7 +133,8 @@
             processData: false,
             data: fileData,
             dataType: "Json",
-            success: function(res) {
+            success: function (res) {
+                $('#btnCreateQuestion').text(oldText).removeAttr('disabled');
                 switch (res.Status) {
                 case 2:
                     break;
