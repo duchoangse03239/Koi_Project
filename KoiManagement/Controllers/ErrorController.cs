@@ -22,6 +22,12 @@ namespace KoiManagement.Controllers
             return View();
         }
 
+        public ViewResult NotFound()
+        {
+            //Response.StatusCode = 404;  
+            return View();
+        }
+
         public ActionResult Error500()
         {
            // return RedirectToAction(ConstantsForCommon.ErrorParam.SystemErrors);
